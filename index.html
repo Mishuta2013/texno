@@ -176,9 +176,9 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 /* PRODUCT CARD */
 .card{background:var(--white);border-radius:var(--r);border:1px solid var(--g2);overflow:hidden;cursor:pointer;transition:.25s;display:flex;flex-direction:column;position:relative}
 .card:hover{transform:translateY(-5px);box-shadow:var(--sh);border-color:var(--g3)}
-.card-img{position:relative;background:#ffffff;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.card-img img{width:100%;height:100%;object-fit:contain;padding:12px;transition:.4s}
-.card:hover .card-img img{transform:scale(1.05)}
+.card-img{position:relative;background:linear-gradient(160deg,#F1F6FC,#E4EDF7);aspect-ratio:4/3;padding:16px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.card-img img{width:100%;height:100%;object-fit:contain;background:#fff;border-radius:12px;box-shadow:0 6px 16px rgba(11,26,51,.12);padding:11px;transition:.35s}
+.card:hover .card-img img{transform:scale(1.035);box-shadow:0 12px 26px rgba(11,26,51,.17)}
 .cbadge{position:absolute;top:12px;left:12px;font-family:var(--disp);font-size:11px;font-weight:700;padding:5px 11px;border-radius:var(--r-pill);z-index:2;letter-spacing:.01em}
 .cbadge.inv{background:var(--ice);color:var(--blue-d)}
 .cbadge.hp{background:#FFF1E8;color:var(--amber-d)}
@@ -254,6 +254,47 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .rev-av{width:42px;height:42px;border-radius:50%;background:linear-gradient(150deg,var(--blue),var(--frost));display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:800;color:#fff;font-size:16px}
 .rev-name{font-family:var(--disp);font-weight:700;font-size:14.5px;color:var(--ink)}
 .rev-meta{font-size:12.5px;color:var(--g4)}
+/* google rating bar */
+.rev-rating{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:26px}
+.rr-score{display:flex;align-items:center;gap:14px}
+.rr-num{font-family:var(--disp);font-weight:800;font-size:46px;color:var(--ink);line-height:1}
+.rr-stars{display:flex;gap:3px}
+.rr-stars svg{width:20px;height:20px;fill:#FFB400}
+.rr-meta{font-size:13px;color:var(--g5);margin-top:4px}
+.rr-google{display:inline-flex;align-items:center;gap:10px;background:var(--white);border:1px solid var(--g2);border-radius:var(--r-pill);padding:11px 20px 11px 16px;font-family:var(--disp);font-weight:700;font-size:14px;color:var(--ink);box-shadow:var(--sh-sm);transition:.18s}
+.rr-google:hover{box-shadow:var(--sh);transform:translateY(-2px);border-color:var(--g3)}
+.rr-google svg{width:20px;height:20px}
+
+/* ============ SERVICE ============ */
+.service{background:var(--paper)}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px}
+.svc-card{position:relative;padding:26px 22px;background:var(--white);border:1px solid var(--g2);border-radius:var(--r);transition:.22s;display:flex;flex-direction:column}
+.svc-card:hover{border-color:var(--frost);box-shadow:var(--sh);transform:translateY(-3px)}
+.svc-ic{width:50px;height:50px;border-radius:13px;background:var(--ice);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.svc-ic svg{width:25px;height:25px;stroke:var(--blue-d);fill:none;stroke-width:1.9}
+.svc-card h3{font-size:16.5px;color:var(--ink);margin-bottom:7px}
+.svc-card p{font-size:13.5px;color:var(--g5);margin-bottom:16px;flex:1}
+.svc-price{font-family:var(--disp);font-weight:800;font-size:19px;color:var(--blue-d)}
+.svc-price small{font-size:12.5px;color:var(--g4);font-weight:600}
+.svc-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:26px;padding:20px 24px;background:var(--ice);border:1px solid var(--g2);border-radius:var(--r)}
+.svc-foot p{font-size:13.5px;color:var(--g5)}
+.svc-foot b{color:var(--ink)}
+
+/* ============ PAYMENT ============ */
+.payment{background:linear-gradient(160deg,#10254A,#0B1A33);color:#fff;position:relative;overflow:hidden}
+.pay-glow{position:absolute;width:540px;height:540px;left:-160px;bottom:-200px;background:radial-gradient(circle,rgba(46,139,255,.18),transparent 65%);pointer-events:none}
+.payment .eyebrow{color:var(--frost)}
+.payment h2{color:#fff}
+.payment .sec-sub{color:rgba(233,243,255,.7)}
+.pay-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:38px;position:relative}
+.pay-card{background:rgba(255,255,255,.05);border:1px solid rgba(124,196,255,.2);border-radius:var(--r);padding:24px 22px;transition:.22s}
+.pay-card:hover{background:rgba(124,196,255,.09);border-color:rgba(124,196,255,.42);transform:translateY(-3px)}
+.pay-logo{font-family:var(--disp);font-weight:800;font-size:15px;color:#fff;margin-bottom:14px;display:flex;align-items:center;gap:9px}
+.pay-logo .pl-dot{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pay-logo .pl-dot svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
+.pay-h{font-family:var(--disp);font-weight:800;font-size:17px;color:#fff;margin-bottom:6px}
+.pay-card p{font-size:13.5px;color:rgba(233,243,255,.66);line-height:1.55}
+.pay-tag{display:inline-block;margin-top:13px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--frost);background:rgba(124,196,255,.12);border:1px solid rgba(124,196,255,.25);padding:4px 11px;border-radius:var(--r-pill)}
 
 /* ============ FAQ ============ */
 .faq{background:var(--paper)}
@@ -328,10 +369,10 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
 .modal-close:hover{background:var(--g2);color:var(--ink)}
 .modal-body{display:grid;grid-template-columns:1fr 1fr}
 .m-gallery{padding:26px;background:var(--paper);border-radius:var(--r-lg) 0 0 var(--r-lg)}
-.m-main{background:#ffffff;border-radius:var(--r);aspect-ratio:1;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:14px}
-.m-main img{width:100%;height:100%;object-fit:contain;padding:18px}
+.m-main{position:relative;background:linear-gradient(160deg,#F1F6FC,#E4EDF7);border:1px solid var(--g2);border-radius:var(--r);aspect-ratio:1;padding:20px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:14px}
+.m-main img{width:100%;height:100%;object-fit:contain;background:#fff;border-radius:12px;box-shadow:0 6px 18px rgba(11,26,51,.12);padding:18px}
 .m-thumbs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.m-thumb{aspect-ratio:1;border-radius:9px;overflow:hidden;border:2px solid transparent;cursor:pointer;background:#fff;transition:.16s}
+.m-thumb{aspect-ratio:1;border-radius:9px;overflow:hidden;border:2px solid var(--g2);cursor:pointer;background:#fff;transition:.16s}
 .m-thumb.active{border-color:var(--blue)}
 .m-thumb img{width:100%;height:100%;object-fit:contain;padding:5px}
 .m-info{padding:30px 28px}
@@ -378,7 +419,7 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
   .hero-vis{max-width:460px}
   .calc-in,.install-in,.cgrid{grid-template-columns:1fr;gap:30px}
   .trust-in{grid-template-columns:1fr 1fr}
-  .adv-grid,.rev-grid,.steps{grid-template-columns:1fr 1fr}
+  .adv-grid,.rev-grid,.steps,.svc-grid,.pay-grid{grid-template-columns:1fr 1fr}
   .foot-in{grid-template-columns:1fr 1fr}
 }
 @media(max-width:760px){
@@ -393,7 +434,7 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
   .fgrid{grid-template-columns:1fr}
 }
 @media(max-width:520px){
-  .trust-in,.adv-grid,.rev-grid,.steps,.foot-in{grid-template-columns:1fr}
+  .trust-in,.adv-grid,.rev-grid,.steps,.foot-in,.svc-grid,.pay-grid{grid-template-columns:1fr}
   .gc-readout{grid-template-columns:1fr 1fr 1fr}
   .hero-stats{gap:20px}
   .section{padding:54px 0}
@@ -413,8 +454,8 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
   --sh-lg:0 18px 50px rgba(0,0,0,.5);
 }
 :root[data-theme="dark"] body{background:var(--paper)}
-:root[data-theme="dark"] .card-img{background:#ffffff}
-:root[data-theme="dark"] .m-main{background:#ffffff}
+:root[data-theme="dark"] .card-img{background:linear-gradient(160deg,#E9F0F8,#D7E2F0)}
+:root[data-theme="dark"] .m-main{background:linear-gradient(160deg,#E9F0F8,#D7E2F0)}
 :root[data-theme="dark"] .search-input{background-color:var(--g1)}
 :root[data-theme="dark"] .sort-select{background-color:var(--g1)}
 :root[data-theme="dark"] .trust-card,:root[data-theme="dark"] .adv-card,:root[data-theme="dark"] .step,:root[data-theme="dark"] .rev-card,:root[data-theme="dark"] .contact-card{background:var(--g1)}
@@ -563,6 +604,8 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
       <a href="#catalog" data-i18n="nav_catalog">Каталог</a>
       <a href="#calc" data-i18n="nav_calc">Підбір за площею</a>
       <a href="#installation" data-i18n="nav_install">Монтаж</a>
+      <a href="#service" data-i18n="nav_service">Сервіс</a>
+      <a href="#payment" data-i18n="nav_payment">Оплата</a>
       <a href="#advantages" data-i18n="nav_adv">Переваги</a>
       <a href="#faq" data-i18n="nav_faq">Питання</a>
       <a href="#contacts" data-i18n="nav_contacts">Контакти</a>
@@ -841,6 +884,79 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
   </div>
 </section>
 
+<!-- SERVICE -->
+<section class="section service" id="service">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center;display:flex;flex-direction:column;align-items:center">
+      <div class="eyebrow" data-i18n="svc_eye">Сервіс</div>
+      <h2 class="sec-title" data-i18n="svc_h">Обслуговування та ремонт кондиціонерів</h2>
+      <p class="sec-sub" data-i18n="svc_sub">Доглядаємо за технікою після встановлення — щоб вона працювала тихо, економно та служила роками.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card reveal">
+        <div class="svc-ic"><svg viewBox="0 0 24 24"><path d="M3 12h4l2 6 4-12 2 6h6"/></svg></div>
+        <h3 data-i18n="svc1t">Технічне обслуговування</h3>
+        <p data-i18n="svc1p">Чистка та дезінфекція, діагностика та ремонт — комплексно за один візит. Антибактеріальна обробка, заміна деталей.</p>
+        <div class="svc-price"><small>від</small> 1200 <small>грн</small></div>
+      </div>
+      <div class="svc-card reveal">
+        <div class="svc-ic"><svg viewBox="0 0 24 24"><path d="M12 2v6M12 8c-3 0-6 2.5-6 7a6 6 0 0 0 12 0c0-4.5-3-7-6-7z"/></svg></div>
+        <h3 data-i18n="svc2t">Заправка фреоном</h3>
+        <p data-i18n="svc2p">Перевірка тиску, дозаправка R32/R410, пошук та усунення витоку холодоагенту.</p>
+        <div class="svc-price"><small>від</small> 1000 <small>грн</small></div>
+      </div>
+      <div class="svc-card reveal">
+        <div class="svc-ic"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4l-6 6 3 3 6-6a4 4 0 0 0 5.4-5.4l-2.6 2.6-2-2 2.6-2.6z"/></svg></div>
+        <h3 data-i18n="svc3t">Демонтаж</h3>
+        <p data-i18n="svc3p">Акуратне зняття блоків при переїзді чи ремонті, збереження трас та підготовка до повторного монтажу.</p>
+        <div class="svc-price"><small>від</small> 1200 <small>грн</small></div>
+      </div>
+    </div>
+    <div class="svc-foot reveal">
+      <p data-i18n="svc_note"><b>Ціни орієнтовні.</b> Остаточну вартість майстер називає після огляду — без прихованих доплат.</p>
+      <button class="btn-primary" onclick="openCb()" data-i18n="svc_btn">Замовити сервіс</button>
+    </div>
+  </div>
+</section>
+
+<!-- PAYMENT -->
+<section class="section payment" id="payment">
+  <div class="pay-glow"></div>
+  <div class="wrap">
+    <div class="reveal" style="text-align:center;display:flex;flex-direction:column;align-items:center">
+      <div class="eyebrow" data-i18n="pay_eye">Оплата</div>
+      <h2 class="sec-title" data-i18n="pay_h">Зручна оплата: частинами, у кредит або після монтажу</h2>
+      <p class="sec-sub" data-i18n="pay_sub">Беріть кондиціонер зараз — платіть так, як комфортно саме вам.</p>
+    </div>
+    <div class="pay-grid">
+      <div class="pay-card reveal">
+        <div class="pay-logo"><span class="pl-dot" style="background:#1A1A1A"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg></span>monobank</div>
+        <div class="pay-h" data-i18n="pay1h">Оплата частинами</div>
+        <p data-i18n="pay1p">Розділіть суму на зручні щомісячні платежі прямо в застосунку. Оформлення за кілька хвилин.</p>
+        <span class="pay-tag" data-i18n="pay1t">до 12 платежів · 0% від магазину</span>
+      </div>
+      <div class="pay-card reveal">
+        <div class="pay-logo"><span class="pl-dot" style="background:#1B3B6F"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg></span>ПУМБ</div>
+        <div class="pay-h" data-i18n="pay2h">Оплата частинами</div>
+        <p data-i18n="pay2p">Розстрочка через термінал або «Приват24» на популярні моделі кондиціонерів.</p>
+        <span class="pay-tag" data-i18n="pay2t">до 24 місяців</span>
+      </div>
+      <div class="pay-card reveal">
+        <div class="pay-logo"><span class="pl-dot" style="background:var(--blue)"><svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><span data-i18n="pay3l">Готівка / картка</span></div>
+        <div class="pay-h" data-i18n="pay3h">Оплата після монтажу</div>
+        <p data-i18n="pay3p">Готівкою, карткою або переказом — лише після того, як переконаєтесь, що все працює.</p>
+        <span class="pay-tag" data-i18n="pay3t">без передоплати</span>
+      </div>
+      <div class="pay-card reveal">
+        <div class="pay-logo"><span class="pl-dot" style="background:var(--amber)"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l8-4 8 4v14M9 9h.01M15 9h.01M9 13h.01M15 13h.01"/></svg></span><span data-i18n="pay4l">Для бізнесу</span></div>
+        <div class="pay-h" data-i18n="pay4h">Безготівковий розрахунок</div>
+        <p data-i18n="pay4p">Рахунок з ПДВ, повний пакет документів та закриваючі акти для юридичних осіб.</p>
+        <span class="pay-tag" data-i18n="pay4t">з ПДВ · документи</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- REVIEWS -->
 <section class="section reviews">
   <div class="wrap">
@@ -865,6 +981,19 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
         <p class="rev-text" data-i18n="rev3">Ціну назвали одразу й зафіксували, ніяких прихованих доплат. Майстри з допуском, працювали на 7 поверсі. Усе чисто й швидко. Дякую за сервіс!</p>
         <div class="rev-who"><div class="rev-av">І</div><div><div class="rev-name">Ірина В.</div><div class="rev-meta">м. Суми · MIDEA Forest</div></div></div>
       </div>
+    </div>
+    <div class="rev-rating reveal">
+      <div class="rr-score">
+        <div class="rr-num">4.9</div>
+        <div>
+          <div class="rr-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .9-5 4.8 1.3 7-6.3-3.4L5.7 21l1.3-7-5-4.8 7-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .9-5 4.8 1.3 7-6.3-3.4L5.7 21l1.3-7-5-4.8 7-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .9-5 4.8 1.3 7-6.3-3.4L5.7 21l1.3-7-5-4.8 7-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .9-5 4.8 1.3 7-6.3-3.4L5.7 21l1.3-7-5-4.8 7-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .9-5 4.8 1.3 7-6.3-3.4L5.7 21l1.3-7-5-4.8 7-.9z"/></svg></div>
+          <div class="rr-meta" data-i18n="rr_meta">Середня оцінка за відгуками клієнтів у Google</div>
+        </div>
+      </div>
+      <a class="rr-google" href="https://www.google.com/maps/place/%D0%9A%D0%9E%D0%9D%D0%94%D0%98%D0%A6%D0%86%D0%9E%D0%9D%D0%95%D0%A0%D0%98+-+%D0%A2%D0%95%D0%A5%D0%9D%D0%9E%D0%9F%D0%9B%D0%90%D0%97%D0%90,+%D0%9F%D0%9E%D0%91%D0%A3%D0%A2%D0%9E%D0%92%D0%90+%D0%A2%D0%95%D0%A5%D0%9D%D0%86%D0%9A%D0%90/data=!4m8!3m7!1s0x412901be62b6ba2f:0xa156555d39aa61f!8m2!3d50.9044303!4d34.8064328!9m1!1b1" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z"/></svg>
+        <span data-i18n="rr_btn">Дивитися відгуки в Google</span>
+      </a>
     </div>
   </div>
 </section>
@@ -956,6 +1085,8 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
         <li><a href="#catalog" onclick="jumpBrand('Olmo')">Кондиціонери Olmo</a></li>
         <li><a href="#catalog" onclick="jumpBrand('Samurai')">Кондиціонери Samurai</a></li>
         <li><a href="#catalog" onclick="jumpBrand('IDEA')">Кондиціонери IDEA</a></li>
+        <li><a href="#catalog" onclick="jumpBrand('Ardesto')">Кондиціонери Ardesto</a></li>
+        <li><a href="#catalog" onclick="jumpBrand('Grunhelm')">Кондиціонери Grunhelm</a></li>
       </ul>
     </div>
     <div class="foot-col">
@@ -963,6 +1094,8 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
       <ul>
         <li><a href="#calc" data-i18n="calc_eye">Підбір за площею</a></li>
         <li><a href="#installation">Монтаж під ключ</a></li>
+        <li><a href="#service" data-i18n="nav_service">Сервіс</a></li>
+        <li><a href="#payment" data-i18n="nav_payment">Оплата</a></li>
         <li><a href="#advantages">Наші переваги</a></li>
         <li><a href="#faq">Часті запитання</a></li>
         <li><a href="#contacts" data-i18n="con_eye">Контакти</a></li>
@@ -1130,6 +1263,18 @@ const I18N = {
     inst_btn:"Розрахувати монтаж", inst_extra:"Додаткові роботи (за потреби):",
     inst_e1:"Альпіністські роботи", inst_e2:"Встановлення козирка", inst_e3:"Додатковий метр траси", inst_e4:"Робота автовишки",
     rev_eye:"Відгуки", rev_h:"Що кажуть клієнти", rev_sub:"Реальні враження мешканців Сум та області після встановлення.",
+    rr_meta:"Середня оцінка за відгуками клієнтів у Google", rr_btn:"Дивитися відгуки в Google",
+    nav_service:"Сервіс", nav_payment:"Оплата",
+    svc_eye:"Сервіс", svc_h:"Обслуговування та ремонт кондиціонерів", svc_sub:"Доглядаємо за технікою після встановлення — щоб вона працювала тихо, економно та служила роками.",
+    svc1t:"Технічне обслуговування", svc1p:"Чистка та дезінфекція, діагностика та ремонт — комплексно за один візит. Антибактеріальна обробка, заміна деталей.",
+    svc2t:"Заправка фреоном", svc2p:"Перевірка тиску, дозаправка R32/R410, пошук та усунення витоку холодоагенту.",
+    svc3t:"Демонтаж", svc3p:"Акуратне зняття блоків при переїзді чи ремонті, збереження трас та підготовка до повторного монтажу.",
+    svc_note:"Ціни орієнтовні. Остаточну вартість майстер називає після огляду — без прихованих доплат.", svc_btn:"Замовити сервіс",
+    pay_eye:"Оплата", pay_h:"Зручна оплата: частинами, у кредит або після монтажу", pay_sub:"Беріть кондиціонер зараз — платіть так, як комфортно саме вам.",
+    pay1h:"Оплата частинами", pay1p:"Розділіть суму на зручні щомісячні платежі прямо в застосунку. Оформлення за кілька хвилин.", pay1t:"до 24 платежів",
+    pay2h:"Оплата частинами", pay2p:"Розстрочка від ПУМБ на популярні моделі кондиціонерів — у відділенні або онлайн.", pay2t:"до 24 місяців",
+    pay3l:"Готівка / картка", pay3h:"Оплата після монтажу", pay3p:"Готівкою, карткою або переказом — лише після того, як переконаєтесь, що все працює.", pay3t:"без передоплати",
+    pay4l:"Для бізнесу", pay4h:"Безготівковий розрахунок", pay4p:"Рахунок з ПДВ, повний пакет документів та закриваючі акти для юридичних осіб.", pay4t:"з ПДВ · документи",
     rev1:"Замовляли TCL на 9000 BTU у спальню. Привезли і встановили того ж дня, акуратно, прибрали за собою. Оплату взяли тільки після запуску. Дуже задоволені.",
     rev2:"Брали тепловий насос на велику кімнату. Менеджер чесно порадив модель під площу, не нав'язував дорожче. Взимку гріє відмінно. Рекомендую.",
     rev3:"Ціну назвали одразу й зафіксували, ніяких прихованих доплат. Майстри з допуском, працювали на 7 поверсі. Усе чисто й швидко. Дякую за сервіс!",
@@ -1214,6 +1359,18 @@ const I18N = {
     inst_btn:"Рассчитать монтаж", inst_extra:"Дополнительные работы (при необходимости):",
     inst_e1:"Альпинистские работы", inst_e2:"Установка козырька", inst_e3:"Дополнительный метр трассы", inst_e4:"Работа автовышки",
     rev_eye:"Отзывы", rev_h:"Что говорят клиенты", rev_sub:"Реальные впечатления жителей Сум и области после установки.",
+    rr_meta:"Средняя оценка по отзывам клиентов в Google", rr_btn:"Смотреть отзывы в Google",
+    nav_service:"Сервис", nav_payment:"Оплата",
+    svc_eye:"Сервис", svc_h:"Обслуживание и ремонт кондиционеров", svc_sub:"Ухаживаем за техникой после установки — чтобы она работала тихо, экономно и служила годами.",
+    svc1t:"Техническое обслуживание", svc1p:"Чистка и дезинфекция, диагностика и ремонт — комплексно за один визит. Антибактериальная обработка, замена деталей.",
+    svc2t:"Заправка фреоном", svc2p:"Проверка давления, дозаправка R32/R410, поиск и устранение утечки хладагента.",
+    svc3t:"Демонтаж", svc3p:"Аккуратный демонтаж блоков при переезде или ремонте, сохранение трасс и подготовка к повторному монтажу.",
+    svc_note:"Цены ориентировочные. Окончательную стоимость мастер называет после осмотра — без скрытых доплат.", svc_btn:"Заказать сервис",
+    pay_eye:"Оплата", pay_h:"Удобная оплата: частями, в кредит или после монтажа", pay_sub:"Берите кондиционер сейчас — платите так, как удобно именно вам.",
+    pay1h:"Оплата частями", pay1p:"Разделите сумму на удобные ежемесячные платежи прямо в приложении. Оформление за несколько минут.", pay1t:"до 24 платежей",
+    pay2h:"Оплата частями", pay2p:"Рассрочка от ПУМБ на популярные модели кондиционеров — в отделении или онлайн.", pay2t:"до 24 месяцев",
+    pay3l:"Наличные / карта", pay3h:"Оплата после монтажа", pay3p:"Наличными, картой или переводом — только после того, как убедитесь, что всё работает.", pay3t:"без предоплаты",
+    pay4l:"Для бизнеса", pay4h:"Безналичный расчёт", pay4p:"Счёт с НДС, полный пакет документов и закрывающие акты для юридических лиц.", pay4t:"с НДС · документы",
     rev1:"Заказывали TCL на 9000 BTU в спальню. Привезли и установили в тот же день, аккуратно, убрали за собой. Оплату взяли только после запуска. Очень довольны.",
     rev2:"Брали тепловой насос на большую комнату. Менеджер честно посоветовал модель под площадь, не навязывал дороже. Зимой греет отлично. Рекомендую.",
     rev3:"Цену назвали сразу и зафиксировали, никаких скрытых доплат. Мастера с допуском, работали на 7 этаже. Всё чисто и быстро. Спасибо за сервис!",
@@ -1298,6 +1455,18 @@ const I18N = {
     inst_btn:"Calculate installation", inst_extra:"Extra work (if needed):",
     inst_e1:"High-rise climbing work", inst_e2:"Canopy installation", inst_e3:"Extra meter of line", inst_e4:"Aerial lift",
     rev_eye:"Reviews", rev_h:"What clients say", rev_sub:"Real impressions from residents of Sumy and the region after installation.",
+    rr_meta:"Average rating from customer reviews on Google", rr_btn:"See reviews on Google",
+    nav_service:"Service", nav_payment:"Payment",
+    svc_eye:"Service", svc_h:"Air conditioner maintenance & repair", svc_sub:"We care for your unit after installation — so it runs quietly, efficiently and lasts for years.",
+    svc1t:"Technical maintenance", svc1p:"Cleaning & disinfection, diagnostics & repair — all in one visit. Antibacterial treatment, parts replacement.",
+    svc2t:"Refrigerant refill", svc2p:"Pressure check, R32/R410 top-up, leak detection and repair.",
+    svc3t:"Dismantling", svc3p:"Careful removal of units when relocating or renovating, line preservation and prep for re-installation.",
+    svc_note:"Prices are indicative. The final cost is quoted by the technician after inspection — no hidden fees.", svc_btn:"Order service",
+    pay_eye:"Payment", pay_h:"Flexible payment: instalments, credit or after installation", pay_sub:"Get your air conditioner now — pay the way that suits you.",
+    pay1h:"Pay in instalments", pay1p:"Split the amount into convenient monthly payments right in the app. Approval in minutes.", pay1t:"up to 24 payments",
+    pay2h:"Pay in instalments", pay2p:"Instalments from PUMB on popular air conditioner models — in branch or online.", pay2t:"up to 24 months",
+    pay3l:"Cash / card", pay3h:"Pay after installation", pay3p:"Cash, card or transfer — only after you confirm everything works.", pay3t:"no prepayment",
+    pay4l:"For business", pay4h:"Bank transfer", pay4p:"VAT invoice, full document package and closing acts for legal entities.", pay4t:"VAT · documents",
     rev1:"We ordered a 9000 BTU TCL for the bedroom. Delivered and installed the same day, neatly, cleaned up after. They charged only after start-up. Very happy.",
     rev2:"We got a heat pump for a large room. The manager honestly recommended a model for the area, didn't push pricier options. Heats great in winter. Recommend.",
     rev3:"They quoted the price right away and fixed it, no hidden fees. Certified installers worked on the 7th floor. All clean and fast. Thanks for the service!",
@@ -1614,17 +1783,19 @@ async function submitContact(){
 
 /* ============ CALC ============ */
 function recommendBtu(area){const btu=Math.round(area/10*3412/1000)*1000;const sizes=[7000,9000,12000,18000,24000];return sizes.find(s=>s>=btu)||sizes[sizes.length-1];}
+function calcBand(btu){return btu<=9000?'25':btu<=12000?'35':btu<=18000?'50':'70';}
+function modelsForArea(area){const b=+calcBand(recommendBtu(area));return PRODUCTS.filter(p=> b===25?p.area<=25 : b===35?(p.area>25&&p.area<=35) : b===50?(p.area>35&&p.area<=50) : p.area>50);}
 function updateCalc(){
   const area=+$('calc-area').value;
   $('calc-area-val').textContent=area+' '+(LANG==='en'?'m²':'м²');
   $('calc-area-2').textContent=area+' '+(LANG==='en'?'m²':'м²');
   const btu=recommendBtu(area);$('calc-btu').innerHTML=fmt(btu)+'<span> BTU</span>';
-  const count=PRODUCTS.filter(p=>p.btu===btu).length;
+  const count=modelsForArea(area).length;
   $('calc-models').textContent=count+' '+(LANG==='en'?'models':LANG==='ru'?modelsRu(count):modelsUk(count));
 }
 function modelsUk(n){const m=n%100,d=n%10;if(m>=11&&m<=14)return'моделей';if(d===1)return'модель';if(d>=2&&d<=4)return'моделі';return'моделей';}
 function modelsRu(n){const m=n%100,d=n%10;if(m>=11&&m<=14)return'моделей';if(d===1)return'модель';if(d>=2&&d<=4)return'модели';return'моделей';}
-function applyCalc(){const btu=recommendBtu(+$('calc-area').value);resetFilters();const band=btu<=9000?'25':btu<=12000?'35':btu<=18000?'50':'70';activeArea=band;setActive('area-filters','area',band);renderCatalog();document.getElementById('catalog').scrollIntoView({behavior:'smooth'});}
+function applyCalc(){const band=calcBand(recommendBtu(+$('calc-area').value));resetFilters();activeArea=band;setActive('area-filters','area',band);renderCatalog();document.getElementById('catalog').scrollIntoView({behavior:'smooth'});}
 
 /* ============ UI ============ */
 function toggleFaq(el){const it=el.parentElement;const open=it.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!open)it.classList.add('open');}
