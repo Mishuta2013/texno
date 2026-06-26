@@ -1,0 +1,13 @@
+{
+  "name": "texno-plaza",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "TEXNO PLAZA — кондиціонери у Сумах (data-driven static site)",
+  "scripts": {
+    "extract": "node scripts/extract.mjs",
+    "images": "python scripts/process_images.py",
+    "build": "node scripts/build.mjs",
+    "serve": "python -m http.server 8099 --directory dist"
+  }
+}
