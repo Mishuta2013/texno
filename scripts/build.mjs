@@ -80,6 +80,15 @@ function heroCard(p) {
     </div></a>`;
 }
 
+// render current uk i18n text into static HTML (matches runtime applyI18n → correct for SEO/no-JS)
+function applyI18nStatic(html) {
+  return html.replace(/(<([a-zA-Z0-9]+)((?:[^>]*?)\sdata-i18n="([^"]+)"(?:[^>]*?))>)([\s\S]*?)(<\/\2>)/g,
+    (m, open, tag, attrs, key, inner, close) => {
+      const v = i18n.uk[key];
+      return v === undefined ? m : open + esc(v) + close;
+    });
+}
+
 // ---- catalog dataset injected for client hydration (no heavy desc fields) ----
 const catalogData = products.map(({ desc_ru, desc_en, desc_uk, srcIndex, photoCount, ...keep }) => keep);
 const injectData = (extraProducts) => `<script>window.__I18N__=${JSON.stringify(i18n)};window.__SITE__=${JSON.stringify(site)};window.__PRODUCTS__=${JSON.stringify(extraProducts)};</script>`;
@@ -94,6 +103,7 @@ body = body.replace('<!--HERO_CARD-->', heroCard(best));
 // pre-render catalog grid for SEO (client re-renders on filter)
 body = body.replace('<div class="grid" id="catalog-grid"></div>',
   `<div class="grid" id="catalog-grid">${products.map(card).join('')}</div>`);
+body = applyI18nStatic(body);   // bake current uk text into static HTML (SEO)
 
 // shared chrome (header before hero; footer+modals+floats from <footer> onward) for product pages
 const _heroAt = body.indexOf('<section class="hero"');
