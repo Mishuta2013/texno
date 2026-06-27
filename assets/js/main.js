@@ -263,6 +263,7 @@ function closeCb(e){if(e.target===e.currentTarget)forceCloseCb();}
 function forceCloseCb(){$('cb-modal').classList.remove('open');document.body.style.overflow='';}
 function closeOverlay(e,id){if(e.target===e.currentTarget)closeModalById(id);}
 function closeModalById(id){$(id).classList.remove('open');document.body.style.overflow='';}
+function openContact(){$('contact-modal').classList.add('open');document.body.style.overflow='hidden';}
 
 async function sendLead(data){
   track('generate_lead',{lead_type:(data&&data.type)||'form'});
