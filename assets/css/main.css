@@ -698,11 +698,8 @@ a.gauge-card:hover{transform:translateY(-4px)}
   .ftools{margin-left:0;width:100%;flex-wrap:wrap;gap:8px}
   .search-input{flex:1 1 140px;min-width:0;width:auto}
   .sort-select{flex:1 1 120px;min-width:0}
-  /* compare bar: wrap, no overflow, sit above sticky CTA */
-  .cmp-bar{bottom:62px}
-  .cmp-bar-in{flex-wrap:wrap;gap:10px;padding:12px 16px}
-  .cmp-thumbs{min-width:0;width:100%;order:3}
-  .cmp-actions{width:100%}
+  /* compare moved to header icon on mobile → hide bottom bar (frees sticky CTA) */
+  .cmp-bar{display:none!important}
   /* larger tap targets */
   .hdr-icon-btn,.theme-btn{width:42px;height:42px}
   .fbtn{padding:9px 14px}

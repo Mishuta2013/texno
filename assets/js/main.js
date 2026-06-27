@@ -204,6 +204,7 @@ function toggleCmp(idx){
 }
 function clearCompare(){CMP=[];localStorage.setItem('tp_cmp','[]');renderCmpBar();renderCatalog();}
 function renderCmpBar(){
+  const cc=$('cmp-count'); if(cc){cc.textContent=CMP.length;cc.classList.toggle('show',CMP.length>0);} // header compare badge
   const bar=$('cmp-bar'); if(!bar) return;
   bar.classList.toggle('show',CMP.length>0);
   $('cmp-thumbs').innerHTML=CMP.map(idx=>`<div class="cmp-th"><img src="${PRODUCTS[idx].thumb||PRODUCTS[idx].photos[0]}"><span class="x" onclick="toggleCmp(${idx})">✕</span></div>`).join('');
