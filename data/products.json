@@ -153,7 +153,10 @@
     "specs": {
       "power_w": 2600,
       "eclass": "A++",
-      "heat_min": -20
+      "heat_min": -20,
+      "cool_min": -15,
+      "cool_max": 53,
+      "noise": 22
     },
     "photos": [
       "/assets/img/products/tcl-tac-09chsd-zg11i-ai-inverter-r32-wi-fi/1.webp",
@@ -186,7 +189,10 @@
     "specs": {
       "power_w": 3500,
       "eclass": "A++",
-      "heat_min": -20
+      "heat_min": -20,
+      "cool_min": -15,
+      "cool_max": 53,
+      "noise": 25
     },
     "photos": [
       "/assets/img/products/tcl-tac-12chsd-zg11i-ai-inverter-r32-wi-fi/1.webp",
@@ -219,7 +225,10 @@
     "specs": {
       "power_w": 5100,
       "eclass": "A++",
-      "heat_min": -20
+      "heat_min": -20,
+      "cool_min": -15,
+      "cool_max": 53,
+      "noise": 33
     },
     "photos": [
       "/assets/img/products/tcl-tac-18chsd-zg11i-ai-inverter-r32-wi-fi/1.webp",
@@ -252,7 +261,10 @@
     "specs": {
       "power_w": 7000,
       "eclass": "A++",
-      "heat_min": -20
+      "heat_min": -20,
+      "cool_min": -15,
+      "cool_max": 53,
+      "noise": 37
     },
     "photos": [
       "/assets/img/products/tcl-tac-24chsd-zg11i-ai-inverter-r32-wi-fi/1.webp",
@@ -285,7 +297,10 @@
     "specs": {
       "power_w": 2600,
       "eclass": "A++",
-      "heat_min": -20
+      "heat_min": -20,
+      "cool_min": -15,
+      "cool_max": 53,
+      "noise": 22
     },
     "photos": [
       "/assets/img/products/tcl-tac-09chsd-zg41ihb-heatpump-r32-wi-fi/1.webp",
@@ -318,7 +333,10 @@
     "specs": {
       "power_w": 3500,
       "eclass": "A++",
-      "heat_min": -20
+      "heat_min": -20,
+      "cool_min": -15,
+      "cool_max": 53,
+      "noise": 25
     },
     "photos": [
       "/assets/img/products/tcl-tac-12chsd-zg41ihb-heatpump-r32-wi-fi/1.webp",
@@ -351,7 +369,10 @@
     "specs": {
       "power_w": 5100,
       "eclass": "A++",
-      "heat_min": -20
+      "heat_min": -20,
+      "cool_min": -15,
+      "cool_max": 53,
+      "noise": 33
     },
     "photos": [
       "/assets/img/products/tcl-tac-18chsd-zg41ihb-heatpump-r32-wi-fi/1.webp",
@@ -384,7 +405,10 @@
     "specs": {
       "power_w": 7000,
       "eclass": "A++",
-      "heat_min": -20
+      "heat_min": -20,
+      "cool_min": -15,
+      "cool_max": 53,
+      "noise": 37
     },
     "photos": [
       "/assets/img/products/tcl-tac-24chsd-zg41ihb-heatpump-r32-wi-fi/1.webp",
@@ -417,7 +441,10 @@
     "specs": {
       "power_w": 2600,
       "eclass": "A+++",
-      "heat_min": -25
+      "heat_min": -25,
+      "cool_min": -15,
+      "cool_max": 53,
+      "noise": 22
     },
     "photos": [
       "/assets/img/products/tcl-tac-09chsd-ug11v3ahb-heat-pump/1.webp",
@@ -449,7 +476,10 @@
     "specs": {
       "power_w": 3500,
       "eclass": "A+++",
-      "heat_min": -25
+      "heat_min": -25,
+      "cool_min": -15,
+      "cool_max": 53,
+      "noise": 25
     },
     "photos": [
       "/assets/img/products/tcl-tac-12chsd-ug11v3ahb-heat-pump/1.webp",
@@ -481,7 +511,10 @@
     "specs": {
       "power_w": 5100,
       "eclass": "A+++",
-      "heat_min": -25
+      "heat_min": -25,
+      "cool_min": -15,
+      "cool_max": 53,
+      "noise": 33
     },
     "photos": [
       "/assets/img/products/tcl-tac-18chsd-ug11v3ahb-heat-pump/1.webp",
@@ -513,7 +546,10 @@
     "specs": {
       "power_w": 7000,
       "eclass": "A+++",
-      "heat_min": -25
+      "heat_min": -25,
+      "cool_min": -15,
+      "cool_max": 53,
+      "noise": 37
     },
     "photos": [
       "/assets/img/products/tcl-tac-24chsd-ug11v3ahb-heat-pump/1.webp",
@@ -545,7 +581,10 @@
     "specs": {
       "power_w": 2600,
       "eclass": "A++",
-      "heat_min": -30
+      "heat_min": -30,
+      "cool_min": -15,
+      "cool_max": 53,
+      "noise": 22
     },
     "photos": [
       "/assets/img/products/tcl-tac-09chsd-tph11ihb-heat-pump-r32-wi-fi/1.webp",
@@ -575,7 +614,10 @@
     "specs": {
       "power_w": 3500,
       "eclass": "A++",
-      "heat_min": -30
+      "heat_min": -30,
+      "cool_min": -15,
+      "cool_max": 53,
+      "noise": 25
     },
     "photos": [
       "/assets/img/products/tcl-tac-12chsd-tph11ihb-heat-pump-r32-wi-fi/1.webp",
@@ -605,7 +647,10 @@
     "specs": {
       "power_w": 5100,
       "eclass": "A++",
-      "heat_min": -30
+      "heat_min": -30,
+      "cool_min": -15,
+      "cool_max": 53,
+      "noise": 33
     },
     "photos": [
       "/assets/img/products/tcl-tac-18chsd-tph11ihb-heat-pump-r32-wi-fi/1.webp",
@@ -635,7 +680,10 @@
     "specs": {
       "power_w": 2600,
       "eclass": "A++",
-      "heat_min": -20
+      "heat_min": -20,
+      "cool_min": -15,
+      "cool_max": 53,
+      "noise": 22
     },
     "photos": [
       "/assets/img/products/tcl-tac-09chsd-fai-freshin-inv-r32-wi-fi/1.webp",
@@ -668,7 +716,10 @@
     "specs": {
       "power_w": 3500,
       "eclass": "A++",
-      "heat_min": -20
+      "heat_min": -20,
+      "cool_min": -15,
+      "cool_max": 53,
+      "noise": 25
     },
     "photos": [
       "/assets/img/products/tcl-tac-12chsd-fai-freshin-inv-r32-wi-fi/1.webp",
@@ -702,7 +753,9 @@
       "power_w": 2700,
       "eclass": "A++",
       "noise": 29,
-      "heat_min": -20
+      "heat_min": -20,
+      "cool_min": -15,
+      "cool_max": 53
     },
     "photos": [
       "/assets/img/products/tcl-tac-09chsd-fbi-inverter-r32-wi-fi/1.webp",
@@ -734,7 +787,9 @@
       "power_w": 3500,
       "eclass": "A++",
       "noise": 31,
-      "heat_min": -20
+      "heat_min": -20,
+      "cool_min": -15,
+      "cool_max": 53
     },
     "photos": [
       "/assets/img/products/tcl-tac-12chsd-fbi-inverter-r32-wi-fi/1.webp",
@@ -766,7 +821,9 @@
       "power_w": 2600,
       "eclass": "A++",
       "noise": 22,
-      "heat_min": -20
+      "heat_min": -20,
+      "cool_min": -15,
+      "cool_max": 53
     },
     "photos": [
       "/assets/img/products/tcl-tac-09chsd-xa82i-black-inverter-r32-wi-fi/1.webp",
@@ -797,7 +854,9 @@
       "power_w": 3500,
       "eclass": "A++",
       "noise": 25,
-      "heat_min": -20
+      "heat_min": -20,
+      "cool_min": -15,
+      "cool_max": 53
     },
     "photos": [
       "/assets/img/products/tcl-tac-12chsd-xa82i-black-inverter-r32-wi-fi/1.webp",
@@ -826,7 +885,8 @@
     "heatpump": false,
     "specs": {
       "power_w": 2000,
-      "noise": 40
+      "noise": 40,
+      "eclass": "A"
     },
     "photos": [
       "/assets/img/products/tcl-tac-07chsa-xab1-on-off-wi-fi-ready/1.webp",
@@ -856,7 +916,8 @@
     "heatpump": false,
     "specs": {
       "power_w": 2600,
-      "noise": 40
+      "noise": 40,
+      "eclass": "A"
     },
     "photos": [
       "/assets/img/products/tcl-tac-09chsa-xab1-on-off-wi-fi-ready/1.webp",
@@ -886,7 +947,8 @@
     "heatpump": false,
     "specs": {
       "power_w": 3500,
-      "noise": 40
+      "noise": 40,
+      "eclass": "A"
     },
     "photos": [
       "/assets/img/products/tcl-tac-12chsa-xab1-on-off-wi-fi-ready/1.webp",
@@ -918,7 +980,9 @@
       "power_w": 2500,
       "eclass": "A",
       "noise": 22,
-      "heat_min": -15
+      "heat_min": -15,
+      "cool_min": -15,
+      "cool_max": 53
     },
     "photos": [
       "/assets/img/products/invertornyi-ardesto-ard-acs09-i/1.webp",
@@ -960,7 +1024,9 @@
       "power_w": 3500,
       "eclass": "A",
       "noise": 25,
-      "heat_min": -15
+      "heat_min": -15,
+      "cool_min": -15,
+      "cool_max": 53
     },
     "photos": [
       "/assets/img/products/invertornyi-ardesto-ard-acs12-i/1.webp",
@@ -1002,7 +1068,9 @@
       "power_w": 5300,
       "eclass": "A",
       "noise": 33,
-      "heat_min": -15
+      "heat_min": -15,
+      "cool_min": -15,
+      "cool_max": 53
     },
     "photos": [
       "/assets/img/products/invertornyi-ardesto-ard-acs18-i/1.webp",
@@ -1043,7 +1111,8 @@
     "specs": {
       "power_w": 2000,
       "noise": 26,
-      "heat_min": -15
+      "heat_min": -15,
+      "eclass": "A"
     },
     "photos": [
       "/assets/img/products/midea-ag-07n8c2f-i-ag-07n8c2f-o/1.webp",
@@ -1074,7 +1143,8 @@
     "specs": {
       "power_w": 2500,
       "noise": 26,
-      "heat_min": -15
+      "heat_min": -15,
+      "eclass": "A"
     },
     "photos": [
       "/assets/img/products/midea-ag-09n8c2f-i-ag-09n8c2f-o/1.webp",
@@ -1105,7 +1175,8 @@
     "specs": {
       "power_w": 3200,
       "noise": 26,
-      "heat_min": -15
+      "heat_min": -15,
+      "eclass": "A"
     },
     "photos": [
       "/assets/img/products/midea-ag-11n8c2f-i-ag-11n8c2f-o/1.webp",
@@ -1135,7 +1206,8 @@
     "heatpump": false,
     "specs": {
       "power_w": 5300,
-      "heat_min": -15
+      "heat_min": -15,
+      "eclass": "A"
     },
     "photos": [
       "/assets/img/products/midea-ag-18nxd0-i-ag-18nxd0-o/1.webp",
@@ -1164,7 +1236,9 @@
     "specs": {
       "power_w": 2000,
       "eclass": "A",
-      "heat_min": -15
+      "heat_min": -15,
+      "cool_min": 16,
+      "cool_max": 52
     },
     "photos": [
       "/assets/img/products/idea-isr-07hr-vi05-dn8-rotary/1.webp",
@@ -1198,7 +1272,9 @@
     "specs": {
       "power_w": 2500,
       "eclass": "A",
-      "heat_min": -15
+      "heat_min": -15,
+      "cool_min": 16,
+      "cool_max": 52
     },
     "photos": [
       "/assets/img/products/idea-isr-09hr-vi05-dn8-rotary/1.webp",
@@ -1232,7 +1308,9 @@
     "specs": {
       "power_w": 3520,
       "eclass": "A",
-      "heat_min": -15
+      "heat_min": -15,
+      "cool_min": 16,
+      "cool_max": 52
     },
     "photos": [
       "/assets/img/products/idea-isr-12hr-vi05-dn8-rotary/1.webp",
@@ -1266,7 +1344,9 @@
     "specs": {
       "power_w": 5100,
       "eclass": "A",
-      "heat_min": -15
+      "heat_min": -15,
+      "cool_min": 16,
+      "cool_max": 52
     },
     "photos": [
       "/assets/img/products/idea-isr-18hr-vi05-dn8-rotary/1.webp",
@@ -1300,7 +1380,9 @@
     "specs": {
       "power_w": 7000,
       "eclass": "A",
-      "heat_min": -15
+      "heat_min": -15,
+      "cool_min": 16,
+      "cool_max": 52
     },
     "photos": [
       "/assets/img/products/idea-isr-24hr-vi05-dn8-rotary/1.webp",
