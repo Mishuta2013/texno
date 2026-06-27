@@ -1,0 +1,22 @@
+# build output (Vercel regenerates via `npm run build`)
+dist/
+
+# dependencies
+node_modules/
+
+# logs / temp
+*.log
+scripts/_*.log
+scripts/_*
+
+# old monolith + backups (superseded by the data-driven build)
+index.html
+index.html.bak
+index.html.cutout.bak
+index.html.it3.bak
+index.html.precut.bak
+json.json
+
+# OS
+.DS_Store
+Thumbs.db

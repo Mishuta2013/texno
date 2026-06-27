@@ -36,9 +36,11 @@ function head({ title, desc, canonical, ogTitle, ogDesc, ogImage, jsonld }) {
 <meta property="og:image" content="${esc(og)}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="${FAVICON}">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.webmanifest">
 ${FONTS}
 <link rel="stylesheet" href="/assets/css/main.css?v=${VER}">
+<script>if('serviceWorker'in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}`;
 }
 
@@ -99,6 +101,7 @@ const _footAt = body.indexOf('<footer');
 const HEADER = body.slice(0, _heroAt);
 const FOOTER = body.slice(_footAt);
 
+const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: (i18n.uk.faq || []).map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
 const indexHtml = `<!doctype html><html lang="uk"><head>
 ${head({
   title: 'TEXNO PLAZA — Кондиціонери у Сумах | Продаж та монтаж під ключ',
@@ -111,6 +114,7 @@ ${head({
     url: BASE, priceRange: '₴₴', areaServed: 'Суми'
   }
 })}
+<script type="application/ld+json">${JSON.stringify(faqLd)}</script>
 </head><body>
 ${body}
 ${injectData(catalogData)}
@@ -156,7 +160,7 @@ function productPage(p) {
     ]
   };
   return `<!doctype html><html lang="uk"><head>
-${head({ title: `${p.name} — купити у Сумах | ${site.name}`, desc: `${p.name}. ${p.btu} BTU, до ${p.area} м², клас ${s.eclass || ''}. Ціна ${fmt(p.price)} грн. Монтаж під ключ. ${site.name}, Суми.`, canonical: abs(purl(p)), ogTitle: p.name, ogImage: abs(p.photos[0]), jsonld })}
+${head({ title: `${p.name} — купити у Сумах | ${site.name}`, desc: `${p.name}. ${p.btu} BTU, до ${p.area} м², клас ${s.eclass || ''}. Ціна ${fmt(p.price)} грн. Монтаж під ключ. ${site.name}, Суми.`, canonical: abs(purl(p)), ogTitle: p.name, ogImage: abs('/assets/og/' + p.slug + '.jpg'), jsonld })}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
 </head><body>
 ${HEADER}

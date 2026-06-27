@@ -1,0 +1,17 @@
+{
+  "name": "TEXNO PLAZA — Кондиціонери у Сумах",
+  "short_name": "TEXNO PLAZA",
+  "description": "Продаж та монтаж кондиціонерів у Сумах. 52 моделі, монтаж під ключ за 1 день.",
+  "lang": "uk",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0B1A33",
+  "theme_color": "#0B1A33",
+  "icons": [
+    { "src": "/assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/assets/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
