@@ -264,7 +264,7 @@ function closeModalById(id){$(id).classList.remove('open');document.body.style.o
 async function sendLead(data){
   // primary: our serverless endpoint → Telegram
   try{
-    const r=await fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+    const r=await fetch('/api/lead/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
     if(r.ok) return true;
   }catch(e){}
   // fallback: Formspree (email), if configured
