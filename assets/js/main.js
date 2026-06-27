@@ -6,6 +6,8 @@ const PHONE="380991108041";              // WhatsApp / Viber / Telegram number
 const TG_USER="a3w44";                    // Telegram username
 const FORMSPREE="xaqgygqb";          // Formspree form ID (e.g. xyzabcd)
 
+function track(n,p){try{if(window.gtag)gtag('event',n,p||{});}catch(e){}}
+
 let LANG = (localStorage.getItem('tp_lang')||'uk');
 if(!I18N[LANG]) LANG='uk';
 let activeBrand='all', activeArea='all', activeType='all', activePrice='all', currentProduct=null;
@@ -262,6 +264,7 @@ function closeOverlay(e,id){if(e.target===e.currentTarget)closeModalById(id);}
 function closeModalById(id){$(id).classList.remove('open');document.body.style.overflow='';}
 
 async function sendLead(data){
+  track('generate_lead',{lead_type:(data&&data.type)||'form'});
   // primary: our serverless endpoint → Telegram
   try{
     const r=await fetch('/api/lead/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
@@ -411,6 +414,13 @@ function quizSubmit(e){e.preventDefault();const f=e.target;if(f.company.value)re
   sendLead({type:'quiz',name:f.name.value,phone:f.phone.value,note:quizSummary()});
   $('quiz-body').innerHTML=`<div class="quiz-done"><div class="quiz-done-ic">✓</div><h3>${t('quiz_done_h')}</h3><p>${t('quiz_done_p')}</p></div>`;
   $('quiz-back').style.visibility='hidden';return false;}
+
+/* GA: track call / WhatsApp / messenger clicks */
+document.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;const h=a.getAttribute('href')||'';
+  if(h.indexOf('tel:')===0)track('click_to_call');
+  else if(/wa\.me|api\.whatsapp|whatsapp\.com/.test(h))track('click_whatsapp');
+  else if(/t\.me|viber:\/\//.test(h))track('click_messenger');
+},{passive:true});
 
 if($('catalog-grid')){ setupFilters(); renderCatalog(); }
 applyI18n();

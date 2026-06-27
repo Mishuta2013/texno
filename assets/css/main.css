@@ -691,3 +691,50 @@ a.gauge-card:hover{transform:translateY(-4px)}
 .quiz-done h3{font-family:var(--disp);font-size:21px;color:var(--ink);margin-bottom:8px}
 .quiz-done p{font-size:14.5px;color:var(--g5);max-width:360px;margin:0 auto}
 @media(max-width:560px){.quiz-opts{grid-template-columns:1fr 1fr}.quiz-big{font-size:34px}.quiz-lead-row{flex-direction:column}}
+
+/* ============ MOBILE OPTIMIZATION PASS ============ */
+@media(max-width:760px){
+  /* fix horizontal overflow from catalog toolbar */
+  .ftools{margin-left:0;width:100%;flex-wrap:wrap;gap:8px}
+  .search-input{flex:1 1 140px;min-width:0;width:auto}
+  .sort-select{flex:1 1 120px;min-width:0}
+  /* compare bar: wrap, no overflow, sit above sticky CTA */
+  .cmp-bar{bottom:62px}
+  .cmp-bar-in{flex-wrap:wrap;gap:10px;padding:12px 16px}
+  .cmp-thumbs{min-width:0;width:100%;order:3}
+  .cmp-actions{width:100%}
+  /* larger tap targets */
+  .hdr-icon-btn,.theme-btn{width:42px;height:42px}
+  .fbtn{padding:9px 14px}
+  /* hide floating WA (replaced by sticky bar) */
+  .wa-float{display:none}
+  /* room for the sticky CTA bar */
+  body{padding-bottom:64px}
+}
+@media(max-width:480px){
+  /* de-crowd header (sticky CTA covers call/order on mobile) */
+  .btn-cb{display:none}
+  .header-right{gap:8px}
+  .header-in{gap:12px}
+}
+@media(max-width:430px){
+  .wrap,.header-in,.topbar-in,.foot-in,.calc-in,.install-in,.cgrid{padding-left:14px;padding-right:14px}
+  .section{padding:46px 0}
+  .sec-title{font-size:24px}
+  .hero h1{font-size:30px}
+  .logo img{height:30px}
+}
+/* sticky mobile CTA bar */
+.mcta{display:none}
+@media(max-width:760px){
+  .mcta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:130;
+    background:rgba(11,26,51,.97);backdrop-filter:saturate(160%) blur(10px);
+    padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));border-top:1px solid rgba(124,196,255,.18)}
+  .mcta-b{display:flex;align-items:center;justify-content:center;gap:7px;height:46px;border-radius:12px;
+    font-family:var(--disp);font-weight:700;font-size:13.5px;color:#fff;text-decoration:none;border:none;cursor:pointer}
+  .mcta-b svg{width:18px;height:18px;fill:currentColor}
+  .mcta-b.call{background:var(--blue)}
+  .mcta-b.wa{background:#25D366}
+  .mcta-b.qz{background:var(--amber)}
+  .mcta-b:active{transform:scale(.97)}
+}

@@ -20,11 +20,16 @@ const abs = u => BASE + u;
 const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230B1A33'/%3E%3Cpath d='M22 40h56a6 6 0 0 1 6 6v6a6 6 0 0 1-6 6H22a6 6 0 0 1-6-6v-6a6 6 0 0 1 6-6z' fill='none' stroke='%232E8BFF' stroke-width='5'/%3E%3Cpath d='M30 64v6M50 64v8M70 64v6' stroke='%237CC4FF' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E";
 const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">`;
 
+const GA = `<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HJC1PWRVE9"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-HJC1PWRVE9');</script>`;
+
 function head({ title, desc, canonical, ogTitle, ogDesc, ogImage, jsonld }) {
   const og = ogImage || abs('/assets/og/default.jpg');
   return `<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0B1A33">
+${GA}
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${esc(canonical)}">
