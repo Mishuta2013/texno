@@ -9,6 +9,8 @@ const read = f => JSON.parse(fs.readFileSync(path.join(DATA, f), 'utf8'));
 const products = read('products.json');
 const site = read('site.json');
 const i18n = read('i18n.json');
+const blog = read('blog.json');
+const blogUrl = a => `/blog/${a.slug}/`;
 const L = 'uk';                                   // static pages render in default language
 const t = (k) => (i18n[L] && i18n[L][k]) ?? (i18n.uk && i18n.uk[k]) ?? k;
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -225,6 +227,67 @@ for (const p of products) {
   n++;
 }
 
+// ---- blog ----
+function blogCard(a) {
+  return `<a class="bl-card" href="${blogUrl(a)}">
+    <div class="bl-tag">${esc(a.tag)}</div>
+    <h3 class="bl-card-t">${esc(a.title)}</h3>
+    <p class="bl-card-d">${esc(a.desc)}</p>
+    <span class="bl-more">Читати →</span></a>`;
+}
+function blogIndexPage() {
+  return `<!doctype html><html lang="uk"><head>
+${head({ title: 'Блог про кондиціонери — поради, монтаж, обслуговування | ' + site.name, desc: 'Корисні статті про вибір, монтаж та обслуговування кондиціонерів у Сумах: потужність, ціна монтажу, інвертор vs On/Off, опалення тепловим насосом.', canonical: abs('/blog/') })}
+</head><body>
+${HEADER}
+<div class="pp-wrap">
+  <nav class="pp-bc"><a href="/">Головна</a> › <span>Блог</span></nav>
+  <h1 class="bl-h1">Блог про кондиціонери</h1>
+  <p class="bl-sub">Поради щодо вибору, монтажу та обслуговування кліматичної техніки.</p>
+  <div class="bl-grid">${blog.map(blogCard).join('')}</div>
+</div>
+${FOOTER}
+${injectData(catalogData)}
+<script src="/assets/js/main.js?v=${VER}" defer></script>
+</body></html>`;
+}
+function blogPost(a) {
+  const others = blog.filter(x => x.slug !== a.slug).slice(0, 3);
+  const jsonld = { '@context': 'https://schema.org', '@type': 'Article', headline: a.title, description: a.desc,
+    datePublished: a.date, dateModified: a.date, author: { '@type': 'Organization', name: site.name },
+    publisher: { '@type': 'Organization', name: site.name, logo: { '@type': 'ImageObject', url: abs('/assets/icons/icon-512.png') } },
+    mainEntityOfPage: abs(blogUrl(a)), image: abs('/assets/og/default.jpg') };
+  const crumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Головна', item: BASE + '/' },
+    { '@type': 'ListItem', position: 2, name: 'Блог', item: abs('/blog/') },
+    { '@type': 'ListItem', position: 3, name: a.title, item: abs(blogUrl(a)) } ] };
+  return `<!doctype html><html lang="uk"><head>
+${head({ title: a.title + ' | ' + site.name, desc: a.desc, canonical: abs(blogUrl(a)), ogTitle: a.title, jsonld })}
+<script type="application/ld+json">${JSON.stringify(crumbs)}</script>
+</head><body>
+${HEADER}
+<article class="pp-wrap bl-article">
+  <nav class="pp-bc"><a href="/">Головна</a> › <a href="/blog/">Блог</a> › <span>${esc(a.tag)}</span></nav>
+  <div class="bl-tag">${esc(a.tag)}</div>
+  <h1 class="bl-art-h1">${esc(a.title)}</h1>
+  <div class="bl-meta">${new Date(a.date).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' })} · ${a.read} хв читання</div>
+  <div class="bl-body">${a.html}</div>
+  <div class="bl-cta"><a class="btn-primary" href="/#catalog">Переглянути каталог</a> <a class="btn-ghost2" href="/" onclick="if(window.openQuiz){openQuiz();return false}">Підібрати за площею</a></div>
+  ${others.length ? `<div class="bl-related"><h2>Читайте також</h2><div class="bl-grid">${others.map(blogCard).join('')}</div></div>` : ''}
+</article>
+${FOOTER}
+${injectData(catalogData)}
+<script src="/assets/js/main.js?v=${VER}" defer></script>
+</body></html>`;
+}
+fs.mkdirSync(path.join(DIST, 'blog'), { recursive: true });
+fs.writeFileSync(path.join(DIST, 'blog', 'index.html'), blogIndexPage(), 'utf8');
+for (const a of blog) {
+  const dir = path.join(DIST, 'blog', a.slug);
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, 'index.html'), blogPost(a), 'utf8');
+}
+
 // ---- copy assets/ and public/ ----
 function copyDir(src, dst) {
   if (!fs.existsSync(src)) return;
@@ -238,7 +301,7 @@ copyDir(path.join(ROOT, 'assets'), path.join(DIST, 'assets'));
 copyDir(path.join(ROOT, 'public'), DIST);
 
 // ---- sitemap + robots ----
-const urls = ['/', ...products.map(purl)].map(u => `  <url><loc>${abs(u)}</loc></url>`).join('\n');
+const urls = ['/', '/blog/', ...blog.map(blogUrl), ...products.map(purl)].map(u => `  <url><loc>${abs(u)}</loc></url>`).join('\n');
 fs.writeFileSync(path.join(DIST, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`, 'utf8');
 fs.writeFileSync(path.join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${abs('/sitemap.xml')}\n`, 'utf8');
 
