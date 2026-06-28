@@ -120,8 +120,10 @@ body = applyI18nStatic(body);   // bake current uk text into static HTML (SEO)
 // shared chrome (header before hero; footer+modals+floats from <footer> onward) for product pages
 const _heroAt = body.indexOf('<section class="hero"');
 const _footAt = body.indexOf('<footer');
-const HEADER = body.slice(0, _heroAt);
-const FOOTER = body.slice(_footAt);
+// on inner pages (product/blog) homepage-section anchors must point to "/#..." not "#..."
+const toHome = h => h.replace(/href="#(?!")/g, 'href="/#');
+const HEADER = toHome(body.slice(0, _heroAt));
+const FOOTER = toHome(body.slice(_footAt));
 
 const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: (i18n.uk.faq || []).map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
 const indexHtml = `<!doctype html><html lang="uk"><head>
