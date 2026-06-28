@@ -25,12 +25,17 @@ const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com"><link 
 const GA = `<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HJC1PWRVE9"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-HJC1PWRVE9');</script>`;
+const GTM = `<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-W3NLLCQT');</script>
+<!-- End Google Tag Manager -->`;
+const GTM_NS = `<!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W3NLLCQT" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`;
 
 function head({ title, desc, canonical, ogTitle, ogDesc, ogImage, jsonld }) {
   const og = ogImage || abs('/assets/og/default.jpg');
   return `<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0B1A33">
+${GTM}
 ${GA}
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
@@ -132,7 +137,7 @@ ${head({
   }
 })}
 <script type="application/ld+json">${JSON.stringify(faqLd)}</script>
-</head><body>
+</head><body>${GTM_NS}
 ${body}
 ${injectData(catalogData)}
 <script src="/assets/js/main.js?v=${VER}" defer></script>
@@ -179,7 +184,7 @@ function productPage(p) {
   return `<!doctype html><html lang="uk"><head>
 ${head({ title: `${p.name} — купити у Сумах | ${site.name}`, desc: `${p.name}. ${p.btu} BTU, до ${p.area} м², клас ${s.eclass || ''}. Ціна ${fmt(p.price)} грн. Монтаж під ключ. ${site.name}, Суми.`, canonical: abs(purl(p)), ogTitle: p.name, ogImage: abs('/assets/og/' + p.slug + '.jpg'), jsonld })}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
-</head><body>
+</head><body>${GTM_NS}
 ${HEADER}
 <div class="pp-wrap">
   <nav class="pp-bc"><a href="/">Головна</a> › <a href="/#catalog">Каталог</a> › <span>${esc(p.brand)}</span></nav>
@@ -238,7 +243,7 @@ function blogCard(a) {
 function blogIndexPage() {
   return `<!doctype html><html lang="uk"><head>
 ${head({ title: 'Блог про кондиціонери — поради, монтаж, обслуговування | ' + site.name, desc: 'Корисні статті про вибір, монтаж та обслуговування кондиціонерів у Сумах: потужність, ціна монтажу, інвертор vs On/Off, опалення тепловим насосом.', canonical: abs('/blog/') })}
-</head><body>
+</head><body>${GTM_NS}
 ${HEADER}
 <div class="pp-wrap">
   <nav class="pp-bc"><a href="/">Головна</a> › <span>Блог</span></nav>
@@ -264,7 +269,7 @@ function blogPost(a) {
   return `<!doctype html><html lang="uk"><head>
 ${head({ title: a.title + ' | ' + site.name, desc: a.desc, canonical: abs(blogUrl(a)), ogTitle: a.title, jsonld })}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
-</head><body>
+</head><body>${GTM_NS}
 ${HEADER}
 <article class="pp-wrap bl-article">
   <nav class="pp-bc"><a href="/">Головна</a> › <a href="/blog/">Блог</a> › <span>${esc(a.tag)}</span></nav>
