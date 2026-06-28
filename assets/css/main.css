@@ -425,7 +425,6 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
   nav,.h-phone{display:none}
   .burger{display:flex}
   .header.nav-open nav{display:flex;position:absolute;top:70px;left:0;right:0;flex-direction:column;background:var(--navy);padding:14px;gap:4px;border-bottom:1px solid rgba(124,196,255,.14)}
-  .topbar .tb-hours{display:none}            /* hide hours on mobile; keep lang + Зв'язок */
   .modal-body{grid-template-columns:1fr}
   .m-gallery{border-radius:var(--r-lg) var(--r-lg) 0 0}
   .filters{position:static}
@@ -739,14 +738,28 @@ a.gauge-card:hover{transform:translateY(-4px)}
 .tb-addr{display:inline-flex;align-items:center;gap:4px;color:inherit;text-decoration:none}
 .tb-addr:hover{color:#fff}
 .tb-hours{display:inline-flex;align-items:center;gap:4px}
-.topbar .tb-right{align-items:center;gap:12px}
+.topbar .tb-right{align-items:center;gap:12px;flex-shrink:0}
+.tb-info{display:flex;align-items:center;min-width:0}
+.tb-track{display:flex;align-items:center;gap:20px}
+.tb-dup{display:none}
+@keyframes tbscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .tb-contact{background:rgba(124,196,255,.14);color:#fff;font-family:var(--disp);font-weight:600;font-size:12px;padding:5px 12px;border-radius:var(--r-pill);border:1px solid rgba(124,196,255,.28);cursor:pointer;transition:.16s}
 .tb-contact:hover{background:rgba(124,196,255,.28)}
 @media(max-width:760px){
-  .topbar-in{gap:10px;padding:7px 14px}
-  .topbar .tb-right{margin-left:auto;gap:8px}
+  .topbar-in{gap:10px;padding:7px 12px;flex-wrap:nowrap}
+  .topbar .tb-right{margin-left:8px;gap:8px}
   .lang-btn{padding:4px 7px;font-size:11px}
   .tb-contact{font-size:11px;padding:4px 10px}
+  /* address + hours = seamless marquee in the strip */
+  .tb-info{overflow:hidden;flex:1;-webkit-mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+  .tb-track{flex-wrap:nowrap;white-space:nowrap;animation:tbscroll 22s linear infinite;will-change:transform}
+  .tb-dup{display:inline-flex}
+  .tb-info:active .tb-track{animation-play-state:paused}
+}
+@media(max-width:760px) and (prefers-reduced-motion:reduce){
+  .tb-track{animation:none}
+  .tb-dup{display:none}
+  .tb-info{overflow-x:auto;-webkit-mask:none;mask:none}
 }
 /* contact popup */
 .contact-pop{background:var(--white);border-radius:var(--r-lg);max-width:380px;width:100%;padding:24px 20px;position:relative;animation:mIn .3s cubic-bezier(.2,.8,.2,1)}
