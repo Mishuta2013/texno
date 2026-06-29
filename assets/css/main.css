@@ -800,3 +800,22 @@ a.gauge-card:hover{transform:translateY(-4px)}
 .bl-related h2{font-family:var(--disp);font-size:21px;font-weight:800;color:var(--ink);margin-bottom:18px}
 @media(max-width:860px){.bl-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.bl-grid{grid-template-columns:1fr}.bl-cta{flex-direction:column}.bl-cta>*{width:100%;justify-content:center;text-align:center}}
+
+/* ===== legal / privacy page ===== */
+.legal{max-width:860px;margin:0 auto;padding:26px 22px 70px}
+.legal h1{font-family:var(--disp);font-size:clamp(26px,4vw,36px);font-weight:800;color:var(--ink);margin:8px 0 16px;letter-spacing:-.02em}
+.legal-lead{font-size:16px;color:var(--g5);line-height:1.75;margin-bottom:8px;padding-bottom:22px;border-bottom:1px solid var(--g2)}
+.legal h2{font-family:var(--disp);font-size:20px;font-weight:700;color:var(--ink);margin:32px 0 12px}
+.legal p{font-size:15px;color:var(--g5);line-height:1.75;margin-bottom:12px}
+.legal ul{margin:0 0 14px;padding-left:22px}
+.legal li{font-size:15px;color:var(--g5);line-height:1.7;margin-bottom:8px}
+.legal strong{color:var(--ink);font-weight:600}
+.legal a{color:var(--blue-d);text-decoration:underline}
+.legal-contacts{list-style:none;padding-left:0}
+.legal-contacts li{margin-bottom:7px}
+.legal-updated{margin-top:32px;padding-top:18px;border-top:1px solid var(--g2);font-size:14px;color:var(--g4);font-style:italic}
+/* footer bottom: copyright + privacy link */
+.foot-bottom{display:flex;flex-wrap:wrap;gap:6px 20px;align-items:center;justify-content:space-between;text-align:left}
+.foot-bottom a{color:var(--frost)}
+.foot-bottom a:hover{color:#fff;text-decoration:underline}
+@media(max-width:560px){.foot-bottom{justify-content:center;text-align:center}}

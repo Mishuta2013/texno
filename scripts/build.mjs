@@ -295,6 +295,22 @@ for (const a of blog) {
   fs.writeFileSync(path.join(dir, 'index.html'), blogPost(a), 'utf8');
 }
 
+// ---- privacy policy page ----
+{
+  const privacyBody = fs.readFileSync(path.join(ROOT, 'templates/privacy.html'), 'utf8');
+  const html = `<!doctype html><html lang="uk"><head>
+${head({ title: 'Політика конфіденційності | TEXNO PLAZA', desc: 'Політика конфіденційності TEXNO PLAZA: які персональні дані ми збираємо через форми, дзвінки та месенджери, з якою метою, як зберігаємо й захищаємо їх, та ваші права.', canonical: abs('/polityka-konfidentsiynosti/') })}
+</head><body>
+${HEADER}
+${privacyBody}
+${FOOTER}
+${injectData(catalogData)}
+<script src="/assets/js/main.js?v=${VER}" defer></script>
+</body></html>`;
+  fs.mkdirSync(path.join(DIST, 'polityka-konfidentsiynosti'), { recursive: true });
+  fs.writeFileSync(path.join(DIST, 'polityka-konfidentsiynosti', 'index.html'), html, 'utf8');
+}
+
 // ---- copy assets/ and public/ ----
 function copyDir(src, dst) {
   if (!fs.existsSync(src)) return;
@@ -308,7 +324,7 @@ copyDir(path.join(ROOT, 'assets'), path.join(DIST, 'assets'));
 copyDir(path.join(ROOT, 'public'), DIST);
 
 // ---- sitemap + robots ----
-const urls = ['/', '/blog/', ...blog.map(blogUrl), ...products.map(purl)].map(u => `  <url><loc>${abs(u)}</loc></url>`).join('\n');
+const urls = ['/', '/blog/', '/polityka-konfidentsiynosti/', ...blog.map(blogUrl), ...products.map(purl)].map(u => `  <url><loc>${abs(u)}</loc></url>`).join('\n');
 fs.writeFileSync(path.join(DIST, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`, 'utf8');
 fs.writeFileSync(path.join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${abs('/sitemap.xml')}\n`, 'utf8');
 
