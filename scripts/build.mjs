@@ -128,8 +128,8 @@ const FOOTER = toHome(body.slice(_footAt));
 const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: (i18n.uk.faq || []).map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
 const indexHtml = `<!doctype html><html lang="uk"><head>
 ${head({
-  title: 'TEXNO PLAZA — Кондиціонери у Сумах | Продаж та монтаж під ключ',
-  desc: 'TEXNO PLAZA — кондиціонери у Сумах. 52 моделі TCL, MIDEA, Olmo, Samurai, Ardesto, IDEA, Grunhelm. Монтаж під ключ за 1 день. Оплата після встановлення.',
+  title: 'Кондиціонери у Сумах: монтаж під ключ за 1 день | TEXNO PLAZA',
+  desc: 'Кондиціонери у Сумах: понад 50 моделей у наявності. Привеземо, встановимо та запустимо за 1 день. Оплата після монтажу, гарантія до 5 років. Безкоштовний підбір!',
   canonical: abs('/'),
   jsonld: {
     '@context': 'https://schema.org', '@type': 'HVACBusiness', name: site.name,
@@ -184,7 +184,7 @@ function productPage(p) {
     ]
   };
   return `<!doctype html><html lang="uk"><head>
-${head({ title: `${p.name} — купити у Сумах | ${site.name}`, desc: `${p.name}. ${p.btu} BTU, до ${p.area} м², клас ${s.eclass || ''}. Ціна ${fmt(p.price)} грн. Монтаж під ключ. ${site.name}, Суми.`, canonical: abs(purl(p)), ogTitle: p.name, ogImage: abs('/assets/og/' + p.slug + '.jpg'), jsonld })}
+${(() => { const nm = p.name.replace(/^Кондиціонер\s+/i, ''); return head({ title: `${nm} — купити в Сумах, монтаж під ключ`, desc: `${nm} у Сумах — ${fmt(p.price)} грн. ${p.btu} BTU, до ${p.area} м²${s.eclass ? `, клас ${s.eclass}` : ''}. Монтаж під ключ, оплата після встановлення, гарантія до 5 років.`, canonical: abs(purl(p)), ogTitle: p.name, ogImage: abs('/assets/og/' + p.slug + '.jpg'), jsonld }); })()}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
 </head><body>${GTM_NS}
 ${HEADER}
