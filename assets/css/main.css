@@ -587,7 +587,8 @@ a.gauge-card:hover{transform:translateY(-4px)}
 .pp-bc a{color:var(--g5)}.pp-bc a:hover{color:var(--blue)}
 .pp-top{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
 .pp-main{background:radial-gradient(125% 100% at 50% 12%,#FCFEFF 0%,#E8EFFA 55%,#D2DFF0 100%);border:1px solid var(--g2);border-radius:var(--r-lg);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;padding:26px;overflow:hidden}
-.pp-main img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 14px 18px rgba(11,26,51,.22))}
+.pp-main img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 14px 18px rgba(11,26,51,.22));transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.pp-main:hover img{transform:scale(1.045)}
 .pp-thumbs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}
 .pp-thumb{aspect-ratio:1;border:2px solid var(--g2);border-radius:10px;overflow:hidden;background:linear-gradient(160deg,#F4F8FD,#E4EDF8);cursor:pointer;padding:0}
 .pp-thumb.active{border-color:var(--blue)}
@@ -596,19 +597,25 @@ a.gauge-card:hover{transform:translateY(-4px)}
 .pp-title{font-family:var(--disp);font-size:clamp(22px,3vw,30px);font-weight:800;color:var(--ink);line-height:1.2;margin-bottom:16px}
 .pp-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
 .pp-chip{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--g5);background:var(--g1);border:1px solid var(--g2);padding:6px 11px;border-radius:8px}
-.pp-price{font-family:var(--disp);font-size:38px;font-weight:800;color:var(--ink);line-height:1}
+.pp-price{font-family:var(--disp);font-size:42px;font-weight:800;color:var(--ink);line-height:1;letter-spacing:-.02em}
 .pp-price span{font-size:18px;color:var(--g4)}
-.pp-instal{font-size:14px;color:var(--g5);margin:8px 0 22px}.pp-instal b{color:var(--ink)}
+.pp-instal{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;color:var(--blue-d);background:var(--ice);border:1px solid #C9E2FB;border-radius:var(--r-pill);padding:7px 14px;margin:12px 0 22px}.pp-instal b{color:var(--navy-2)}
 .pp-cta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:22px}
 .btn-wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;padding:15px 24px;border-radius:12px;font-family:var(--disp);font-weight:700;font-size:16px;transition:.18s}
 .btn-wa:hover{background:#1eb955;transform:translateY(-2px)}
 .btn-ghost2{display:inline-flex;align-items:center;padding:15px 22px;border-radius:12px;border:1.5px solid var(--g3);font-family:var(--disp);font-weight:700;font-size:16px;color:var(--ink);transition:.18s}
 .btn-ghost2:hover{border-color:var(--blue);color:var(--blue-d)}
-.pp-trust{display:flex;flex-direction:column;gap:8px;font-size:14px;color:var(--g5);border-top:1px solid var(--g2);padding-top:18px}
+.pp-trust{display:flex;flex-direction:column;gap:10px;font-size:14px;color:var(--g5);border-top:1px solid var(--g2);padding-top:18px}
+.pp-trust span{display:flex;align-items:center;gap:10px}
+.pp-trust span::before{content:"✓";flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:var(--ice);color:var(--blue-d);font-weight:800;font-size:12px;display:inline-flex;align-items:center;justify-content:center}
 .pp-cols{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:48px}
 .pp-cols h2,.pp-related h2{font-family:var(--disp);font-size:21px;font-weight:800;color:var(--ink);margin-bottom:16px}
 .pp-table{width:100%;border-collapse:collapse}
-.pp-table th,.pp-table td{text-align:left;padding:11px 4px;border-bottom:1px solid var(--g2);font-size:14.5px}
+.pp-table tr:nth-child(odd){background:rgba(233,243,255,.45)}
+.pp-table tr{transition:background .15s}
+.pp-table tr:hover{background:var(--ice)}
+.pp-table th,.pp-table td{text-align:left;padding:12px 12px;border-bottom:none;font-size:14.5px}
+.pp-table tr:first-child th,.pp-table tr:first-child td{border-radius:10px 10px 0 0}
 .pp-table th{color:var(--g5);font-weight:500;width:48%}
 .pp-table td{color:var(--ink);font-weight:600;font-family:var(--disp)}
 .pp-desc p{font-size:14.5px;color:var(--g5);line-height:1.7}

@@ -206,7 +206,7 @@ ${HEADER}
         <a class="btn-wa" href="${esc(site.whatsapp)}&text=${encodeURIComponent('Цікавить ' + p.name)}" target="_blank" rel="noopener">WhatsApp</a>
         <a class="btn-ghost2" href="tel:${esc(site.phone)}">${esc(site.phoneDisplay)}</a>
       </div>
-      <div class="pp-trust"><span>✓ Монтаж під ключ — ${fmt(site.installPrice)} грн</span><span>✓ Оплата після встановлення</span><span>✓ Гарантія до 5 років</span></div>
+      <div class="pp-trust"><span>Монтаж під ключ — ${fmt(site.installPrice)} грн</span><span>Оплата після встановлення</span><span>Гарантія до 5 років</span></div>
     </div>
   </div>
   <div class="pp-cols">
