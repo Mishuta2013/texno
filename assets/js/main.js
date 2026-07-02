@@ -55,9 +55,7 @@ function setText(id,v){const e=$(id);if(e)e.textContent=v;}
 function setLang(l){LANG=l;localStorage.setItem('tp_lang',l);applyI18n();}
 
 /* ============ THEME ============ */
-function applyTheme(){const th=localStorage.getItem('tp_theme')||'light';document.documentElement.setAttribute('data-theme',th);}
-function toggleTheme(){const cur=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';localStorage.setItem('tp_theme',cur);document.documentElement.setAttribute('data-theme',cur);}
-applyTheme();
+/* dark theme removed in redesign — single curated light theme */
 
 /* ============ HERO ============ */
 (function(){const af=$('airflow');if(!af)return;for(let i=0;i<5;i++){const s=document.createElement('span');s.style.top=(8+i*12)+'px';s.style.width=(50+Math.random()*40)+'%';s.style.left='0';s.style.animationDelay=(i*0.4)+'s';af.appendChild(s);}})();
