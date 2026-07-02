@@ -7,6 +7,10 @@ const TG_USER="a3w44";                    // Telegram username
 const FORMSPREE="xaqgygqb";          // Formspree form ID (e.g. xyzabcd)
 
 function track(n,p){try{if(window.gtag)gtag('event',n,p||{});}catch(e){}}
+/* Google Ads conversion (fires on real lead actions) */
+function adsConversion(cb){try{if(window.gtag){gtag('event','conversion',{'send_to':'AW-765371108/pDoWCKXPt5QBEOTF-uwC','event_callback':cb});return;}}catch(e){}if(cb)cb();}
+/* count phone & WhatsApp/Viber/Telegram clicks as conversions */
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a');if(!a)return;var h=a.getAttribute('href')||'';if(h.indexOf('tel:')===0){adsConversion();track('lead_contact',{channel:'phone'});}else if(h.indexOf('api.whatsapp.com')>-1||h.indexOf('wa.me')>-1){adsConversion();track('lead_contact',{channel:'whatsapp'});}},true);
 
 let LANG = (localStorage.getItem('tp_lang')||'uk');
 if(!I18N[LANG]) LANG='uk';
@@ -281,13 +285,13 @@ async function sendLead(data){
 async function submitCb(){
   const ph=$('cb-phone').value.trim();if(!ph){alert(t('cb_phone'));return;}
   const ok=await sendLead({type:'callback',name:$('cb-name').value.trim(),phone:ph,product:$('cb-product').value||'',lang:LANG});
-  if(ok){$('cb-form').style.display='none';$('cb-success').style.display='block';}
+  if(ok){$('cb-form').style.display='none';$('cb-success').style.display='block';track('generate_lead',{method:'callback'});adsConversion();}
   else alert(t('form_send_err'));
 }
 async function submitContact(){
   const ph=$('cf-phone').value.trim();if(!ph){alert(t('form_phone'));return;}
   const ok=await sendLead({type:'consultation',name:$('cf-name').value.trim(),phone:ph,interest:$('cf-interest').value,comment:$('cf-comment').value.trim(),lang:LANG});
-  if(ok){$('contact-form').style.display='none';$('contact-success').style.display='block';}
+  if(ok){$('contact-form').style.display='none';$('contact-success').style.display='block';track('generate_lead',{method:'consultation'});adsConversion();}
   else alert(t('form_send_err'));
 }
 
@@ -414,6 +418,7 @@ function quizResult(){
 }
 function quizSubmit(e){e.preventDefault();const f=e.target;if(f.company.value)return false;
   sendLead({type:'quiz',name:f.name.value,phone:f.phone.value,note:quizSummary()});
+  track('generate_lead',{method:'quiz'});adsConversion();
   $('quiz-body').innerHTML=`<div class="quiz-done"><div class="quiz-done-ic">✓</div><h3>${t('quiz_done_h')}</h3><p>${t('quiz_done_p')}</p></div>`;
   $('quiz-back').style.visibility='hidden';return false;}
 
