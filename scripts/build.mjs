@@ -11,13 +11,51 @@ const site = read('site.json');
 const i18n = read('i18n.json');
 const blog = read('blog.json');
 const blogUrl = a => `/blog/${a.slug}/`;
+const CATS = read('categories.json');
+const catOf = p => CATS[p.category] || CATS['kondicioneri'];
 const L = 'uk';                                   // static pages render in default language
 const t = (k) => (i18n[L] && i18n[L][k]) ?? (i18n.uk && i18n.uk[k]) ?? k;
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fmt = n => Number(n).toLocaleString('uk-UA').replace(/ /g, ' ').replace(/,/g, ' ');
 const BASE = site.baseUrl.replace(/\/$/, '');
 const VER = Date.now();   // cache-bust assets on each build
-const purl = p => `${site.productUrlPrefix}/${p.slug}/`;
+const purl = p => `${catOf(p).urlPrefix}/${p.slug}/`;
+
+// ---- category-driven spec formatting (works for AC, power stations, future categories) ----
+function fmtVal(p, f) {
+  const s = p.specs || {};
+  if (f.value !== undefined) return f.value;
+  const raw = f.key ? (s[f.key] ?? p[f.key]) : undefined;
+  switch (f.fmt) {
+    case 'kbtu': return p.btu ? (p.btu / 1000).toFixed(0) + 'k BTU' : null;
+    case 'kbtu_power': return p.btu ? (p.btu / 1000).toFixed(0) + 'k BTU' + (s.power_w ? ` · ${s.power_w} Вт` : '') : null;
+    case 'area': return p.area ? `до ${p.area} м²` : (f.dash ? '—' : null);
+    case 'comp': return p.inverter ? 'Інверторний' : 'On/Off';
+    case 'noise': return s.noise ? `від ${s.noise} дБ` : null;
+    case 'cool_range': return (s.cool_min !== undefined) ? `${s.cool_min}°C … +${s.cool_max}°C` : null;
+    case 'celsius': return (raw !== undefined && raw !== null) ? `${raw}°C` : null;
+    case 'wifi_yesopt': return p.wifi ? 'Так' : 'Опція';
+    case 'heat_yesno': return p.heatpump ? 'Так' : 'Ні';
+    case 'wh': return raw ? `${raw} Wh` : null;
+    case 'watt': return raw ? `${raw} Вт` : null;
+    case 'sockets': return raw ? `${raw} × Schuko` : null;
+    default: return (raw !== undefined && raw !== null && raw !== '') ? raw : null;
+  }
+}
+function catChips(p) {
+  return (catOf(p).chips || []).map(c => {
+    if (c.flag) return p[c.flag] ? `<span class="stag">${c.icon} ${esc(c.label)}</span>` : '';
+    const v = fmtVal(p, c);
+    return v ? `<span class="stag">${c.icon} ${esc(v)}</span>` : '';
+  }).join('');
+}
+function ppChips(p) {
+  return (catOf(p).ppChips || catOf(p).chips || []).map(c => {
+    if (c.flag) return p[c.flag] ? `<span class="pp-chip">${esc(c.label)}</span>` : '';
+    const v = fmtVal(p, c);
+    return v ? `<span class="pp-chip">${c.icon ? c.icon + ' ' : ''}${esc(v)}</span>` : '';
+  }).join('');
+}
 const abs = u => BASE + u;
 const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230B1A33'/%3E%3Cpath d='M22 40h56a6 6 0 0 1 6 6v6a6 6 0 0 1-6 6H22a6 6 0 0 1-6-6v-6a6 6 0 0 1 6-6z' fill='none' stroke='%232E8BFF' stroke-width='5'/%3E%3Cpath d='M30 64v6M50 64v8M70 64v6' stroke='%237CC4FF' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E";
 const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">`;
@@ -59,17 +97,14 @@ ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script
 // ---- card (mirrors assets/js/main.js cardHTML, uk static) ----
 function card(p) {
   const url = purl(p);
-  const btu = p.btu ? (p.btu / 1000).toFixed(0) + 'k BTU' : '';
-  const area = p.area ? `до ${p.area} м²` : '';
   const badge = p.heatpump ? `<span class="cbadge hp">${esc(t('sp_hp'))}</span>`
     : p.inverter ? `<span class="cbadge inv">Інвертор</span>` : '';
-  const wifi = p.wifi ? `<span class="stag">⌁ Wi-Fi</span>` : '';
   return `<div class="card">
     <a class="card-img" href="${url}">${badge}<span class="cstock"><i></i>${esc(t('c_instock'))}</span>
       <img src="${esc(p.thumb || p.photos[0])}" alt="${esc(p.name)}" loading="lazy" width="400" height="300"></a>
     <div class="card-body"><div class="card-brand">${esc(p.brand)}</div>
       <a class="card-name" href="${url}">${esc(p.name)}</a>
-      <div class="card-specs">${btu ? `<span class="stag">❄ ${btu}</span>` : ''}${area ? `<span class="stag">⌖ ${area}</span>` : ''}${wifi}</div>
+      <div class="card-specs">${catChips(p)}</div>
       <div class="card-foot"><div class="card-price">${fmt(p.price)} <small>грн</small></div>
         <div class="card-act"><div class="row2">
           <a class="btn-order" href="${url}">${esc(t('c_order'))}</a>
@@ -103,7 +138,7 @@ function applyI18nStatic(html) {
 
 // ---- catalog dataset injected for client hydration (no heavy desc fields) ----
 const catalogData = products.map(({ desc_ru, desc_en, desc_uk, srcIndex, photoCount, ...keep }) => keep);
-const injectData = (extraProducts) => `<script>window.__I18N__=${JSON.stringify(i18n)};window.__SITE__=${JSON.stringify(site)};window.__PRODUCTS__=${JSON.stringify(extraProducts)};</script>`;
+const injectData = (extraProducts) => `<script>window.__I18N__=${JSON.stringify(i18n)};window.__SITE__=${JSON.stringify(site)};window.__CATS__=${JSON.stringify(CATS)};window.__PRODUCTS__=${JSON.stringify(extraProducts)};</script>`;
 
 // ===================== BUILD =====================
 fs.rmSync(DIST, { recursive: true, force: true });
@@ -112,9 +147,11 @@ fs.mkdirSync(DIST, { recursive: true });
 let body = fs.readFileSync(path.join(ROOT, 'templates/body.html'), 'utf8');
 const best = products.find(p => p.bestseller) || products[0];
 body = body.replace('<!--HERO_CARD-->', heroCard(best));
-// pre-render catalog grid for SEO (client re-renders on filter)
+// pre-render catalog grid for SEO (client re-renders on filter) — homepage catalog shows the AC block
+const homeCatalogCat = 'kondicioneri';
+const homeProducts = products.filter(p => p.category === homeCatalogCat);
 body = body.replace('<div class="grid" id="catalog-grid"></div>',
-  `<div class="grid" id="catalog-grid">${products.map(card).join('')}</div>`);
+  `<div class="grid" id="catalog-grid">${homeProducts.map(card).join('')}</div>`);
 body = applyI18nStatic(body);   // bake current uk text into static HTML (SEO)
 
 // shared chrome (header before hero; footer+modals+floats from <footer> onward) for product pages
@@ -142,35 +179,31 @@ ${head({
 </head><body>${GTM_NS}
 ${body}
 ${injectData(catalogData)}
+<script>window.__CATALOG_CAT__=${JSON.stringify(homeCatalogCat)};</script>
 <script src="/assets/js/main.js?v=${VER}" defer></script>
 </body></html>`;
 fs.writeFileSync(path.join(DIST, 'index.html'), indexHtml, 'utf8');
 
 // ---- product pages ----
 function specTable(p) {
-  const s = p.specs || {};
-  const rows = [
-    [t('sp_power'), (p.btu ? (p.btu / 1000).toFixed(0) + 'k BTU' : '') + (s.power_w ? ` · ${s.power_w} Вт` : '')],
-    [t('sp_area'), p.area ? `до ${p.area} м²` : '—'],
-    [t('sp_comp'), p.inverter ? t('sp_inv') : t('sp_onoff')],
-    s.eclass && [t('sp_eclass'), s.eclass],
-    s.noise && [t('sp_noise'), `від ${s.noise} дБ`],
-    [t('sp_freon'), 'R32'],
-    (s.cool_min !== undefined) && [t('sp_cool_range'), `${s.cool_min}°C … +${s.cool_max}°C`],
-    (s.heat_min !== undefined) && [t('sp_heat_min'), `${s.heat_min}°C`],
-    [t('sp_wifi'), p.wifi ? t('sp_yes') : t('sp_opt')],
-    [t('sp_heat'), p.heatpump ? t('sp_hp') : t('sp_yes')],
-  ].filter(Boolean);
-  return rows.map(([k, v]) => `<tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>`).join('');
+  return (catOf(p).specs || []).map(f => {
+    const v = fmtVal(p, f);
+    return (v === null || v === undefined || v === '') ? '' : `<tr><th>${esc(f.label)}</th><td>${esc(v)}</td></tr>`;
+  }).join('');
 }
 function related(p) {
-  return products.filter(x => x.slug !== p.slug && (x.brand === p.brand || x.btu === p.btu)).slice(0, 3);
+  const same = products.filter(x => x.slug !== p.slug && x.category === p.category);
+  const ranked = same.slice().sort((a, b) => {
+    const score = x => (x.brand === p.brand ? 2 : 0) + (x.btu && x.btu === p.btu ? 1 : 0);
+    return score(b) - score(a);
+  });
+  return ranked.slice(0, 3);
 }
 function productPage(p) {
   const s = p.specs || {};
   const thumbs = p.photos.map((src, i) => `<button class="pp-thumb${i === 0 ? ' active' : ''}" onclick="ppShow(${i})"><img src="${esc(src)}" alt="${esc(p.name)} фото ${i + 1}" loading="lazy"></button>`).join('');
-  const chips = [p.btu && `❄ ${(p.btu / 1000).toFixed(0)}k BTU`, p.area && `⌖ до ${p.area} м²`, s.eclass && `⚡ ${s.eclass}`, s.noise && `🔊 від ${s.noise} дБ`, p.inverter && 'Інвертор', p.heatpump && 'Тепловий насос', p.wifi && 'Wi-Fi'].filter(Boolean)
-    .map(c => `<span class="pp-chip">${esc(c)}</span>`).join('');
+  const cat = catOf(p);
+  const chips = ppChips(p);
   const jsonld = {
     '@context': 'https://schema.org', '@type': 'Product', name: p.name, sku: p.slug,
     image: p.photos.map(ph => abs(ph)), description: p.desc_uk, brand: { '@type': 'Brand', name: p.brand },
@@ -179,17 +212,22 @@ function productPage(p) {
   const crumbs = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Головна', item: BASE + '/' },
-      { '@type': 'ListItem', position: 2, name: 'Каталог', item: BASE + '/#catalog' },
+      { '@type': 'ListItem', position: 2, name: cat.name, item: abs(cat.urlPrefix + '/') },
       { '@type': 'ListItem', position: 3, name: p.name, item: abs(purl(p)) }
     ]
   };
   return `<!doctype html><html lang="uk"><head>
-${(() => { const nm = p.name.replace(/^Кондиціонер\s+/i, ''); return head({ title: `${nm} — купити в Сумах, монтаж під ключ`, desc: `${nm} у Сумах — ${fmt(p.price)} грн. ${p.btu} BTU, до ${p.area} м²${s.eclass ? `, клас ${s.eclass}` : ''}. Монтаж під ключ, оплата після встановлення, гарантія до 5 років.`, canonical: abs(purl(p)), ogTitle: p.name, ogImage: abs('/assets/og/' + p.slug + '.jpg'), jsonld }); })()}
+${(() => {
+  const nm = p.name.replace(/^Кондиціонер\s+/i, '');
+  const keySpec = (cat.ppChips || cat.chips || []).filter(c => !c.flag).map(c => fmtVal(p, c)).filter(Boolean).slice(0, 2).join(', ');
+  const trust = cat.install ? 'Монтаж під ключ, оплата після встановлення, гарантія до 5 років.' : 'Доставка у Сумах, оплата після, гарантія.';
+  return head({ title: `${nm} — купити в Сумах${cat.install ? ', монтаж під ключ' : ''}`, desc: `${nm} у Сумах — ${fmt(p.price)} грн.${keySpec ? ' ' + keySpec + '.' : ''} ${trust}`, canonical: abs(purl(p)), ogTitle: p.name, ogImage: abs('/assets/og/' + p.slug + '.jpg'), jsonld });
+})()}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
 </head><body>${GTM_NS}
 ${HEADER}
 <div class="pp-wrap">
-  <nav class="pp-bc"><a href="/">Головна</a> › <a href="/#catalog">Каталог</a> › <span>${esc(p.brand)}</span></nav>
+  <nav class="pp-bc"><a href="/">Головна</a> › <a href="${cat.urlPrefix}/">${esc(cat.name)}</a> › <span>${esc(p.brand)}</span></nav>
   <div class="pp-top">
     <div class="pp-gallery">
       <div class="pp-main"><img id="pp-main-img" src="${esc(p.photos[0])}" alt="${esc(p.name)}" width="680" height="510"></div>
@@ -206,15 +244,17 @@ ${HEADER}
         <a class="btn-wa" href="${esc(site.whatsapp)}&text=${encodeURIComponent('Цікавить ' + p.name)}" target="_blank" rel="noopener">WhatsApp</a>
         <a class="btn-ghost2" href="tel:${esc(site.phone)}">${esc(site.phoneDisplay)}</a>
       </div>
-      <div class="pp-trust"><span>Монтаж під ключ — ${fmt(site.installPrice)} грн</span><span>Оплата після встановлення</span><span>Гарантія до 5 років</span></div>
+      <div class="pp-trust">${cat.install
+        ? `<span>Монтаж під ключ — ${fmt(site.installPrice)} грн</span><span>Оплата після встановлення</span><span>Гарантія до 5 років</span>`
+        : `<span>Доставка по Сумах</span><span>Оплата після отримання</span><span>Офіційна гарантія</span>`}</div>
     </div>
   </div>
   <div class="pp-cols">
     <div class="pp-specs"><h2>Характеристики</h2><table class="pp-table">${specTable(p)}</table></div>
     <div class="pp-desc"><h2>Опис</h2><p>${esc(p.desc_uk)}</p></div>
   </div>
-  <div class="pp-related"><h2>Схожі моделі</h2><div class="grid grid-rel">${related(p).map(card).join('')}</div></div>
-  <div class="pp-back"><a href="/#catalog">← Усі кондиціонери</a></div>
+  ${(() => { const rel = related(p); return rel.length ? `<div class="pp-related"><h2>Схожі моделі</h2><div class="grid grid-rel">${rel.map(card).join('')}</div></div>` : ''; })()}
+  <div class="pp-back"><a href="${cat.urlPrefix}/">← Усі ${esc(cat.nameGen)}</a></div>
 </div>
 ${FOOTER}
 ${injectData(catalogData)}
@@ -228,10 +268,49 @@ function ppLead(name){ if(window.openCb){var f=document.getElementById('cb-produ
 
 let n = 0;
 for (const p of products) {
-  const dir = path.join(DIST, site.productUrlPrefix.replace(/^\//, ''), p.slug);
+  const dir = path.join(DIST, catOf(p).urlPrefix.replace(/^\//, ''), p.slug);
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'index.html'), productPage(p), 'utf8');
   n++;
+}
+
+// ---- category landing pages (generated only for categories that have products) ----
+const catList = Object.entries(CATS).map(([key, c]) => ({ key, ...c })).sort((a, b) => (a.order || 99) - (b.order || 99));
+const catProducts = key => products.filter(p => p.category === key);
+function categoryPage(cat) {
+  const list = catProducts(cat.key);
+  const jsonld = {
+    '@context': 'https://schema.org', '@type': 'CollectionPage', name: cat.name, url: abs(cat.urlPrefix + '/'),
+    mainEntity: { '@type': 'ItemList', numberOfItems: list.length, itemListElement: list.slice(0, 20).map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: abs(purl(p)) })) }
+  };
+  const crumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Головна', item: BASE + '/' },
+    { '@type': 'ListItem', position: 2, name: cat.name, item: abs(cat.urlPrefix + '/') } ] };
+  return `<!doctype html><html lang="uk"><head>
+${head({ title: cat.seoTitle || `${cat.name} у Сумах — купити з доставкою | ${site.name}`, desc: cat.seoDesc || cat.intro || `${cat.name} у Сумах: ${list.length} моделей у наявності, доставка та гарантія.`, canonical: abs(cat.urlPrefix + '/'), jsonld })}
+<script type="application/ld+json">${JSON.stringify(crumbs)}</script>
+</head><body>${GTM_NS}
+${HEADER}
+<div class="cat-wrap">
+  <nav class="pp-bc"><a href="/">Головна</a> › <span>${esc(cat.name)}</span></nav>
+  <header class="cat-head">
+    <h1 class="cat-h1">${esc(cat.name)} у Сумах</h1>
+    <p class="cat-sub">${esc(cat.intro || '')}</p>
+    <div class="cat-count">${list.length} ${list.length % 10 === 1 && list.length % 100 !== 11 ? 'модель' : (list.length % 10 >= 2 && list.length % 10 <= 4 && (list.length % 100 < 10 || list.length % 100 >= 20) ? 'моделі' : 'моделей')} у наявності</div>
+  </header>
+  <div class="grid">${list.map(card).join('')}</div>
+  <div class="pp-back"><a href="/#catalog">← Усі товари</a></div>
+</div>
+${FOOTER}
+${injectData(catalogData)}
+<script src="/assets/js/main.js?v=${VER}" defer></script>
+</body></html>`;
+}
+for (const cat of catList) {
+  if (!catProducts(cat.key).length) continue;   // skip empty categories (no thin pages)
+  const dir = path.join(DIST, cat.urlPrefix.replace(/^\//, ''));
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, 'index.html'), categoryPage(cat), 'utf8');
 }
 
 // ---- blog ----
@@ -324,7 +403,8 @@ copyDir(path.join(ROOT, 'assets'), path.join(DIST, 'assets'));
 copyDir(path.join(ROOT, 'public'), DIST);
 
 // ---- sitemap + robots ----
-const urls = ['/', '/blog/', '/polityka-konfidentsiynosti/', ...blog.map(blogUrl), ...products.map(purl)].map(u => `  <url><loc>${abs(u)}</loc></url>`).join('\n');
+const catUrls = catList.filter(c => catProducts(c.key).length).map(c => c.urlPrefix + '/');
+const urls = ['/', ...catUrls, '/blog/', '/polityka-konfidentsiynosti/', ...blog.map(blogUrl), ...products.map(purl)].map(u => `  <url><loc>${abs(u)}</loc></url>`).join('\n');
 fs.writeFileSync(path.join(DIST, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`, 'utf8');
 fs.writeFileSync(path.join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${abs('/sitemap.xml')}\n`, 'utf8');
 

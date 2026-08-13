@@ -1,6 +1,35 @@
 const PRODUCTS=window.__PRODUCTS__||[];
 const I18N=window.__I18N__||{};
 const SITE=window.__SITE__||{};
+const CATS=window.__CATS__||{};
+const catOf=p=>CATS[p&&p.category]||CATS['kondicioneri']||{};
+function jFmtVal(p,f){
+  const s=p.specs||{};
+  if(f.value!==undefined)return f.value;
+  const raw=f.key?((s[f.key]!==undefined&&s[f.key]!==null)?s[f.key]:p[f.key]):undefined;
+  switch(f.fmt){
+    case'kbtu':return p.btu?(p.btu/1000).toFixed(0)+'k BTU':null;
+    case'kbtu_power':return p.btu?(p.btu/1000).toFixed(0)+'k BTU'+(s.power_w?' · '+s.power_w+' Вт':''):null;
+    case'area':return p.area?'до '+p.area+' м²':(f.dash?'—':null);
+    case'comp':return p.inverter?'Інверторний':'On/Off';
+    case'noise':return s.noise?'від '+s.noise+' дБ':null;
+    case'cool_range':return(s.cool_min!==undefined)?s.cool_min+'°C … +'+s.cool_max+'°C':null;
+    case'celsius':return(raw!==undefined&&raw!==null)?raw+'°C':null;
+    case'wifi_yesopt':return p.wifi?'Так':'Опція';
+    case'heat_yesno':return p.heatpump?'Так':'Ні';
+    case'wh':return raw?raw+' Wh':null;
+    case'watt':return raw?raw+' Вт':null;
+    case'sockets':return raw?raw+' × Schuko':null;
+    default:return(raw!==undefined&&raw!==null&&raw!=='')?raw:null;
+  }
+}
+function catChipsJS(p){
+  return(catOf(p).chips||[]).map(function(c){
+    if(c.flag)return p[c.flag]?'<span class="stag">'+c.icon+' '+c.label+'</span>':'';
+    const v=jFmtVal(p,c);
+    return v?'<span class="stag">'+c.icon+' '+v+'</span>':'';
+  }).join('');
+}
 /* ============ CONFIG ============ */
 const PHONE="380991108041";              // WhatsApp / Viber / Telegram number
 const TG_USER="a3w44";                    // Telegram username
@@ -63,6 +92,7 @@ function setLang(l){LANG=l;localStorage.setItem('tp_lang',l);applyI18n();}
 /* ============ CATALOG ============ */
 function getFiltered(){
   let list=[...PRODUCTS];
+  if(window.__CATALOG_CAT__) list=list.filter(p=>p.category===window.__CATALOG_CAT__);
   const q=$('search-input').value.toLowerCase().trim();
   if(q) list=list.filter(p=>p.name.toLowerCase().includes(q)||p.brand.toLowerCase().includes(q)||p.series.toLowerCase().includes(q));
   if(activeBrand!=='all') list=list.filter(p=>p.brand===activeBrand);
@@ -80,18 +110,15 @@ function getFiltered(){
   else if(sort==='area-asc')list.sort((a,b)=>(a.area||0)-(b.area||0));
   return list;
 }
-function productUrl(p){return (SITE.productUrlPrefix||'/kondicioner')+'/'+p.slug+'/';}
+function productUrl(p){return (catOf(p).urlPrefix||SITE.productUrlPrefix||'/kondicioner')+'/'+p.slug+'/';}
 function cardHTML(p){
   const idx=PRODUCTS.indexOf(p);
   const url=productUrl(p);
-  const btu=p.btu?(p.btu/1000).toFixed(0)+'k BTU':'';
-  const area=p.area?`${LANG==='en'?'up to':LANG==='ru'?'до':'до'} ${p.area} ${LANG==='en'?'m²':'м²'}`:'';
   let badge='';
   if(p.heatpump)badge=`<span class="cbadge hp">${t('sp_hp')}</span>`;
   else if(p.inverter)badge=`<span class="cbadge inv">${t('f_inv').replace(/і$|ые$|s$/,'')||'Inverter'}</span>`;
   const favOn=FAV.includes(idx)?'on':'';
   const cmpOn=CMP.includes(idx)?'on':'';
-  const wifi=p.wifi?`<span class="stag">⌁ Wi-Fi</span>`:'';
   return`<div class="card">
     <a class="card-img" href="${url}">
       ${badge}
@@ -103,7 +130,7 @@ function cardHTML(p){
     <div class="card-body">
       <div class="card-brand">${p.brand}</div>
       <a class="card-name" href="${url}">${p.name}</a>
-      <div class="card-specs">${btu?`<span class="stag">❄ ${btu}</span>`:''}${area?`<span class="stag">⌖ ${area}</span>`:''}${wifi}</div>
+      <div class="card-specs">${catChipsJS(p)}</div>
       <div class="card-foot">
         <div class="card-price">${fmt(p.price)} <small>${LANG==='en'?'UAH':'грн'}</small></div>
         <div class="card-act">
@@ -120,7 +147,8 @@ function cardHTML(p){
 function renderCatalog(){
   const grid=$('catalog-grid'); if(!grid) return;
   const list=getFiltered();
-  const rc=$('results-count'); if(rc) rc.innerHTML=`${t('found')} <strong>${list.length}</strong> ${t('of')} ${PRODUCTS.length} ${t('models_w')}`;
+  const base=window.__CATALOG_CAT__?PRODUCTS.filter(p=>p.category===window.__CATALOG_CAT__).length:PRODUCTS.length;
+  const rc=$('results-count'); if(rc) rc.innerHTML=`${t('found')} <strong>${list.length}</strong> ${t('of')} ${base} ${t('models_w')}`;
   if(!list.length){grid.innerHTML=`<div class="no-results"><p>${t('no_res_t')}</p><span>${t('no_res_s')}</span></div>`;return;}
   grid.innerHTML=list.map(cardHTML).join('');
 }

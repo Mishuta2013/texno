@@ -17,6 +17,9 @@ index.html.it3.bak
 index.html.precut.bak
 json.json
 
+# local editor/agent config (preview server, etc.)
+.claude/
+
 # OS
 .DS_Store
 Thumbs.db

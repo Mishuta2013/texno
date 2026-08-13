@@ -33,7 +33,8 @@
     "srcIndex": 0,
     "photoCount": 7,
     "bestseller": true,
-    "thumb": "/assets/img/products/tcl-tac-09chsd-tph21if-inverter-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-09chsd-tph21if-inverter-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -68,7 +69,8 @@
     "slug": "tcl-tac-12chsd-tph21if-inverter-r32-wi-fi",
     "srcIndex": 1,
     "photoCount": 7,
-    "thumb": "/assets/img/products/tcl-tac-12chsd-tph21if-inverter-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-12chsd-tph21if-inverter-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -103,7 +105,8 @@
     "slug": "tcl-tac-18chsd-tph21if-inverter-r32-wi-fi",
     "srcIndex": 2,
     "photoCount": 7,
-    "thumb": "/assets/img/products/tcl-tac-18chsd-tph21if-inverter-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-18chsd-tph21if-inverter-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -138,7 +141,8 @@
     "slug": "tcl-tac-24chsd-tph21if-inverter-r32-wi-fi",
     "srcIndex": 3,
     "photoCount": 7,
-    "thumb": "/assets/img/products/tcl-tac-24chsd-tph21if-inverter-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-24chsd-tph21if-inverter-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -174,7 +178,8 @@
     "slug": "tcl-tac-09chsd-zg11i-ai-inverter-r32-wi-fi",
     "srcIndex": 4,
     "photoCount": 8,
-    "thumb": "/assets/img/products/tcl-tac-09chsd-zg11i-ai-inverter-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-09chsd-zg11i-ai-inverter-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -210,7 +215,8 @@
     "slug": "tcl-tac-12chsd-zg11i-ai-inverter-r32-wi-fi",
     "srcIndex": 5,
     "photoCount": 8,
-    "thumb": "/assets/img/products/tcl-tac-12chsd-zg11i-ai-inverter-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-12chsd-zg11i-ai-inverter-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -246,7 +252,8 @@
     "slug": "tcl-tac-18chsd-zg11i-ai-inverter-r32-wi-fi",
     "srcIndex": 6,
     "photoCount": 8,
-    "thumb": "/assets/img/products/tcl-tac-18chsd-zg11i-ai-inverter-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-18chsd-zg11i-ai-inverter-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -282,7 +289,8 @@
     "slug": "tcl-tac-24chsd-zg11i-ai-inverter-r32-wi-fi",
     "srcIndex": 7,
     "photoCount": 8,
-    "thumb": "/assets/img/products/tcl-tac-24chsd-zg11i-ai-inverter-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-24chsd-zg11i-ai-inverter-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -318,7 +326,8 @@
     "slug": "tcl-tac-09chsd-zg41ihb-heatpump-r32-wi-fi",
     "srcIndex": 8,
     "photoCount": 8,
-    "thumb": "/assets/img/products/tcl-tac-09chsd-zg41ihb-heatpump-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-09chsd-zg41ihb-heatpump-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -354,7 +363,8 @@
     "slug": "tcl-tac-12chsd-zg41ihb-heatpump-r32-wi-fi",
     "srcIndex": 9,
     "photoCount": 8,
-    "thumb": "/assets/img/products/tcl-tac-12chsd-zg41ihb-heatpump-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-12chsd-zg41ihb-heatpump-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -390,7 +400,8 @@
     "slug": "tcl-tac-18chsd-zg41ihb-heatpump-r32-wi-fi",
     "srcIndex": 10,
     "photoCount": 8,
-    "thumb": "/assets/img/products/tcl-tac-18chsd-zg41ihb-heatpump-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-18chsd-zg41ihb-heatpump-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -426,7 +437,8 @@
     "slug": "tcl-tac-24chsd-zg41ihb-heatpump-r32-wi-fi",
     "srcIndex": 11,
     "photoCount": 8,
-    "thumb": "/assets/img/products/tcl-tac-24chsd-zg41ihb-heatpump-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-24chsd-zg41ihb-heatpump-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -461,7 +473,8 @@
     "slug": "tcl-tac-09chsd-ug11v3ahb-heat-pump",
     "srcIndex": 12,
     "photoCount": 7,
-    "thumb": "/assets/img/products/tcl-tac-09chsd-ug11v3ahb-heat-pump/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-09chsd-ug11v3ahb-heat-pump/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -496,7 +509,8 @@
     "slug": "tcl-tac-12chsd-ug11v3ahb-heat-pump",
     "srcIndex": 13,
     "photoCount": 7,
-    "thumb": "/assets/img/products/tcl-tac-12chsd-ug11v3ahb-heat-pump/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-12chsd-ug11v3ahb-heat-pump/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -531,7 +545,8 @@
     "slug": "tcl-tac-18chsd-ug11v3ahb-heat-pump",
     "srcIndex": 14,
     "photoCount": 7,
-    "thumb": "/assets/img/products/tcl-tac-18chsd-ug11v3ahb-heat-pump/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-18chsd-ug11v3ahb-heat-pump/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -566,7 +581,8 @@
     "slug": "tcl-tac-24chsd-ug11v3ahb-heat-pump",
     "srcIndex": 15,
     "photoCount": 7,
-    "thumb": "/assets/img/products/tcl-tac-24chsd-ug11v3ahb-heat-pump/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-24chsd-ug11v3ahb-heat-pump/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -599,7 +615,8 @@
     "slug": "tcl-tac-09chsd-tph11ihb-heat-pump-r32-wi-fi",
     "srcIndex": 16,
     "photoCount": 5,
-    "thumb": "/assets/img/products/tcl-tac-09chsd-tph11ihb-heat-pump-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-09chsd-tph11ihb-heat-pump-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -632,7 +649,8 @@
     "slug": "tcl-tac-12chsd-tph11ihb-heat-pump-r32-wi-fi",
     "srcIndex": 17,
     "photoCount": 5,
-    "thumb": "/assets/img/products/tcl-tac-12chsd-tph11ihb-heat-pump-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-12chsd-tph11ihb-heat-pump-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -665,7 +683,8 @@
     "slug": "tcl-tac-18chsd-tph11ihb-heat-pump-r32-wi-fi",
     "srcIndex": 18,
     "photoCount": 5,
-    "thumb": "/assets/img/products/tcl-tac-18chsd-tph11ihb-heat-pump-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-18chsd-tph11ihb-heat-pump-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -701,7 +720,8 @@
     "slug": "tcl-tac-09chsd-fai-freshin-inv-r32-wi-fi",
     "srcIndex": 19,
     "photoCount": 8,
-    "thumb": "/assets/img/products/tcl-tac-09chsd-fai-freshin-inv-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-09chsd-fai-freshin-inv-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -737,7 +757,8 @@
     "slug": "tcl-tac-12chsd-fai-freshin-inv-r32-wi-fi",
     "srcIndex": 20,
     "photoCount": 8,
-    "thumb": "/assets/img/products/tcl-tac-12chsd-fai-freshin-inv-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-12chsd-fai-freshin-inv-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -771,7 +792,8 @@
     "slug": "tcl-tac-09chsd-fbi-inverter-r32-wi-fi",
     "srcIndex": 21,
     "photoCount": 6,
-    "thumb": "/assets/img/products/tcl-tac-09chsd-fbi-inverter-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-09chsd-fbi-inverter-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -805,7 +827,8 @@
     "slug": "tcl-tac-12chsd-fbi-inverter-r32-wi-fi",
     "srcIndex": 22,
     "photoCount": 6,
-    "thumb": "/assets/img/products/tcl-tac-12chsd-fbi-inverter-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-12chsd-fbi-inverter-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -838,7 +861,8 @@
     "slug": "tcl-tac-09chsd-xa82i-black-inverter-r32-wi-fi",
     "srcIndex": 23,
     "photoCount": 5,
-    "thumb": "/assets/img/products/tcl-tac-09chsd-xa82i-black-inverter-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-09chsd-xa82i-black-inverter-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -871,7 +895,8 @@
     "slug": "tcl-tac-12chsd-xa82i-black-inverter-r32-wi-fi",
     "srcIndex": 24,
     "photoCount": 5,
-    "thumb": "/assets/img/products/tcl-tac-12chsd-xa82i-black-inverter-r32-wi-fi/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-12chsd-xa82i-black-inverter-r32-wi-fi/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -902,7 +927,8 @@
     "slug": "tcl-tac-07chsa-xab1-on-off-wi-fi-ready",
     "srcIndex": 25,
     "photoCount": 6,
-    "thumb": "/assets/img/products/tcl-tac-07chsa-xab1-on-off-wi-fi-ready/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-07chsa-xab1-on-off-wi-fi-ready/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -933,7 +959,8 @@
     "slug": "tcl-tac-09chsa-xab1-on-off-wi-fi-ready",
     "srcIndex": 26,
     "photoCount": 6,
-    "thumb": "/assets/img/products/tcl-tac-09chsa-xab1-on-off-wi-fi-ready/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-09chsa-xab1-on-off-wi-fi-ready/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "TCL",
@@ -964,7 +991,8 @@
     "slug": "tcl-tac-12chsa-xab1-on-off-wi-fi-ready",
     "srcIndex": 27,
     "photoCount": 6,
-    "thumb": "/assets/img/products/tcl-tac-12chsa-xab1-on-off-wi-fi-ready/thumb.webp"
+    "thumb": "/assets/img/products/tcl-tac-12chsa-xab1-on-off-wi-fi-ready/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "Ardesto",
@@ -1008,7 +1036,8 @@
     "slug": "invertornyi-ardesto-ard-acs09-i",
     "srcIndex": 28,
     "photoCount": 16,
-    "thumb": "/assets/img/products/invertornyi-ardesto-ard-acs09-i/thumb.webp"
+    "thumb": "/assets/img/products/invertornyi-ardesto-ard-acs09-i/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "Ardesto",
@@ -1052,7 +1081,8 @@
     "slug": "invertornyi-ardesto-ard-acs12-i",
     "srcIndex": 29,
     "photoCount": 16,
-    "thumb": "/assets/img/products/invertornyi-ardesto-ard-acs12-i/thumb.webp"
+    "thumb": "/assets/img/products/invertornyi-ardesto-ard-acs12-i/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "Ardesto",
@@ -1096,7 +1126,8 @@
     "slug": "invertornyi-ardesto-ard-acs18-i",
     "srcIndex": 30,
     "photoCount": 16,
-    "thumb": "/assets/img/products/invertornyi-ardesto-ard-acs18-i/thumb.webp"
+    "thumb": "/assets/img/products/invertornyi-ardesto-ard-acs18-i/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "MIDEA",
@@ -1128,7 +1159,8 @@
     "slug": "midea-ag-07n8c2f-i-ag-07n8c2f-o",
     "srcIndex": 31,
     "photoCount": 6,
-    "thumb": "/assets/img/products/midea-ag-07n8c2f-i-ag-07n8c2f-o/thumb.webp"
+    "thumb": "/assets/img/products/midea-ag-07n8c2f-i-ag-07n8c2f-o/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "MIDEA",
@@ -1160,7 +1192,8 @@
     "slug": "midea-ag-09n8c2f-i-ag-09n8c2f-o",
     "srcIndex": 32,
     "photoCount": 6,
-    "thumb": "/assets/img/products/midea-ag-09n8c2f-i-ag-09n8c2f-o/thumb.webp"
+    "thumb": "/assets/img/products/midea-ag-09n8c2f-i-ag-09n8c2f-o/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "MIDEA",
@@ -1192,7 +1225,8 @@
     "slug": "midea-ag-11n8c2f-i-ag-11n8c2f-o",
     "srcIndex": 33,
     "photoCount": 6,
-    "thumb": "/assets/img/products/midea-ag-11n8c2f-i-ag-11n8c2f-o/thumb.webp"
+    "thumb": "/assets/img/products/midea-ag-11n8c2f-i-ag-11n8c2f-o/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "MIDEA",
@@ -1221,7 +1255,8 @@
     "slug": "midea-ag-18nxd0-i-ag-18nxd0-o",
     "srcIndex": 34,
     "photoCount": 4,
-    "thumb": "/assets/img/products/midea-ag-18nxd0-i-ag-18nxd0-o/thumb.webp"
+    "thumb": "/assets/img/products/midea-ag-18nxd0-i-ag-18nxd0-o/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "IDEA",
@@ -1257,7 +1292,8 @@
     "slug": "idea-isr-07hr-vi05-dn8-rotary",
     "srcIndex": 35,
     "photoCount": 9,
-    "thumb": "/assets/img/products/idea-isr-07hr-vi05-dn8-rotary/thumb.webp"
+    "thumb": "/assets/img/products/idea-isr-07hr-vi05-dn8-rotary/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "IDEA",
@@ -1293,7 +1329,8 @@
     "slug": "idea-isr-09hr-vi05-dn8-rotary",
     "srcIndex": 36,
     "photoCount": 9,
-    "thumb": "/assets/img/products/idea-isr-09hr-vi05-dn8-rotary/thumb.webp"
+    "thumb": "/assets/img/products/idea-isr-09hr-vi05-dn8-rotary/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "IDEA",
@@ -1329,7 +1366,8 @@
     "slug": "idea-isr-12hr-vi05-dn8-rotary",
     "srcIndex": 37,
     "photoCount": 9,
-    "thumb": "/assets/img/products/idea-isr-12hr-vi05-dn8-rotary/thumb.webp"
+    "thumb": "/assets/img/products/idea-isr-12hr-vi05-dn8-rotary/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "IDEA",
@@ -1365,7 +1403,8 @@
     "slug": "idea-isr-18hr-vi05-dn8-rotary",
     "srcIndex": 38,
     "photoCount": 9,
-    "thumb": "/assets/img/products/idea-isr-18hr-vi05-dn8-rotary/thumb.webp"
+    "thumb": "/assets/img/products/idea-isr-18hr-vi05-dn8-rotary/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "IDEA",
@@ -1401,7 +1440,8 @@
     "slug": "idea-isr-24hr-vi05-dn8-rotary",
     "srcIndex": 39,
     "photoCount": 9,
-    "thumb": "/assets/img/products/idea-isr-24hr-vi05-dn8-rotary/thumb.webp"
+    "thumb": "/assets/img/products/idea-isr-24hr-vi05-dn8-rotary/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "Samurai",
@@ -1431,7 +1471,8 @@
     "slug": "samurai-sma-07hrdn8go",
     "srcIndex": 40,
     "photoCount": 4,
-    "thumb": "/assets/img/products/samurai-sma-07hrdn8go/thumb.webp"
+    "thumb": "/assets/img/products/samurai-sma-07hrdn8go/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "Samurai",
@@ -1461,7 +1502,8 @@
     "slug": "samurai-sma-09hrdn8go",
     "srcIndex": 41,
     "photoCount": 4,
-    "thumb": "/assets/img/products/samurai-sma-09hrdn8go/thumb.webp"
+    "thumb": "/assets/img/products/samurai-sma-09hrdn8go/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "Samurai",
@@ -1491,7 +1533,8 @@
     "slug": "samurai-sma-12hrdn8go",
     "srcIndex": 42,
     "photoCount": 4,
-    "thumb": "/assets/img/products/samurai-sma-12hrdn8go/thumb.webp"
+    "thumb": "/assets/img/products/samurai-sma-12hrdn8go/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "Samurai",
@@ -1521,7 +1564,8 @@
     "slug": "samurai-sma-18hrdn8go",
     "srcIndex": 43,
     "photoCount": 4,
-    "thumb": "/assets/img/products/samurai-sma-18hrdn8go/thumb.webp"
+    "thumb": "/assets/img/products/samurai-sma-18hrdn8go/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "Samurai",
@@ -1551,7 +1595,8 @@
     "slug": "samurai-sma-24hrdn8go",
     "srcIndex": 44,
     "photoCount": 4,
-    "thumb": "/assets/img/products/samurai-sma-24hrdn8go/thumb.webp"
+    "thumb": "/assets/img/products/samurai-sma-24hrdn8go/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "Olmo",
@@ -1585,7 +1630,8 @@
     "slug": "olmo-osh-07frh3",
     "srcIndex": 45,
     "photoCount": 8,
-    "thumb": "/assets/img/products/olmo-osh-07frh3/thumb.webp"
+    "thumb": "/assets/img/products/olmo-osh-07frh3/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "Olmo",
@@ -1619,7 +1665,8 @@
     "slug": "olmo-osh-09frh3",
     "srcIndex": 46,
     "photoCount": 8,
-    "thumb": "/assets/img/products/olmo-osh-09frh3/thumb.webp"
+    "thumb": "/assets/img/products/olmo-osh-09frh3/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "Olmo",
@@ -1653,7 +1700,8 @@
     "slug": "olmo-osh-12frh3",
     "srcIndex": 47,
     "photoCount": 8,
-    "thumb": "/assets/img/products/olmo-osh-12frh3/thumb.webp"
+    "thumb": "/assets/img/products/olmo-osh-12frh3/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "Olmo",
@@ -1687,7 +1735,8 @@
     "slug": "olmo-osh-18frh3",
     "srcIndex": 48,
     "photoCount": 8,
-    "thumb": "/assets/img/products/olmo-osh-18frh3/thumb.webp"
+    "thumb": "/assets/img/products/olmo-osh-18frh3/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "Olmo",
@@ -1720,7 +1769,8 @@
     "slug": "olmo-osh-24frh3",
     "srcIndex": 49,
     "photoCount": 8,
-    "thumb": "/assets/img/products/olmo-osh-24frh3/thumb.webp"
+    "thumb": "/assets/img/products/olmo-osh-24frh3/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "Grunhelm",
@@ -1756,7 +1806,8 @@
     "slug": "grunhelm-gac-07gh-32",
     "srcIndex": 50,
     "photoCount": 8,
-    "thumb": "/assets/img/products/grunhelm-gac-07gh-32/thumb.webp"
+    "thumb": "/assets/img/products/grunhelm-gac-07gh-32/thumb.webp",
+    "category": "kondicioneri"
   },
   {
     "brand": "Grunhelm",
@@ -1792,6 +1843,50 @@
     "slug": "grunhelm-gac-09gh-32",
     "srcIndex": 51,
     "photoCount": 8,
-    "thumb": "/assets/img/products/grunhelm-gac-09gh-32/thumb.webp"
+    "thumb": "/assets/img/products/grunhelm-gac-09gh-32/thumb.webp",
+    "category": "kondicioneri"
+  },
+  {
+    "brand": "Fossibot",
+    "series": "F1800",
+    "name": "Зарядна станція Fossibot F1800 1800W 1024Wh Black",
+    "price": 29999,
+    "category": "zaryadni-stantsii",
+    "ups": true,
+    "specs": {
+      "capacity_wh": 1024,
+      "battery": "LiFePO₄ (EVE)",
+      "cycles": "4000 (до 80%)",
+      "output_w": 1800,
+      "surge_w": 3600,
+      "waveform": "Чиста синусоїда",
+      "ac_sockets": 2,
+      "ac_hz": "50/60 Гц (перемикання)",
+      "usb_c": "2 × 140 Вт (PD)",
+      "usb_a": "1 × 18 Вт (QC 3.0)",
+      "car_out": "12 В / 10 A",
+      "ac_in_w": 1200,
+      "dc_in": "12–60 В, 500 Вт, 15 A",
+      "ups_ms": "≤10 мс",
+      "weight": "11.25 кг",
+      "dims": "371 × 206 × 258 мм",
+      "op_temp": "−10…+40 °C",
+      "protections": "9-рівневий BMS",
+      "warranty": "5 років",
+      "features": "ECO-режим, LED-ліхтар, Wi-Fi, Bluetooth, застосунок FOSSiBOT"
+    },
+    "desc_uk": "Портативна зарядна станція Fossibot F1800 — 1024 Вт·год ємності та 1800 Вт номінальної потужності (пік 3600 Вт) з чистою синусоїдою. Комірки LiFePO₄ від EVE витримують 4000 циклів заряджання. Дві розетки 220–240 В, два USB-C до 140 Вт, USB-A QC3.0 та автомобільний вихід 12 В/10 A. Функція UPS перемикає живлення за ≤10 мс — техніка не вимкнеться під час відключення світла. Заряджання від мережі до 1200 Вт або від сонячних панелей (12–60 В, до 500 Вт).",
+    "desc_ru": "Портативная зарядная станция Fossibot F1800 — 1024 Вт·ч ёмкости и 1800 Вт номинальной мощности (пик 3600 Вт) с чистой синусоидой. Ячейки LiFePO₄ от EVE выдерживают 4000 циклов заряда. Две розетки 220–240 В, два USB-C до 140 Вт, USB-A QC3.0 и автомобильный выход 12 В/10 A. Функция UPS переключает питание за ≤10 мс — техника не выключится при отключении света. Зарядка от сети до 1200 Вт или от солнечных панелей (12–60 В, до 500 Вт).",
+    "desc_en": "Fossibot F1800 portable power station — 1024Wh capacity and 1800W rated output (3600W surge) with a pure sine wave inverter. EVE LiFePO₄ cells rated for 4000 charge cycles. Two 220–240V sockets, two 140W USB-C ports, a QC3.0 USB-A port and a 12V/10A car outlet. The UPS function switches over in ≤10ms, so your devices stay on during a blackout. Recharge from the wall at up to 1200W or from solar panels (12–60V, up to 500W).",
+    "slug": "fossibot-f1800-1800w-1024wh",
+    "thumb": "/assets/img/products/fossibot-f1800-1800w-1024wh/thumb.webp",
+    "photos": [
+      "/assets/img/products/fossibot-f1800-1800w-1024wh/1.webp",
+      "/assets/img/products/fossibot-f1800-1800w-1024wh/2.webp",
+      "/assets/img/products/fossibot-f1800-1800w-1024wh/3.webp",
+      "/assets/img/products/fossibot-f1800-1800w-1024wh/4.webp",
+      "/assets/img/products/fossibot-f1800-1800w-1024wh/5.webp",
+      "/assets/img/products/fossibot-f1800-1800w-1024wh/6.webp"
+    ]
   }
 ]
