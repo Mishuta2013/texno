@@ -40,6 +40,16 @@ nav{display:flex;gap:2px;flex:1}
 nav a{color:rgba(255,255,255,.72);font-size:14.5px;font-weight:500;padding:9px 14px;border-radius:var(--r-sm);transition:.18s;white-space:nowrap;position:relative}
 nav a:hover{color:#fff;background:rgba(124,196,255,.1)}
 .header-right{display:flex;align-items:center;gap:14px;margin-left:auto;flex-shrink:0}
+/* keep the header on one line on laptops: tighten nav, then drop the phone */
+@media(max-width:1560px){
+  .header-in{gap:16px}
+  nav a{font-size:13.5px;padding:8px 9px}
+}
+@media(max-width:1400px){
+  .header-in{gap:12px}
+  nav a{font-size:13px;padding:8px 6px}
+  .h-phone{display:none}
+}
 .h-phone{color:#fff;font-family:var(--disp);font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;white-space:nowrap}
 .h-phone svg{width:16px;height:16px;stroke:var(--frost)}
 .btn-cb{background:var(--amber);color:#fff;padding:10px 18px;border-radius:var(--r-sm);font-size:14px;font-weight:700;font-family:var(--disp);transition:.18s;box-shadow:0 6px 18px rgba(255,122,41,.32)}
@@ -462,10 +472,13 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
   .adv-grid,.rev-grid,.steps,.svc-grid,.pay-grid{grid-template-columns:1fr 1fr}
   .foot-in{grid-template-columns:1fr 1fr}
 }
-@media(max-width:760px){
+/* 10 nav items stop fitting well before the phone breakpoint → burger from 1150px */
+@media(max-width:1150px){
   nav,.h-phone{display:none}
   .burger{display:flex}
-  .header.nav-open nav{display:flex;position:absolute;top:70px;left:0;right:0;flex-direction:column;background:var(--navy);padding:14px;gap:4px;border-bottom:1px solid rgba(124,196,255,.14)}
+  .header.nav-open nav{display:flex;position:absolute;top:70px;left:0;right:0;flex-direction:column;background:var(--navy);padding:14px;gap:4px;border-bottom:1px solid rgba(124,196,255,.14);z-index:210;max-height:calc(100vh - 70px);overflow-y:auto}
+}
+@media(max-width:760px){
   .modal-body{grid-template-columns:1fr}
   .m-gallery{border-radius:var(--r-lg) var(--r-lg) 0 0}
   .filters{position:static}
