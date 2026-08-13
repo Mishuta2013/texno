@@ -117,6 +117,7 @@ nav a:hover{color:#fff;background:rgba(124,196,255,.1)}
 .brandstrip-in{max-width:var(--max);margin:0 auto;padding:20px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center}
 .brandstrip .bs-label{font-size:12px;font-weight:700;color:var(--g4);text-transform:uppercase;letter-spacing:.08em;font-family:var(--disp)}
 .bs-chip{font-family:var(--disp);font-weight:700;font-size:15px;color:var(--g5);padding:8px 16px;border-radius:var(--r-pill);background:var(--g1);transition:.18s;cursor:pointer}
+.bs-chip-hl{background:var(--blue-a,#eaf3ff);color:var(--blue-d)}
 .bs-chip:hover{background:var(--navy);color:#fff;transform:translateY(-2px)}
 
 /* ============ TRUST ============ */

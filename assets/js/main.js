@@ -66,7 +66,7 @@ function applyI18n(){
   if(so){[['default','sort_pop'],['price-asc','sort_cheap'],['price-desc','sort_exp'],['area-asc','sort_area']].forEach(([val,key])=>{const o=so.querySelector(`option[value="${val}"]`);if(o)o.textContent=t(key);});}
   // interest select
   const ci=$('cf-interest');
-  if(ci){['form_i1','form_i2','form_i3','form_i4'].forEach((key,i)=>{if(ci.options[i])ci.options[i].textContent=t(key);});}
+  if(ci){[...ci.options].forEach(o=>{const k=o.getAttribute('data-i18n');if(k)o.textContent=t(k);});}
   // top strip / contact static
   setText('top-addr',t('top_addr')); setText('top-hours',t('top_hours'));
   setText('con-addr-val',t('con_addr_val')); setText('con-hours-val',t('con_hours_val'));
@@ -74,10 +74,9 @@ function applyI18n(){
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.dataset.lang===LANG));
   // dynamic UI
   renderCatalog(); updateCalc(); renderCmpBar(); updateFavCount();
-  if($('catalog-grid')){ // only on the homepage; product pages keep their own SEO title
-    document.title = LANG==='ru' ? 'TEXNO PLAZA — Кондиционеры в Сумах | Продажа и монтаж'
-      : LANG==='en' ? 'TEXNO PLAZA — Air conditioners in Sumy | Sales & installation'
-      : 'TEXNO PLAZA — Кондиціонери у Сумах | Продаж та монтаж під ключ';
+  if($('catalog-grid')&&LANG!=='uk'){ // homepage only; uk keeps the server-rendered SEO title
+    document.title = LANG==='ru' ? 'TEXNO PLAZA — Кондиционеры и зарядные станции в Сумах | Техника для дома'
+      : 'TEXNO PLAZA — Air conditioners & power stations in Sumy | Home appliances';
   }
 }
 function setText(id,v){const e=$(id);if(e)e.textContent=v;}
@@ -173,6 +172,7 @@ function switchCat(cat){
   const h=$('cat-title');if(h)h.textContent=ac?t('cat_h'):t('cat_h_ps');
   resetFilters();
 }
+function jumpCat(cat){switchCat(cat);document.getElementById('catalog').scrollIntoView({behavior:'smooth'});}
 (function initCatTabs(){
   const tabs=document.getElementById('cat-tabs');if(!tabs)return;
   tabs.querySelectorAll('.ctab').forEach(b=>{

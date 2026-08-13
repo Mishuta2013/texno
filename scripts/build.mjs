@@ -181,11 +181,11 @@ const FOOTER = toHome(body.slice(_footAt));
 const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: (i18n.uk.faq || []).map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
 const indexHtml = `<!doctype html><html lang="uk"><head>
 ${head({
-  title: 'Кондиціонери у Сумах: монтаж під ключ за 1 день | TEXNO PLAZA',
-  desc: 'Кондиціонери у Сумах: понад 50 моделей у наявності. Привеземо, встановимо та запустимо за 1 день. Оплата після монтажу, гарантія до 5 років. Безкоштовний підбір!',
+  title: 'Кондиціонери та зарядні станції у Сумах — монтаж за 1 день | TEXNO PLAZA',
+  desc: 'TEXNO PLAZA — техніка для дому у Сумах: 52 кондиціонери з монтажем під ключ за 1 день та зарядні станції Fossibot. Оплата після встановлення, гарантія до 5 років.',
   canonical: abs('/'),
   jsonld: {
-    '@context': 'https://schema.org', '@type': 'HVACBusiness', name: site.name,
+    '@context': 'https://schema.org', '@type': 'ElectronicsStore', name: site.name,
     image: abs('/assets/og/default.jpg'), telephone: site.phone, email: site.email,
     address: { '@type': 'PostalAddress', streetAddress: 'вул. Харківська 2/1', addressLocality: site.city, addressCountry: 'UA' },
     url: BASE, priceRange: '₴₴', areaServed: 'Суми'
@@ -339,13 +339,13 @@ function blogCard(a) {
 }
 function blogIndexPage() {
   return `<!doctype html><html lang="uk"><head>
-${head({ title: 'Блог про кондиціонери — поради, монтаж, обслуговування | ' + site.name, desc: 'Корисні статті про вибір, монтаж та обслуговування кондиціонерів у Сумах: потужність, ціна монтажу, інвертор vs On/Off, опалення тепловим насосом.', canonical: abs('/blog/') })}
+${head({ title: 'Блог — поради щодо техніки для дому | ' + site.name, desc: 'Корисні статті про вибір та обслуговування техніки для дому у Сумах: кондиціонери, монтаж, зарядні станції, інвертор vs On/Off, опалення тепловим насосом.', canonical: abs('/blog/') })}
 </head><body>${GTM_NS}
 ${HEADER}
 <div class="pp-wrap">
   <nav class="pp-bc"><a href="/">Головна</a> › <span>Блог</span></nav>
-  <h1 class="bl-h1">Блог про кондиціонери</h1>
-  <p class="bl-sub">Поради щодо вибору, монтажу та обслуговування кліматичної техніки.</p>
+  <h1 class="bl-h1">Блог TEXNO PLAZA</h1>
+  <p class="bl-sub">Поради щодо вибору, монтажу та обслуговування техніки для дому.</p>
   <div class="bl-grid">${blog.map(blogCard).join('')}</div>
 </div>
 ${FOOTER}
