@@ -127,6 +127,20 @@ function heroCard(p) {
     </div></a>`;
 }
 
+function heroStationCard(p) {
+  const s = p.specs || {};
+  return `<a class="gauge-card gc-station" href="${purl(p)}">
+    <div class="gc-tag gc-tag-new">Новинка</div>
+    <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
+    <div class="gc-img"><img src="${esc(p.photos[0])}" alt="${esc(p.name)}" width="680" height="510" loading="lazy"></div>
+    <div class="gc-name">${esc(p.name)}</div>
+    <div class="gc-readout">
+      <div class="gc-r"><div class="v">${fmt(s.capacity_wh)}<small> Wh</small></div><div class="k">Ємність</div></div>
+      <div class="gc-r"><div class="v">${fmt(s.output_w)}<small> Вт</small></div><div class="k">Потужність</div></div>
+      <div class="gc-r"><div class="v">10<small> мс</small></div><div class="k">UPS</div></div>
+    </div></a>`;
+}
+
 // render current uk i18n text into static HTML (matches runtime applyI18n → correct for SEO/no-JS)
 function applyI18nStatic(html) {
   return html.replace(/(<([a-zA-Z0-9]+)((?:[^>]*?)\sdata-i18n="([^"]+)"(?:[^>]*?))>)([\s\S]*?)(<\/\2>)/g,
@@ -147,6 +161,8 @@ fs.mkdirSync(DIST, { recursive: true });
 let body = fs.readFileSync(path.join(ROOT, 'templates/body.html'), 'utf8');
 const best = products.find(p => p.bestseller) || products[0];
 body = body.replace('<!--HERO_CARD-->', heroCard(best));
+const bestStation = products.find(p => p.category === 'zaryadni-stantsii');
+body = body.replace('<!--HERO_CARD2-->', bestStation ? heroStationCard(bestStation) : '');
 // pre-render catalog grid for SEO (client re-renders on filter) — homepage catalog shows the AC block
 const homeCatalogCat = 'kondicioneri';
 const homeProducts = products.filter(p => p.category === homeCatalogCat);

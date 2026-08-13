@@ -76,13 +76,14 @@
       </div>
       <div class="hero-stats">
         <div class="hstat"><div class="n">10+</div><div class="l" data-i18n="st_years">років на ринку</div></div>
-        <div class="hstat"><div class="n">52</div><div class="l" data-i18n="st_models">моделі в наявності</div></div>
+        <div class="hstat"><div class="n">53</div><div class="l" data-i18n="st_models">товари в наявності</div></div>
         <div class="hstat"><div class="n">5</div><div class="l" data-i18n="st_masters">майстрів з допуском</div></div>
         <div class="hstat"><div class="n">5 <span>р.</span></div><div class="l" data-i18n="st_guar">гарантія</div></div>
       </div>
     </div>
-    <div class="hero-vis">
+    <div class="hero-vis two">
       <!--HERO_CARD-->
+      <!--HERO_CARD2-->
     </div>
   </div>
 </section>
@@ -118,7 +119,7 @@
     </div>
     <div class="trust-card reveal">
       <div class="ti"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
-      <div><div class="tt" data-i18n="trust4t">52 моделі</div><div class="ts" data-i18n="trust4s">Усе в наявності</div></div>
+      <div><div class="tt" data-i18n="trust4t">53 товари</div><div class="ts" data-i18n="trust4s">Усе в наявності</div></div>
     </div>
   </div>
 </div>
@@ -174,12 +175,17 @@
   <div class="wrap">
     <div class="reveal">
       <div class="eyebrow" data-i18n="nav_catalog">Каталог</div>
-      <h2 class="sec-title" data-i18n="cat_h">52 кондиціонери у наявності</h2>
+      <h2 class="sec-title" id="cat-title" data-i18n="cat_h">52 кондиціонери у наявності</h2>
       <p class="sec-sub" data-i18n="cat_sub">Інверторні моделі, теплові насоси та класичні On/Off. Доставка та монтаж день у день по Сумах і області.</p>
     </div>
 
+    <div class="cat-tabs" id="cat-tabs">
+      <button class="ctab active" data-cat="kondicioneri" onclick="switchCat('kondicioneri')" type="button"><span class="ctab-ic">❄</span><span data-i18n="ctab_ac">Кондиціонери</span><b class="ctab-n"></b></button>
+      <button class="ctab" data-cat="zaryadni-stantsii" onclick="switchCat('zaryadni-stantsii')" type="button"><span class="ctab-ic">🔋</span><span data-i18n="ctab_ps">Зарядні станції</span><b class="ctab-n"></b></button>
+    </div>
+
     <div class="filters" id="filters">
-      <div class="frow">
+      <div class="frow" id="frow-brand">
         <span class="flabel" data-i18n="f_brand">Бренд</span>
         <div class="filter-group" id="brand-filters" style="display:flex;flex-wrap:wrap;gap:8px">
           <button class="fbtn active" data-brand="all" data-i18n="f_all">Всі</button>
@@ -192,7 +198,7 @@
           <button class="fbtn" data-brand="Grunhelm">Grunhelm</button>
         </div>
       </div>
-      <div class="frow">
+      <div class="frow" id="frow-area">
         <span class="flabel" data-i18n="f_area">Площа</span>
         <div class="filter-group" id="area-filters" style="display:flex;flex-wrap:wrap;gap:8px">
           <button class="fbtn active" data-area="all" data-i18n="f_anyarea">Будь-яка</button>

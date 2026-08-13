@@ -163,7 +163,24 @@ function setActive(gid,attr,val){$(gid).querySelectorAll('.fbtn').forEach(b=>b.c
 function resetFilters(){activeBrand=activeArea=activeType=activePrice='all';
   [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price']].forEach(([g,a])=>setActive(g,a,'all'));
   $('search-input').value='';$('sort-select').value='default';renderCatalog();}
-function jumpBrand(brand){activeBrand=brand;setActive('brand-filters','brand',brand);renderCatalog();document.getElementById('catalog').scrollIntoView({behavior:'smooth'});}
+/* homepage catalog category tabs */
+function switchCat(cat){
+  if(!window.__CATS__[cat])return;
+  window.__CATALOG_CAT__=cat;
+  document.querySelectorAll('#cat-tabs .ctab').forEach(b=>b.classList.toggle('active',b.dataset.cat===cat));
+  const ac=cat==='kondicioneri';
+  ['frow-brand','frow-area'].forEach(id=>{const el=$(id);if(el)el.style.display=ac?'':'none';});
+  const h=$('cat-title');if(h)h.textContent=ac?t('cat_h'):t('cat_h_ps');
+  resetFilters();
+}
+(function initCatTabs(){
+  const tabs=document.getElementById('cat-tabs');if(!tabs)return;
+  tabs.querySelectorAll('.ctab').forEach(b=>{
+    const n=PRODUCTS.filter(p=>p.category===b.dataset.cat).length;
+    const el=b.querySelector('.ctab-n');if(el)el.textContent=n;
+  });
+})();
+function jumpBrand(brand){if(window.__CATALOG_CAT__!=='kondicioneri')switchCat('kondicioneri');activeBrand=brand;setActive('brand-filters','brand',brand);renderCatalog();document.getElementById('catalog').scrollIntoView({behavior:'smooth'});}
 
 /* ============ PRODUCT MODAL ============ */
 function specRows(p){
@@ -334,7 +351,7 @@ function updateCalc(){
 }
 function modelsUk(n){const m=n%100,d=n%10;if(m>=11&&m<=14)return'моделей';if(d===1)return'модель';if(d>=2&&d<=4)return'моделі';return'моделей';}
 function modelsRu(n){const m=n%100,d=n%10;if(m>=11&&m<=14)return'моделей';if(d===1)return'модель';if(d>=2&&d<=4)return'модели';return'моделей';}
-function applyCalc(){const band=calcBand(recommendBtu(+$('calc-area').value));resetFilters();activeArea=band;setActive('area-filters','area',band);renderCatalog();document.getElementById('catalog').scrollIntoView({behavior:'smooth'});}
+function applyCalc(){if(window.__CATALOG_CAT__!=='kondicioneri')switchCat('kondicioneri');const band=calcBand(recommendBtu(+$('calc-area').value));resetFilters();activeArea=band;setActive('area-filters','area',band);renderCatalog();document.getElementById('catalog').scrollIntoView({behavior:'smooth'});}
 
 /* ============ UI ============ */
 function toggleFaq(el){const it=el.parentElement;const open=it.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!open)it.classList.add('open');}
