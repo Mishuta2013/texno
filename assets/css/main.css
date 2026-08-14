@@ -36,8 +36,10 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:800;line-height:1.12;letter-spac
 .header-in{max-width:var(--max);margin:0 auto;padding:0 22px;display:flex;align-items:center;gap:26px;height:70px}
 .logo{display:flex;align-items:center;flex-shrink:0}
 .logo img{height:34px;width:auto}
-nav{display:flex;gap:2px;flex:1}
-nav a{color:rgba(255,255,255,.72);font-size:14.5px;font-weight:500;padding:9px 14px;border-radius:var(--r-sm);transition:.18s;white-space:nowrap;position:relative}
+nav{display:flex;gap:2px;flex:1;min-width:0}
+/* the header shares the 1220px content column, so the nav is sized to fit it at
+   every viewport width — not only under the breakpoints below */
+nav a{color:rgba(255,255,255,.72);font-size:13.5px;font-weight:500;padding:8px 7px;border-radius:var(--r-sm);transition:.18s;white-space:nowrap;position:relative}
 nav a:hover{color:#fff;background:rgba(124,196,255,.1)}
 .header-right{display:flex;align-items:center;gap:14px;margin-left:auto;flex-shrink:0}
 /* keep the header on one line on laptops: tighten nav, then drop the phone */
@@ -107,6 +109,17 @@ nav a:hover{color:#fff;background:rgba(124,196,255,.1)}
 .gc-airflow{position:absolute;left:0;right:0;bottom:36px;height:60px;overflow:hidden;pointer-events:none}
 .gc-airflow span{position:absolute;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,rgba(124,196,255,.8),transparent);animation:flow 2.4s linear infinite}
 @keyframes flow{0%{transform:translateX(-60%) scaleX(.4);opacity:0}30%{opacity:1}100%{transform:translateX(120%) scaleX(1);opacity:0}}
+/* power station: energy pulses rising from the unit */
+.gc-charge{position:absolute;left:0;right:0;bottom:14px;height:74px;overflow:hidden;pointer-events:none}
+.gc-charge span{position:absolute;bottom:0;width:3px;height:3px;border-radius:50%;background:var(--frost,#7CC4FF);
+  box-shadow:0 0 8px rgba(124,196,255,.9);animation:spark 2.6s ease-in infinite}
+@keyframes spark{0%{transform:translateY(0) scale(.6);opacity:0}20%{opacity:1}100%{transform:translateY(-62px) scale(1.1);opacity:0}}
+/* washing machine: drum rotating behind the photo */
+.gc-drum{position:absolute;left:50%;top:50%;width:104px;height:104px;margin:-52px 0 0 -52px;border-radius:50%;
+  border:2px dashed rgba(124,196,255,.5);animation:spin 5.5s linear infinite;pointer-events:none}
+.gc-drum::after{content:'';position:absolute;inset:14px;border-radius:50%;border:2px dotted rgba(124,196,255,.28)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.gc-airflow span,.gc-charge span,.gc-drum{animation:none}}
 .gc-readout{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:18px}
 .gc-r{background:rgba(11,26,51,.4);border:1px solid rgba(124,196,255,.14);border-radius:12px;padding:12px 10px;text-align:center}
 .gc-r .v{font-family:var(--disp);font-weight:800;font-size:21px;color:#fff}

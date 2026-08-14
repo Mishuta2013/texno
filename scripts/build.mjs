@@ -146,7 +146,7 @@ function heroStationCard(p) {
   return `<a class="gauge-card gc-station" href="${purl(p)}">
     <div class="gc-tag gc-tag-new">Новинка</div>
     <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
-    <div class="gc-img"><img src="${esc(p.photos[0])}" alt="${esc(p.name)}" width="680" height="510" fetchpriority="high"></div>
+    <div class="gc-img"><img src="${esc(p.photos[0])}" alt="${esc(p.name)}" width="680" height="510" fetchpriority="high"><div class="gc-charge" id="charge"></div></div>
     <div class="gc-name">${esc(p.name)}</div>
     <div class="gc-readout">
       <div class="gc-r"><div class="v">${fmt(s.capacity_wh)}<small> Wh</small></div><div class="k">Ємність</div></div>
@@ -160,7 +160,7 @@ function heroWasherCard(p) {
   return `<a class="gauge-card gc-station" href="${purl(p)}">
     <div class="gc-tag">${esc(t('gc_stock'))}</div>
     <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
-    <div class="gc-img"><img src="${esc(p.photos[0])}" alt="${esc(p.name)}" width="680" height="510" loading="lazy"></div>
+    <div class="gc-img"><img src="${esc(p.photos[0])}" alt="${esc(p.name)}" width="680" height="510" loading="lazy"><div class="gc-drum"></div></div>
     <div class="gc-name">${esc(p.name)}</div>
     <div class="gc-readout">
       <div class="gc-r"><div class="v">${esc(s.load_kg)}<small> кг</small></div><div class="k">Завантаження</div></div>
@@ -287,7 +287,7 @@ function related(p) {
 }
 function productPage(p) {
   const s = p.specs || {};
-  const thumbs = p.photos.map((src, i) => `<button class="pp-thumb${i === 0 ? ' active' : ''}" onclick="ppShow(${i})"><img src="${esc(src)}" alt="${esc(p.name)} фото ${i + 1}" loading="lazy"></button>`).join('');
+  const thumbs = p.photos.map((src, i) => `<button class="pp-thumb${i === 0 ? ' active' : ''}" onclick="ppShow(${i})"><img src="${esc(src)}" alt="${esc(p.name)} фото ${i + 1}" loading="lazy" width="800" height="600"></button>`).join('');
   const cat = catOf(p);
   const chips = ppChips(p);
   const jsonld = {
@@ -364,6 +364,20 @@ for (const p of products) {
 }
 
 // ---- category landing pages (generated only for categories that have products) ----
+// reuse the homepage filter UI verbatim (same ids → main.js drives it unchanged)
+const FILTERS_HTML = (() => {
+  const a = body.indexOf('<div class="filters" id="filters">');
+  const b = body.indexOf('<div class="grid" id="catalog-grid">');
+  return a === -1 || b === -1 ? '' : body.slice(a, b);
+})();
+function filtersFor(catKey) {
+  if (!FILTERS_HTML) return '';
+  const ac = catKey === 'kondicioneri', wm = catKey === 'pralni-mashyny';
+  return FILTERS_HTML
+    .replace('id="frow-area" style="display:none"', `id="frow-area"${ac ? '' : ' style="display:none"'}`)
+    .replace('id="frow-wm" style="display:none"', `id="frow-wm"${wm ? '' : ' style="display:none"'}`)
+    .replace('<option value="area-asc"', `<option value="area-asc"${ac ? '' : ' hidden'}`);
+}
 function categoryPage(cat) {
   const list = catProducts(cat.key);
   const jsonld = {
@@ -386,11 +400,15 @@ ${HEADER}
     <div class="cat-count">${list.length} ${list.length % 10 === 1 && list.length % 100 !== 11 ? 'модель' : (list.length % 10 >= 2 && list.length % 10 <= 4 && (list.length % 100 < 10 || list.length % 100 >= 20) ? 'моделі' : 'моделей')} у наявності</div>
     ${cat.quizCta ? `<button class="btn-catquiz cat-head-quiz" type="button" onclick="if(window.openQuiz)openQuiz('${cat.key}')">${esc(cat.quizCta)}</button>` : ''}
   </header>
-  <div class="grid">${list.map(card).join('')}</div>
+  <section class="section catalog cat-catalog" id="catalog">
+    ${filtersFor(cat.key)}
+    <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
+  </section>
   <div class="pp-back"><a href="/#catalog">← Усі товари</a></div>
 </div>
 ${FOOTER}
 ${injectData(catalogData)}
+<script>window.__CATALOG_CAT__=${JSON.stringify(cat.key)};</script>
 <script src="/assets/js/main.js?v=${VER}" defer></script>
 </body></html>`;
 }

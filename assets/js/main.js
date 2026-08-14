@@ -96,6 +96,8 @@ function setLang(l){LANG=l;localStorage.setItem('tp_lang',l);applyI18n();}
 
 /* ============ HERO ============ */
 (function(){const af=$('airflow');if(!af)return;for(let i=0;i<5;i++){const s=document.createElement('span');s.style.top=(8+i*12)+'px';s.style.width=(50+Math.random()*40)+'%';s.style.left='0';s.style.animationDelay=(i*0.4)+'s';af.appendChild(s);}})();
+/* energy sparks on the power-station hero card */
+(function(){const ch=$('charge');if(!ch)return;for(let i=0;i<7;i++){const s=document.createElement('span');s.style.left=(12+i*12+Math.random()*6)+'%';s.style.animationDelay=(i*0.34)+'s';s.style.animationDuration=(2.2+Math.random()*1.2)+'s';ch.appendChild(s);}})();
 
 /* ============ CATALOG ============ */
 function getFiltered(){
