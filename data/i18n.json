@@ -42,7 +42,7 @@
     "quiz_done_p": "Менеджер передзвонить протягом 15 хвилин і допоможе з вибором.",
     "hero_h1a": "Техніка для дому та",
     "hero_h1b": "енергонезалежність у Сумах",
-    "hero_sub": "Кондиціонери для комфорту та зарядні станції для енергонезалежності вашого дому. Доставка по Сумах, монтаж під ключ за 1 день, оплата після встановлення.",
+    "hero_sub": "Кондиціонери, пральні машини та зарядні станції — усе для комфорту й енергонезалежності вашого дому. Доставка по Сумах, монтаж і підключення, оплата після встановлення.",
     "hero_cta1": "Перейти до каталогу",
     "hero_cta2": "Підібрати кондиціонер за площею",
     "st_years": "років на ринку",
@@ -310,7 +310,11 @@
     "cat_h_ps": "Зарядні станції у наявності",
     "form_i5": "Зарядні станції",
     "ctab_all": "Всі товари",
-    "cat_h_all": "Усі товари в наявності"
+    "cat_h_all": "Усі товари в наявності",
+    "ctab_wm": "Пральні машини",
+    "cat_h_wm": "Пральні машини у наявності",
+    "cat_wm_t": "Пральні машини",
+    "cat_wm_s": "З доставкою та підключенням"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -355,7 +359,7 @@
     "quiz_done_p": "Менеджер перезвонит в течение 15 минут и поможет с выбором.",
     "hero_h1a": "Техника для дома и",
     "hero_h1b": "энергонезависимость в Сумах",
-    "hero_sub": "Кондиционеры для комфорта и зарядные станции для энергонезависимости вашего дома. Доставка по Сумам, монтаж под ключ за 1 день, оплата после установки.",
+    "hero_sub": "Кондиционеры, стиральные машины и зарядные станции — всё для комфорта и энергонезависимости вашего дома. Доставка по Сумам, монтаж и подключение, оплата после установки.",
     "hero_cta1": "Перейти в каталог",
     "hero_cta2": "Подобрать кондиционер по площади",
     "st_years": "лет на рынке",
@@ -615,7 +619,11 @@
     "cat_h_ps": "Зарядные станции в наличии",
     "form_i5": "Зарядные станции",
     "ctab_all": "Все товары",
-    "cat_h_all": "Все товары в наличии"
+    "cat_h_all": "Все товары в наличии",
+    "ctab_wm": "Стиральные машины",
+    "cat_h_wm": "Стиральные машины в наличии",
+    "cat_wm_t": "Стиральные машины",
+    "cat_wm_s": "С доставкой и подключением"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -660,7 +668,7 @@
     "quiz_done_p": "Our manager will call you within 15 minutes to help you choose.",
     "hero_h1a": "Home appliances &",
     "hero_h1b": "energy independence in Sumy",
-    "hero_sub": "Air conditioners for comfort and power stations for your home’s energy independence. Delivery in Sumy, turnkey installation in 1 day, payment after setup.",
+    "hero_sub": "Air conditioners, washing machines and power stations — comfort and energy independence for your home. Delivery in Sumy, installation and hookup, payment after setup.",
     "hero_cta1": "Browse the catalog",
     "hero_cta2": "Find an AC by room size",
     "st_years": "years on the market",
@@ -920,6 +928,10 @@
     "cat_h_ps": "Power stations in stock",
     "form_i5": "Power stations",
     "ctab_all": "All products",
-    "cat_h_all": "All products in stock"
+    "cat_h_all": "All products in stock",
+    "ctab_wm": "Washing machines",
+    "cat_h_wm": "Washing machines in stock",
+    "cat_wm_t": "Washing machines",
+    "cat_wm_s": "With delivery & installation"
   }
 }

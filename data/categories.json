@@ -9,32 +9,229 @@
     "seoTitle": "Кондиціонери у Сумах — монтаж під ключ за 1 день | TEXNO PLAZA",
     "seoDesc": "Кондиціонери у Сумах: понад 50 моделей у наявності, інверторні та з обігрівом. Доставка, монтаж під ключ, оплата після встановлення, гарантія до 5 років.",
     "intro": "Інверторні та звичайні спліт-системи у наявності. Привеземо, встановимо та запустимо за 1 день — оплата після монтажу.",
-    "filters": ["brand", "area", "type", "price"],
+    "filters": [
+      "brand",
+      "area",
+      "type",
+      "price"
+    ],
     "chips": [
-      { "icon": "❄", "key": "btu", "fmt": "kbtu" },
-      { "icon": "⌖", "key": "area", "fmt": "area" },
-      { "icon": "⌁", "flag": "wifi", "label": "Wi-Fi" }
+      {
+        "icon": "❄",
+        "key": "btu",
+        "fmt": "kbtu"
+      },
+      {
+        "icon": "⌖",
+        "key": "area",
+        "fmt": "area"
+      },
+      {
+        "icon": "⌁",
+        "flag": "wifi",
+        "label": "Wi-Fi"
+      }
     ],
     "specs": [
-      { "label": "Потужність", "fmt": "kbtu_power" },
-      { "label": "Площа", "fmt": "area", "dash": true },
-      { "label": "Компресор", "fmt": "comp" },
-      { "label": "Клас енергоефективності", "key": "eclass" },
-      { "label": "Рівень шуму", "fmt": "noise" },
-      { "label": "Фреон", "value": "R32" },
-      { "label": "Діапазон охолодження", "fmt": "cool_range" },
-      { "label": "Обігрів до", "key": "heat_min", "fmt": "celsius" },
-      { "label": "Wi-Fi", "fmt": "wifi_yesopt" },
-      { "label": "Обігрів", "fmt": "heat_yesno" }
+      {
+        "label": "Потужність",
+        "fmt": "kbtu_power"
+      },
+      {
+        "label": "Площа",
+        "fmt": "area",
+        "dash": true
+      },
+      {
+        "label": "Компресор",
+        "fmt": "comp"
+      },
+      {
+        "label": "Клас енергоефективності",
+        "key": "eclass"
+      },
+      {
+        "label": "Рівень шуму",
+        "fmt": "noise"
+      },
+      {
+        "label": "Фреон",
+        "value": "R32"
+      },
+      {
+        "label": "Діапазон охолодження",
+        "fmt": "cool_range"
+      },
+      {
+        "label": "Обігрів до",
+        "key": "heat_min",
+        "fmt": "celsius"
+      },
+      {
+        "label": "Wi-Fi",
+        "fmt": "wifi_yesopt"
+      },
+      {
+        "label": "Обігрів",
+        "fmt": "heat_yesno"
+      }
     ],
     "ppChips": [
-      { "icon": "❄", "key": "btu", "fmt": "kbtu" },
-      { "icon": "⌖", "key": "area", "fmt": "area" },
-      { "icon": "⚡", "key": "eclass" },
-      { "icon": "🔊", "key": "noise", "fmt": "noise" },
-      { "flag": "inverter", "label": "Інвертор" },
-      { "flag": "heatpump", "label": "Тепловий насос" },
-      { "flag": "wifi", "label": "Wi-Fi" }
+      {
+        "icon": "❄",
+        "key": "btu",
+        "fmt": "kbtu"
+      },
+      {
+        "icon": "⌖",
+        "key": "area",
+        "fmt": "area"
+      },
+      {
+        "icon": "⚡",
+        "key": "eclass"
+      },
+      {
+        "icon": "🔊",
+        "key": "noise",
+        "fmt": "noise"
+      },
+      {
+        "flag": "inverter",
+        "label": "Інвертор"
+      },
+      {
+        "flag": "heatpump",
+        "label": "Тепловий насос"
+      },
+      {
+        "flag": "wifi",
+        "label": "Wi-Fi"
+      }
+    ]
+  },
+  "pralni-mashyny": {
+    "name": "Пральні машини",
+    "nameGen": "пральних машин",
+    "urlPrefix": "/pralni-mashyny",
+    "icon": "washer",
+    "order": 3,
+    "install": false,
+    "trust": [
+      "Доставка по Сумах — 400 грн",
+      "Підключення — 500 грн",
+      "Офіційна гарантія"
+    ],
+    "seoTitle": "Пральні машини у Сумах — доставка та підключення | TEXNO PLAZA",
+    "seoDesc": "Пральні машини у Сумах: 12 моделей від LG, Samsung, Beko, Gorenje, Haier, Indesit та українських брендів. Доставка 400 грн, підключення 500 грн, оплата після отримання, офіційна гарантія.",
+    "intro": "Вузькі та стандартні моделі з інверторними моторами — від бюджетних Edler і Grifon до LG та Samsung. Привеземо й підключимо.",
+    "filters": [
+      "brand",
+      "price"
+    ],
+    "chips": [
+      {
+        "icon": "🧺",
+        "key": "load_kg",
+        "fmt": "kg"
+      },
+      {
+        "icon": "↻",
+        "key": "rpm",
+        "fmt": "rpm"
+      },
+      {
+        "icon": "⚡",
+        "key": "eclass",
+        "fmt": "first"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Тип завантаження",
+        "key": "load_type"
+      },
+      {
+        "label": "Максимальне завантаження",
+        "key": "load_kg",
+        "fmt": "kg"
+      },
+      {
+        "label": "Швидкість віджиму",
+        "key": "rpm",
+        "fmt": "rpm"
+      },
+      {
+        "label": "Клас енергоефективності",
+        "key": "eclass"
+      },
+      {
+        "label": "Мотор",
+        "key": "motor"
+      },
+      {
+        "label": "Кількість програм",
+        "key": "programs"
+      },
+      {
+        "label": "Парова обробка",
+        "key": "steam"
+      },
+      {
+        "label": "Дисплей",
+        "key": "display"
+      },
+      {
+        "label": "Глибина",
+        "key": "depth",
+        "fmt": "cm"
+      },
+      {
+        "label": "Габарити (Ш×Г×В)",
+        "key": "dims"
+      },
+      {
+        "label": "Рівень шуму (прання/віджим)",
+        "key": "noise_wm"
+      },
+      {
+        "label": "Вага",
+        "key": "weight"
+      },
+      {
+        "label": "Гарантія",
+        "key": "warranty"
+      },
+      {
+        "label": "Функції",
+        "key": "features"
+      }
+    ],
+    "ppChips": [
+      {
+        "icon": "🧺",
+        "key": "load_kg",
+        "fmt": "kg"
+      },
+      {
+        "icon": "↻",
+        "key": "rpm",
+        "fmt": "rpm"
+      },
+      {
+        "icon": "⚡",
+        "key": "eclass",
+        "fmt": "first"
+      },
+      {
+        "icon": "↔",
+        "key": "depth",
+        "fmt": "cm"
+      },
+      {
+        "flag": "inverter",
+        "label": "Інверторний мотор"
+      }
     ]
   },
   "zaryadni-stantsii": {
@@ -47,39 +244,134 @@
     "seoTitle": "Зарядні станції у Сумах — купити з доставкою | TEXNO PLAZA",
     "seoDesc": "Портативні зарядні станції у Сумах: ємні акумулятори, чиста синусоїда, розетки 220В та USB-C. Доставка, оплата після отримання, офіційна гарантія.",
     "intro": "Портативні джерела живлення для дому, дачі та відпочинку — світло, техніка та ґаджети навіть без електромережі.",
-    "filters": ["brand", "price"],
+    "filters": [
+      "brand",
+      "price"
+    ],
     "chips": [
-      { "icon": "🔋", "key": "capacity_wh", "fmt": "wh" },
-      { "icon": "⚡", "key": "output_w", "fmt": "watt" },
-      { "icon": "🔌", "key": "ac_sockets", "fmt": "sockets" }
+      {
+        "icon": "🔋",
+        "key": "capacity_wh",
+        "fmt": "wh"
+      },
+      {
+        "icon": "⚡",
+        "key": "output_w",
+        "fmt": "watt"
+      },
+      {
+        "icon": "🔌",
+        "key": "ac_sockets",
+        "fmt": "sockets"
+      }
     ],
     "specs": [
-      { "label": "Ємність акумулятора", "key": "capacity_wh", "fmt": "wh" },
-      { "label": "Тип акумулятора", "key": "battery" },
-      { "label": "Ресурс (циклів)", "key": "cycles" },
-      { "label": "Потужність (AC, номінал)", "key": "output_w", "fmt": "watt" },
-      { "label": "Пікова потужність", "key": "surge_w", "fmt": "watt" },
-      { "label": "Форма сигналу", "key": "waveform" },
-      { "label": "AC розетки", "key": "ac_sockets", "fmt": "sockets" },
-      { "label": "Частота", "key": "ac_hz" },
-      { "label": "USB-C", "key": "usb_c" },
-      { "label": "USB-A", "key": "usb_a" },
-      { "label": "Автомобільний вихід", "key": "car_out" },
-      { "label": "Вхід AC (зарядка)", "key": "ac_in_w", "fmt": "watt" },
-      { "label": "Сонячний / DC вхід (XT60)", "key": "dc_in" },
-      { "label": "Час перемикання UPS", "key": "ups_ms" },
-      { "label": "Вага", "key": "weight" },
-      { "label": "Розміри (Д×Ш×В)", "key": "dims" },
-      { "label": "Робоча температура", "key": "op_temp" },
-      { "label": "Захист", "key": "protections" },
-      { "label": "Гарантія", "key": "warranty" },
-      { "label": "Функції", "key": "features" }
+      {
+        "label": "Ємність акумулятора",
+        "key": "capacity_wh",
+        "fmt": "wh"
+      },
+      {
+        "label": "Тип акумулятора",
+        "key": "battery"
+      },
+      {
+        "label": "Ресурс (циклів)",
+        "key": "cycles"
+      },
+      {
+        "label": "Потужність (AC, номінал)",
+        "key": "output_w",
+        "fmt": "watt"
+      },
+      {
+        "label": "Пікова потужність",
+        "key": "surge_w",
+        "fmt": "watt"
+      },
+      {
+        "label": "Форма сигналу",
+        "key": "waveform"
+      },
+      {
+        "label": "AC розетки",
+        "key": "ac_sockets",
+        "fmt": "sockets"
+      },
+      {
+        "label": "Частота",
+        "key": "ac_hz"
+      },
+      {
+        "label": "USB-C",
+        "key": "usb_c"
+      },
+      {
+        "label": "USB-A",
+        "key": "usb_a"
+      },
+      {
+        "label": "Автомобільний вихід",
+        "key": "car_out"
+      },
+      {
+        "label": "Вхід AC (зарядка)",
+        "key": "ac_in_w",
+        "fmt": "watt"
+      },
+      {
+        "label": "Сонячний / DC вхід (XT60)",
+        "key": "dc_in"
+      },
+      {
+        "label": "Час перемикання UPS",
+        "key": "ups_ms"
+      },
+      {
+        "label": "Вага",
+        "key": "weight"
+      },
+      {
+        "label": "Розміри (Д×Ш×В)",
+        "key": "dims"
+      },
+      {
+        "label": "Робоча температура",
+        "key": "op_temp"
+      },
+      {
+        "label": "Захист",
+        "key": "protections"
+      },
+      {
+        "label": "Гарантія",
+        "key": "warranty"
+      },
+      {
+        "label": "Функції",
+        "key": "features"
+      }
     ],
     "ppChips": [
-      { "icon": "🔋", "key": "capacity_wh", "fmt": "wh" },
-      { "icon": "⚡", "key": "output_w", "fmt": "watt" },
-      { "icon": "🔌", "key": "ac_sockets", "fmt": "sockets" },
-      { "flag": "ups", "label": "UPS 10 мс" }
+      {
+        "icon": "🔋",
+        "key": "capacity_wh",
+        "fmt": "wh"
+      },
+      {
+        "icon": "⚡",
+        "key": "output_w",
+        "fmt": "watt"
+      },
+      {
+        "icon": "🔌",
+        "key": "ac_sockets",
+        "fmt": "sockets"
+      },
+      {
+        "flag": "ups",
+        "label": "UPS 10 мс"
+      }
     ]
   }
 }

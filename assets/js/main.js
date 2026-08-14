@@ -20,6 +20,10 @@ function jFmtVal(p,f){
     case'wh':return raw?raw+' Wh':null;
     case'watt':return raw?raw+' Вт':null;
     case'sockets':return raw?raw+' × Schuko':null;
+    case'first':return raw?String(raw).split(' ')[0]:null;
+    case'kg':return raw?raw+' кг':null;
+    case'rpm':return raw?raw+' об/хв':null;
+    case'cm':return raw?raw+' см':null;
     default:return(raw!==undefined&&raw!==null&&raw!=='')?raw:null;
   }
 }
@@ -169,7 +173,7 @@ function switchCat(cat){
   document.querySelectorAll('#cat-tabs .ctab').forEach(b=>b.classList.toggle('active',b.dataset.cat===cat));
   const ac=cat==='kondicioneri';
   ['frow-brand','frow-area'].forEach(id=>{const el=$(id);if(el)el.style.display=ac?'':'none';});
-  const h=$('cat-title');if(h)h.textContent=cat==='all'?t('cat_h_all'):(ac?t('cat_h'):t('cat_h_ps'));
+  const h=$('cat-title');if(h){const key={all:'cat_h_all',kondicioneri:'cat_h','zaryadni-stantsii':'cat_h_ps','pralni-mashyny':'cat_h_wm'}[cat]||'cat_h_all';h.textContent=t(key);}
   resetFilters();
 }
 function jumpCat(cat){switchCat(cat);document.getElementById('catalog').scrollIntoView({behavior:'smooth'});}

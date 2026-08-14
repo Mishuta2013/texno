@@ -39,6 +39,10 @@ function fmtVal(p, f) {
     case 'wh': return raw ? `${raw} Wh` : null;
     case 'watt': return raw ? `${raw} Вт` : null;
     case 'sockets': return raw ? `${raw} × Schuko` : null;
+    case 'first': return raw ? String(raw).split(' ')[0] : null;
+    case 'kg': return raw ? `${raw} кг` : null;
+    case 'rpm': return raw ? `${raw} об/хв` : null;
+    case 'cm': return raw ? `${raw} см` : null;
     default: return (raw !== undefined && raw !== null && raw !== '') ? raw : null;
   }
 }
@@ -141,6 +145,20 @@ function heroStationCard(p) {
     </div></a>`;
 }
 
+function heroWasherCard(p) {
+  const s = p.specs || {};
+  return `<a class="gauge-card gc-station" href="${purl(p)}">
+    <div class="gc-tag">${esc(t('gc_stock'))}</div>
+    <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
+    <div class="gc-img"><img src="${esc(p.photos[0])}" alt="${esc(p.name)}" width="680" height="510" loading="lazy"></div>
+    <div class="gc-name">${esc(p.name)}</div>
+    <div class="gc-readout">
+      <div class="gc-r"><div class="v">${esc(s.load_kg)}<small> кг</small></div><div class="k">Завантаження</div></div>
+      <div class="gc-r"><div class="v">${fmt(s.rpm)}<small> об/хв</small></div><div class="k">Віджим</div></div>
+      <div class="gc-r"><div class="v">${esc(String(s.eclass || '').split(' ')[0])}</div><div class="k">Клас</div></div>
+    </div></a>`;
+}
+
 // render current uk i18n text into static HTML (matches runtime applyI18n → correct for SEO/no-JS)
 function applyI18nStatic(html) {
   return html.replace(/(<([a-zA-Z0-9]+)((?:[^>]*?)\sdata-i18n="([^"]+)"(?:[^>]*?))>)([\s\S]*?)(<\/\2>)/g,
@@ -164,6 +182,9 @@ const bestStation = products.find(p => p.category === 'zaryadni-stantsii');
 // hero hits: station first (eager LCP image), AC second
 body = body.replace('<!--HERO_CARD-->', bestStation ? heroStationCard(bestStation) : heroCard(best));
 body = body.replace('<!--HERO_CARD2-->', bestStation ? heroCard(best) : '');
+const bestWasher = products.find(p => p.slug === 'lg-f2y2ns3we') || products.find(p => p.category === 'pralni-mashyny');
+body = body.replace('<!--HERO_CARD3-->', bestWasher ? heroWasherCard(bestWasher) : '');
+if (bestStation && bestWasher) body = body.replace('class="hero-vis two"', 'class="hero-vis two hv3"');
 // pre-render catalog grid for SEO (client re-renders on filter) — default tab shows ALL products
 const homeCatalogCat = 'all';
 body = body.replace('<div class="grid" id="catalog-grid"></div>',
@@ -236,7 +257,8 @@ function productPage(p) {
 ${(() => {
   const nm = p.name.replace(/^Кондиціонер\s+/i, '');
   const keySpec = (cat.ppChips || cat.chips || []).filter(c => !c.flag).map(c => fmtVal(p, c)).filter(Boolean).slice(0, 2).join(', ');
-  const trust = cat.install ? 'Монтаж під ключ, оплата після встановлення, гарантія до 5 років.' : 'Доставка у Сумах, оплата після, гарантія.';
+  const trust = Array.isArray(cat.trust) ? cat.trust.join('. ') + '.'
+    : cat.install ? 'Монтаж під ключ, оплата після встановлення, гарантія до 5 років.' : 'Доставка у Сумах, оплата після, гарантія.';
   return head({ title: `${nm} — купити в Сумах${cat.install ? ', монтаж під ключ' : ''}`, desc: `${nm} у Сумах — ${fmt(p.price)} грн.${keySpec ? ' ' + keySpec + '.' : ''} ${trust}`, canonical: abs(purl(p)), ogTitle: p.name, ogImage: abs('/assets/og/' + p.slug + '.jpg'), jsonld });
 })()}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
@@ -260,9 +282,11 @@ ${HEADER}
         <a class="btn-wa" href="${esc(site.whatsapp)}&text=${encodeURIComponent('Цікавить ' + p.name)}" target="_blank" rel="noopener">WhatsApp</a>
         <a class="btn-ghost2" href="tel:${esc(site.phone)}">${esc(site.phoneDisplay)}</a>
       </div>
-      <div class="pp-trust">${cat.install
-        ? `<span>Монтаж під ключ — ${fmt(site.installPrice)} грн</span><span>Оплата після встановлення</span><span>Гарантія до 5 років</span>`
-        : `<span>Доставка по Сумах</span><span>Оплата після отримання</span><span>Офіційна гарантія</span>`}</div>
+      <div class="pp-trust">${Array.isArray(cat.trust)
+        ? cat.trust.map(x => `<span>${esc(x)}</span>`).join('')
+        : cat.install
+          ? `<span>Монтаж під ключ — ${fmt(site.installPrice)} грн</span><span>Оплата після встановлення</span><span>Гарантія до 5 років</span>`
+          : `<span>Доставка по Сумах</span><span>Оплата після отримання</span><span>Офіційна гарантія</span>`}</div>
     </div>
   </div>
   <div class="pp-cols">
