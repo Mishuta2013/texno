@@ -75,8 +75,8 @@ function applyI18n(){
   // dynamic UI
   renderCatalog(); updateCalc(); renderCmpBar(); updateFavCount();
   if($('catalog-grid')&&LANG!=='uk'){ // homepage only; uk keeps the server-rendered SEO title
-    document.title = LANG==='ru' ? 'TEXNO PLAZA — Кондиционеры и зарядные станции в Сумах | Техника для дома'
-      : 'TEXNO PLAZA — Air conditioners & power stations in Sumy | Home appliances';
+    document.title = LANG==='ru' ? 'TEXNO PLAZA — Техника для дома и энергонезависимость в Сумах'
+      : 'TEXNO PLAZA — Home appliances & energy independence in Sumy';
   }
 }
 function setText(id,v){const e=$(id);if(e)e.textContent=v;}
@@ -91,7 +91,7 @@ function setLang(l){LANG=l;localStorage.setItem('tp_lang',l);applyI18n();}
 /* ============ CATALOG ============ */
 function getFiltered(){
   let list=[...PRODUCTS];
-  if(window.__CATALOG_CAT__) list=list.filter(p=>p.category===window.__CATALOG_CAT__);
+  if(window.__CATALOG_CAT__&&window.__CATALOG_CAT__!=='all') list=list.filter(p=>p.category===window.__CATALOG_CAT__);
   const q=$('search-input').value.toLowerCase().trim();
   if(q) list=list.filter(p=>p.name.toLowerCase().includes(q)||p.brand.toLowerCase().includes(q)||p.series.toLowerCase().includes(q));
   if(activeBrand!=='all') list=list.filter(p=>p.brand===activeBrand);
@@ -146,7 +146,7 @@ function cardHTML(p){
 function renderCatalog(){
   const grid=$('catalog-grid'); if(!grid) return;
   const list=getFiltered();
-  const base=window.__CATALOG_CAT__?PRODUCTS.filter(p=>p.category===window.__CATALOG_CAT__).length:PRODUCTS.length;
+  const base=(window.__CATALOG_CAT__&&window.__CATALOG_CAT__!=='all')?PRODUCTS.filter(p=>p.category===window.__CATALOG_CAT__).length:PRODUCTS.length;
   const rc=$('results-count'); if(rc) rc.innerHTML=`${t('found')} <strong>${list.length}</strong> ${t('of')} ${base} ${t('models_w')}`;
   if(!list.length){grid.innerHTML=`<div class="no-results"><p>${t('no_res_t')}</p><span>${t('no_res_s')}</span></div>`;return;}
   grid.innerHTML=list.map(cardHTML).join('');
@@ -164,19 +164,19 @@ function resetFilters(){activeBrand=activeArea=activeType=activePrice='all';
   $('search-input').value='';$('sort-select').value='default';renderCatalog();}
 /* homepage catalog category tabs */
 function switchCat(cat){
-  if(!window.__CATS__[cat])return;
+  if(cat!=='all'&&!window.__CATS__[cat])return;
   window.__CATALOG_CAT__=cat;
   document.querySelectorAll('#cat-tabs .ctab').forEach(b=>b.classList.toggle('active',b.dataset.cat===cat));
   const ac=cat==='kondicioneri';
   ['frow-brand','frow-area'].forEach(id=>{const el=$(id);if(el)el.style.display=ac?'':'none';});
-  const h=$('cat-title');if(h)h.textContent=ac?t('cat_h'):t('cat_h_ps');
+  const h=$('cat-title');if(h)h.textContent=cat==='all'?t('cat_h_all'):(ac?t('cat_h'):t('cat_h_ps'));
   resetFilters();
 }
 function jumpCat(cat){switchCat(cat);document.getElementById('catalog').scrollIntoView({behavior:'smooth'});}
 (function initCatTabs(){
   const tabs=document.getElementById('cat-tabs');if(!tabs)return;
   tabs.querySelectorAll('.ctab').forEach(b=>{
-    const n=PRODUCTS.filter(p=>p.category===b.dataset.cat).length;
+    const n=b.dataset.cat==='all'?PRODUCTS.length:PRODUCTS.filter(p=>p.category===b.dataset.cat).length;
     const el=b.querySelector('.ctab-n');if(el)el.textContent=n;
   });
 })();

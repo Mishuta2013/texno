@@ -25,7 +25,7 @@
     <nav>
       <a href="#cats" data-i18n="nav_cats">Категорії</a>
       <a href="#catalog" data-i18n="nav_catalog">Каталог</a>
-      <a href="#calc" data-i18n="nav_calc">Підбір за площею</a>
+      <a href="#calc" data-i18n="nav_calc">Підібрати кондиціонер за площею</a>
       <a href="#installation" data-i18n="nav_install">Монтаж</a>
       <a href="#service" data-i18n="nav_service">Сервіс</a>
       <a href="#payment" data-i18n="nav_payment">Оплата</a>
@@ -66,13 +66,13 @@
   <div class="hero-in">
     <div class="hero-copy">
       <div class="hero-badge"><span class="dot"></span> <span data-i18n="hero_badge">Акція: −50% на монтаж до кінця сезону</span></div>
-      <h1><span data-i18n="hero_h1a">Кондиціонери та техніка для дому</span> <span class="grad" data-i18n="hero_h1b">у Сумах — під ключ за 1 день</span></h1>
-      <p class="hero-sub" data-i18n="hero_sub">52 моделі від 7 брендів у наявності. Привеземо, встановимо та запустимо за один день. Платите лише після того, як переконаєтесь, що все працює.</p>
+      <h1><span data-i18n="hero_h1a">Техніка для дому та</span> <span class="grad" data-i18n="hero_h1b">енергонезалежність у Сумах</span></h1>
+      <p class="hero-sub" data-i18n="hero_sub">Кондиціонери для комфорту та зарядні станції для енергонезалежності вашого дому. Доставка по Сумах, монтаж під ключ за 1 день, оплата після встановлення.</p>
       <div class="hero-ctas">
         <a href="#catalog" class="btn-primary"><span data-i18n="hero_cta1">Перейти до каталогу</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        <a href="#calc" class="btn-ghost" onclick="if(window.openQuiz){openQuiz();return false}" data-i18n="hero_cta2">Підібрати за площею</a>
+        <a href="#calc" class="btn-ghost" onclick="if(window.openQuiz){openQuiz();return false}" data-i18n="hero_cta2">Підібрати кондиціонер за площею</a>
       </div>
       <div class="hero-stats">
         <div class="hstat"><div class="n">10+</div><div class="l" data-i18n="st_years">років на ринку</div></div>
@@ -152,8 +152,8 @@
   <div class="calc-glow"></div>
   <div class="calc-in">
     <div class="reveal">
-      <div class="eyebrow" data-i18n="nav_calc">Підбір за площею</div>
-      <h2 data-i18n="calc_h">Не знаєте, яку потужність обрати?</h2>
+      <div class="eyebrow" data-i18n="calc_eye">Підбір за площею</div>
+      <h2 data-i18n="calc_h">Підібрати кондиціонер за площею</h2>
       <p class="lead" data-i18n="calc_lead">Вкажіть площу кімнати — ми порахуємо потрібну потужність і одразу покажемо відповідні моделі з каталогу.</p>
       <p class="lead" style="font-size:14px;margin-top:14px;color:rgba(124,196,255,.85)" data-i18n="calc_formula">Формула: ≈ 1 кВт холоду на кожні 10 м² площі.</p>
     </div>
@@ -176,17 +176,18 @@
   <div class="wrap">
     <div class="reveal">
       <div class="eyebrow" data-i18n="nav_catalog">Каталог</div>
-      <h2 class="sec-title" id="cat-title" data-i18n="cat_h">52 кондиціонери у наявності</h2>
+      <h2 class="sec-title" id="cat-title" data-i18n="cat_h_all">Усі товари в наявності</h2>
       <p class="sec-sub" data-i18n="cat_sub">Інверторні моделі, теплові насоси та класичні On/Off. Доставка та монтаж день у день по Сумах і області.</p>
     </div>
 
     <div class="cat-tabs" id="cat-tabs">
-      <button class="ctab active" data-cat="kondicioneri" onclick="switchCat('kondicioneri')" type="button"><span class="ctab-ic">❄</span><span data-i18n="ctab_ac">Кондиціонери</span><b class="ctab-n"></b></button>
+      <button class="ctab active" data-cat="all" onclick="switchCat('all')" type="button"><span class="ctab-ic">☰</span><span data-i18n="ctab_all">Всі товари</span><b class="ctab-n"></b></button>
+      <button class="ctab" data-cat="kondicioneri" onclick="switchCat('kondicioneri')" type="button"><span class="ctab-ic">❄</span><span data-i18n="ctab_ac">Кондиціонери</span><b class="ctab-n"></b></button>
       <button class="ctab" data-cat="zaryadni-stantsii" onclick="switchCat('zaryadni-stantsii')" type="button"><span class="ctab-ic">🔋</span><span data-i18n="ctab_ps">Зарядні станції</span><b class="ctab-n"></b></button>
     </div>
 
     <div class="filters" id="filters">
-      <div class="frow" id="frow-brand">
+      <div class="frow" id="frow-brand" style="display:none">
         <span class="flabel" data-i18n="f_brand">Бренд</span>
         <div class="filter-group" id="brand-filters" style="display:flex;flex-wrap:wrap;gap:8px">
           <button class="fbtn active" data-brand="all" data-i18n="f_all">Всі</button>
@@ -199,7 +200,7 @@
           <button class="fbtn" data-brand="Grunhelm">Grunhelm</button>
         </div>
       </div>
-      <div class="frow" id="frow-area">
+      <div class="frow" id="frow-area" style="display:none">
         <span class="flabel" data-i18n="f_area">Площа</span>
         <div class="filter-group" id="area-filters" style="display:flex;flex-wrap:wrap;gap:8px">
           <button class="fbtn active" data-area="all" data-i18n="f_anyarea">Будь-яка</button>
