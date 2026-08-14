@@ -115,7 +115,7 @@
     "nameGen": "пральних машин",
     "urlPrefix": "/pralni-mashyny",
     "icon": "washer",
-    "order": 3,
+    "order": 2,
     "install": false,
     "trust": [
       "Доставка по Сумах — 400 грн",
@@ -239,7 +239,7 @@
     "nameGen": "зарядних станцій",
     "urlPrefix": "/zaryadni-stantsii",
     "icon": "battery",
-    "order": 2,
+    "order": 3,
     "install": false,
     "seoTitle": "Зарядні станції у Сумах — купити з доставкою | TEXNO PLAZA",
     "seoDesc": "Портативні зарядні станції у Сумах: ємні акумулятори, чиста синусоїда, розетки 220В та USB-C. Доставка, оплата після отримання, офіційна гарантія.",

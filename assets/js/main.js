@@ -45,13 +45,18 @@ document.addEventListener('click',function(e){var a=e.target.closest&&e.target.c
 
 let LANG = (localStorage.getItem('tp_lang')||'uk');
 if(!I18N[LANG]) LANG='uk';
-let activeBrand='all', activeArea='all', activeType='all', activePrice='all', currentProduct=null;
+let activeBrand='all', activeArea='all', activeType='all', activePrice='all', activeLoad='all', activeDepth='all', currentProduct=null;
 let FAV = JSON.parse(localStorage.getItem('tp_fav')||'[]');
 let CMP = JSON.parse(localStorage.getItem('tp_cmp')||'[]');
 
 const $=id=>document.getElementById(id);
 const fmt=n=>n.toLocaleString(LANG==='en'?'en-US':(LANG==='ru'?'ru-RU':'uk-UA'));
-const t=k=>(I18N[LANG][k]!==undefined?I18N[LANG][k]:(I18N.uk[k]||k));
+const COUNTS={TOTAL:PRODUCTS.length,
+  AC:PRODUCTS.filter(p=>p.category==='kondicioneri').length,
+  WM:PRODUCTS.filter(p=>p.category==='pralni-mashyny').length,
+  PS:PRODUCTS.filter(p=>p.category==='zaryadni-stantsii').length};
+const subCounts=s=>String(s).replace(/\{\{(TOTAL|AC|WM|PS)\}\}/g,(m,k)=>COUNTS[k]);
+const t=k=>subCounts(I18N[LANG][k]!==undefined?I18N[LANG][k]:(I18N.uk[k]||k));
 const pdesc=p=>p['desc_'+LANG]||p.desc_uk;
 
 /* ============ I18N ENGINE ============ */
@@ -104,9 +109,10 @@ function getFiltered(){
   if(activeArea!=='all'){const a=parseInt(activeArea);
     if(a===25)list=list.filter(p=>p.area<=25);else if(a===35)list=list.filter(p=>p.area>25&&p.area<=35);
     else if(a===50)list=list.filter(p=>p.area>35&&p.area<=50);else if(a===70)list=list.filter(p=>p.area>50);}
-  if(activePrice!=='all'){const pr=parseInt(activePrice);
-    if(pr===15000)list=list.filter(p=>p.price<=15000);else if(pr===25000)list=list.filter(p=>p.price>15000&&p.price<=25000);
-    else if(pr===40000)list=list.filter(p=>p.price>25000&&p.price<=40000);else if(pr===999999)list=list.filter(p=>p.price>40000);}
+  if(activeLoad!=='all'){const kg=parseInt(activeLoad);list=list.filter(p=>p.specs&&Number(p.specs.load_kg)===kg);}
+  if(activeDepth!=='all'){list=list.filter(p=>{const d=p.specs&&parseFloat(p.specs.depth);if(!d)return false;return activeDepth==='narrow'?d<45:d>=45;});}
+  if(activePrice!=='all'){const [lo,hi]=String(activePrice).split('-').map(Number);
+    if(!isNaN(lo)&&!isNaN(hi))list=list.filter(p=>p.price>lo&&p.price<=hi);}
   const sort=$('sort-select').value;
   if(sort==='price-asc')list.sort((a,b)=>a.price-b.price);
   else if(sort==='price-desc')list.sort((a,b)=>b.price-a.price);
@@ -156,25 +162,39 @@ function renderCatalog(){
   grid.innerHTML=list.map(cardHTML).join('');
 }
 function setupFilters(){
-  [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price']].forEach(([gid,attr])=>{
-    $(gid).addEventListener('click',e=>{const v=e.target.dataset[attr];if(v===undefined)return;
-      $(gid).querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));e.target.classList.add('active');
-      if(attr==='brand')activeBrand=v;if(attr==='area')activeArea=v;if(attr==='type')activeType=v;if(attr==='price')activePrice=v;renderCatalog();});
+  [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth']].forEach(([gid,attr])=>{
+    const g=$(gid); if(!g) return;
+    g.addEventListener('click',e=>{const b=e.target.closest('.fbtn');if(!b)return;const v=b.dataset[attr];if(v===undefined)return;
+      g.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+      if(attr==='brand')activeBrand=v;if(attr==='area')activeArea=v;if(attr==='type')activeType=v;if(attr==='price')activePrice=v;
+      if(attr==='load')activeLoad=v;if(attr==='depth')activeDepth=v;renderCatalog();});
   });
+  renderBrandFilters();
+}
+/* brand buttons follow the active category — every brand actually in stock, nothing stale */
+function renderBrandFilters(){
+  const g=$('brand-filters'); if(!g) return;
+  const cat=window.__CATALOG_CAT__;
+  const pool=(cat&&cat!=='all')?PRODUCTS.filter(p=>p.category===cat):PRODUCTS;
+  const brands=[...new Set(pool.map(p=>p.brand))].sort((a,b)=>a.localeCompare(b,'uk'));
+  g.innerHTML=`<button class="fbtn${activeBrand==='all'?' active':''}" data-brand="all">${t('f_all')}</button>`
+    +brands.map(b=>`<button class="fbtn${activeBrand===b?' active':''}" data-brand="${b.replace(/"/g,'&quot;')}">${b}</button>`).join('');
 }
 function setActive(gid,attr,val){$(gid).querySelectorAll('.fbtn').forEach(b=>b.classList.toggle('active',b.dataset[attr]===val));}
-function resetFilters(){activeBrand=activeArea=activeType=activePrice='all';
-  [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price']].forEach(([g,a])=>setActive(g,a,'all'));
-  $('search-input').value='';$('sort-select').value='default';renderCatalog();}
+function resetFilters(){activeBrand=activeArea=activeType=activePrice=activeLoad=activeDepth='all';
+  [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth']].forEach(([g,a])=>{if($(g))setActive(g,a,'all');});
+  $('search-input').value='';$('sort-select').value='default';renderBrandFilters();renderCatalog();}
 /* homepage catalog category tabs */
 function switchCat(cat){
   if(cat!=='all'&&!window.__CATS__[cat])return;
   window.__CATALOG_CAT__=cat;
   document.querySelectorAll('#cat-tabs .ctab').forEach(b=>b.classList.toggle('active',b.dataset.cat===cat));
   const ac=cat==='kondicioneri';
-  ['frow-brand','frow-area'].forEach(id=>{const el=$(id);if(el)el.style.display=ac?'':'none';});
+  ['frow-area'].forEach(id=>{const el=$(id);if(el)el.style.display=ac?'':'none';});
+  const wmRow=$('frow-wm');if(wmRow)wmRow.style.display=cat==='pralni-mashyny'?'':'none';
+  const areaSort=document.querySelector('#sort-select option[value="area-asc"]');if(areaSort)areaSort.hidden=!ac;
   const h=$('cat-title');if(h){const key={all:'cat_h_all',kondicioneri:'cat_h','zaryadni-stantsii':'cat_h_ps','pralni-mashyny':'cat_h_wm'}[cat]||'cat_h_all';h.textContent=t(key);}
-  resetFilters();
+  resetFilters();   // also re-renders the brand buttons for this category
 }
 function jumpCat(cat){switchCat(cat);document.getElementById('catalog').scrollIntoView({behavior:'smooth'});}
 (function initCatTabs(){
@@ -184,7 +204,12 @@ function jumpCat(cat){switchCat(cat);document.getElementById('catalog').scrollIn
     const el=b.querySelector('.ctab-n');if(el)el.textContent=n;
   });
 })();
-function jumpBrand(brand){if(window.__CATALOG_CAT__!=='kondicioneri')switchCat('kondicioneri');activeBrand=brand;setActive('brand-filters','brand',brand);renderCatalog();document.getElementById('catalog').scrollIntoView({behavior:'smooth'});}
+function jumpBrand(brand,cat){
+  if(!cat){const cats=[...new Set(PRODUCTS.filter(p=>p.brand===brand).map(p=>p.category))];cat=cats.length===1?cats[0]:'all';}
+  if(window.__CATALOG_CAT__!==cat)switchCat(cat);
+  activeBrand=brand;renderBrandFilters();renderCatalog();
+  document.getElementById('catalog').scrollIntoView({behavior:'smooth'});
+}
 
 /* ============ PRODUCT MODAL ============ */
 function specRows(p){

@@ -13,8 +13,18 @@ const blog = read('blog.json');
 const blogUrl = a => `/blog/${a.slug}/`;
 const CATS = read('categories.json');
 const catOf = p => CATS[p.category] || CATS['kondicioneri'];
+const catList = Object.entries(CATS).map(([key, c]) => ({ key, ...c })).sort((a, b) => (a.order || 99) - (b.order || 99));
+const catProducts = key => products.filter(p => p.category === key);
 const L = 'uk';                                   // static pages render in default language
-const t = (k) => (i18n[L] && i18n[L][k]) ?? (i18n.uk && i18n.uk[k]) ?? k;
+// live product counts — never hardcode a number in copy, write {{TOTAL}}/{{AC}}/{{WM}}/{{PS}}
+const COUNTS = {
+  TOTAL: products.length,
+  AC: products.filter(p => p.category === 'kondicioneri').length,
+  WM: products.filter(p => p.category === 'pralni-mashyny').length,
+  PS: products.filter(p => p.category === 'zaryadni-stantsii').length
+};
+const subCounts = s => String(s).replace(/\{\{(TOTAL|AC|WM|PS)\}\}/g, (m, k) => COUNTS[k]);
+const t = (k) => subCounts((i18n[L] && i18n[L][k]) ?? (i18n.uk && i18n.uk[k]) ?? k);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fmt = n => Number(n).toLocaleString('uk-UA').replace(/ /g, ' ').replace(/,/g, ' ');
 const BASE = site.baseUrl.replace(/\/$/, '');
@@ -164,7 +174,7 @@ function applyI18nStatic(html) {
   return html.replace(/(<([a-zA-Z0-9]+)((?:[^>]*?)\sdata-i18n="([^"]+)"(?:[^>]*?))>)([\s\S]*?)(<\/\2>)/g,
     (m, open, tag, attrs, key, inner, close) => {
       const v = i18n.uk[key];
-      return v === undefined ? m : open + esc(v) + close;
+      return v === undefined ? m : open + esc(subCounts(v)) + close;
     });
 }
 
@@ -189,7 +199,46 @@ if (bestStation && bestWasher) body = body.replace('class="hero-vis two"', 'clas
 const homeCatalogCat = 'all';
 body = body.replace('<div class="grid" id="catalog-grid"></div>',
   `<div class="grid" id="catalog-grid">${products.map(card).join('')}</div>`);
+// brand strip: every brand actually in stock, ordered by how many products it has
+{
+  const counts = {};
+  for (const p of products) counts[p.brand] = (counts[p.brand] || 0) + 1;
+  const chips = Object.keys(counts)
+    .sort((a, b) => counts[b] - counts[a] || a.localeCompare(b, 'uk'))
+    .map(b => `<span class="bs-chip" onclick="jumpBrand('${esc(b)}')">${esc(b)}</span>`).join('\n    ');
+  body = body.replace('<!--BRAND_CHIPS-->', chips);
+}
+// footer catalog columns generated from the data, so new categories/brands never go stale
+{
+  const brandsOf = key => [...new Set(products.filter(p => p.category === key).map(p => p.brand))]
+    .sort((a, b) => a.localeCompare(b, 'uk'));
+  const catLinks = catList.filter(c => catProducts(c.key).length)
+    .map(c => `<li><a href="${c.urlPrefix}/"><b>${esc(c.name)}</b></a></li>`).join('\n        ');
+  const acKey = 'kondicioneri', wmKey = 'pralni-mashyny';
+  const brandLi = (key, prefix) => brandsOf(key)
+    .map(b => `<li><a href="#catalog" onclick="jumpBrand('${esc(b)}','${key}')">${esc(prefix)} ${esc(b)}</a></li>`).join('\n        ');
+  const otherBrands = catList.filter(c => c.key !== acKey && c.key !== wmKey && catProducts(c.key).length)
+    .map(c => brandLi(c.key, c.name)).join('\n        ');
+  const col1 = `<div class="foot-col">
+      <h4>Каталог</h4>
+      <ul>
+        ${catLinks}
+        ${brandLi(acKey, 'Кондиціонери')}
+        ${otherBrands}
+      </ul>
+    </div>`;
+  const wmBrands = brandLi(wmKey, 'Пральна машина');
+  const col2 = wmBrands ? `<div class="foot-col">
+      <h4>Пральні машини</h4>
+      <ul>
+        ${wmBrands}
+      </ul>
+    </div>` : '';
+  body = body.replace('<!--FOOT_CATALOG-->', col1 + '\n    ' + col2);
+  if (col2) body = body.replace('<div class="foot-in">', '<div class="foot-in foot-in-5">');
+}
 body = applyI18nStatic(body);   // bake current uk text into static HTML (SEO)
+body = subCounts(body);         // resolve {{TOTAL}}/{{AC}}/{{WM}}/{{PS}} tokens in raw markup
 
 // shared chrome (header before hero; footer+modals+floats from <footer> onward) for product pages
 const _heroAt = body.indexOf('<section class="hero"');
@@ -315,8 +364,6 @@ for (const p of products) {
 }
 
 // ---- category landing pages (generated only for categories that have products) ----
-const catList = Object.entries(CATS).map(([key, c]) => ({ key, ...c })).sort((a, b) => (a.order || 99) - (b.order || 99));
-const catProducts = key => products.filter(p => p.category === key);
 function categoryPage(cat) {
   const list = catProducts(cat.key);
   const jsonld = {

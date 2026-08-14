@@ -76,7 +76,7 @@
       </div>
       <div class="hero-stats">
         <div class="hstat"><div class="n">10+</div><div class="l" data-i18n="st_years">років на ринку</div></div>
-        <div class="hstat"><div class="n">53</div><div class="l" data-i18n="st_models">товари в наявності</div></div>
+        <div class="hstat"><div class="n">{{TOTAL}}</div><div class="l" data-i18n="st_models">товари в наявності</div></div>
         <div class="hstat"><div class="n">5</div><div class="l" data-i18n="st_masters">майстрів з допуском</div></div>
         <div class="hstat"><div class="n">5 <span>р.</span></div><div class="l" data-i18n="st_guar">гарантія</div></div>
       </div>
@@ -93,14 +93,7 @@
 <div class="brandstrip">
   <div class="brandstrip-in">
     <span class="bs-label" data-i18n="bs_brands">Бренди:</span>
-    <span class="bs-chip" onclick="jumpBrand('TCL')">TCL</span>
-    <span class="bs-chip" onclick="jumpBrand('MIDEA')">MIDEA</span>
-    <span class="bs-chip" onclick="jumpBrand('Olmo')">Olmo</span>
-    <span class="bs-chip" onclick="jumpBrand('Samurai')">Samurai</span>
-    <span class="bs-chip" onclick="jumpBrand('Ardesto')">Ardesto</span>
-    <span class="bs-chip" onclick="jumpBrand('IDEA')">IDEA</span>
-    <span class="bs-chip" onclick="jumpBrand('Grunhelm')">Grunhelm</span>
-    <span class="bs-chip bs-chip-hl" onclick="jumpCat('zaryadni-stantsii')">🔋 Fossibot</span>
+    <!--BRAND_CHIPS-->
   </div>
 </div>
 
@@ -194,17 +187,26 @@
     </div>
 
     <div class="filters" id="filters">
-      <div class="frow" id="frow-brand" style="display:none">
+      <div class="frow" id="frow-brand">
         <span class="flabel" data-i18n="f_brand">Бренд</span>
+        <!-- buttons are rendered by main.js from the products of the active category -->
         <div class="filter-group" id="brand-filters" style="display:flex;flex-wrap:wrap;gap:8px">
           <button class="fbtn active" data-brand="all" data-i18n="f_all">Всі</button>
-          <button class="fbtn" data-brand="TCL">TCL</button>
-          <button class="fbtn" data-brand="MIDEA">MIDEA</button>
-          <button class="fbtn" data-brand="Olmo">Olmo</button>
-          <button class="fbtn" data-brand="Samurai">Samurai</button>
-          <button class="fbtn" data-brand="Ardesto">Ardesto</button>
-          <button class="fbtn" data-brand="IDEA">IDEA</button>
-          <button class="fbtn" data-brand="Grunhelm">Grunhelm</button>
+        </div>
+      </div>
+      <div class="frow" id="frow-wm" style="display:none">
+        <span class="flabel" data-i18n="f_load">Завантаження</span>
+        <div class="filter-group" id="load-filters" style="display:flex;flex-wrap:wrap;gap:8px">
+          <button class="fbtn active" data-load="all" data-i18n="f_anyload">Будь-яке</button>
+          <button class="fbtn" data-load="5">5 кг</button>
+          <button class="fbtn" data-load="6">6 кг</button>
+          <button class="fbtn" data-load="7">7 кг</button>
+        </div>
+        <div class="fdiv"></div>
+        <div class="filter-group" id="depth-filters" style="display:flex;flex-wrap:wrap;gap:8px">
+          <button class="fbtn active" data-depth="all" data-i18n="f_anydepth">Будь-яка</button>
+          <button class="fbtn" data-depth="narrow" data-i18n="f_narrow">Вузькі (до 45 см)</button>
+          <button class="fbtn" data-depth="standard" data-i18n="f_standard">Стандартні (45+ см)</button>
         </div>
       </div>
       <div class="frow" id="frow-area" style="display:none">
@@ -227,10 +229,11 @@
         <span class="flabel" data-i18n="f_price">Ціна</span>
         <div class="filter-group" id="price-filters" style="display:flex;flex-wrap:wrap;gap:8px">
           <button class="fbtn active" data-price="all" data-i18n="f_anyprice">Будь-яка</button>
-          <button class="fbtn" data-price="15000">до 15 000 ₴</button>
-          <button class="fbtn" data-price="25000">15–25 тис.</button>
-          <button class="fbtn" data-price="40000">25–40 тис.</button>
-          <button class="fbtn" data-price="999999">40+ тис.</button>
+          <button class="fbtn" data-price="0-10000">до 10 000 ₴</button>
+          <button class="fbtn" data-price="10000-15000">10–15 тис.</button>
+          <button class="fbtn" data-price="15000-25000">15–25 тис.</button>
+          <button class="fbtn" data-price="25000-40000">25–40 тис.</button>
+          <button class="fbtn" data-price="40000-999999999">40+ тис.</button>
         </div>
         <div class="ftools">
           <select class="sort-select" id="sort-select" onchange="renderCatalog()">
@@ -430,6 +433,10 @@
       <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Чи можна встановити кондиціонер під час або після ремонту?</div><div class="faq-a">Так. Встановлення виконується до, під час або після ремонту. Також робимо монтаж у 2 етапи — прихований на етапі ремонту й завершення після. Зручно та акуратно.</div></div>
       <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Яка різниця між інверторним кондиціонером і звичайним?</div><div class="faq-a">Інверторний компресор регулює потужність плавно — економить до 30% електроенергії, тихіший, має довший ресурс. Звичайний (On/Off) вмикається та вимикається повністю — простіший і дешевший, але менш економічний.</div></div>
       <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Як вибрати потужність кондиціонера для моєї кімнати?</div><div class="faq-a">Проста формула: 1 кВт потужності на 10 м² площі. Для кімнати 25 м² — 2,5 кВт (9 000 BTU). Скористайтесь нашим калькулятором підбору вище або подзвоніть — фахівець врахує висоту стелі, кількість вікон та орієнтацію.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Ви підключаєте пральну машину?</div><div class="faq-a">Так. Доставка по Сумах — 400 грн, підключення — 500 грн. Майстер привезе машину, зніме транспортувальні болти, підключить до води й каналізації, вирівняє по рівню та запустить тестовий цикл. Якщо потрібні додаткові крани, шланги чи перенесення точки підключення — скажемо вартість заздалегідь.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Яку пральну машину обрати за глибиною?</div><div class="faq-a">Міряйте вільне місце й віднімайте 5 см на шланги ззаду. Вузькі моделі (до 45 см) підходять для ванних кімнат і ніш — у нас це Beko 40 см, Edler 41 см, Indesit 42,5 см, Haier 43,7 см. Стандартні (45+ см) вміщують більше білизни за раз. У фільтрі каталогу є окремий перемикач «Вузькі / Стандартні».</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Скільки кілограмів завантаження мені потрібно?</div><div class="faq-a">Орієнтир простий: 5 кг — для однієї-двох людей, 6 кг — для сім’ї з трьох, 7 кг — для сім’ї з чотирьох або якщо часто прете пледи й куртки. Завантаження вказане для бавовни; для синтетики та вовни машина бере приблизно вдвічі менше.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Чим інверторний мотор кращий за звичайний?</div><div class="faq-a">В інверторному моторі немає щіток, які стираються, — тому він тихіший, менше вібрує та служить довше. Виробники дають на такі мотори подовжену гарантію: наприклад, LG та Samsung — 10 років. Різниця в ціні окупається ресурсом, тож більшість моделей у нас саме інверторні.</div></div>
       <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Чи підійде зарядна станція для холодильника під час відключень світла?</div><div class="faq-a">Так. Fossibot F1800 видає 1800 Вт чистої синусоїди — цього достатньо для холодильника, роутера, освітлення та зарядки ґаджетів одночасно. Функція UPS перемикає живлення за ≤10 мс, тож техніка навіть не вимкнеться.</div></div>
       <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Як швидко заряджається зарядна станція?</div><div class="faq-a">Від розетки Fossibot F1800 приймає до 1200 Вт — повний заряд приблизно за годину. Також можна заряджати від сонячних панелей (до 500 Вт) або від автомобіля через XT60.</div></div>
     </div>
@@ -495,20 +502,7 @@
         <a href="mailto:dimagala48@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg></a>
       </div>
     </div>
-    <div class="foot-col">
-      <h4 data-i18n="cat_eye">Каталог</h4>
-      <ul>
-        <li><a href="/kondicioner/"><b>Кондиціонери</b></a></li>
-        <li><a href="/zaryadni-stantsii/"><b>Зарядні станції</b></a></li>
-        <li><a href="#catalog" onclick="jumpBrand('TCL')">Кондиціонери TCL</a></li>
-        <li><a href="#catalog" onclick="jumpBrand('MIDEA')">Кондиціонери MIDEA</a></li>
-        <li><a href="#catalog" onclick="jumpBrand('Olmo')">Кондиціонери Olmo</a></li>
-        <li><a href="#catalog" onclick="jumpBrand('Samurai')">Кондиціонери Samurai</a></li>
-        <li><a href="#catalog" onclick="jumpBrand('IDEA')">Кондиціонери IDEA</a></li>
-        <li><a href="#catalog" onclick="jumpBrand('Ardesto')">Кондиціонери Ardesto</a></li>
-        <li><a href="#catalog" onclick="jumpBrand('Grunhelm')">Кондиціонери Grunhelm</a></li>
-      </ul>
-    </div>
+    <!--FOOT_CATALOG-->
     <div class="foot-col">
       <h4 data-i18n="foot_info">Інформація</h4>
       <ul>

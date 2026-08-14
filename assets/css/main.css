@@ -41,13 +41,15 @@ nav a{color:rgba(255,255,255,.72);font-size:14.5px;font-weight:500;padding:9px 1
 nav a:hover{color:#fff;background:rgba(124,196,255,.1)}
 .header-right{display:flex;align-items:center;gap:14px;margin-left:auto;flex-shrink:0}
 /* keep the header on one line on laptops: tighten nav, then drop the phone */
-@media(max-width:1680px){
+@media(max-width:1720px){
   .header-in{gap:16px}
   nav a{font-size:13.5px;padding:8px 9px}
 }
-@media(max-width:1600px){
+@media(max-width:1660px){
   .header-in{gap:12px}
   nav a{font-size:13px;padding:8px 6px}
+}
+@media(max-width:1520px){
   .header-in .h-phone{display:none}
 }
 .h-phone{color:#fff;font-family:var(--disp);font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;white-space:nowrap}
@@ -401,6 +403,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 /* ============ FOOTER ============ */
 footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
 .foot-in{max-width:var(--max);margin:0 auto;padding:0 22px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:34px}
+.foot-in-5{grid-template-columns:1.4fr 1fr .9fr 1fr 1fr;gap:26px}
 .foot-brand img{height:32px;margin-bottom:16px;filter:brightness(0) invert(1)}
 .foot-brand p{font-size:14px;line-height:1.6;max-width:320px}
 .foot-soc{display:flex;gap:10px;margin-top:18px}
