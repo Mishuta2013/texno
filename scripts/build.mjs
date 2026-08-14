@@ -384,6 +384,7 @@ ${HEADER}
     <h1 class="cat-h1">${esc(cat.name)} у Сумах</h1>
     <p class="cat-sub">${esc(cat.intro || '')}</p>
     <div class="cat-count">${list.length} ${list.length % 10 === 1 && list.length % 100 !== 11 ? 'модель' : (list.length % 10 >= 2 && list.length % 10 <= 4 && (list.length % 100 < 10 || list.length % 100 >= 20) ? 'моделі' : 'моделей')} у наявності</div>
+    ${cat.quizCta ? `<button class="btn-catquiz cat-head-quiz" type="button" onclick="if(window.openQuiz)openQuiz('${cat.key}')">${esc(cat.quizCta)}</button>` : ''}
   </header>
   <div class="grid">${list.map(card).join('')}</div>
   <div class="pp-back"><a href="/#catalog">← Усі товари</a></div>

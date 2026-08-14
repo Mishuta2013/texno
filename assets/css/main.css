@@ -713,6 +713,14 @@ a.gauge-card:hover{transform:translateY(-4px)}
 .quiz-opt{padding:16px 10px;border:1.5px solid var(--g2);border-radius:var(--r);background:var(--paper);font-family:var(--disp);font-weight:600;font-size:14px;color:var(--g5);transition:.16s}
 .quiz-opt:hover{border-color:var(--frost);color:var(--ink)}
 .quiz-opt.on{border-color:var(--blue);background:var(--ice);color:var(--blue-d)}
+.quiz-opt small{display:block;margin-top:5px;font-family:var(--body,inherit);font-weight:500;font-size:11.5px;line-height:1.3;color:var(--g4);text-transform:none}
+.quiz-opt.on small{color:var(--blue-d);opacity:.85}
+/* category quiz call-to-action (catalog tab + category page) */
+.cat-quiz{margin:0 0 18px}
+.btn-catquiz{display:inline-flex;align-items:center;gap:9px;padding:12px 20px;border-radius:var(--r-pill);border:1.5px dashed var(--blue);background:var(--ice,#eaf3ff);color:var(--blue-d);font-family:var(--disp);font-weight:700;font-size:14.5px;cursor:pointer;transition:.18s}
+.btn-catquiz::before{content:'✨';font-size:15px}
+.btn-catquiz:hover{background:var(--blue);color:#fff;border-style:solid}
+.cat-head-quiz{margin-top:16px}
 .quiz-foot{display:flex;justify-content:space-between;gap:12px;padding:0 28px 26px}
 .quiz-back{background:none;border:none;color:var(--g5);font-family:var(--disp);font-weight:600;font-size:15px;padding:10px}
 .quiz-back:hover{color:var(--ink)}

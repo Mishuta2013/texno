@@ -193,6 +193,9 @@ function switchCat(cat){
   ['frow-area'].forEach(id=>{const el=$(id);if(el)el.style.display=ac?'':'none';});
   const wmRow=$('frow-wm');if(wmRow)wmRow.style.display=cat==='pralni-mashyny'?'':'none';
   const areaSort=document.querySelector('#sort-select option[value="area-asc"]');if(areaSort)areaSort.hidden=!ac;
+  // offer the matching quiz right above the grid when the category has one
+  const qWrap=$('cat-quiz'),qBtn=$('cat-quiz-btn'),qDef=QUIZZES[cat];
+  if(qWrap&&qBtn){if(qDef){qBtn.textContent=t(qDef.ctaKey);qWrap.style.display='';}else qWrap.style.display='none';}
   const h=$('cat-title');if(h){const key={all:'cat_h_all',kondicioneri:'cat_h','zaryadni-stantsii':'cat_h_ps','pralni-mashyny':'cat_h_wm'}[cat]||'cat_h_all';h.textContent=t(key);}
   resetFilters();   // also re-renders the brand buttons for this category
 }
@@ -445,50 +448,132 @@ document.querySelectorAll('a[href*="380991108041"]').forEach(()=>{});
   }
 })();
 
-/* ============ QUIZ ============ */
+/* ============ QUIZ ENGINE ============
+   One state machine + lead flow; each category describes its own steps and
+   how to rank products. Adding a category = adding an entry to QUIZZES.     */
 const QUIZ_ROOMS=[['bed','quiz_bed',1.0],['liv','quiz_liv',1.1],['kit','quiz_kit',1.2],['kid','quiz_kid',1.05],['off','quiz_off',1.0],['stu','quiz_stu',1.1]];
 const QUIZ_FLOORS=[['low','quiz_fl_low',1.0],['mid','quiz_fl_mid',1.0],['top','quiz_fl_top',1.1]];
-let quizStep=0, quizState={area:25,room:null,floor:null,budget:null};
-function quizBudget(){const ps=PRODUCTS.map(p=>p.price);return [Math.floor(Math.min(...ps)/1000)*1000, Math.ceil(Math.max(...ps)/1000)*1000];}
-function openQuiz(){if(!PRODUCTS.length)return;quizStep=0;quizState={area:25,room:null,floor:null,budget:quizBudget()[1]};$('quiz-modal').classList.add('open');document.body.style.overflow='hidden';quizRender();}
+const HOSE_CLEARANCE=5;   // cm behind a washing machine for hoses
+const num=v=>{const n=parseFloat(String(v).replace(',','.'));return isNaN(n)?null:n;};
+function priceRange(cat){
+  const ps=PRODUCTS.filter(p=>!cat||p.category===cat).map(p=>p.price);
+  if(!ps.length)return [0,100000];
+  return [Math.floor(Math.min(...ps)/1000)*1000,Math.ceil(Math.max(...ps)/1000)*1000];
+}
+const QUIZZES={
+  kondicioneri:{
+    cat:'kondicioneri', eyeKey:'quiz_eye', titleKey:'quiz_h', resKey:'quiz_res_h', overKey:'quiz_over', ctaKey:'hero_cta2',
+    steps:[
+      {type:'range',key:'area',qKey:'quiz_s1',hintKey:'quiz_s1_hint',min:8,max:100,step:1,def:25,unit:()=>LANG==='en'?'m²':'м²'},
+      {type:'choice',key:'room',qKey:'quiz_s2',options:QUIZ_ROOMS.map(([v,k])=>[v,k])},
+      {type:'choice',key:'floor',qKey:'quiz_s3',options:QUIZ_FLOORS.map(([v,k])=>[v,k])},
+      {type:'budget',key:'budget',qKey:'quiz_s4',hintKey:'quiz_s4_hint'}
+    ],
+    need(s){const rc=(QUIZ_ROOMS.find(r=>r[0]===s.room)||[,,1])[2],fc=(QUIZ_FLOORS.find(f=>f[0]===s.floor)||[,,1])[2];
+      const target=recommendBtu(s.area)*rc*fc;return [7000,9000,12000,18000,24000].find(x=>x>=target)||24000;},
+    fits(p,s){return p.btu>=this.need(s);},
+    rank(a,b){return a.btu-b.btu||a.price-b.price;},
+    meta(p){return `${p.brand} · ${(p.btu/1000).toFixed(0)}k BTU · ${LANG==='en'?'up to':'до'} ${p.area} м²`;},
+    summary(s){const r=QUIZ_ROOMS.find(x=>x[0]===s.room),f=QUIZ_FLOORS.find(x=>x[0]===s.floor);
+      return `${t('quiz_s1')}: ${s.area} м²; ${r?t(r[1]):''}; ${f?t(f[1]):''}; ${t('quiz_s4')}: ${fmt(s.budget)} грн; ~${this.need(s)} BTU`;}
+  },
+  'pralni-mashyny':{
+    cat:'pralni-mashyny', eyeKey:'wmq_eye', titleKey:'wmq_h', resKey:'wmq_res_h', overKey:'wmq_over', noneKey:'wmq_none', ctaKey:'wmq_cta',
+    steps:[
+      {type:'range',key:'depth',qKey:'wmq_s1',hintKey:'wmq_s1_hint',min:38,max:60,step:1,def:50,unit:()=>LANG==='en'?'cm':'см'},
+      {type:'choice',key:'family',qKey:'wmq_s2',hintKey:'wmq_s2_hint',options:[['1','wmq_fam1'],['2','wmq_fam2'],['3','wmq_fam3']]},
+      {type:'choice',key:'priority',qKey:'wmq_s3',options:[['quiet','wmq_pr_quiet','wmq_pr_quiet_h'],['dry','wmq_pr_dry','wmq_pr_dry_h'],['hyg','wmq_pr_hyg','wmq_pr_hyg_h'],['price','wmq_pr_price','wmq_pr_price_h']]},
+      {type:'budget',key:'budget',qKey:'quiz_s4',hintKey:'quiz_s4_hint'}
+    ],
+    need(s){return {'1':5,'2':6,'3':7}[s.family]||6;},
+    fits(p,s){
+      const d=num(p.specs&&p.specs.depth), kg=num(p.specs&&p.specs.load_kg);
+      if(d===null||d+HOSE_CLEARANCE>s.depth)return false;      // must physically fit
+      return kg===null||kg>=this.need(s);
+    },
+    score(p,s){
+      const sp=p.specs||{},rpm=num(sp.rpm)||0;
+      if(s.priority==='quiet')return (p.inverter?100:0)+(1400-rpm)/100;
+      if(s.priority==='dry')return rpm/10;
+      if(s.priority==='hyg')return (sp.steam?100:0)+(p.inverter?10:0);
+      return -p.price/1000;                                     // price
+    },
+    rank(a,b){const s=quizState;return this.score(b,s)-this.score(a,s)||a.price-b.price;},
+    meta(p){const sp=p.specs||{};return `${p.brand} · ${sp.load_kg} кг · ${sp.rpm} об/хв · ${t('wmq_depth_lbl')} ${sp.depth} см`;},
+    summary(s){const fam=(this.steps[1].options.find(o=>o[0]===s.family)||[])[1],pr=(this.steps[2].options.find(o=>o[0]===s.priority)||[])[1];
+      return `${t('wmq_niche_lbl')}: ${s.depth} см; ${fam?t(fam):''}; ${pr?t(pr):''}; ${t('quiz_s4')}: ${fmt(s.budget)} грн; ~${this.need(s)} кг`;}
+  }
+};
+let quizKind='kondicioneri', quizStep=0, quizState={};
+const quizDef=()=>QUIZZES[quizKind];
+function quizBudget(){return priceRange(quizDef().cat);}
+function openQuiz(kind){
+  if(!PRODUCTS.length)return;
+  quizKind=QUIZZES[kind]?kind:'kondicioneri';
+  const d=quizDef();
+  quizStep=0;quizState={};
+  d.steps.forEach(st=>{
+    if(st.type==='range')quizState[st.key]=st.def!=null?st.def:Math.round((st.min+st.max)/2);
+    else if(st.type==='budget')quizState[st.key]=priceRange(d.cat)[1];
+    else quizState[st.key]=null;
+  });
+  const eye=document.querySelector('.quiz-eyebrow'),ttl=document.querySelector('.quiz-title');
+  if(eye)eye.textContent=t(d.eyeKey);if(ttl)ttl.textContent=t(d.titleKey);
+  $('quiz-modal').classList.add('open');document.body.style.overflow='hidden';quizRender();
+}
+function openQuizWm(){openQuiz('pralni-mashyny');}
 function closeQuiz(){closeModalById('quiz-modal');}
-function quizCalc(){const rc=(QUIZ_ROOMS.find(r=>r[0]===quizState.room)||[,,1])[2];const fc=(QUIZ_FLOORS.find(f=>f[0]===quizState.floor)||[,,1])[2];const target=recommendBtu(quizState.area)*rc*fc;return [7000,9000,12000,18000,24000].find(s=>s>=target)||24000;}
+function quizCalc(){return quizDef().need(quizState);}   // kept for the AC calculator section
 function quizRender(){
+  const d=quizDef(),steps=d.steps,st=steps[quizStep];
   const body=$('quiz-body'),back=$('quiz-back'),next=$('quiz-next');
-  $('quiz-prog').style.width=(quizStep/4*100)+'%';
+  $('quiz-prog').style.width=(quizStep/steps.length*100)+'%';
   back.style.visibility=quizStep>0?'visible':'hidden';next.style.display='';
-  next.textContent=quizStep===3?t('quiz_finish'):t('quiz_next');
-  if(quizStep===0){
-    body.innerHTML=`<div class="quiz-step"><div class="quiz-q">${t('quiz_s1')}</div><div class="quiz-big"><span id="qa-v">${quizState.area}</span> ${LANG==='en'?'m²':'м²'}</div><input type="range" min="8" max="100" value="${quizState.area}" oninput="quizState.area=+this.value;$('qa-v').textContent=this.value"><div class="quiz-hint">${t('quiz_s1_hint')}</div></div>`;
-  }else if(quizStep===1){
-    body.innerHTML=`<div class="quiz-step"><div class="quiz-q">${t('quiz_s2')}</div><div class="quiz-opts">${QUIZ_ROOMS.map(([k,key])=>`<button class="quiz-opt${quizState.room===k?' on':''}" onclick="quizState.room='${k}';quizRender()">${t(key)}</button>`).join('')}</div></div>`;
-  }else if(quizStep===2){
-    body.innerHTML=`<div class="quiz-step"><div class="quiz-q">${t('quiz_s3')}</div><div class="quiz-opts">${QUIZ_FLOORS.map(([k,key])=>`<button class="quiz-opt${quizState.floor===k?' on':''}" onclick="quizState.floor='${k}';quizRender()">${t(key)}</button>`).join('')}</div></div>`;
+  next.textContent=quizStep===steps.length-1?t('quiz_finish'):t('quiz_next');
+  const hint=st.hintKey?`<div class="quiz-hint">${t(st.hintKey)}</div>`:'';
+  if(st.type==='range'||st.type==='budget'){
+    const isBudget=st.type==='budget';
+    const [mn,mx]=isBudget?quizBudget():[st.min,st.max];
+    if(quizState[st.key]==null)quizState[st.key]=isBudget?mx:(st.def!=null?st.def:Math.round((mn+mx)/2));
+    const val=quizState[st.key];
+    const unit=isBudget?(LANG==='en'?'UAH':'грн'):st.unit();
+    const show=isBudget?fmt(val):val;
+    body.innerHTML=`<div class="quiz-step"><div class="quiz-q">${t(st.qKey)}</div>
+      <div class="quiz-big"><span id="qv-${st.key}">${show}</span> ${unit}</div>
+      <input type="range" min="${mn}" max="${mx}" step="${isBudget?1000:(st.step||1)}" value="${val}"
+        oninput="quizState['${st.key}']=+this.value;$('qv-${st.key}').textContent=${isBudget?'fmt(+this.value)':'this.value'}">
+      ${hint}</div>`;
   }else{
-    const [mn,mx]=quizBudget();if(quizState.budget==null)quizState.budget=mx;
-    body.innerHTML=`<div class="quiz-step"><div class="quiz-q">${t('quiz_s4')}</div><div class="quiz-big"><span id="qb-v">${fmt(quizState.budget)}</span> ${LANG==='en'?'UAH':'грн'}</div><input type="range" min="${mn}" max="${mx}" step="1000" value="${quizState.budget}" oninput="quizState.budget=+this.value;$('qb-v').textContent=fmt(+this.value)"><div class="quiz-hint">${t('quiz_s4_hint')}</div></div>`;
+    body.innerHTML=`<div class="quiz-step"><div class="quiz-q">${t(st.qKey)}</div>
+      <div class="quiz-opts">${st.options.map(([v,k,h])=>`<button class="quiz-opt${quizState[st.key]===v?' on':''}" onclick="quizState['${st.key}']='${v}';quizRender()">${t(k)}${h?`<small>${t(h)}</small>`:''}</button>`).join('')}</div>
+      ${hint}</div>`;
   }
 }
-function quizNext(){if(quizStep===1&&!quizState.room)return;if(quizStep===2&&!quizState.floor)return;if(quizStep<3){quizStep++;quizRender();}else quizResult();}
+function quizNext(){
+  const d=quizDef(),st=d.steps[quizStep];
+  if(st.type==='choice'&&!quizState[st.key])return;      // must pick something
+  if(quizStep<d.steps.length-1){quizStep++;quizRender();}else quizResult();
+}
 function quizBack(){if(quizStep>0){quizStep--;quizRender();}}
-function quizSummary(){const r=QUIZ_ROOMS.find(x=>x[0]===quizState.room),f=QUIZ_FLOORS.find(x=>x[0]===quizState.floor);return `${t('quiz_s1')}: ${quizState.area} ${LANG==='en'?'m²':'м²'}; ${r?t(r[1]):''}; ${f?t(f[1]):''}; ${t('quiz_s4')}: ${fmt(quizState.budget)} грн; ~${quizCalc()} BTU`;}
+function quizSummary(){return quizDef().summary(quizState);}
 function quizResult(){
-  const need=quizCalc();const list=PRODUCTS.filter(p=>p.btu>=need);
-  const within=list.filter(p=>p.price<=quizState.budget).sort((a,b)=>a.btu-b.btu||a.price-b.price);
+  const d=quizDef(),pool=PRODUCTS.filter(p=>!d.cat||p.category===d.cat);
+  const fitting=pool.filter(p=>d.fits(p,quizState));
+  const within=fitting.filter(p=>p.price<=quizState.budget).sort((a,b)=>d.rank(a,b));
   let over=false,res=within.slice(0,3);
-  if(!res.length){over=true;res=list.slice().sort((a,b)=>a.btu-b.btu||a.price-b.price).slice(0,3);}
-  if(!res.length)res=PRODUCTS.slice().sort((a,b)=>b.btu-a.btu).slice(0,3);
+  if(!res.length&&fitting.length){over=true;res=fitting.slice().sort((a,b)=>d.rank(a,b)).slice(0,3);}
   $('quiz-prog').style.width='100%';$('quiz-back').style.visibility='visible';$('quiz-next').style.display='none';
-  const cards=res.map(p=>`<a class="quiz-card" href="${productUrl(p)}"><img src="${p.thumb||p.photos[0]}" alt="${p.name}" loading="lazy"><div class="quiz-card-b"><div class="quiz-card-m">${p.brand} · ${(p.btu/1000).toFixed(0)}k BTU · до ${p.area} м²</div><div class="quiz-card-n">${p.name}</div><div class="quiz-card-p">${fmt(p.price)} грн</div></div></a>`).join('');
-  $('quiz-body').innerHTML=`<div class="quiz-res"><div class="quiz-q">${t('quiz_res_h')}</div>${over?`<div class="quiz-note">${t('quiz_over')}</div>`:''}<div class="quiz-cards">${cards}</div>
+  const cards=res.map(p=>`<a class="quiz-card" href="${productUrl(p)}"><img src="${p.thumb||p.photos[0]}" alt="${p.name}" loading="lazy"><div class="quiz-card-b"><div class="quiz-card-m">${d.meta(p)}</div><div class="quiz-card-n">${p.name}</div><div class="quiz-card-p">${fmt(p.price)} грн</div></div></a>`).join('');
+  const note=!res.length?`<div class="quiz-note">${t(d.noneKey||'quiz_over')}</div>`:(over?`<div class="quiz-note">${t(d.overKey)}</div>`:'');
+  $('quiz-body').innerHTML=`<div class="quiz-res"><div class="quiz-q">${t(d.resKey)}</div>${note}<div class="quiz-cards">${cards}</div>
     <form class="quiz-lead" onsubmit="return quizSubmit(event)"><div class="quiz-q2">${t('quiz_lead_h')}</div>
       <div class="quiz-lead-row"><input name="name" placeholder="${t('form_name')}" required><input name="phone" placeholder="+38 (0__) ___-__-__" required></div>
       <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit" class="btn-primary">${t('quiz_send')}</button></form></div>`;
 }
 function quizSubmit(e){e.preventDefault();const f=e.target;if(f.company.value)return false;
-  sendLead({type:'quiz',name:f.name.value,phone:f.phone.value,note:quizSummary()});
-  track('generate_lead',{method:'quiz'});
+  sendLead({type:'quiz-'+quizKind,name:f.name.value,phone:f.phone.value,note:quizSummary()});
+  track('generate_lead',{method:'quiz',category:quizKind});
   $('quiz-body').innerHTML=`<div class="quiz-done"><div class="quiz-done-ic">✓</div><h3>${t('quiz_done_h')}</h3><p>${t('quiz_done_p')}</p></div>`;
   $('quiz-back').style.visibility='hidden';return false;}
 
