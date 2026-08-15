@@ -428,6 +428,50 @@ function applyCalc(){if(window.__CATALOG_CAT__!=='kondicioneri')switchCat('kondi
 function toggleFaq(el){const it=el.parentElement;const open=it.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!open)it.classList.add('open');}
 function toggleNav(){document.getElementById('header').classList.toggle('nav-open');}
 document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>document.getElementById('header').classList.remove('nav-open')));
+
+/* Anchor navigation that survives late layout shifts.
+
+   Third-party embeds and images finish loading after the page is interactive,
+   and anything that grows above the target moves it out from under a scroll
+   that is already running — the visitor presses "Питання" and lands somewhere
+   in the middle of the reviews. So: scroll, then keep re-aligning while the
+   document height is still changing, and stop as soon as the visitor takes
+   over or the page settles. */
+(function(){
+  const HEAD = 84;                       // sticky header, matches scroll-padding-top
+  function goTo(el){
+    let done = false, aimed = -1, t0 = Date.now();
+    const stop = () => { done = true; };
+    addEventListener('wheel', stop, {passive:true, once:true});
+    addEventListener('touchstart', stop, {passive:true, once:true});
+    addEventListener('keydown', stop, {once:true});
+    (function align(){
+      if (done) return;
+      const y = Math.max(0, Math.round(el.getBoundingClientRect().top + scrollY - HEAD));
+      // only re-aim when the target itself moved — re-issuing the same scrollTo
+      // restarts the smooth animation and it would never arrive
+      if (y !== aimed) { aimed = y; scrollTo({top: y, behavior: 'smooth'}); }
+      if (Date.now() - t0 < 1600) setTimeout(align, 200);
+    })();
+  }
+  addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"], a[href*="/#"]');
+    if (!a || a.target === '_blank') return;
+    const id = (a.getAttribute('href') || '').split('#')[1];
+    if (!id) return;
+    const el = document.getElementById(id);
+    if (!el) return;                     // let cross-page links through
+    e.preventDefault();
+    history.replaceState(null, '', '#' + id);
+    goTo(el);
+  });
+  // deep link: /#faq typed or shared — same treatment once the page is up
+  addEventListener('load', () => {
+    const id = location.hash.slice(1);
+    const el = id && document.getElementById(id);
+    if (el) goTo(el);
+  });
+})();
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeProductModal();forceCloseCb();closeModalById('compare-modal');closeModalById('fav-modal');closeQbuy();}});
 window.addEventListener('scroll',closeQbuy,{passive:true});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});

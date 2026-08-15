@@ -260,10 +260,19 @@ function navLd() {
   }));
 }
 // lets Google offer a search box for the site
+/* Every way a customer might type the shop's name — Latin or Cyrillic, one word
+   or two. Search engines match a query against these, so a person googling
+   "техноплаза суми" or "texno plaza" lands on us and not on a namesake. */
+const BRAND_ALIASES = [
+  'TexnoPlaza', 'Texno Plaza', 'TEXNOPLAZA', 'Texnoplaza', 'TechnoPlaza', 'Techno Plaza',
+  'ТехноПлаза', 'Техно Плаза', 'Техноплаза', 'ТЕХНОПЛАЗА',
+  'ТехноПлаза Суми', 'ТехноПлаза Сумы', 'TexnoPlaza Sumy',
+  'texnoplaza.sumy.ua'
+];
 function searchLd() {
   return {
     '@context': 'https://schema.org', '@type': 'WebSite',
-    name: site.name, url: abs(pfx() + '/'),
+    name: site.name, alternateName: BRAND_ALIASES, url: abs(pfx() + '/'),
     potentialAction: {
       '@type': 'SearchAction',
       target: { '@type': 'EntryPoint', urlTemplate: abs(pfx() + '/?q={search_term_string}#catalog') },
@@ -376,8 +385,10 @@ ${head({
   desc: t('seo_home_d'),
   canonical: abs(pfx() + '/'), altPath: '/',
   jsonld: {
-    '@context': 'https://schema.org', '@type': 'ElectronicsStore', name: site.name,
-    image: abs('/assets/og/default.jpg'), telephone: site.phone, email: site.email,
+    '@context': 'https://schema.org', '@type': 'ElectronicsStore',
+    '@id': BASE + '/#store', name: site.name, alternateName: BRAND_ALIASES,
+    image: abs('/assets/og/default.jpg'), logo: abs('/assets/img/logo.png'),
+    telephone: site.phone, email: site.email,
     address: { '@type': 'PostalAddress', streetAddress: 'вул. Харківська 2/1', addressLocality: site.city, addressCountry: 'UA' },
     url: BASE, priceRange: '₴₴', areaServed: 'Суми'
   }
@@ -641,7 +652,7 @@ if (L === 'uk') {
 if (L === 'uk') {
   const privacyBody = fs.readFileSync(path.join(ROOT, 'templates/privacy.html'), 'utf8');
   const html = `<!doctype html><html lang="uk"><head>
-${head({ title: 'Політика конфіденційності | TEXNOPLAZA', desc: 'Політика конфіденційності TEXNOPLAZA: які персональні дані ми збираємо через форми, дзвінки та месенджери, з якою метою, як зберігаємо й захищаємо їх, та ваші права.', canonical: abs('/polityka-konfidentsiynosti/') })}
+${head({ title: 'Політика конфіденційності | TexnoPlaza', desc: 'Політика конфіденційності TexnoPlaza: які персональні дані ми збираємо через форми, дзвінки та месенджери, з якою метою, як зберігаємо й захищаємо їх, та ваші права.', canonical: abs('/polityka-konfidentsiynosti/') })}
 </head><body>
 ${HEADER}
 ${privacyBody}

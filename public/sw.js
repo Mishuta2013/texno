@@ -1,4 +1,4 @@
-// TEXNO PLAZA service worker — basic offline (network-first HTML, cache-first assets).
+// TexnoPlaza service worker — basic offline (network-first HTML, cache-first assets).
 const C = 'tp-v1';
 const PRE = ['/', '/assets/icons/icon-192.png'];
 

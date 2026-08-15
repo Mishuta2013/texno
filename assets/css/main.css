@@ -14,8 +14,8 @@
   --disp:'Manrope',sans-serif;--body:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
   --max:1220px;
 }
-html{scroll-behavior:smooth;scroll-padding-top:84px}
-body{font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+html{scroll-behavior:smooth;scroll-padding-top:84px;overflow-x:hidden}
+body{font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 img{display:block;max-width:100%}
 button{cursor:pointer;font-family:var(--body);border:none;outline:none}
@@ -316,6 +316,11 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 
 /* ============ REVIEWS ============ */
 .reviews{background:var(--white)}
+/* The Google-reviews widget is loaded lazily by a third party. Reserving its
+   real height keeps it from pushing FAQ and contacts ~500px down as it
+   appears, which used to make the nav anchors land in the wrong place. */
+.rev-embed{margin-top:34px;min-height:704px}
+
 .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px}
 .rev-card{padding:26px 24px;border:1px solid var(--g2);border-radius:var(--r);background:var(--paper)}
 .rev-stars{display:flex;gap:3px;margin-bottom:14px}
@@ -417,7 +422,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
 .foot-in{max-width:var(--max);margin:0 auto;padding:0 22px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:34px}
 .foot-in-5{grid-template-columns:1.4fr 1fr .9fr 1fr 1fr;gap:26px}
-.foot-brand img{height:32px;margin-bottom:16px;filter:brightness(0) invert(1)}
+.foot-brand img{height:44px;width:auto;margin-bottom:16px;filter:brightness(0) invert(1)}
 .foot-brand p{font-size:14px;line-height:1.6;max-width:320px}
 .foot-soc{display:flex;gap:10px;margin-top:18px}
 .foot-soc a{width:40px;height:40px;border-radius:11px;background:rgba(124,196,255,.1);display:flex;align-items:center;justify-content:center;transition:.18s}
@@ -495,6 +500,7 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
   .calc-in,.install-in,.cgrid{grid-template-columns:1fr;gap:30px}
   .trust-in{grid-template-columns:1fr 1fr}
   .adv-grid,.rev-grid,.steps,.svc-grid,.pay-grid{grid-template-columns:1fr 1fr}
+  .rev-embed{min-height:774px}
   .foot-in{grid-template-columns:1fr 1fr}
 }
 /* 10 nav items (incl. the long AC-picker link) stop fitting → burger from 1380px;

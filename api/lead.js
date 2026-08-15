@@ -19,7 +19,7 @@ export default async function handler(req, res) {
 
   const typeMap = { callback: '📞 Зворотний дзвінок', consultation: '💬 Консультація', quiz: '🧩 Підбір (квіз)', order: '🛒 Замовлення', '': '📩 Заявка' };
   const lines = [
-    `<b>${typeMap[b.type] || typeMap['']}</b> — TEXNO PLAZA`,
+    `<b>${typeMap[b.type] || typeMap['']}</b> — TexnoPlaza`,
     b.name && `👤 ${esc(b.name)}`,
     `📱 <b>${esc(phone)}</b>`,
     b.product && `❄️ Модель: ${esc(b.product)}`,
