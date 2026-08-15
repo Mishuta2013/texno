@@ -444,10 +444,11 @@ FILTERS_HTML = (() => {
 })();
 function filtersFor(catKey) {
   if (!FILTERS_HTML) return '';
-  const ac = catKey === 'kondicioneri', wm = catKey === 'pralni-mashyny';
+  const ac = catKey === 'kondicioneri', wm = catKey === 'pralni-mashyny', fr = catKey === 'holodylnyky';
   return FILTERS_HTML
     .replace('id="frow-area" style="display:none"', `id="frow-area"${ac ? '' : ' style="display:none"'}`)
     .replace('id="frow-wm" style="display:none"', `id="frow-wm"${wm ? '' : ' style="display:none"'}`)
+    .replace('id="frow-fr" style="display:none"', `id="frow-fr"${fr ? '' : ' style="display:none"'}`)
     .replace('<option value="area-asc"', `<option value="area-asc"${ac ? '' : ' hidden'}`);
 }
 function categoryPage(cat) {

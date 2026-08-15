@@ -62,7 +62,7 @@ const LANG_FROM_PATH=(function(){var m=location.pathname.match(/^\/(ru|en)(?=\/|
 let LANG = LANG_FROM_PATH;
 if(!I18N[LANG]) LANG='uk';
 try{localStorage.setItem('tp_lang',LANG);}catch(e){}
-let activeBrand='all', activeArea='all', activeType='all', activePrice='all', activeLoad='all', activeDepth='all', currentProduct=null;
+let activeBrand='all', activeArea='all', activeType='all', activePrice='all', activeLoad='all', activeDepth='all', activeVol='all', activeHeight='all', activeTech='all', currentProduct=null;
 let FAV = JSON.parse(localStorage.getItem('tp_fav')||'[]');
 let CMP = JSON.parse(localStorage.getItem('tp_cmp')||'[]');
 
@@ -135,6 +135,10 @@ function getFiltered(){
     else if(a===50)list=list.filter(p=>p.area>35&&p.area<=50);else if(a===70)list=list.filter(p=>p.area>50);}
   if(activeLoad!=='all'){const kg=parseInt(activeLoad);list=list.filter(p=>p.specs&&Number(p.specs.load_kg)===kg);}
   if(activeDepth!=='all'){list=list.filter(p=>{const d=p.specs&&parseFloat(p.specs.depth);if(!d)return false;return activeDepth==='narrow'?d<45:d>=45;});}
+  if(activeVol!=='all'){const [lo,hi]=activeVol.split('-').map(Number);list=list.filter(p=>{const v=p.specs&&Number(p.specs.volume_l);return v>lo&&v<=hi;});}
+  if(activeHeight!=='all'){const [lo,hi]=activeHeight.split('-').map(Number);list=list.filter(p=>{const h=p.specs&&Number(p.specs.height_cm);return h>lo&&h<=hi;});}
+  if(activeTech==='nofrost')list=list.filter(p=>p.nofrost);
+  if(activeTech==='inverter')list=list.filter(p=>p.inverter);
   if(activePrice!=='all'){const [lo,hi]=String(activePrice).split('-').map(Number);
     if(!isNaN(lo)&&!isNaN(hi))list=list.filter(p=>p.price>lo&&p.price<=hi);}
   const sort=$('sort-select').value;
@@ -187,12 +191,13 @@ function renderCatalog(){
   grid.innerHTML=list.map(cardHTML).join('');
 }
 function setupFilters(){
-  [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth']].forEach(([gid,attr])=>{
+  [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth'],['vol-filters','vol'],['height-filters','height'],['tech-filters','tech']].forEach(([gid,attr])=>{
     const g=$(gid); if(!g) return;
     g.addEventListener('click',e=>{const b=e.target.closest('.fbtn');if(!b)return;const v=b.dataset[attr];if(v===undefined)return;
       g.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');
       if(attr==='brand')activeBrand=v;if(attr==='area')activeArea=v;if(attr==='type')activeType=v;if(attr==='price')activePrice=v;
-      if(attr==='load')activeLoad=v;if(attr==='depth')activeDepth=v;renderCatalog();});
+      if(attr==='load')activeLoad=v;if(attr==='depth')activeDepth=v;
+      if(attr==='vol')activeVol=v;if(attr==='height')activeHeight=v;if(attr==='tech')activeTech=v;renderCatalog();});
   });
   renderBrandFilters();
 }
@@ -206,8 +211,8 @@ function renderBrandFilters(){
     +brands.map(b=>`<button class="fbtn${activeBrand===b?' active':''}" data-brand="${b.replace(/"/g,'&quot;')}">${b}</button>`).join('');
 }
 function setActive(gid,attr,val){$(gid).querySelectorAll('.fbtn').forEach(b=>b.classList.toggle('active',b.dataset[attr]===val));}
-function resetFilters(){activeBrand=activeArea=activeType=activePrice=activeLoad=activeDepth='all';
-  [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth']].forEach(([g,a])=>{if($(g))setActive(g,a,'all');});
+function resetFilters(){activeBrand=activeArea=activeType=activePrice=activeLoad=activeDepth=activeVol=activeHeight=activeTech='all';
+  [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth'],['vol-filters','vol'],['height-filters','height'],['tech-filters','tech']].forEach(([g,a])=>{if($(g))setActive(g,a,'all');});
   $('search-input').value='';$('sort-select').value='default';renderBrandFilters();renderCatalog();}
 /* homepage catalog category tabs */
 function switchCat(cat){
@@ -217,6 +222,7 @@ function switchCat(cat){
   const ac=cat==='kondicioneri';
   ['frow-area'].forEach(id=>{const el=$(id);if(el)el.style.display=ac?'':'none';});
   const wmRow=$('frow-wm');if(wmRow)wmRow.style.display=cat==='pralni-mashyny'?'':'none';
+  const frRow=$('frow-fr');if(frRow)frRow.style.display=cat==='holodylnyky'?'':'none';
   const areaSort=document.querySelector('#sort-select option[value="area-asc"]');if(areaSort)areaSort.hidden=!ac;
   // full-size quiz appears right above the grid when the category has one
   const qHost=$('quiz-inline');
@@ -500,7 +506,7 @@ const QUIZZES={
     rank(a,b){return a.btu-b.btu||a.price-b.price;},
     meta(p){return `${p.brand} · ${(p.btu/1000).toFixed(0)}k BTU · ${LANG==='en'?'up to':'до'} ${p.area} м²`;},
     summary(s){const r=QUIZ_ROOMS.find(x=>x[0]===s.room),f=QUIZ_FLOORS.find(x=>x[0]===s.floor);
-      return `${t('quiz_s1')}: ${s.area} м²; ${r?t(r[1]):''}; ${f?t(f[1]):''}; ${t('quiz_s4')}: ${fmt(s.budget)} грн; ~${this.need(s)} BTU`;}
+      return `${t('quiz_area_lbl')}: ${s.area} м²; ${r?t(r[1]):''}; ${f?t(f[1]):''}; ${t('quiz_budget_lbl')}: ${fmt(s.budget)} грн; ~${this.need(s)} BTU`;}
   },
   'pralni-mashyny':{
     cat:'pralni-mashyny', eyeKey:'wmq_eye', titleKey:'wmq_h', resKey:'wmq_res_h', overKey:'wmq_over', noneKey:'wmq_none', ctaKey:'wmq_cta',
@@ -512,10 +518,11 @@ const QUIZZES={
     ],
     need(s){return {'1':5,'2':6,'3':7}[s.family]||6;},
     fits(p,s){
-      const d=num(p.specs&&p.specs.depth), kg=num(p.specs&&p.specs.load_kg);
-      if(d===null||d+HOSE_CLEARANCE>s.depth)return false;      // must physically fit
+      const kg=num(p.specs&&p.specs.load_kg);
+      if(!this.fitsPhysical(p,s))return false;
       return kg===null||kg>=this.need(s);
     },
+    fitsPhysical(p,s){const d=num(p.specs&&p.specs.depth);return d!==null&&d+HOSE_CLEARANCE<=s.depth;},
     score(p,s){
       const sp=p.specs||{},rpm=num(sp.rpm)||0;
       if(s.priority==='quiet')return (p.inverter?100:0)+(1400-rpm)/100;
@@ -526,7 +533,36 @@ const QUIZZES={
     rank(a,b){const s=quizState;return this.score(b,s)-this.score(a,s)||a.price-b.price;},
     meta(p){const sp=p.specs||{};return `${p.brand} · ${sp.load_kg} кг · ${sp.rpm} об/хв · ${t('wmq_depth_lbl')} ${sp.depth} см`;},
     summary(s){const fam=(this.steps[1].options.find(o=>o[0]===s.family)||[])[1],pr=(this.steps[2].options.find(o=>o[0]===s.priority)||[])[1];
-      return `${t('wmq_niche_lbl')}: ${s.depth} см; ${fam?t(fam):''}; ${pr?t(pr):''}; ${t('quiz_s4')}: ${fmt(s.budget)} грн; ~${this.need(s)} кг`;}
+      return `${t('wmq_niche_lbl')}: ${s.depth} см; ${fam?t(fam):''}; ${pr?t(pr):''}; ${t('quiz_budget_lbl')}: ${fmt(s.budget)} грн; ~${this.need(s)} кг`;}
+  }
+  ,
+  holodylnyky:{
+    cat:'holodylnyky', eyeKey:'quiz_eye', titleKey:'frq_h', resKey:'frq_res_h', overKey:'frq_over', noneKey:'frq_none', ctaKey:'frq_cta',
+    steps:[
+      {type:'range',key:'height',qKey:'frq_s1',hintKey:'frq_s1_hint',min:85,max:210,step:1,def:200,unit:()=>LANG==='en'?'cm':'см'},
+      {type:'choice',key:'people',qKey:'frq_s2',hintKey:'frq_s2_hint',options:[['1','frq_p1'],['2','frq_p2'],['3','frq_p3']]},
+      {type:'choice',key:'priority',qKey:'frq_s3',options:[['nofrost','frq_pr_nf','frq_pr_nf_h'],['quiet','frq_pr_quiet','frq_pr_quiet_h'],['freezer','frq_pr_frz','frq_pr_frz_h'],['price','frq_pr_price','frq_pr_price_h']]},
+      {type:'budget',key:'budget',qKey:'quiz_s4',hintKey:'quiz_s4_hint'}
+    ],
+    need(s){return {'1':150,'2':250,'3':330}[s.people]||250;},   // litres the household needs
+    fits(p,s){
+      const sp=p.specs||{},v=num(sp.volume_l);
+      if(!this.fitsPhysical(p,s))return false;
+      return v===null||v>=this.need(s)*0.8;                      // 20% tolerance on capacity
+    },
+    fitsPhysical(p,s){const h=num((p.specs||{}).height_cm);return h!==null&&h<=s.height;},
+    score(p,s){
+      const sp=p.specs||{},v=num(sp.volume_l)||0,noise=num(String(sp.noise_db||'').replace(/[^\d.]/g,''))||45;
+      if(s.priority==='nofrost')return (p.nofrost?200:0)+v/10;
+      if(s.priority==='quiet')return (60-noise)*10+(p.inverter?80:0);
+      if(s.priority==='freezer')return (num(sp.vol_freezer)||0)*2;
+      return -p.price/1000;
+    },
+    rank(a,b){const s=quizState;return this.score(b,s)-this.score(a,s)||a.price-b.price;},
+    warn(res,s){return (s.priority==='nofrost'&&res.length&&!res.some(p=>p.nofrost))?'frq_warn_nf':null;},
+    meta(p){const sp=p.specs||{};return `${p.brand} · ${sp.volume_l} ${t('u_l')} · ${sp.height_cm} ${t('u_cm')}${p.nofrost?' · No Frost':''}`;},
+    summary(s){const pe=(this.steps[1].options.find(o=>o[0]===s.people)||[])[1],pr=(this.steps[2].options.find(o=>o[0]===s.priority)||[])[1];
+      return `${t('frq_niche_lbl')}: ${s.height} см; ${pe?t(pe):''}; ${pr?t(pr):''}; ${t('quiz_budget_lbl')}: ${fmt(s.budget)} грн; ~${this.need(s)} л`;}
   }
 };
 let quizKind='kondicioneri', quizStep=0, quizState={}, quizHost='modal';
@@ -596,13 +632,20 @@ function quizBack(){if(quizStep>0){quizStep--;quizRender();}}
 function quizSummary(){return quizDef().summary(quizState);}
 function quizResult(){
   const d=quizDef(),pool=PRODUCTS.filter(p=>!d.cat||p.category===d.cat);
-  const fitting=pool.filter(p=>d.fits(p,quizState));
+  let fitting=pool.filter(p=>d.fits(p,quizState)),relaxed=false;
+  if(!fitting.length&&d.fitsPhysical){                        // nothing ideal — drop the size wish
+    fitting=pool.filter(p=>d.fitsPhysical(p,quizState));
+    relaxed=fitting.length>0;
+  }
   const within=fitting.filter(p=>p.price<=quizState.budget).sort((a,b)=>d.rank(a,b));
   let over=false,res=within.slice(0,3);
   if(!res.length&&fitting.length){over=true;res=fitting.slice().sort((a,b)=>d.rank(a,b)).slice(0,3);}
   qel('prog').style.width='100%';qel('back').style.visibility='visible';qel('next').style.display='none';
   const cards=res.map(p=>`<a class="quiz-card" href="${productUrl(p)}"><img src="${p.thumb||p.photos[0]}" alt="${p.name}" loading="lazy"><div class="quiz-card-b"><div class="quiz-card-m">${d.meta(p)}</div><div class="quiz-card-n">${p.name}</div><div class="quiz-card-p">${fmt(p.price)} грн</div></div></a>`).join('');
-  const note=!res.length?`<div class="quiz-note">${t(d.noneKey||'quiz_over')}</div>`:(over?`<div class="quiz-note">${t(d.overKey)}</div>`:'');
+  const warnKey=d.warn?d.warn(res,quizState):null;
+  const relaxNote=relaxed?`<div class="quiz-note">${t('quiz_relaxed')}</div>`:'';
+  const note=(!res.length?`<div class="quiz-note">${t(d.noneKey||'quiz_over')}</div>`:(over?`<div class="quiz-note">${t(d.overKey)}</div>`:''))
+    +relaxNote+(warnKey?`<div class="quiz-note">${t(warnKey)}</div>`:'');
   qel('body').innerHTML=`<div class="quiz-res"><div class="quiz-q">${t(d.resKey)}</div>${note}<div class="quiz-cards">${cards}</div>
     <form class="quiz-lead" onsubmit="return quizSubmit(event)"><div class="quiz-q2">${t('quiz_lead_h')}</div>
       <div class="quiz-lead-row"><input name="name" placeholder="${t('form_name')}" required><input name="phone" placeholder="+38 (0__) ___-__-__" required></div>

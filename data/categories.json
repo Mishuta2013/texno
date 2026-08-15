@@ -570,7 +570,7 @@
     "intro": "Від компактних моделей для квартири-студії до просторих No Frost на всю родину. Привеземо й занесемо.",
     "intro_ru": "От компактных моделей для квартиры-студии до просторных No Frost на всю семью. Привезём и занесём.",
     "intro_en": "From compact models for a studio flat to spacious No Frost units for the whole family. We deliver and carry them in.",
-    "quizCta": null,
+    "quizCta": "Підібрати холодильник",
     "productPrefix": {
       "uk": "Холодильник",
       "ru": "Холодильник",
@@ -731,6 +731,8 @@
         "label_ru": "Инверторный компрессор",
         "label_en": "Inverter compressor"
       }
-    ]
+    ],
+    "quizCta_ru": "Подобрать холодильник",
+    "quizCta_en": "Find your refrigerator"
   }
 }
