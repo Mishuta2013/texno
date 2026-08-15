@@ -21,6 +21,7 @@ function jFmtVal(p,f){
     case'watt':return raw?raw+' '+t('u_w'):null;
     case'sockets':return raw?raw+' '+t('u_sockets'):null;
     case'first':return raw?String(raw).split(' ')[0]:null;
+    case'litres':return raw?raw+' '+t('u_l'):null;
     case'kg':return raw?raw+' '+t('u_kg'):null;
     case'rpm':return raw?raw+' '+t('u_rpm'):null;
     case'cm':return raw?raw+' '+t('u_cm'):null;
@@ -70,8 +71,9 @@ const fmt=n=>n.toLocaleString(LANG==='en'?'en-US':(LANG==='ru'?'ru-RU':'uk-UA'))
 const COUNTS={TOTAL:PRODUCTS.length,
   AC:PRODUCTS.filter(p=>p.category==='kondicioneri').length,
   WM:PRODUCTS.filter(p=>p.category==='pralni-mashyny').length,
-  PS:PRODUCTS.filter(p=>p.category==='zaryadni-stantsii').length};
-const subCounts=s=>String(s).replace(/\{\{(TOTAL|AC|WM|PS)\}\}/g,(m,k)=>COUNTS[k]);
+  PS:PRODUCTS.filter(p=>p.category==='zaryadni-stantsii').length,
+  FR:PRODUCTS.filter(p=>p.category==='holodylnyky').length};
+const subCounts=s=>String(s).replace(/\{\{(TOTAL|AC|WM|PS|FR)\}\}/g,(m,k)=>COUNTS[k]);
 const t=k=>subCounts(I18N[LANG][k]!==undefined?I18N[LANG][k]:(I18N.uk[k]||k));
 const pdesc=p=>p['desc_'+LANG]||p.desc_uk;
 
@@ -219,7 +221,7 @@ function switchCat(cat){
   // full-size quiz appears right above the grid when the category has one
   const qHost=$('quiz-inline');
   if(qHost){ if(QUIZZES[cat]) startInlineQuiz(cat); else qHost.style.display='none'; }
-  const h=$('cat-title');if(h){const key={all:'cat_h_all',kondicioneri:'cat_h','zaryadni-stantsii':'cat_h_ps','pralni-mashyny':'cat_h_wm'}[cat]||'cat_h_all';h.textContent=t(key);}
+  const h=$('cat-title');if(h){const key={all:'cat_h_all',kondicioneri:'cat_h','zaryadni-stantsii':'cat_h_ps','pralni-mashyny':'cat_h_wm',holodylnyky:'cat_h_fr'}[cat]||'cat_h_all';h.textContent=t(key);}
   resetFilters();   // also re-renders the brand buttons for this category
 }
 function jumpCat(cat){switchCat(cat);document.getElementById('catalog').scrollIntoView({behavior:'smooth'});}
@@ -560,24 +562,27 @@ function quizCalc(){return quizDef().need(quizState);}   // kept for the AC calc
 function quizRender(){
   const d=quizDef(),steps=d.steps,st=steps[quizStep];
   const body=qel('body'),back=qel('back'),next=qel('next');
-  qel('prog').style.width=(quizStep/steps.length*100)+'%';
+  // progress reflects the step you are ON, so it is never an empty bar
+  qel('prog').style.width=(((quizStep+1)/steps.length)*100)+'%';
   back.style.visibility=quizStep>0?'visible':'hidden';next.style.display='';
   next.textContent=quizStep===steps.length-1?t('quiz_finish'):t('quiz_next');
+  const stepNo=`<div class="qi-step-no">${t('quiz_step')} ${quizStep+1} ${t('quiz_of')} ${steps.length}</div>`;
   const hint=st.hintKey?`<div class="quiz-hint">${t(st.hintKey)}</div>`:'';
   if(st.type==='range'||st.type==='budget'){
     const isBudget=st.type==='budget';
     const [mn,mx]=isBudget?quizBudget():[st.min,st.max];
     if(quizState[st.key]==null)quizState[st.key]=isBudget?mx:(st.def!=null?st.def:Math.round((mn+mx)/2));
     const val=quizState[st.key];
-    const unit=isBudget?(LANG==='en'?'UAH':'грн'):st.unit();
+    const unit=isBudget?t('u_uah'):st.unit();
     const show=isBudget?fmt(val):val;
-    body.innerHTML=`<div class="quiz-step"><div class="quiz-q">${t(st.qKey)}</div>
-      <div class="quiz-big"><span id="qv-${st.key}">${show}</span> ${unit}</div>
+    const scale=`<div class="quiz-scale"><span>${isBudget?fmt(mn):mn} ${unit}</span><span>${isBudget?fmt(mx):mx} ${unit}</span></div>`;
+    body.innerHTML=`<div class="quiz-step">${stepNo}<div class="quiz-q">${t(st.qKey)}</div>
+      <div class="quiz-big"><span id="qv-${st.key}">${show}</span> <span class="quiz-unit">${unit}</span></div>
       <input type="range" min="${mn}" max="${mx}" step="${isBudget?1000:(st.step||1)}" value="${val}"
         oninput="quizState['${st.key}']=+this.value;$('qv-${st.key}').textContent=${isBudget?'fmt(+this.value)':'this.value'}">
-      ${hint}</div>`;
+      ${scale}${hint}</div>`;
   }else{
-    body.innerHTML=`<div class="quiz-step"><div class="quiz-q">${t(st.qKey)}</div>
+    body.innerHTML=`<div class="quiz-step">${stepNo}<div class="quiz-q">${t(st.qKey)}</div>
       <div class="quiz-opts">${st.options.map(([v,k,h])=>`<button class="quiz-opt${quizState[st.key]===v?' on':''}" onclick="quizState['${st.key}']='${v}';quizRender()">${t(k)}${h?`<small>${t(h)}</small>`:''}</button>`).join('')}</div>
       ${hint}</div>`;
   }

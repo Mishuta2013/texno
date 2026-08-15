@@ -343,7 +343,7 @@
     "nameGen": "зарядних станцій",
     "urlPrefix": "/zaryadni-stantsii",
     "icon": "battery",
-    "order": 3,
+    "order": 4,
     "install": false,
     "seoTitle": "Зарядні станції у Сумах — купити з доставкою | TEXNO PLAZA",
     "seoDesc": "Портативні зарядні станції у Сумах: ємні акумулятори, чиста синусоїда, розетки 220В та USB-C. Доставка, оплата після отримання, офіційна гарантія.",
@@ -534,5 +534,203 @@
       "ru": "Зарядная станция",
       "en": "Power station"
     }
+  },
+  "holodylnyky": {
+    "name": "Холодильники",
+    "nameGen": "холодильників",
+    "name_ru": "Холодильники",
+    "name_en": "Refrigerators",
+    "nameGen_ru": "холодильников",
+    "nameGen_en": "refrigerators",
+    "urlPrefix": "/holodylnyky",
+    "icon": "fridge",
+    "order": 3,
+    "install": false,
+    "trust": [
+      "Доставка по Сумах — 400 грн",
+      "Оплата після отримання",
+      "Офіційна гарантія"
+    ],
+    "trust_ru": [
+      "Доставка по Сумам — 400 грн",
+      "Оплата после получения",
+      "Официальная гарантия"
+    ],
+    "trust_en": [
+      "Delivery in Sumy — 400 UAH",
+      "Pay on receipt",
+      "Official warranty"
+    ],
+    "seoTitle": "Холодильники у Сумах — купити з доставкою | TEXNO PLAZA",
+    "seoTitle_ru": "Холодильники в Сумах — купить с доставкой | TEXNO PLAZA",
+    "seoTitle_en": "Refrigerators in Sumy — buy with delivery | TEXNO PLAZA",
+    "seoDesc": "Холодильники у Сумах: 9 моделей від LG, Samsung, Beko, Grunhelm та Edler — від компактних 83 л до No Frost на 390 л. Доставка 400 грн, оплата після отримання, офіційна гарантія.",
+    "seoDesc_ru": "Холодильники в Сумах: 9 моделей от LG, Samsung, Beko, Grunhelm и Edler — от компактных 83 л до No Frost на 390 л. Доставка 400 грн, оплата после получения, официальная гарантия.",
+    "seoDesc_en": "Refrigerators in Sumy: 9 models from LG, Samsung, Beko, Grunhelm and Edler — from a compact 83 L to 390 L No Frost. Delivery 400 UAH, pay on receipt, official warranty.",
+    "intro": "Від компактних моделей для квартири-студії до просторих No Frost на всю родину. Привеземо й занесемо.",
+    "intro_ru": "От компактных моделей для квартиры-студии до просторных No Frost на всю семью. Привезём и занесём.",
+    "intro_en": "From compact models for a studio flat to spacious No Frost units for the whole family. We deliver and carry them in.",
+    "quizCta": null,
+    "productPrefix": {
+      "uk": "Холодильник",
+      "ru": "Холодильник",
+      "en": "Refrigerator"
+    },
+    "filters": [
+      "brand",
+      "price"
+    ],
+    "chips": [
+      {
+        "icon": "🧊",
+        "key": "volume_l",
+        "fmt": "litres"
+      },
+      {
+        "icon": "↕",
+        "key": "height_cm",
+        "fmt": "cm"
+      },
+      {
+        "icon": "❄",
+        "flag": "nofrost",
+        "label": "No Frost",
+        "label_ru": "No Frost",
+        "label_en": "No Frost"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Тип",
+        "key": "fridge_type",
+        "label_ru": "Тип",
+        "label_en": "Type"
+      },
+      {
+        "label": "Загальний об’єм",
+        "key": "volume_l",
+        "fmt": "litres",
+        "label_ru": "Общий объём",
+        "label_en": "Total capacity"
+      },
+      {
+        "label": "Холодильна камера",
+        "key": "vol_fridge",
+        "fmt": "litres",
+        "label_ru": "Холодильная камера",
+        "label_en": "Fridge compartment"
+      },
+      {
+        "label": "Морозильна камера",
+        "key": "vol_freezer",
+        "fmt": "litres",
+        "label_ru": "Морозильная камера",
+        "label_en": "Freezer compartment"
+      },
+      {
+        "label": "Розташування морозилки",
+        "key": "freezer_pos",
+        "label_ru": "Расположение морозилки",
+        "label_en": "Freezer position"
+      },
+      {
+        "label": "Розморожування",
+        "key": "defrost",
+        "label_ru": "Размораживание",
+        "label_en": "Defrost"
+      },
+      {
+        "label": "Клас енергоефективності",
+        "key": "eclass",
+        "label_ru": "Класс энергоэффективности",
+        "label_en": "Energy class"
+      },
+      {
+        "label": "Енергоспоживання",
+        "key": "kwh_year",
+        "label_ru": "Энергопотребление",
+        "label_en": "Energy consumption"
+      },
+      {
+        "label": "Компресор",
+        "key": "compressor",
+        "label_ru": "Компрессор",
+        "label_en": "Compressor"
+      },
+      {
+        "label": "Габарити (В×Ш×Г)",
+        "key": "dims",
+        "label_ru": "Габариты (В×Ш×Г)",
+        "label_en": "Dimensions (H×W×D)"
+      },
+      {
+        "label": "Рівень шуму",
+        "key": "noise_db",
+        "label_ru": "Уровень шума",
+        "label_en": "Noise level"
+      },
+      {
+        "label": "Кліматичний клас",
+        "key": "climate",
+        "label_ru": "Климатический класс",
+        "label_en": "Climate class"
+      },
+      {
+        "label": "Потужність заморожування",
+        "key": "freeze_cap",
+        "label_ru": "Мощность замораживания",
+        "label_en": "Freezing capacity"
+      },
+      {
+        "label": "Керування",
+        "key": "control",
+        "label_ru": "Управление",
+        "label_en": "Controls"
+      },
+      {
+        "label": "Гарантія",
+        "key": "warranty",
+        "label_ru": "Гарантия",
+        "label_en": "Warranty"
+      },
+      {
+        "label": "Функції",
+        "key": "features",
+        "label_ru": "Функции",
+        "label_en": "Features"
+      }
+    ],
+    "ppChips": [
+      {
+        "icon": "🧊",
+        "key": "volume_l",
+        "fmt": "litres"
+      },
+      {
+        "icon": "↕",
+        "key": "height_cm",
+        "fmt": "cm"
+      },
+      {
+        "icon": "⚡",
+        "key": "eclass"
+      },
+      {
+        "icon": "🔊",
+        "key": "noise_db"
+      },
+      {
+        "flag": "nofrost",
+        "label": "No Frost",
+        "label_ru": "No Frost",
+        "label_en": "No Frost"
+      },
+      {
+        "flag": "inverter",
+        "label": "Інверторний компресор",
+        "label_ru": "Инверторный компрессор",
+        "label_en": "Inverter compressor"
+      }
+    ]
   }
 }

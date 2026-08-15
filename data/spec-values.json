@@ -1,59 +1,391 @@
 {
   "_comment": "Translations for free-text spec values. Keys are the Ukrainian value exactly as written in products.json; missing keys fall back to the Ukrainian text. Purely numeric values (kg, mm, dB) only need unit translation.",
-  "1 × 18 Вт (QC 3.0)": { "ru": "1 × 18 Вт (QC 3.0)", "en": "1 × 18 W (QC 3.0)" },
-  "11.25 кг": { "ru": "11.25 кг", "en": "11.25 kg" },
-  "12 В / 10 A": { "ru": "12 В / 10 A", "en": "12 V / 10 A" },
-  "12–60 В, 500 Вт, 15 A": { "ru": "12–60 В, 500 Вт, 15 A", "en": "12–60 V, 500 W, 15 A" },
-  "2 × 140 Вт (PD)": { "ru": "2 × 140 Вт (PD)", "en": "2 × 140 W (PD)" },
-  "24 міс": { "ru": "24 мес", "en": "24 months" },
-  "30 міс": { "ru": "30 мес", "en": "30 months" },
-  "3 швидкі повні цикли до 1 години, тихе прання, 38 л води за цикл": { "ru": "3 быстрых полных цикла до 1 часа, тихая стирка, 38 л воды за цикл", "en": "Three full quick cycles under an hour, quiet wash, 38 l of water per cycle" },
-  "371 × 206 × 258 мм": { "ru": "371 × 206 × 258 мм", "en": "371 × 206 × 258 mm" },
-  "4000 (до 80%)": { "ru": "4000 (до 80%)", "en": "4000 (to 80%)" },
-  "5 років": { "ru": "5 лет", "en": "5 years" },
-  "50/60 Гц (перемикання)": { "ru": "50/60 Гц (переключение)", "en": "50/60 Hz (switchable)" },
-  "57 кг": { "ru": "57 кг", "en": "57 kg" },
-  "58 / 74 дБ": { "ru": "58 / 74 дБ", "en": "58 / 74 dB" },
-  "59.5 × 41 × 85 см": { "ru": "59.5 × 41 × 85 см", "en": "59.5 × 41 × 85 cm" },
-  "59.5 × 42.5 × 85 см": { "ru": "59.5 × 42.5 × 85 см", "en": "59.5 × 42.5 × 85 cm" },
-  "59.5 × 43.7 × 85 см": { "ru": "59.5 × 43.7 × 85 см", "en": "59.5 × 43.7 × 85 cm" },
-  "59.5 × 44 × 85 см": { "ru": "59.5 × 44 × 85 см", "en": "59.5 × 44 × 85 cm" },
-  "59.5 × 45.5 × 85 см": { "ru": "59.5 × 45.5 × 85 см", "en": "59.5 × 45.5 × 85 cm" },
-  "59.5 × 48 × 85 см": { "ru": "59.5 × 48 × 85 см", "en": "59.5 × 48 × 85 cm" },
-  "60 / 72 дБ": { "ru": "60 / 72 дБ", "en": "60 / 72 dB" },
-  "60 / 78 дБ": { "ru": "60 / 78 дБ", "en": "60 / 78 dB" },
-  "60 × 44 × 85 см": { "ru": "60 × 44 × 85 см", "en": "60 × 44 × 85 cm" },
-  "60 × 49.5 × 85 см": { "ru": "60 × 49.5 × 85 см", "en": "60 × 49.5 × 85 cm" },
-  "62 кг": { "ru": "62 кг", "en": "62 kg" },
-  "76 дБ (віджим)": { "ru": "76 дБ (отжим)", "en": "76 dB (spin)" },
-  "9-рівневий BMS": { "ru": "9-уровневый BMS", "en": "9-level BMS" },
-  "A (нове маркування)": { "ru": "A (новая маркировка)", "en": "A (new label)" },
-  "B (нове маркування)": { "ru": "B (новая маркировка)", "en": "B (new label)" },
-  "C (нове маркування)": { "ru": "C (новая маркировка)", "en": "C (new label)" },
-  "AquaWave, AddXtra (докладання речей), ColdWash, автозважування, захист від дітей": { "ru": "AquaWave, AddXtra (докладывание вещей), ColdWash, автовзвешивание, защита от детей", "en": "AquaWave, AddXtra (add items mid-cycle), ColdWash, auto-weighing, child lock" },
-  "Digital Inverter (гарантія 10 років)": { "ru": "Digital Inverter (гарантия 10 лет)", "en": "Digital Inverter (10-year warranty)" },
-  "ECO-режим, LED-ліхтар, Wi-Fi, Bluetooth, застосунок FOSSiBOT": { "ru": "ECO-режим, LED-фонарь, Wi-Fi, Bluetooth, приложение FOSSiBOT", "en": "ECO mode, LED light, Wi-Fi, Bluetooth, FOSSiBOT app" },
-  "ExtraHygiene — видаляє до 99,9% бактерій, SterilTub самоочищення, автозважування": { "ru": "ExtraHygiene — удаляет до 99,9% бактерий, SterilTub самоочистка, автовзвешивание", "en": "ExtraHygiene removes up to 99.9% of bacteria, SterilTub self-cleaning, auto-weighing" },
-  "Inverter Direct Drive (прямий привід)": { "ru": "Inverter Direct Drive (прямой привод)", "en": "Inverter Direct Drive" },
-  "LED, сенсорні кнопки": { "ru": "LED, сенсорные кнопки", "en": "LED with touch controls" },
-  "Wi-Fi (LG ThinQ), 6 Motion, обробка парою, Smart Diagnosis": { "ru": "Wi-Fi (LG ThinQ), 6 Motion, обработка паром, Smart Diagnosis", "en": "Wi-Fi (LG ThinQ), 6 Motion, steam treatment, Smart Diagnosis" },
-  "Інверторний": { "ru": "Инверторный", "en": "Inverter" },
-  "Інверторний Direct Drive": { "ru": "Инверторный Direct Drive", "en": "Inverter Direct Drive" },
-  "Інверторний PowerDrive": { "ru": "Инверторный PowerDrive", "en": "PowerDrive inverter" },
-  "Автозважування, антиалергійна програма, барабан 55 л, чорний люк": { "ru": "Автовзвешивание, антиаллергенная программа, барабан 55 л, чёрный люк", "en": "Auto-weighing, anti-allergy program, 55 l drum, black door" },
-  "Барабан Snowflake з підсвіткою, парова обробка, захист від дітей": { "ru": "Барабан Snowflake с подсветкой, паровая обработка, защита от детей", "en": "Illuminated Snowflake drum, steam treatment, child lock" },
-  "Барабан Snowflake, відкладений старт до 24 год, захист від дітей": { "ru": "Барабан Snowflake, отложенный старт до 24 ч, защита от детей", "en": "Snowflake drum, 24-hour delayed start, child lock" },
-  "Колекторний": { "ru": "Коллекторный", "en": "Brushed" },
-  "Очищення барабана, захист від дітей, відкладений старт до 24 год": { "ru": "Очистка барабана, защита от детей, отложенный старт до 24 ч", "en": "Drum clean, child lock, 24-hour delayed start" },
-  "Очищення барабана, режими для дитячих речей і пуховиків, 33 л води за цикл": { "ru": "Очистка барабана, режимы для детских вещей и пуховиков, 33 л воды за цикл", "en": "Drum clean, kids' and down-jacket programs, 33 l of water per cycle" },
-  "Парова функція, швидке прання 15 хв, Eco 40-60": { "ru": "Паровая функция, быстрая стирка 15 мин, Eco 40-60", "en": "Steam function, 15-minute quick wash, Eco 40-60" },
-  "Регулювання швидкості віджиму й температури в кожній програмі": { "ru": "Регулировка скорости отжима и температуры в каждой программе", "en": "Adjustable spin speed and temperature in every program" },
-  "Так": { "ru": "Да", "en": "Yes" },
-  "Так (Hygiene Steam)": { "ru": "Да (Hygiene Steam)", "en": "Yes (Hygiene Steam)" },
-  "Так (SteamTech)": { "ru": "Да (SteamTech)", "en": "Yes (SteamTech)" },
-  "Так (Steam™)": { "ru": "Да (Steam™)", "en": "Yes (Steam™)" },
-  "Фронтальне": { "ru": "Фронтальная", "en": "Front-loading" },
-  "Чиста синусоїда": { "ru": "Чистая синусоида", "en": "Pure sine wave" },
-  "Швидке прання 15 хв, Eco 40-60, дитячий і спортивний режими": { "ru": "Быстрая стирка 15 мин, Eco 40-60, детский и спортивный режимы", "en": "15-minute quick wash, Eco 40-60, kids' and sports programs" },
-  "≤10 мс": { "ru": "≤10 мс", "en": "≤10 ms" }
+  "1 × 18 Вт (QC 3.0)": {
+    "ru": "1 × 18 Вт (QC 3.0)",
+    "en": "1 × 18 W (QC 3.0)"
+  },
+  "11.25 кг": {
+    "ru": "11.25 кг",
+    "en": "11.25 kg"
+  },
+  "12 В / 10 A": {
+    "ru": "12 В / 10 A",
+    "en": "12 V / 10 A"
+  },
+  "12–60 В, 500 Вт, 15 A": {
+    "ru": "12–60 В, 500 Вт, 15 A",
+    "en": "12–60 V, 500 W, 15 A"
+  },
+  "2 × 140 Вт (PD)": {
+    "ru": "2 × 140 Вт (PD)",
+    "en": "2 × 140 W (PD)"
+  },
+  "24 міс": {
+    "ru": "24 мес",
+    "en": "24 months"
+  },
+  "30 міс": {
+    "ru": "30 мес",
+    "en": "30 months"
+  },
+  "3 швидкі повні цикли до 1 години, тихе прання, 38 л води за цикл": {
+    "ru": "3 быстрых полных цикла до 1 часа, тихая стирка, 38 л воды за цикл",
+    "en": "Three full quick cycles under an hour, quiet wash, 38 l of water per cycle"
+  },
+  "371 × 206 × 258 мм": {
+    "ru": "371 × 206 × 258 мм",
+    "en": "371 × 206 × 258 mm"
+  },
+  "4000 (до 80%)": {
+    "ru": "4000 (до 80%)",
+    "en": "4000 (to 80%)"
+  },
+  "5 років": {
+    "ru": "5 лет",
+    "en": "5 years"
+  },
+  "50/60 Гц (перемикання)": {
+    "ru": "50/60 Гц (переключение)",
+    "en": "50/60 Hz (switchable)"
+  },
+  "57 кг": {
+    "ru": "57 кг",
+    "en": "57 kg"
+  },
+  "58 / 74 дБ": {
+    "ru": "58 / 74 дБ",
+    "en": "58 / 74 dB"
+  },
+  "59.5 × 41 × 85 см": {
+    "ru": "59.5 × 41 × 85 см",
+    "en": "59.5 × 41 × 85 cm"
+  },
+  "59.5 × 42.5 × 85 см": {
+    "ru": "59.5 × 42.5 × 85 см",
+    "en": "59.5 × 42.5 × 85 cm"
+  },
+  "59.5 × 43.7 × 85 см": {
+    "ru": "59.5 × 43.7 × 85 см",
+    "en": "59.5 × 43.7 × 85 cm"
+  },
+  "59.5 × 44 × 85 см": {
+    "ru": "59.5 × 44 × 85 см",
+    "en": "59.5 × 44 × 85 cm"
+  },
+  "59.5 × 45.5 × 85 см": {
+    "ru": "59.5 × 45.5 × 85 см",
+    "en": "59.5 × 45.5 × 85 cm"
+  },
+  "59.5 × 48 × 85 см": {
+    "ru": "59.5 × 48 × 85 см",
+    "en": "59.5 × 48 × 85 cm"
+  },
+  "60 / 72 дБ": {
+    "ru": "60 / 72 дБ",
+    "en": "60 / 72 dB"
+  },
+  "60 / 78 дБ": {
+    "ru": "60 / 78 дБ",
+    "en": "60 / 78 dB"
+  },
+  "60 × 44 × 85 см": {
+    "ru": "60 × 44 × 85 см",
+    "en": "60 × 44 × 85 cm"
+  },
+  "60 × 49.5 × 85 см": {
+    "ru": "60 × 49.5 × 85 см",
+    "en": "60 × 49.5 × 85 cm"
+  },
+  "62 кг": {
+    "ru": "62 кг",
+    "en": "62 kg"
+  },
+  "76 дБ (віджим)": {
+    "ru": "76 дБ (отжим)",
+    "en": "76 dB (spin)"
+  },
+  "9-рівневий BMS": {
+    "ru": "9-уровневый BMS",
+    "en": "9-level BMS"
+  },
+  "A (нове маркування)": {
+    "ru": "A (новая маркировка)",
+    "en": "A (new label)"
+  },
+  "B (нове маркування)": {
+    "ru": "B (новая маркировка)",
+    "en": "B (new label)"
+  },
+  "C (нове маркування)": {
+    "ru": "C (новая маркировка)",
+    "en": "C (new label)"
+  },
+  "AquaWave, AddXtra (докладання речей), ColdWash, автозважування, захист від дітей": {
+    "ru": "AquaWave, AddXtra (докладывание вещей), ColdWash, автовзвешивание, защита от детей",
+    "en": "AquaWave, AddXtra (add items mid-cycle), ColdWash, auto-weighing, child lock"
+  },
+  "Digital Inverter (гарантія 10 років)": {
+    "ru": "Digital Inverter (гарантия 10 лет)",
+    "en": "Digital Inverter (10-year warranty)"
+  },
+  "ECO-режим, LED-ліхтар, Wi-Fi, Bluetooth, застосунок FOSSiBOT": {
+    "ru": "ECO-режим, LED-фонарь, Wi-Fi, Bluetooth, приложение FOSSiBOT",
+    "en": "ECO mode, LED light, Wi-Fi, Bluetooth, FOSSiBOT app"
+  },
+  "ExtraHygiene — видаляє до 99,9% бактерій, SterilTub самоочищення, автозважування": {
+    "ru": "ExtraHygiene — удаляет до 99,9% бактерий, SterilTub самоочистка, автовзвешивание",
+    "en": "ExtraHygiene removes up to 99.9% of bacteria, SterilTub self-cleaning, auto-weighing"
+  },
+  "Inverter Direct Drive (прямий привід)": {
+    "ru": "Inverter Direct Drive (прямой привод)",
+    "en": "Inverter Direct Drive"
+  },
+  "LED, сенсорні кнопки": {
+    "ru": "LED, сенсорные кнопки",
+    "en": "LED with touch controls"
+  },
+  "Wi-Fi (LG ThinQ), 6 Motion, обробка парою, Smart Diagnosis": {
+    "ru": "Wi-Fi (LG ThinQ), 6 Motion, обработка паром, Smart Diagnosis",
+    "en": "Wi-Fi (LG ThinQ), 6 Motion, steam treatment, Smart Diagnosis"
+  },
+  "Інверторний": {
+    "ru": "Инверторный",
+    "en": "Inverter"
+  },
+  "Інверторний Direct Drive": {
+    "ru": "Инверторный Direct Drive",
+    "en": "Inverter Direct Drive"
+  },
+  "Інверторний PowerDrive": {
+    "ru": "Инверторный PowerDrive",
+    "en": "PowerDrive inverter"
+  },
+  "Автозважування, антиалергійна програма, барабан 55 л, чорний люк": {
+    "ru": "Автовзвешивание, антиаллергенная программа, барабан 55 л, чёрный люк",
+    "en": "Auto-weighing, anti-allergy program, 55 l drum, black door"
+  },
+  "Барабан Snowflake з підсвіткою, парова обробка, захист від дітей": {
+    "ru": "Барабан Snowflake с подсветкой, паровая обработка, защита от детей",
+    "en": "Illuminated Snowflake drum, steam treatment, child lock"
+  },
+  "Барабан Snowflake, відкладений старт до 24 год, захист від дітей": {
+    "ru": "Барабан Snowflake, отложенный старт до 24 ч, защита от детей",
+    "en": "Snowflake drum, 24-hour delayed start, child lock"
+  },
+  "Колекторний": {
+    "ru": "Коллекторный",
+    "en": "Brushed"
+  },
+  "Очищення барабана, захист від дітей, відкладений старт до 24 год": {
+    "ru": "Очистка барабана, защита от детей, отложенный старт до 24 ч",
+    "en": "Drum clean, child lock, 24-hour delayed start"
+  },
+  "Очищення барабана, режими для дитячих речей і пуховиків, 33 л води за цикл": {
+    "ru": "Очистка барабана, режимы для детских вещей и пуховиков, 33 л воды за цикл",
+    "en": "Drum clean, kids' and down-jacket programs, 33 l of water per cycle"
+  },
+  "Парова функція, швидке прання 15 хв, Eco 40-60": {
+    "ru": "Паровая функция, быстрая стирка 15 мин, Eco 40-60",
+    "en": "Steam function, 15-minute quick wash, Eco 40-60"
+  },
+  "Регулювання швидкості віджиму й температури в кожній програмі": {
+    "ru": "Регулировка скорости отжима и температуры в каждой программе",
+    "en": "Adjustable spin speed and temperature in every program"
+  },
+  "Так": {
+    "ru": "Да",
+    "en": "Yes"
+  },
+  "Так (Hygiene Steam)": {
+    "ru": "Да (Hygiene Steam)",
+    "en": "Yes (Hygiene Steam)"
+  },
+  "Так (SteamTech)": {
+    "ru": "Да (SteamTech)",
+    "en": "Yes (SteamTech)"
+  },
+  "Так (Steam™)": {
+    "ru": "Да (Steam™)",
+    "en": "Yes (Steam™)"
+  },
+  "Фронтальне": {
+    "ru": "Фронтальная",
+    "en": "Front-loading"
+  },
+  "Чиста синусоїда": {
+    "ru": "Чистая синусоида",
+    "en": "Pure sine wave"
+  },
+  "Швидке прання 15 хв, Eco 40-60, дитячий і спортивний режими": {
+    "ru": "Быстрая стирка 15 мин, Eco 40-60, детский и спортивный режимы",
+    "en": "15-minute quick wash, Eco 40-60, kids' and sports programs"
+  },
+  "≤10 мс": {
+    "ru": "≤10 мс",
+    "en": "≤10 ms"
+  },
+  "118.3 × 44.4 × 45.5 см": {
+    "ru": "118.3 × 44.4 × 45.5 см",
+    "en": "118.3 × 44.4 × 45.5 cm"
+  },
+  "143 × 54.5 × 55.5 см": {
+    "ru": "143 × 54.5 × 55.5 см",
+    "en": "143 × 54.5 × 55.5 cm"
+  },
+  "176 × 55 × 58 см": {
+    "ru": "176 × 55 × 58 см",
+    "en": "176 × 55 × 58 cm"
+  },
+  "195 × 59.5 × 68.3 см": {
+    "ru": "195 × 59.5 × 68.3 см",
+    "en": "195 × 59.5 × 68.3 cm"
+  },
+  "203 × 59.5 × 65.8 см": {
+    "ru": "203 × 59.5 × 65.8 см",
+    "en": "203 × 59.5 × 65.8 cm"
+  },
+  "203 × 59.5 × 68.2 см": {
+    "ru": "203 × 59.5 × 68.2 см",
+    "en": "203 × 59.5 × 68.2 cm"
+  },
+  "203 × 60 × 67 см": {
+    "ru": "203 × 60 × 67 см",
+    "en": "203 × 60 × 67 cm"
+  },
+  "85 × 44.4 × 45.6 см": {
+    "ru": "85 × 44.4 × 45.6 см",
+    "en": "85 × 44.4 × 45.6 cm"
+  },
+  "2 кг/24 год": {
+    "ru": "2 кг/24 ч",
+    "en": "2 kg/24 h"
+  },
+  "5 кг/24 год": {
+    "ru": "5 кг/24 ч",
+    "en": "5 kg/24 h"
+  },
+  "8 кг/24 год": {
+    "ru": "8 кг/24 ч",
+    "en": "8 kg/24 h"
+  },
+  "248 кВт·год/рік": {
+    "ru": "248 кВт·ч/год",
+    "en": "248 kWh/year"
+  },
+  "264 кВт·год/рік": {
+    "ru": "264 кВт·ч/год",
+    "en": "264 kWh/year"
+  },
+  "282 кВт·год/рік": {
+    "ru": "282 кВт·ч/год",
+    "en": "282 kWh/year"
+  },
+  "35 дБ": {
+    "ru": "35 дБ",
+    "en": "35 dB"
+  },
+  "36 дБ": {
+    "ru": "36 дБ",
+    "en": "36 dB"
+  },
+  "40 дБ": {
+    "ru": "40 дБ",
+    "en": "40 dB"
+  },
+  "41 дБ": {
+    "ru": "41 дБ",
+    "en": "41 dB"
+  },
+  "42 дБ": {
+    "ru": "42 дБ",
+    "en": "42 dB"
+  },
+  "3 роки (компресор — 10 років)": {
+    "ru": "3 года (компрессор — 10 лет)",
+    "en": "3 years (compressor — 10 years)"
+  },
+  "Двокамерний": {
+    "ru": "Двухкамерный",
+    "en": "Two-compartment"
+  },
+  "Однокамерний (холодильна камера)": {
+    "ru": "Однокамерный (холодильная камера)",
+    "en": "Single compartment (fridge only)"
+  },
+  "Зверху": {
+    "ru": "Сверху",
+    "en": "Top"
+  },
+  "Знизу": {
+    "ru": "Снизу",
+    "en": "Bottom"
+  },
+  "Електронне": {
+    "ru": "Электронное",
+    "en": "Electronic"
+  },
+  "Електромеханічне": {
+    "ru": "Электромеханическое",
+    "en": "Electromechanical"
+  },
+  "Механічне": {
+    "ru": "Механическое",
+    "en": "Mechanical"
+  },
+  "Ручне": {
+    "ru": "Ручное",
+    "en": "Manual"
+  },
+  "NeoFrost (подвійна циркуляція)": {
+    "ru": "NeoFrost (двойная циркуляция)",
+    "en": "NeoFrost (dual cooling)"
+  },
+  "Крапельне (холодильна) / ручне (морозильна)": {
+    "ru": "Капельное (холодильная) / ручное (морозильная)",
+    "en": "Drip (fridge) / manual (freezer)"
+  },
+  "Статичне (холодильна) / ручне (морозильна)": {
+    "ru": "Статическое (холодильная) / ручное (морозильная)",
+    "en": "Static (fridge) / manual (freezer)"
+  },
+  "Digital Inverter (10 років гарантії)": {
+    "ru": "Digital Inverter (10 лет гарантии)",
+    "en": "Digital Inverter (10-year warranty)"
+  },
+  "DoorCooling⁺ — на 32% швидше охолодження, зона свіжості, LED-підсвітка": {
+    "ru": "DoorCooling⁺ — на 32% быстрее охлаждение, зона свежести, LED-подсветка",
+    "en": "DoorCooling⁺ — 32% faster cooling, fresh zone, LED lighting"
+  },
+  "DoorCooling⁺, зона свіжості, білий матовий корпус": {
+    "ru": "DoorCooling⁺, зона свежести, белый матовый корпус",
+    "en": "DoorCooling⁺, fresh zone, matte white finish"
+  },
+  "AdaptTech, FreshZone, регулювання вологості, LED-підсвітка, індикатор відчинених дверей": {
+    "ru": "AdaptTech, FreshZone, регулировка влажности, LED-подсветка, индикатор открытых дверей",
+    "en": "AdaptTech, FreshZone, humidity control, LED lighting, door-open indicator"
+  },
+  "Дисплей, LED-підсвітка, скляні полиці": {
+    "ru": "Дисплей, LED-подсветка, стеклянные полки",
+    "en": "Display, LED lighting, glass shelves"
+  },
+  "Перенавішувані дверцята, скляні полиці, LED-підсвітка": {
+    "ru": "Перевешиваемые дверцы, стеклянные полки, LED-подсветка",
+    "en": "Reversible doors, glass shelves, LED lighting"
+  },
+  "Перенавішувані дверцята, приховані ручки, вага 18 кг": {
+    "ru": "Перевешиваемые дверцы, скрытые ручки, вес 18 кг",
+    "en": "Reversible door, recessed handles, 18 kg"
+  },
+  "Холодоагент R600a, скляні полиці, перенавішувані дверцята": {
+    "ru": "Хладагент R600a, стеклянные полки, перевешиваемые дверцы",
+    "en": "R600a refrigerant, glass shelves, reversible doors"
+  },
+  "Швидке заморожування, сигнал відчинених дверей, перенавішувані дверцята, полиці із загартованого скла": {
+    "ru": "Быстрая заморозка, сигнал открытых дверей, перевешиваемые дверцы, полки из закалённого стекла",
+    "en": "Fast freeze, door-open alarm, reversible doors, tempered glass shelves"
+  },
+  "SpaceMax, All-around Cooling, Power Cool/Freeze, Wi-Fi SmartThings, Volt Control": {
+    "ru": "SpaceMax, All-around Cooling, Power Cool/Freeze, Wi-Fi SmartThings, Volt Control",
+    "en": "SpaceMax, All-around Cooling, Power Cool/Freeze, Wi-Fi SmartThings, Volt Control"
+  }
 }

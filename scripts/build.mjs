@@ -38,9 +38,10 @@ const COUNTS = {
   TOTAL: products.length,
   AC: products.filter(p => p.category === 'kondicioneri').length,
   WM: products.filter(p => p.category === 'pralni-mashyny').length,
-  PS: products.filter(p => p.category === 'zaryadni-stantsii').length
+  PS: products.filter(p => p.category === 'zaryadni-stantsii').length,
+  FR: products.filter(p => p.category === 'holodylnyky').length
 };
-const subCounts = s => String(s).replace(/\{\{(TOTAL|AC|WM|PS)\}\}/g, (m, k) => COUNTS[k]);
+const subCounts = s => String(s).replace(/\{\{(TOTAL|AC|WM|PS|FR)\}\}/g, (m, k) => COUNTS[k]);
 const t = (k) => subCounts((i18n[L] && i18n[L][k]) ?? (i18n.uk && i18n.uk[k]) ?? k);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fmt = n => Number(n).toLocaleString('uk-UA').replace(/ /g, ' ').replace(/,/g, ' ');
@@ -69,6 +70,7 @@ function fmtVal(p, f) {
     case 'watt': return raw ? `${raw} ${t('u_w')}` : null;
     case 'sockets': return raw ? `${raw} ${t('u_sockets')}` : null;
     case 'first': return raw ? String(raw).split(' ')[0] : null;
+    case 'litres': return raw ? `${raw} ${t('u_l')}` : null;
     case 'kg': return raw ? `${raw} ${t('u_kg')}` : null;
     case 'rpm': return raw ? `${raw} ${t('u_rpm')}` : null;
     case 'cm': return raw ? `${raw} ${t('u_cm')}` : null;
