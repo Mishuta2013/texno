@@ -73,7 +73,15 @@ const COUNTS={TOTAL:PRODUCTS.length,
   WM:PRODUCTS.filter(p=>p.category==='pralni-mashyny').length,
   PS:PRODUCTS.filter(p=>p.category==='zaryadni-stantsii').length,
   FR:PRODUCTS.filter(p=>p.category==='holodylnyky').length};
-const subCounts=s=>String(s).replace(/\{\{(TOTAL|AC|WM|PS|FR)\}\}/g,(m,k)=>COUNTS[k]);
+const PLURALS={uk:['товар','товари','товарів'],ru:['товар','товара','товаров'],en:['product','products','products']};
+function plural(n,f){if(LANG==='en')return n===1?f[0]:f[1];
+  const a=n%10,b=n%100;
+  if(a===1&&b!==11)return f[0];
+  if(a>=2&&a<=4&&(b<10||b>=20))return f[1];
+  return f[2];}
+const subCounts=s=>String(s)
+  .replace(/\{\{ITEMS\}\}/g,()=>COUNTS.TOTAL+' '+plural(COUNTS.TOTAL,PLURALS[LANG]||PLURALS.uk))
+  .replace(/\{\{(TOTAL|AC|WM|PS|FR)\}\}/g,(m,k)=>COUNTS[k]);
 const t=k=>subCounts(I18N[LANG][k]!==undefined?I18N[LANG][k]:(I18N.uk[k]||k));
 const pdesc=p=>p['desc_'+LANG]||p.desc_uk;
 
@@ -162,7 +170,7 @@ function cardHTML(p){
       ${badge}
       <span class="cstock"><i></i>${t('c_instock')}</span>
       <button class="card-fav ${favOn}" onclick="event.preventDefault();event.stopPropagation();toggleFav(${idx})" aria-label="fav"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
-      <button class="card-cmp ${cmpOn}" onclick="event.preventDefault();event.stopPropagation();toggleCmp(${idx})"><span class="box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>${t('cmp_add')}</button>
+      <button class="card-cmp ${cmpOn}" title="${t('cmp_add')}" aria-label="${t('cmp_add')}" onclick="event.preventDefault();event.stopPropagation();toggleCmp(${idx})"><svg viewBox="0 0 24 24"><path d="M3 6h7M14 6h7M6.5 6v12M17.5 6v12M3 12l3.5-6 3.5 6a3.5 3.5 0 0 1-7 0zM14 12l3.5-6 3.5 6a3.5 3.5 0 0 1-7 0z"/></svg><span class="cmp-lbl">${t('cmp_add')}</span></button>
       <img src="${p.thumb||p.photos[0]}" alt="${pnameJS(p)}" loading="lazy" width="400" height="300">
     </a>
     <div class="card-body">

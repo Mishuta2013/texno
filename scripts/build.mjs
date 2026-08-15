@@ -42,7 +42,23 @@ const COUNTS = {
   PS: products.filter(p => p.category === 'zaryadni-stantsii').length,
   FR: products.filter(p => p.category === 'holodylnyky').length
 };
-const subCounts = s => String(s).replace(/\{\{(TOTAL|AC|WM|PS|FR)\}\}/g, (m, k) => COUNTS[k]);
+// Slavic plurals: 1 товар / 2-4 товари / 5+ товарів — needed wherever a count
+// is followed by a noun, otherwise the copy reads broken at most numbers.
+const PLURALS = {
+  uk: ['товар', 'товари', 'товарів'],
+  ru: ['товар', 'товара', 'товаров'],
+  en: ['product', 'products', 'products']
+};
+function plural(n, forms) {
+  if (L === 'en') return n === 1 ? forms[0] : forms[1];
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return forms[0];
+  if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return forms[1];
+  return forms[2];
+}
+const subCounts = s => String(s)
+  .replace(/\{\{ITEMS\}\}/g, () => `${COUNTS.TOTAL} ${plural(COUNTS.TOTAL, PLURALS[L] || PLURALS.uk)}`)
+  .replace(/\{\{(TOTAL|AC|WM|PS|FR)\}\}/g, (m, k) => COUNTS[k]);
 const t = (k) => subCounts((i18n[L] && i18n[L][k]) ?? (i18n.uk && i18n.uk[k]) ?? k);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fmt = n => Number(n).toLocaleString('uk-UA').replace(/ /g, ' ').replace(/,/g, ' ');
@@ -236,6 +252,25 @@ function quizInline(hidden) {
     </div>
   </section>`;
 }
+// tells Google the shop's sections, which is what it uses for the links under a result
+function navLd() {
+  return catList.filter(c => catProducts(c.key).length).map(c => ({
+    '@context': 'https://schema.org', '@type': 'SiteNavigationElement',
+    name: lf(c, 'name'), url: abs(curl(c))
+  }));
+}
+// lets Google offer a search box for the site
+function searchLd() {
+  return {
+    '@context': 'https://schema.org', '@type': 'WebSite',
+    name: site.name, url: abs(pfx() + '/'),
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: { '@type': 'EntryPoint', urlTemplate: abs(pfx() + '/?q={search_term_string}#catalog') },
+      'query-input': 'required name=search_term_string'
+    }
+  };
+}
 // FAQ list + FAQPage schema, both from the current language
 function faqItems() {
   return (i18n[L].faq || i18n.uk.faq || []).map(([q, a]) =>
@@ -348,6 +383,8 @@ ${head({
   }
 })}
 <script type="application/ld+json">${JSON.stringify(faqLd)}</script>
+<script type="application/ld+json">${JSON.stringify(navLd())}</script>
+<script type="application/ld+json">${JSON.stringify(searchLd())}</script>
 </head><body>${GTM_NS}
 ${body}
 ${injectData(catalogData)}
@@ -413,7 +450,7 @@ ${HEADER}
   <nav class="pp-bc"><a href="${pfx() || '/'}">${esc(t('pp_home'))}</a> › <a href="${curl(cat)}">${esc(lf(cat, 'name'))}</a> › <span>${esc(p.brand)}</span></nav>
   <div class="pp-top">
     <div class="pp-gallery">
-      <div class="pp-main"><img id="pp-main-img" src="${esc(av(p.photos[0]))}" alt="${esc(NAME)}" width="680" height="510"></div>
+      <div class="pp-main" onclick="ppZoom()" title="${esc(t('pp_zoom'))}"><img id="pp-main-img" src="${esc(av(p.photos[0]))}" alt="${esc(NAME)}" width="680" height="510"><span class="pp-zoom-hint" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M11 8v6M8 11h6"/></svg></span></div>
       <div class="pp-thumbs">${thumbs}</div>
     </div>
     <div class="pp-info">
@@ -440,8 +477,24 @@ ${HEADER}
 ${FOOTER}
 ${injectData(catalogData)}
 <script src="/assets/js/main.js?v=${VER}" defer></script>
+<div class="lbox" id="lbox" onclick="if(event.target.id==='lbox')ppClose()">
+  <button class="lbox-x" onclick="ppClose()" aria-label="${esc(t('lb_close'))}">×</button>
+  <button class="lbox-nav prev" onclick="ppStep(-1)" aria-label="${esc(t('lb_prev'))}">‹</button>
+  <figure class="lbox-fig"><img id="lbox-img" src="" alt="${esc(NAME)}" width="900" height="900"></figure>
+  <button class="lbox-nav next" onclick="ppStep(1)" aria-label="${esc(t('lb_next'))}">›</button>
+  <div class="lbox-count"><span id="lbox-n">1</span> / ${p.photos.length}</div>
+</div>
 <script>
-function ppShow(i){var ph=${JSON.stringify(p.photos.map(av))};document.getElementById('pp-main-img').src=ph[i];document.querySelectorAll('.pp-thumb').forEach((b,j)=>b.classList.toggle('active',j===i));}
+var PP_PHOTOS=${JSON.stringify(p.photos.map(av))},ppIdx=0;
+function ppShow(i){ppIdx=i;document.getElementById('pp-main-img').src=PP_PHOTOS[i];document.querySelectorAll('.pp-thumb').forEach((b,j)=>b.classList.toggle('active',j===i));}
+function ppZoom(){var b=document.getElementById('lbox');document.getElementById('lbox-img').src=PP_PHOTOS[ppIdx];document.getElementById('lbox-n').textContent=ppIdx+1;b.classList.add('open');document.body.style.overflow='hidden';}
+function ppClose(){document.getElementById('lbox').classList.remove('open');document.body.style.overflow='';}
+function ppStep(d){ppIdx=(ppIdx+d+PP_PHOTOS.length)%PP_PHOTOS.length;ppShow(ppIdx);document.getElementById('lbox-img').src=PP_PHOTOS[ppIdx];document.getElementById('lbox-n').textContent=ppIdx+1;}
+document.addEventListener('keydown',function(e){if(!document.getElementById('lbox').classList.contains('open'))return;
+  if(e.key==='Escape')ppClose();if(e.key==='ArrowRight')ppStep(1);if(e.key==='ArrowLeft')ppStep(-1);});
+(function(){var sx=0,el=document.getElementById('lbox');
+  el.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
+  el.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)ppStep(dx<0?1:-1);},{passive:true});})();
 function ppLead(name){ if(window.openCb){var f=document.getElementById('cb-product');if(f){f.value=name;var w=document.getElementById('cb-product-wrap');if(w)w.style.display='block';}window.openCb();} else {location.href='tel:${esc(site.phone)}';} }
 </script>
 </body></html>`;
@@ -588,7 +641,7 @@ if (L === 'uk') {
 if (L === 'uk') {
   const privacyBody = fs.readFileSync(path.join(ROOT, 'templates/privacy.html'), 'utf8');
   const html = `<!doctype html><html lang="uk"><head>
-${head({ title: 'Політика конфіденційності | TEXNO PLAZA', desc: 'Політика конфіденційності TEXNO PLAZA: які персональні дані ми збираємо через форми, дзвінки та месенджери, з якою метою, як зберігаємо й захищаємо їх, та ваші права.', canonical: abs('/polityka-konfidentsiynosti/') })}
+${head({ title: 'Політика конфіденційності | TEXNOPLAZA', desc: 'Політика конфіденційності TEXNOPLAZA: які персональні дані ми збираємо через форми, дзвінки та месенджери, з якою метою, як зберігаємо й захищаємо їх, та ваші права.', canonical: abs('/polityka-konfidentsiynosti/') })}
 </head><body>
 ${HEADER}
 ${privacyBody}
@@ -613,6 +666,53 @@ function copyDir(src, dst) {
 }
 copyDir(path.join(ROOT, 'assets'), path.join(DIST, 'assets'));
 copyDir(path.join(ROOT, 'public'), DIST);
+
+// ---- Google Merchant Center product feed (RSS 2.0) ----
+// Upload/point Merchant Center at https://<site>/feed.xml to list products in
+// the Shopping tab. Ukrainian copy, UAH prices, one <item> per product.
+{
+  const GCAT = {                       // Google product taxonomy ids
+    kondicioneri: '605',               // Home & Garden > Household Appliances > Climate Control > Air Conditioners
+    'pralni-mashyny': '2706',          // ... > Laundry Appliances > Washing Machines
+    holodylnyky: '689',                // ... > Kitchen Appliances > Refrigerators
+    'zaryadni-stantsii': '5710'        // Electronics > Electronics Accessories > Power > Portable Power
+  };
+  const xe = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]));
+  L = 'uk';
+  const items = products.map(p => {
+    const cat = catOf(p);
+    const desc = (p.desc_uk || '').replace(/\s+/g, ' ').trim();
+    return `  <item>
+    <g:id>${xe(p.slug)}</g:id>
+    <g:title>${xe(p.name)}</g:title>
+    <g:description>${xe(desc)}</g:description>
+    <g:link>${xe(abs(`${cat.urlPrefix}/${p.slug}/`))}</g:link>
+    <g:image_link>${xe(abs(p.photos[0]))}</g:image_link>
+${p.photos.slice(1, 11).map(ph => `    <g:additional_image_link>${xe(abs(ph))}</g:additional_image_link>`).join('\n')}
+    <g:availability>in_stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:price>${p.price} UAH</g:price>
+    <g:brand>${xe(p.brand)}</g:brand>
+    <g:mpn>${xe(p.series || p.slug)}</g:mpn>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>${GCAT[p.category] || ''}</g:google_product_category>
+    <g:product_type>${xe(cat.name)}</g:product_type>
+    <g:shipping><g:country>UA</g:country><g:service>${xe(cat.install ? 'Монтаж під ключ' : 'Доставка по Сумах')}</g:service><g:price>${cat.install ? site.installPrice : 400} UAH</g:price></g:shipping>
+  </item>`;
+  }).join('\n');
+  const feed = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+<channel>
+  <title>${xe(site.name)}</title>
+  <link>${xe(BASE)}</link>
+  <description>${xe('Техніка для дому у Сумах: кондиціонери, пральні машини, холодильники, зарядні станції')}</description>
+${items}
+</channel>
+</rss>
+`;
+  fs.writeFileSync(path.join(DIST, 'feed.xml'), feed, 'utf8');
+  console.log(`feed.xml → ${products.length} products`);
+}
 
 // ---- sitemap + robots ----
 const urls = [...new Set(SITEMAP)].map(u => `  <url><loc>${abs(u)}</loc></url>`).join('\n');
