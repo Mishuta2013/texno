@@ -1,6 +1,7 @@
 // Build: data/*.json + templates → dist/ (static HTML, pre-rendered catalog, 52 product pages, sitemap, robots).
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 
 const ROOT = path.resolve('.');
 const DIST = path.join(ROOT, 'dist');
@@ -91,7 +92,23 @@ function ppChips(p) {
     return v ? `<span class="pp-chip">${c.icon ? c.icon + ' ' : ''}${esc(v)}</span>` : '';
   }).join('');
 }
-const abs = u => BASE + u;
+/* Assets are served with a one-year immutable cache, so a file whose contents
+   change but whose name stays the same would keep serving the old version from
+   every browser and the CDN. Stamp each asset URL with a hash of its bytes:
+   unchanged files keep their URL (and their cache), changed ones get a new one. */
+const hashed = new Map();
+function av(u) {
+  if (!u || !u.startsWith('/assets/')) return u;
+  if (hashed.has(u)) return hashed.get(u);
+  let out = u;
+  try {
+    const bytes = fs.readFileSync(path.join(ROOT, u.replace(/^\//, '')));
+    out = `${u}?h=${crypto.createHash('md5').update(bytes).digest('hex').slice(0, 8)}`;
+  } catch { /* missing file — leave the plain path so the audit can flag it */ }
+  hashed.set(u, out);
+  return out;
+}
+const abs = u => BASE + u.split('?')[0];   // canonical/schema URLs stay clean
 const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230B1A33'/%3E%3Cpath d='M22 40h56a6 6 0 0 1 6 6v6a6 6 0 0 1-6 6H22a6 6 0 0 1-6-6v-6a6 6 0 0 1 6-6z' fill='none' stroke='%232E8BFF' stroke-width='5'/%3E%3Cpath d='M30 64v6M50 64v8M70 64v6' stroke='%237CC4FF' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E";
 const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">`;
 
@@ -142,7 +159,7 @@ function card(p) {
     : p.inverter ? `<span class="cbadge inv">${esc(t("c_inverter"))}</span>` : '';
   return `<div class="card">
     <a class="card-img" href="${url}">${badge}<span class="cstock"><i></i>${esc(t('c_instock'))}</span>
-      <img src="${esc(p.thumb || p.photos[0])}" alt="${esc(pname(p))}" loading="lazy" width="400" height="300"></a>
+      <img src="${esc(av(p.thumb || p.photos[0]))}" alt="${esc(pname(p))}" loading="lazy" width="400" height="300"></a>
     <div class="card-body"><div class="card-brand">${esc(p.brand)}</div>
       <a class="card-name" href="${url}">${esc(pname(p))}</a>
       <div class="card-specs">${catChips(p)}</div>
@@ -159,7 +176,7 @@ function heroCard(p) {
   return `<a class="gauge-card" href="${purl(p)}">
     <div class="gc-tag">${esc(t('gc_stock'))}</div>
     <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
-    <div class="gc-img"><img src="${esc(p.photos[0])}" alt="${esc(pname(p))}" width="680" height="510" loading="lazy"><div class="gc-airflow" id="airflow"></div></div>
+    <div class="gc-img"><img src="${esc(av(p.photos[0]))}" alt="${esc(pname(p))}" width="680" height="510" loading="lazy"><div class="gc-airflow" id="airflow"></div></div>
     <div class="gc-name">${esc(pname(p))}</div>
     <div class="gc-readout">
       <div class="gc-r"><div class="v">${fmt(p.btu)}<small> BTU</small></div><div class="k">${esc(t('gc_power'))}</div></div>
@@ -173,7 +190,7 @@ function heroStationCard(p) {
   return `<a class="gauge-card gc-station" href="${purl(p)}">
     <div class="gc-tag gc-tag-new">${esc(t("badge_new"))}</div>
     <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
-    <div class="gc-img"><img src="${esc(p.photos[0])}" alt="${esc(pname(p))}" width="680" height="510" fetchpriority="high"><div class="gc-charge" id="charge"></div></div>
+    <div class="gc-img"><img src="${esc(av(p.photos[0]))}" alt="${esc(pname(p))}" width="680" height="510" fetchpriority="high"><div class="gc-charge" id="charge"></div></div>
     <div class="gc-name">${esc(pname(p))}</div>
     <div class="gc-readout">
       <div class="gc-r"><div class="v">${fmt(s.capacity_wh)}<small> ${esc(t("u_wh"))}</small></div><div class="k">${esc(t("hc_capacity"))}</div></div>
@@ -187,7 +204,7 @@ function heroWasherCard(p) {
   return `<a class="gauge-card gc-station" href="${purl(p)}">
     <div class="gc-tag">${esc(t('gc_stock'))}</div>
     <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
-    <div class="gc-img"><img src="${esc(p.photos[0])}" alt="${esc(pname(p))}" width="680" height="510" loading="lazy"><div class="gc-drum"></div></div>
+    <div class="gc-img"><img src="${esc(av(p.photos[0]))}" alt="${esc(pname(p))}" width="680" height="510" loading="lazy"><div class="gc-drum"></div></div>
     <div class="gc-name">${esc(pname(p))}</div>
     <div class="gc-readout">
       <div class="gc-r"><div class="v">${esc(s.load_kg)}<small> ${esc(t("u_kg"))}</small></div><div class="k">${esc(t("hc_load"))}</div></div>
@@ -226,7 +243,8 @@ function faqItems() {
 }
 
 // ---- catalog dataset injected for client hydration (no heavy desc fields) ----
-const catalogData = products.map(({ desc_ru, desc_en, desc_uk, srcIndex, photoCount, ...keep }) => keep);
+const catalogData = products.map(({ desc_ru, desc_en, desc_uk, srcIndex, photoCount, ...keep }) =>
+  ({ ...keep, thumb: av(keep.thumb), photos: (keep.photos || []).map(av) }));
 const injectData = (extraProducts) => `<script>window.__I18N__=${JSON.stringify(i18n)};window.__SITE__=${JSON.stringify(site)};window.__CATS__=${JSON.stringify(CATS)};window.__SPECV__=${JSON.stringify(SPECV)};window.__PRODUCTS__=${JSON.stringify(extraProducts)};</script>`;
 
 // ===================== BUILD =====================
@@ -306,6 +324,7 @@ body = body.replace('<!--QUIZ_INLINE-->', quizInline(true));
 body = body.replace('<!--FAQ_ITEMS-->', faqItems());
 body = applyI18nStatic(body);   // bake the current language into static HTML (SEO)
 body = subCounts(body);         // resolve {{TOTAL}}/{{AC}}/{{WM}}/{{PS}} tokens in raw markup
+body = body.replace(/src="(\/assets\/img\/site\/[^"]+)"/g, (m, u) => `src="${av(u)}"`);
 
 // shared chrome (header before hero; footer+modals+floats from <footer> onward) for product pages
 const _heroAt = body.indexOf('<section class="hero"');
@@ -356,7 +375,7 @@ function related(p) {
 function productPage(p) {
   const s = p.specs || {};
   const NAME = pname(p);
-  const thumbs = p.photos.map((src, i) => `<button class="pp-thumb${i === 0 ? ' active' : ''}" onclick="ppShow(${i})"><img src="${esc(src)}" alt="${esc(NAME)} ${i + 1}" loading="lazy" width="800" height="600"></button>`).join('');
+  const thumbs = p.photos.map((src, i) => `<button class="pp-thumb${i === 0 ? ' active' : ''}" onclick="ppShow(${i})"><img src="${esc(av(src))}" alt="${esc(NAME)} ${i + 1}" loading="lazy" width="800" height="600"></button>`).join('');
   const cat = catOf(p);
   const chips = ppChips(p);
   const trustLines = lf(cat, 'trust') || (cat.install
@@ -394,7 +413,7 @@ ${HEADER}
   <nav class="pp-bc"><a href="${pfx() || '/'}">${esc(t('pp_home'))}</a> › <a href="${curl(cat)}">${esc(lf(cat, 'name'))}</a> › <span>${esc(p.brand)}</span></nav>
   <div class="pp-top">
     <div class="pp-gallery">
-      <div class="pp-main"><img id="pp-main-img" src="${esc(p.photos[0])}" alt="${esc(NAME)}" width="680" height="510"></div>
+      <div class="pp-main"><img id="pp-main-img" src="${esc(av(p.photos[0]))}" alt="${esc(NAME)}" width="680" height="510"></div>
       <div class="pp-thumbs">${thumbs}</div>
     </div>
     <div class="pp-info">
@@ -422,7 +441,7 @@ ${FOOTER}
 ${injectData(catalogData)}
 <script src="/assets/js/main.js?v=${VER}" defer></script>
 <script>
-function ppShow(i){var ph=${JSON.stringify(p.photos)};document.getElementById('pp-main-img').src=ph[i];document.querySelectorAll('.pp-thumb').forEach((b,j)=>b.classList.toggle('active',j===i));}
+function ppShow(i){var ph=${JSON.stringify(p.photos.map(av))};document.getElementById('pp-main-img').src=ph[i];document.querySelectorAll('.pp-thumb').forEach((b,j)=>b.classList.toggle('active',j===i));}
 function ppLead(name){ if(window.openCb){var f=document.getElementById('cb-product');if(f){f.value=name;var w=document.getElementById('cb-product-wrap');if(w)w.style.display='block';}window.openCb();} else {location.href='tel:${esc(site.phone)}';} }
 </script>
 </body></html>`;
