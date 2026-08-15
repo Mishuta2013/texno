@@ -9,27 +9,40 @@ function jFmtVal(p,f){
   const raw=f.key?((s[f.key]!==undefined&&s[f.key]!==null)?s[f.key]:p[f.key]):undefined;
   switch(f.fmt){
     case'kbtu':return p.btu?(p.btu/1000).toFixed(0)+'k BTU':null;
-    case'kbtu_power':return p.btu?(p.btu/1000).toFixed(0)+'k BTU'+(s.power_w?' · '+s.power_w+' Вт':''):null;
-    case'area':return p.area?'до '+p.area+' м²':(f.dash?'—':null);
-    case'comp':return p.inverter?'Інверторний':'On/Off';
-    case'noise':return s.noise?'від '+s.noise+' дБ':null;
+    case'kbtu_power':return p.btu?(p.btu/1000).toFixed(0)+'k BTU'+(s.power_w?' · '+s.power_w+' '+t('u_w'):''):null;
+    case'area':return p.area?t('u_upto')+' '+p.area+' '+t('u_m2'):(f.dash?'—':null);
+    case'comp':return p.inverter?t('u_inverter'):t('u_onoff');
+    case'noise':return s.noise?t('u_from')+' '+s.noise+' '+t('u_db'):null;
     case'cool_range':return(s.cool_min!==undefined)?s.cool_min+'°C … +'+s.cool_max+'°C':null;
     case'celsius':return(raw!==undefined&&raw!==null)?raw+'°C':null;
-    case'wifi_yesopt':return p.wifi?'Так':'Опція';
-    case'heat_yesno':return p.heatpump?'Так':'Ні';
-    case'wh':return raw?raw+' Wh':null;
-    case'watt':return raw?raw+' Вт':null;
-    case'sockets':return raw?raw+' × Schuko':null;
+    case'wifi_yesopt':return p.wifi?t('u_yes'):t('u_option');
+    case'heat_yesno':return p.heatpump?t('u_yes'):t('u_no');
+    case'wh':return raw?raw+' '+t('u_wh'):null;
+    case'watt':return raw?raw+' '+t('u_w'):null;
+    case'sockets':return raw?raw+' '+t('u_sockets'):null;
     case'first':return raw?String(raw).split(' ')[0]:null;
-    case'kg':return raw?raw+' кг':null;
-    case'rpm':return raw?raw+' об/хв':null;
-    case'cm':return raw?raw+' см':null;
-    default:return(raw!==undefined&&raw!==null&&raw!=='')?raw:null;
+    case'kg':return raw?raw+' '+t('u_kg'):null;
+    case'rpm':return raw?raw+' '+t('u_rpm'):null;
+    case'cm':return raw?raw+' '+t('u_cm'):null;
+    default:return specValJS((raw!==undefined&&raw!==null&&raw!=='')?raw:null);
   }
+}
+/* free-text spec values + per-language labels, mirroring build.mjs */
+const SPECV=window.__SPECV__||{};
+function specValJS(v){
+  if(LANG==='uk'||typeof v!=='string')return v;
+  const e=SPECV[v];return (e&&e[LANG])||v;
+}
+const lfJS=(o,field)=>(LANG!=='uk'&&o&&o[field+'_'+LANG])||(o?o[field]:undefined);
+function pnameJS(p){
+  if(LANG!=='uk'&&p['name_'+LANG])return p['name_'+LANG];
+  const pref=(catOf(p)||{}).productPrefix;
+  if(!pref||LANG==='uk'||!pref[LANG]||!p.name.startsWith(pref.uk))return p.name;
+  return pref[LANG]+p.name.slice(pref.uk.length);
 }
 function catChipsJS(p){
   return(catOf(p).chips||[]).map(function(c){
-    if(c.flag)return p[c.flag]?'<span class="stag">'+c.icon+' '+c.label+'</span>':'';
+    if(c.flag)return p[c.flag]?'<span class="stag">'+c.icon+' '+lfJS(c,'label')+'</span>':'';
     const v=jFmtVal(p,c);
     return v?'<span class="stag">'+c.icon+' '+v+'</span>':'';
   }).join('');
@@ -43,8 +56,11 @@ function track(n,p){try{if(window.gtag)gtag('event',n,p||{});}catch(e){}}
 /* lead events → GA4 (imported to Google Ads as conversions): click_to_call, click_whatsapp, generate_lead */
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a');if(!a)return;var h=a.getAttribute('href')||'';if(h.indexOf('tel:')===0){track('click_to_call');}else if(h.indexOf('api.whatsapp.com')>-1||h.indexOf('wa.me')>-1||h.indexOf('t.me')>-1||h.toLowerCase().indexOf('viber')>-1){track('click_whatsapp');}},true);
 
-let LANG = (localStorage.getItem('tp_lang')||'uk');
+/* language comes from the URL: / = uk, /ru/… and /en/… are separate page trees */
+const LANG_FROM_PATH=(function(){var m=location.pathname.match(/^\/(ru|en)(?=\/|$)/);return m?m[1]:'uk';})();
+let LANG = LANG_FROM_PATH;
 if(!I18N[LANG]) LANG='uk';
+try{localStorage.setItem('tp_lang',LANG);}catch(e){}
 let activeBrand='all', activeArea='all', activeType='all', activePrice='all', activeLoad='all', activeDepth='all', currentProduct=null;
 let FAV = JSON.parse(localStorage.getItem('tp_fav')||'[]');
 let CMP = JSON.parse(localStorage.getItem('tp_cmp')||'[]');
@@ -83,13 +99,17 @@ function applyI18n(){
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.dataset.lang===LANG));
   // dynamic UI
   renderCatalog(); updateCalc(); renderCmpBar(); updateFavCount();
-  if($('catalog-grid')&&LANG!=='uk'){ // homepage only; uk keeps the server-rendered SEO title
-    document.title = LANG==='ru' ? 'TEXNO PLAZA — Техника для дома и энергонезависимость в Сумах'
-      : 'TEXNO PLAZA — Home appliances & energy independence in Sumy';
-  }
+  // the page is served pre-rendered in its own language, so the <title> stays as built
 }
 function setText(id,v){const e=$(id);if(e)e.textContent=v;}
-function setLang(l){LANG=l;localStorage.setItem('tp_lang',l);applyI18n();}
+/* switching language navigates to the same page in the other tree */
+function setLang(l){
+  if(!I18N[l]||l===LANG)return;
+  try{localStorage.setItem('tp_lang',l);}catch(e){}
+  var base=location.pathname.replace(/^\/(ru|en)(?=\/|$)/,'')||'/';
+  if(!base.startsWith('/'))base='/'+base;
+  location.href=(l==='uk'?'':'/'+l)+base+location.hash;
+}
 
 /* ============ THEME ============ */
 /* dark theme removed in redesign — single curated light theme */
@@ -119,6 +139,7 @@ function getFiltered(){
   if(sort==='price-asc')list.sort((a,b)=>a.price-b.price);
   else if(sort==='price-desc')list.sort((a,b)=>b.price-a.price);
   else if(sort==='area-asc')list.sort((a,b)=>(a.area||0)-(b.area||0));
+  else list.sort((a,b)=>(a.pin||99)-(b.pin||99));   // default: pinned products first
   return list;
 }
 function productUrl(p){return (catOf(p).urlPrefix||SITE.productUrlPrefix||'/kondicioner')+'/'+p.slug+'/';}
@@ -136,14 +157,14 @@ function cardHTML(p){
       <span class="cstock"><i></i>${t('c_instock')}</span>
       <button class="card-fav ${favOn}" onclick="event.preventDefault();event.stopPropagation();toggleFav(${idx})" aria-label="fav"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
       <button class="card-cmp ${cmpOn}" onclick="event.preventDefault();event.stopPropagation();toggleCmp(${idx})"><span class="box"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>${t('cmp_add')}</button>
-      <img src="${p.thumb||p.photos[0]}" alt="${p.name}" loading="lazy" width="400" height="300">
+      <img src="${p.thumb||p.photos[0]}" alt="${pnameJS(p)}" loading="lazy" width="400" height="300">
     </a>
     <div class="card-body">
       <div class="card-brand">${p.brand}</div>
-      <a class="card-name" href="${url}">${p.name}</a>
+      <a class="card-name" href="${url}">${pnameJS(p)}</a>
       <div class="card-specs">${catChipsJS(p)}</div>
       <div class="card-foot">
-        <div class="card-price">${fmt(p.price)} <small>${LANG==='en'?'UAH':'грн'}</small></div>
+        <div class="card-price">${fmt(p.price)} <small>${t('u_uah')}</small></div>
         <div class="card-act">
           <div class="row2">
             <button class="btn-order" onclick="openOrder(${idx})">${t('c_order')}</button>
@@ -195,9 +216,9 @@ function switchCat(cat){
   ['frow-area'].forEach(id=>{const el=$(id);if(el)el.style.display=ac?'':'none';});
   const wmRow=$('frow-wm');if(wmRow)wmRow.style.display=cat==='pralni-mashyny'?'':'none';
   const areaSort=document.querySelector('#sort-select option[value="area-asc"]');if(areaSort)areaSort.hidden=!ac;
-  // offer the matching quiz right above the grid when the category has one
-  const qWrap=$('cat-quiz'),qBtn=$('cat-quiz-btn'),qDef=QUIZZES[cat];
-  if(qWrap&&qBtn){if(qDef){qBtn.textContent=t(qDef.ctaKey);qWrap.style.display='';}else qWrap.style.display='none';}
+  // full-size quiz appears right above the grid when the category has one
+  const qHost=$('quiz-inline');
+  if(qHost){ if(QUIZZES[cat]) startInlineQuiz(cat); else qHost.style.display='none'; }
   const h=$('cat-title');if(h){const key={all:'cat_h_all',kondicioneri:'cat_h','zaryadni-stantsii':'cat_h_ps','pralni-mashyny':'cat_h_wm'}[cat]||'cat_h_all';h.textContent=t(key);}
   resetFilters();   // also re-renders the brand buttons for this category
 }
@@ -464,7 +485,7 @@ function priceRange(cat){
 }
 const QUIZZES={
   kondicioneri:{
-    cat:'kondicioneri', eyeKey:'quiz_eye', titleKey:'quiz_h', resKey:'quiz_res_h', overKey:'quiz_over', ctaKey:'hero_cta2',
+    cat:'kondicioneri', eyeKey:'quiz_eye', titleKey:'quiz_h', resKey:'quiz_res_h', overKey:'quiz_over', ctaKey:'acq_cta',
     steps:[
       {type:'range',key:'area',qKey:'quiz_s1',hintKey:'quiz_s1_hint',min:8,max:100,step:1,def:25,unit:()=>LANG==='en'?'m²':'м²'},
       {type:'choice',key:'room',qKey:'quiz_s2',options:QUIZ_ROOMS.map(([v,k])=>[v,k])},
@@ -506,11 +527,15 @@ const QUIZZES={
       return `${t('wmq_niche_lbl')}: ${s.depth} см; ${fam?t(fam):''}; ${pr?t(pr):''}; ${t('quiz_s4')}: ${fmt(s.budget)} грн; ~${this.need(s)} кг`;}
   }
 };
-let quizKind='kondicioneri', quizStep=0, quizState={};
+let quizKind='kondicioneri', quizStep=0, quizState={}, quizHost='modal';
+const QIDS={modal:{prog:'quiz-prog',body:'quiz-body',back:'quiz-back',next:'quiz-next'},
+            inline:{prog:'qi-prog',body:'qi-body',back:'qi-back',next:'qi-next'}};
+const qel=k=>$(QIDS[quizHost][k]);
 const quizDef=()=>QUIZZES[quizKind];
 function quizBudget(){return priceRange(quizDef().cat);}
-function openQuiz(kind){
+function openQuiz(kind,host){
   if(!PRODUCTS.length)return;
+  quizHost=(host==='inline'&&$('qi-body'))?'inline':'modal';
   quizKind=QUIZZES[kind]?kind:'kondicioneri';
   const d=quizDef();
   quizStep=0;quizState={};
@@ -519,17 +544,23 @@ function openQuiz(kind){
     else if(st.type==='budget')quizState[st.key]=priceRange(d.cat)[1];
     else quizState[st.key]=null;
   });
-  const eye=document.querySelector('.quiz-eyebrow'),ttl=document.querySelector('.quiz-title');
-  if(eye)eye.textContent=t(d.eyeKey);if(ttl)ttl.textContent=t(d.titleKey);
-  $('quiz-modal').classList.add('open');document.body.style.overflow='hidden';quizRender();
+  if(quizHost==='inline'){
+    const eye=$('qi-eyebrow'),ttl=$('qi-title');
+    if(eye)eye.textContent=t(d.eyeKey);if(ttl)ttl.textContent=t(d.titleKey);
+  }else{
+    const eye=document.querySelector('#quiz-modal .quiz-eyebrow'),ttl=document.querySelector('#quiz-modal .quiz-title');
+    if(eye)eye.textContent=t(d.eyeKey);if(ttl)ttl.textContent=t(d.titleKey);
+    $('quiz-modal').classList.add('open');document.body.style.overflow='hidden';
+  }
+  quizRender();
 }
 function openQuizWm(){openQuiz('pralni-mashyny');}
 function closeQuiz(){closeModalById('quiz-modal');}
 function quizCalc(){return quizDef().need(quizState);}   // kept for the AC calculator section
 function quizRender(){
   const d=quizDef(),steps=d.steps,st=steps[quizStep];
-  const body=$('quiz-body'),back=$('quiz-back'),next=$('quiz-next');
-  $('quiz-prog').style.width=(quizStep/steps.length*100)+'%';
+  const body=qel('body'),back=qel('back'),next=qel('next');
+  qel('prog').style.width=(quizStep/steps.length*100)+'%';
   back.style.visibility=quizStep>0?'visible':'hidden';next.style.display='';
   next.textContent=quizStep===steps.length-1?t('quiz_finish'):t('quiz_next');
   const hint=st.hintKey?`<div class="quiz-hint">${t(st.hintKey)}</div>`:'';
@@ -564,10 +595,10 @@ function quizResult(){
   const within=fitting.filter(p=>p.price<=quizState.budget).sort((a,b)=>d.rank(a,b));
   let over=false,res=within.slice(0,3);
   if(!res.length&&fitting.length){over=true;res=fitting.slice().sort((a,b)=>d.rank(a,b)).slice(0,3);}
-  $('quiz-prog').style.width='100%';$('quiz-back').style.visibility='visible';$('quiz-next').style.display='none';
+  qel('prog').style.width='100%';qel('back').style.visibility='visible';qel('next').style.display='none';
   const cards=res.map(p=>`<a class="quiz-card" href="${productUrl(p)}"><img src="${p.thumb||p.photos[0]}" alt="${p.name}" loading="lazy"><div class="quiz-card-b"><div class="quiz-card-m">${d.meta(p)}</div><div class="quiz-card-n">${p.name}</div><div class="quiz-card-p">${fmt(p.price)} грн</div></div></a>`).join('');
   const note=!res.length?`<div class="quiz-note">${t(d.noneKey||'quiz_over')}</div>`:(over?`<div class="quiz-note">${t(d.overKey)}</div>`:'');
-  $('quiz-body').innerHTML=`<div class="quiz-res"><div class="quiz-q">${t(d.resKey)}</div>${note}<div class="quiz-cards">${cards}</div>
+  qel('body').innerHTML=`<div class="quiz-res"><div class="quiz-q">${t(d.resKey)}</div>${note}<div class="quiz-cards">${cards}</div>
     <form class="quiz-lead" onsubmit="return quizSubmit(event)"><div class="quiz-q2">${t('quiz_lead_h')}</div>
       <div class="quiz-lead-row"><input name="name" placeholder="${t('form_name')}" required><input name="phone" placeholder="+38 (0__) ___-__-__" required></div>
       <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -576,8 +607,20 @@ function quizResult(){
 function quizSubmit(e){e.preventDefault();const f=e.target;if(f.company.value)return false;
   sendLead({type:'quiz-'+quizKind,name:f.name.value,phone:f.phone.value,note:quizSummary()});
   track('generate_lead',{method:'quiz',category:quizKind});
-  $('quiz-body').innerHTML=`<div class="quiz-done"><div class="quiz-done-ic">✓</div><h3>${t('quiz_done_h')}</h3><p>${t('quiz_done_p')}</p></div>`;
-  $('quiz-back').style.visibility='hidden';return false;}
+  qel('body').innerHTML=`<div class="quiz-done"><div class="quiz-done-ic">✓</div><h3>${t('quiz_done_h')}</h3><p>${t('quiz_done_p')}</p></div>`;
+  qel('back').style.visibility='hidden';return false;}
+/* the inline quiz starts itself on category pages and on the homepage category tabs */
+function startInlineQuiz(cat){
+  const host=$('quiz-inline'); if(!host||!QUIZZES[cat])return false;
+  host.style.display='';
+  openQuiz(cat,'inline');
+  return true;
+}
+(function initInlineQuiz(){
+  const host=$('quiz-inline'); if(!host)return;
+  const cat=window.__CATALOG_CAT__;
+  if(QUIZZES[cat]&&!document.getElementById('cat-tabs'))startInlineQuiz(cat);   // category page
+})();
 
 /* GA: track call / WhatsApp / messenger clicks */
 document.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;const h=a.getAttribute('href')||'';

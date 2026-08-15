@@ -210,7 +210,7 @@
       ],
       [
         "Підготуєте документи на висотні роботи для ОСББ/ЖЕКу?",
-        "Так, підготуємо повний пакет документів завчасно. Наші фахівці мають посвідчення промислових альпіністів. Для кожного об'єкта оформлюємо наряд-допуск."
+        "Так, підготуємо повний пакет документів завчасно. Наші фахівці мають посвідчення промислових альпіністів. Для кожного об’єкта оформлюємо наряд-допуск."
       ],
       [
         "Що, якщо мені не сподобається результат монтажу?",
@@ -218,7 +218,7 @@
       ],
       [
         "Чи можна встановити кондиціонер під час або після ремонту?",
-        "Так. Встановлення виконується до, під час або після ремонту. Також робимо монтаж у 2 етапи — прихований на етапі ремонту й завершення після."
+        "Так. Встановлення виконується до, під час або після ремонту. Також робимо монтаж у 2 етапи — прихований на етапі ремонту й завершення після. Зручно та акуратно."
       ],
       [
         "Яка різниця між інверторним кондиціонером і звичайним?",
@@ -226,7 +226,7 @@
       ],
       [
         "Як вибрати потужність кондиціонера для моєї кімнати?",
-        "Проста формула: 1 кВт потужності на 10 м² площі. Для кімнати 25 м² — 2,5 кВт (9 000 BTU). Скористайтесь нашим калькулятором підбору вище або подзвоніть — фахівець врахує висоту стелі, кількість вікон та орієнтацію."
+        "Проста формула: 1 кВт потужності на 10 м² площі. Для кімнати 25 м² — 2,5 кВт (9 000 BTU). Скористайтесь підбором за площею на сторінці кондиціонерів або подзвоніть — фахівець врахує висоту стелі, кількість вікон та орієнтацію."
       ],
       [
         "Ви підключаєте пральну машину?",
@@ -238,7 +238,7 @@
       ],
       [
         "Скільки кілограмів завантаження мені потрібно?",
-        "Орієнтир: 5 кг — для однієї-двох людей, 6 кг — для сімї з трьох, 7 кг — для сімї з чотирьох або якщо часто прете пледи й куртки. Завантаження вказане для бавовни."
+        "Орієнтир: 5 кг — для однієї-двох людей, 6 кг — для сім’ї з трьох, 7 кг — для сім’ї з чотирьох або якщо часто прете пледи й куртки. Завантаження вказане для бавовни."
       ],
       [
         "Чим інверторний мотор кращий за звичайний?",
@@ -361,7 +361,91 @@
     "wmq_over": "У межах бюджету точного збігу немає — показуємо найближчі варіанти.",
     "wmq_none": "Для такої ніші моделей немає. Спробуйте більшу глибину або зателефонуйте — підкажемо.",
     "wmq_depth_lbl": "глибина",
-    "wmq_niche_lbl": "Ніша"
+    "wmq_niche_lbl": "Ніша",
+    "m_vb": "Написати у Viber",
+    "acq_cta": "Підібрати кондиціонер за площею",
+    "f_a25": "до 25 м²",
+    "f_a35": "25–35 м²",
+    "f_a50": "35–50 м²",
+    "f_a70": "50+ м²",
+    "f_p10": "до 10 000 ₴",
+    "f_p15": "10–15 тис.",
+    "f_p25": "15–25 тис.",
+    "f_p40": "25–40 тис.",
+    "f_p99": "40+ тис.",
+    "f_l5": "5 кг",
+    "f_l6": "6 кг",
+    "f_l7": "7 кг",
+    "pp_specs": "Характеристики",
+    "pp_desc": "Опис",
+    "pp_related": "Схожі моделі",
+    "pp_home": "Головна",
+    "pp_back_all": "Усі товари",
+    "pp_order": "Замовити",
+    "pp_instal": "або",
+    "pp_instal2": "грн/міс",
+    "pp_instal3": "× 24 (оплата частинами)",
+    "cat_instock": "у наявності",
+    "cat_models1": "модель",
+    "cat_models2": "моделі",
+    "cat_models5": "моделей",
+    "trust_install": "Монтаж під ключ",
+    "trust_paylater": "Оплата після встановлення",
+    "trust_warranty5": "Гарантія до 5 років",
+    "trust_delivery": "Доставка по Сумах",
+    "trust_payget": "Оплата після отримання",
+    "trust_warranty": "Офіційна гарантія",
+    "blog_h1": "Блог TEXNO PLAZA",
+    "blog_sub": "Поради щодо вибору, монтажу та обслуговування техніки для дому.",
+    "blog_read": "хв читання",
+    "blog_also": "Читайте також",
+    "blog_cta1": "Переглянути каталог",
+    "blog_more": "Читати →",
+    "blog_uk_note": "Стаття доступна українською мовою.",
+    "lang_note": "Мова сайту",
+    "u_upto": "до",
+    "u_m2": "м²",
+    "u_from": "від",
+    "u_db": "дБ",
+    "u_kg": "кг",
+    "u_rpm": "об/хв",
+    "u_cm": "см",
+    "u_w": "Вт",
+    "u_wh": "Wh",
+    "u_sockets": "× Schuko",
+    "u_inverter": "Інверторний",
+    "u_onoff": "On/Off",
+    "u_yes": "Так",
+    "u_no": "Ні",
+    "u_option": "Опція",
+    "u_uah": "грн",
+    "hc_capacity": "Ємність",
+    "hc_power": "Потужність",
+    "hc_load": "Завантаження",
+    "hc_spin": "Віджим",
+    "hc_class": "Клас",
+    "seo_home_t": "Техніка для дому та енергонезалежність у Сумах | TEXNO PLAZA",
+    "seo_home_d": "TEXNO PLAZA у Сумах: кондиціонери з монтажем під ключ за 1 день, пральні машини з підключенням та зарядні станції. Оплата після встановлення, гарантія до 5 років.",
+    "seo_blog_t": "Блог — поради щодо техніки для дому | TEXNO PLAZA",
+    "seo_blog_d": "Корисні статті про вибір та обслуговування техніки для дому у Сумах: кондиціонери, монтаж, пральні машини, зарядні станції.",
+    "seo_cat_t": "{name} у Сумах — купити з доставкою | TEXNO PLAZA",
+    "pp_buy_t": "{name} — купити в Сумах",
+    "pp_buy_install": ", монтаж під ключ",
+    "cat_in_sumy": "у Сумах",
+    "svc_from": "від",
+    "svc_prices_note": "Ціни орієнтовні. Точну вартість підтвердимо після огляду.",
+    "con_addr_full": "м. Суми, вул. Харківська 2/1, магазин «TEXNO PLAZA»",
+    "foot_install": "Монтаж під ключ",
+    "foot_adv": "Наші переваги",
+    "foot_faq": "Часті запитання",
+    "hours_wd": "Пн–Пт 10:00–18:00",
+    "hours_sat": "Сб 10:00–17:00",
+    "badge_new": "Новинка",
+    "c_inverter": "Інвертор",
+    "mcta_call": "Дзвінок",
+    "mcta_catalog": "Каталог",
+    "u_ms": "мс",
+    "pay_fuib": "ПУМБ"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -506,7 +590,7 @@
     "inst_i1": "Бурение отверстия в стене до 800 мм",
     "inst_i2": "Межблочные коммуникации до 3 м",
     "inst_i3": "Дренажная трасса до 3 м",
-    "inst_i4": "Подвод питания от розетки",
+    "inst_i4": "Подведение питания от розетки",
     "inst_i5": "Установка обоих блоков",
     "inst_i6": "Проверка давления и дренажа",
     "inst_i7": "Пусконаладочные работы",
@@ -566,15 +650,15 @@
     "faq": [
       [
         "Узнаю окончательную цену до начала работ?",
-        "Да. По телефону специалист уточнит все детали и озвучит стоимость. Перед началом мастер зафиксирует цену в квитанции. Мы за прозрачный расчёт — никаких скрытых доплат."
+        "Да. По телефону специалист уточнит все детали и назовёт стоимость. Перед началом мастер зафиксирует цену в квитанции. Мы за прозрачный расчёт — никаких скрытых доплат."
       ],
       [
         "Нужно ли платить что-то до установки?",
-        "Нет. Оплата кондиционера и монтажа — только после приёма в рабочем состоянии. Исключение — если температура на улице ниже −10°C, тогда проверку переносим на следующий тёплый день."
+        "Нет. Оплата кондиционера и монтажа — только после приёмки в рабочем состоянии. Исключение — если температура на улице ниже −10 °C, тогда проверку переносим на следующий тёплый день."
       ],
       [
         "Подготовите документы на высотные работы для ОСМД/ЖЭКа?",
-        "Да, подготовим полный пакет документов заранее. Наши специалисты имеют удостоверения промышленных альпинистов. Для каждого объекта оформляем наряд-допуск."
+        "Да, подготовим полный пакет документов заранее. Наши специалисты имеют удостоверения промышленных альпинистов. На каждый объект оформляем наряд-допуск."
       ],
       [
         "Что, если мне не понравится результат монтажа?",
@@ -582,15 +666,39 @@
       ],
       [
         "Можно ли установить кондиционер во время или после ремонта?",
-        "Да. Установка выполняется до, во время или после ремонта. Также делаем монтаж в 2 этапа — скрытый на этапе ремонта и завершение после."
+        "Да. Установка выполняется до, во время или после ремонта. Также делаем монтаж в 2 этапа — скрытый на этапе ремонта и завершение после. Удобно и аккуратно."
       ],
       [
         "В чём разница между инверторным кондиционером и обычным?",
-        "Инверторный компрессор регулирует мощность плавно — экономит до 30% электроэнергии, тише, имеет больший ресурс. Обычный (On/Off) включается и выключается полностью — проще и дешевле, но менее экономичный."
+        "Инверторный компрессор регулирует мощность плавно — экономит до 30% электроэнергии, тише работает, служит дольше. Обычный (On/Off) включается и выключается полностью — проще и дешевле, но менее экономичен."
       ],
       [
         "Как выбрать мощность кондиционера для моей комнаты?",
-        "Простая формула: 1 кВт мощности на 10 м² площади. Для комнаты 25 м² — 2,5 кВт (9 000 BTU). Воспользуйтесь нашим калькулятором подбора выше или позвоните — специалист учтёт высоту потолка, количество окон и ориентацию."
+        "Простая формула: 1 кВт мощности на 10 м² площади. Для комнаты 25 м² — 2,5 кВт (9 000 BTU). Воспользуйтесь подбором по площади на странице кондиционеров или позвоните — специалист учтёт высоту потолка, количество окон и ориентацию."
+      ],
+      [
+        "Вы подключаете стиральную машину?",
+        "Да. Доставка по Сумам — 400 грн, подключение — 500 грн. Мастер привезёт машину, снимет транспортировочные болты, подключит к воде и канализации, выровняет по уровню и запустит тестовый цикл."
+      ],
+      [
+        "Какую стиральную машину выбрать по глубине?",
+        "Измерьте свободное место и вычтите 5 см на шланги сзади. Узкие модели (до 45 см) подходят для ванных комнат и ниш — Beko 40 см, Edler 41 см, Indesit 42,5 см, Haier 43,7 см. Стандартные (45+ см) вмещают больше белья за раз."
+      ],
+      [
+        "Сколько килограммов загрузки мне нужно?",
+        "Ориентир: 5 кг — для одного-двух человек, 6 кг — для семьи из трёх, 7 кг — для семьи из четырёх или если часто стираете пледы и куртки. Загрузка указана для хлопка."
+      ],
+      [
+        "Чем инверторный мотор лучше обычного?",
+        "В инверторном моторе нет щёток, которые стираются, — он тише, меньше вибрирует и служит дольше. LG и Samsung дают на такие моторы 10 лет гарантии."
+      ],
+      [
+        "Подойдёт ли зарядная станция для холодильника во время отключений света?",
+        "Да. Fossibot F1800 выдаёт 1800 Вт чистой синусоиды — этого достаточно для холодильника, роутера, освещения и зарядки гаджетов одновременно. Функция UPS переключает питание за ≤10 мс, так что техника даже не выключится."
+      ],
+      [
+        "Как быстро заряжается зарядная станция?",
+        "От розетки Fossibot F1800 принимает до 1200 Вт — полный заряд примерно за час. Также можно заряжать от солнечных панелей (до 500 Вт) или от автомобиля через XT60."
       ]
     ],
     "con_eye": "Контакты",
@@ -701,7 +809,91 @@
     "wmq_over": "В рамках бюджета точного совпадения нет — показываем ближайшие варианты.",
     "wmq_none": "Для такой ниши моделей нет. Попробуйте большую глубину или позвоните — подскажем.",
     "wmq_depth_lbl": "глубина",
-    "wmq_niche_lbl": "Ниша"
+    "wmq_niche_lbl": "Ниша",
+    "m_vb": "Написать в Viber",
+    "acq_cta": "Подобрать кондиционер по площади",
+    "f_a25": "до 25 м²",
+    "f_a35": "25–35 м²",
+    "f_a50": "35–50 м²",
+    "f_a70": "50+ м²",
+    "f_p10": "до 10 000 ₴",
+    "f_p15": "10–15 тыс.",
+    "f_p25": "15–25 тыс.",
+    "f_p40": "25–40 тыс.",
+    "f_p99": "40+ тыс.",
+    "f_l5": "5 кг",
+    "f_l6": "6 кг",
+    "f_l7": "7 кг",
+    "pp_specs": "Характеристики",
+    "pp_desc": "Описание",
+    "pp_related": "Похожие модели",
+    "pp_home": "Главная",
+    "pp_back_all": "Все товары",
+    "pp_order": "Заказать",
+    "pp_instal": "или",
+    "pp_instal2": "грн/мес",
+    "pp_instal3": "× 24 (оплата частями)",
+    "cat_instock": "в наличии",
+    "cat_models1": "модель",
+    "cat_models2": "модели",
+    "cat_models5": "моделей",
+    "trust_install": "Монтаж под ключ",
+    "trust_paylater": "Оплата после установки",
+    "trust_warranty5": "Гарантия до 5 лет",
+    "trust_delivery": "Доставка по Сумам",
+    "trust_payget": "Оплата после получения",
+    "trust_warranty": "Официальная гарантия",
+    "blog_h1": "Блог TEXNO PLAZA",
+    "blog_sub": "Советы по выбору, монтажу и обслуживанию техники для дома.",
+    "blog_read": "мин чтения",
+    "blog_also": "Читайте также",
+    "blog_cta1": "Смотреть каталог",
+    "blog_more": "Читать →",
+    "blog_uk_note": "Статья доступна на украинском языке.",
+    "lang_note": "Язык сайта",
+    "u_upto": "до",
+    "u_m2": "м²",
+    "u_from": "от",
+    "u_db": "дБ",
+    "u_kg": "кг",
+    "u_rpm": "об/мин",
+    "u_cm": "см",
+    "u_w": "Вт",
+    "u_wh": "Wh",
+    "u_sockets": "× Schuko",
+    "u_inverter": "Инверторный",
+    "u_onoff": "On/Off",
+    "u_yes": "Да",
+    "u_no": "Нет",
+    "u_option": "Опция",
+    "u_uah": "грн",
+    "hc_capacity": "Ёмкость",
+    "hc_power": "Мощность",
+    "hc_load": "Загрузка",
+    "hc_spin": "Отжим",
+    "hc_class": "Класс",
+    "seo_home_t": "Техника для дома и энергонезависимость в Сумах | TEXNO PLAZA",
+    "seo_home_d": "TEXNO PLAZA в Сумах: кондиционеры с монтажом под ключ за 1 день, стиральные машины с подключением и зарядные станции. Оплата после установки, гарантия до 5 лет.",
+    "seo_blog_t": "Блог — советы по технике для дома | TEXNO PLAZA",
+    "seo_blog_d": "Полезные статьи о выборе и обслуживании техники для дома в Сумах: кондиционеры, монтаж, стиральные машины, зарядные станции.",
+    "seo_cat_t": "{name} в Сумах — купить с доставкой | TEXNO PLAZA",
+    "pp_buy_t": "{name} — купить в Сумах",
+    "pp_buy_install": ", монтаж под ключ",
+    "cat_in_sumy": "в Сумах",
+    "svc_from": "от",
+    "svc_prices_note": "Цены ориентировочные. Точную стоимость подтвердим после осмотра.",
+    "con_addr_full": "г. Сумы, ул. Харьковская 2/1, магазин «TEXNO PLAZA»",
+    "foot_install": "Монтаж под ключ",
+    "foot_adv": "Наши преимущества",
+    "foot_faq": "Частые вопросы",
+    "hours_wd": "Пн–Пт 10:00–18:00",
+    "hours_sat": "Сб 10:00–17:00",
+    "badge_new": "Новинка",
+    "c_inverter": "Инвертор",
+    "mcta_call": "Звонок",
+    "mcta_catalog": "Каталог",
+    "u_ms": "мс",
+    "pay_fuib": "ПУМБ"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -843,13 +1035,13 @@
     "inst_eye": "Turnkey installation",
     "inst_h": "Standard installation — all included",
     "inst_lead": "All consumables are already in the price. No surcharges for the small stuff.",
-    "inst_i1": "Wall drilling up to 800 mm",
-    "inst_i2": "Inter-unit lines up to 3 m",
-    "inst_i3": "Drainage line up to 3 m",
-    "inst_i4": "Power feed from the nearest socket",
-    "inst_i5": "Mounting of both units",
+    "inst_i1": "Drilling a wall opening up to 800 mm",
+    "inst_i2": "Interconnecting lines up to 3 m",
+    "inst_i3": "Drain line up to 3 m",
+    "inst_i4": "Power supply from a socket",
+    "inst_i5": "Mounting both units",
     "inst_i6": "Pressure and drainage check",
-    "inst_i7": "Commissioning",
+    "inst_i7": "Commissioning and test run",
     "inst_i8": "Copper pipes, cable, brackets",
     "inst_i9": "User walkthrough",
     "inst_promo": "✓ All materials included",
@@ -906,31 +1098,55 @@
     "faq": [
       [
         "Will I know the final price before work starts?",
-        "Yes. On the phone a specialist clarifies all details and gives the cost. Before starting, the installer fixes the price on the receipt. We stand for transparent pricing — no hidden charges."
+        "Yes. On the phone our specialist confirms every detail and quotes the price. Before starting, the technician writes the price on the receipt. We keep the calculation transparent — no hidden extras."
       ],
       [
-        "Do I need to pay anything before installation?",
-        "No. Payment for the unit and installation comes only after acceptance in working order. Exception — if it's below −10°C outside, the check moves to the next warm day."
+        "Do I have to pay anything before installation?",
+        "No. You pay for the unit and the installation only after accepting the finished job. The exception is when the outdoor temperature is below −10 °C — then we postpone the test run to the next warm day."
       ],
       [
-        "Will you prepare documents for high-rise work for the building management?",
-        "Yes, we prepare the full document package in advance. Our specialists hold industrial climber certificates. For each site we issue a work permit."
+        "Will you prepare the paperwork for work at height for the building management?",
+        "Yes, we prepare the full document package in advance. Our technicians hold industrial climbing certificates, and we issue a work permit for every site."
       ],
       [
-        "What if I don't like the installation result?",
-        "Before starting, the lead installer agrees all details with you. If the result doesn't match what was agreed — you pay nothing. That's our quality guarantee."
+        "What if I do not like the result of the installation?",
+        "Before starting, the senior technician agrees every detail with you. If the result does not match what we agreed, you pay nothing. That is our quality guarantee."
       ],
       [
-        "Can the unit be installed during or after renovation?",
-        "Yes. Installation is done before, during or after renovation. We also do it in 2 stages — concealed during renovation and finished afterwards."
+        "Can an air conditioner be installed during or after a renovation?",
+        "Yes. We install before, during or after renovation. We can also split the work into two stages — the concealed part during renovation and completion afterwards. Convenient and tidy."
       ],
       [
-        "What's the difference between an inverter and a regular AC?",
-        "An inverter compressor adjusts power smoothly — saves up to 30% energy, quieter, longer lifespan. A regular (On/Off) one switches fully on and off — simpler and cheaper, but less efficient."
+        "What is the difference between an inverter and a conventional air conditioner?",
+        "An inverter compressor adjusts its output smoothly — it saves up to 30% of electricity, runs quieter and lasts longer. A conventional (on/off) unit switches fully on and off — simpler and cheaper, but less efficient."
       ],
       [
-        "How do I choose the capacity for my room?",
-        "Simple rule: 1 kW of capacity per 10 m². For a 25 m² room — 2.5 kW (9,000 BTU). Use our size guide above or call us — a specialist will factor in ceiling height, windows and orientation."
+        "How do I choose the right cooling capacity for my room?",
+        "A simple rule: 1 kW of cooling per 10 m². For a 25 m² room that is 2.5 kW (9,000 BTU). Use the room-size finder on the air conditioners page or call us — our specialist will account for ceiling height, windows and orientation."
+      ],
+      [
+        "Do you connect the washing machine?",
+        "Yes. Delivery in Sumy costs 400 UAH and hookup 500 UAH. The technician brings the machine, removes the transit bolts, connects it to the water supply and drain, levels it and runs a test cycle."
+      ],
+      [
+        "How do I choose a washing machine by depth?",
+        "Measure the free space and subtract 5 cm for the hoses at the back. Slim models (under 45 cm) suit bathrooms and recesses — Beko 40 cm, Edler 41 cm, Indesit 42.5 cm, Haier 43.7 cm. Standard models (45 cm and up) take a bigger load."
+      ],
+      [
+        "What drum capacity do I need?",
+        "As a guide: 5 kg for one or two people, 6 kg for a family of three, 7 kg for a family of four or if you often wash blankets and jackets. The rating refers to cotton."
+      ],
+      [
+        "Why is an inverter motor better than a conventional one?",
+        "An inverter motor has no brushes to wear out — it is quieter, vibrates less and lasts longer. LG and Samsung back these motors with a 10-year warranty."
+      ],
+      [
+        "Will a power station run a fridge during a blackout?",
+        "Yes. The Fossibot F1800 delivers 1800 W of pure sine wave — enough for a fridge, router, lighting and device charging at once. The UPS function switches over in ≤10 ms, so your appliances do not even shut down."
+      ],
+      [
+        "How fast does a power station recharge?",
+        "From a wall socket the Fossibot F1800 accepts up to 1200 W — a full charge takes about an hour. You can also charge it from solar panels (up to 500 W) or from a car via XT60."
       ]
     ],
     "con_eye": "Contacts",
@@ -1041,6 +1257,90 @@
     "wmq_over": "No exact match within budget — showing the closest options.",
     "wmq_none": "No models fit that recess. Try a larger depth or call us — we will help.",
     "wmq_depth_lbl": "depth",
-    "wmq_niche_lbl": "Recess"
+    "wmq_niche_lbl": "Recess",
+    "m_vb": "Message on Viber",
+    "acq_cta": "Find an AC by room size",
+    "f_a25": "up to 25 m²",
+    "f_a35": "25–35 m²",
+    "f_a50": "35–50 m²",
+    "f_a70": "50+ m²",
+    "f_p10": "up to ₴10,000",
+    "f_p15": "₴10–15k",
+    "f_p25": "₴15–25k",
+    "f_p40": "₴25–40k",
+    "f_p99": "₴40k+",
+    "f_l5": "5 kg",
+    "f_l6": "6 kg",
+    "f_l7": "7 kg",
+    "pp_specs": "Specifications",
+    "pp_desc": "Description",
+    "pp_related": "Similar models",
+    "pp_home": "Home",
+    "pp_back_all": "All products",
+    "pp_order": "Order",
+    "pp_instal": "or",
+    "pp_instal2": "UAH/mo",
+    "pp_instal3": "× 24 (instalments)",
+    "cat_instock": "in stock",
+    "cat_models1": "model",
+    "cat_models2": "models",
+    "cat_models5": "models",
+    "trust_install": "Turnkey installation",
+    "trust_paylater": "Pay after installation",
+    "trust_warranty5": "Warranty up to 5 years",
+    "trust_delivery": "Delivery in Sumy",
+    "trust_payget": "Pay on receipt",
+    "trust_warranty": "Official warranty",
+    "blog_h1": "TEXNO PLAZA blog",
+    "blog_sub": "Advice on choosing, installing and maintaining home appliances.",
+    "blog_read": "min read",
+    "blog_also": "Read next",
+    "blog_cta1": "Browse the catalog",
+    "blog_more": "Read →",
+    "blog_uk_note": "This article is available in Ukrainian.",
+    "lang_note": "Site language",
+    "u_upto": "up to",
+    "u_m2": "m²",
+    "u_from": "from",
+    "u_db": "dB",
+    "u_kg": "kg",
+    "u_rpm": "rpm",
+    "u_cm": "cm",
+    "u_w": "W",
+    "u_wh": "Wh",
+    "u_sockets": "× Schuko",
+    "u_inverter": "Inverter",
+    "u_onoff": "On/Off",
+    "u_yes": "Yes",
+    "u_no": "No",
+    "u_option": "Optional",
+    "u_uah": "UAH",
+    "hc_capacity": "Capacity",
+    "hc_power": "Output",
+    "hc_load": "Load",
+    "hc_spin": "Spin",
+    "hc_class": "Class",
+    "seo_home_t": "Home appliances & energy independence in Sumy | TEXNO PLAZA",
+    "seo_home_d": "TEXNO PLAZA in Sumy: air conditioners installed in one day, washing machines with hookup and portable power stations. Pay after setup, warranty up to 5 years.",
+    "seo_blog_t": "Blog — home appliance advice | TEXNO PLAZA",
+    "seo_blog_d": "Useful articles on choosing and maintaining home appliances in Sumy: air conditioners, installation, washing machines, power stations.",
+    "seo_cat_t": "{name} in Sumy — buy with delivery | TEXNO PLAZA",
+    "pp_buy_t": "{name} — buy in Sumy",
+    "pp_buy_install": ", turnkey installation",
+    "cat_in_sumy": "in Sumy",
+    "svc_from": "from",
+    "svc_prices_note": "Prices are indicative. We confirm the exact cost after an inspection.",
+    "con_addr_full": "2/1 Kharkivska St., Sumy — TEXNO PLAZA store",
+    "foot_install": "Turnkey installation",
+    "foot_adv": "Why us",
+    "foot_faq": "FAQ",
+    "hours_wd": "Mon–Fri 10:00–18:00",
+    "hours_sat": "Sat 10:00–17:00",
+    "badge_new": "New",
+    "c_inverter": "Inverter",
+    "mcta_call": "Call",
+    "mcta_catalog": "Catalog",
+    "u_ms": "ms",
+    "pay_fuib": "FUIB"
   }
 }

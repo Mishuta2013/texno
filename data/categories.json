@@ -29,51 +29,73 @@
       {
         "icon": "⌁",
         "flag": "wifi",
-        "label": "Wi-Fi"
+        "label": "Wi-Fi",
+        "label_ru": "Wi-Fi",
+        "label_en": "Wi-Fi"
       }
     ],
     "specs": [
       {
         "label": "Потужність",
-        "fmt": "kbtu_power"
+        "fmt": "kbtu_power",
+        "label_ru": "Мощность",
+        "label_en": "Cooling capacity"
       },
       {
         "label": "Площа",
         "fmt": "area",
-        "dash": true
+        "dash": true,
+        "label_ru": "Площадь",
+        "label_en": "Room size"
       },
       {
         "label": "Компресор",
-        "fmt": "comp"
+        "fmt": "comp",
+        "label_ru": "Компрессор",
+        "label_en": "Compressor"
       },
       {
         "label": "Клас енергоефективності",
-        "key": "eclass"
+        "key": "eclass",
+        "label_ru": "Класс энергоэффективности",
+        "label_en": "Energy class"
       },
       {
         "label": "Рівень шуму",
-        "fmt": "noise"
+        "fmt": "noise",
+        "label_ru": "Уровень шума",
+        "label_en": "Noise level"
       },
       {
         "label": "Фреон",
-        "value": "R32"
+        "value": "R32",
+        "label_ru": "Фреон",
+        "label_en": "Refrigerant"
       },
       {
         "label": "Діапазон охолодження",
-        "fmt": "cool_range"
+        "fmt": "cool_range",
+        "label_ru": "Диапазон охлаждения",
+        "label_en": "Cooling range"
       },
       {
         "label": "Обігрів до",
         "key": "heat_min",
-        "fmt": "celsius"
+        "fmt": "celsius",
+        "label_ru": "Обогрев до",
+        "label_en": "Heating down to"
       },
       {
         "label": "Wi-Fi",
-        "fmt": "wifi_yesopt"
+        "fmt": "wifi_yesopt",
+        "label_ru": "Wi-Fi",
+        "label_en": "Wi-Fi"
       },
       {
         "label": "Обігрів",
-        "fmt": "heat_yesno"
+        "fmt": "heat_yesno",
+        "label_ru": "Обогрев",
+        "label_en": "Heating"
       }
     ],
     "ppChips": [
@@ -98,18 +120,41 @@
       },
       {
         "flag": "inverter",
-        "label": "Інвертор"
+        "label": "Інвертор",
+        "label_ru": "Инвертор",
+        "label_en": "Inverter"
       },
       {
         "flag": "heatpump",
-        "label": "Тепловий насос"
+        "label": "Тепловий насос",
+        "label_ru": "Тепловой насос",
+        "label_en": "Heat pump"
       },
       {
         "flag": "wifi",
-        "label": "Wi-Fi"
+        "label": "Wi-Fi",
+        "label_ru": "Wi-Fi",
+        "label_en": "Wi-Fi"
       }
     ],
-    "quizCta": "Підібрати кондиціонер за площею"
+    "quizCta": "Підібрати кондиціонер за площею",
+    "name_ru": "Кондиционеры",
+    "name_en": "Air conditioners",
+    "nameGen_ru": "кондиционеров",
+    "nameGen_en": "air conditioners",
+    "seoTitle_ru": "Кондиционеры в Сумах — монтаж под ключ за 1 день | TEXNO PLAZA",
+    "seoTitle_en": "Air conditioners in Sumy — turnkey installation in 1 day | TEXNO PLAZA",
+    "seoDesc_ru": "Кондиционеры в Сумах: более 50 моделей в наличии, инверторные и с обогревом. Доставка, монтаж под ключ, оплата после установки, гарантия до 5 лет.",
+    "seoDesc_en": "Air conditioners in Sumy: 50+ models in stock, inverter and heat-pump units. Delivery, turnkey installation, payment after setup, warranty up to 5 years.",
+    "intro_ru": "Инверторные и обычные сплит-системы в наличии. Привезём, установим и запустим за 1 день — оплата после монтажа.",
+    "intro_en": "Inverter and on/off split systems in stock. We deliver, install and commission in one day — you pay after the job is done.",
+    "quizCta_ru": "Подобрать кондиционер по площади",
+    "quizCta_en": "Find an AC by room size",
+    "productPrefix": {
+      "uk": "Кондиціонер",
+      "ru": "Кондиционер",
+      "en": "Air conditioner"
+    }
   },
   "pralni-mashyny": {
     "name": "Пральні машини",
@@ -150,62 +195,90 @@
     "specs": [
       {
         "label": "Тип завантаження",
-        "key": "load_type"
+        "key": "load_type",
+        "label_ru": "Тип загрузки",
+        "label_en": "Loading type"
       },
       {
         "label": "Максимальне завантаження",
         "key": "load_kg",
-        "fmt": "kg"
+        "fmt": "kg",
+        "label_ru": "Максимальная загрузка",
+        "label_en": "Maximum load"
       },
       {
         "label": "Швидкість віджиму",
         "key": "rpm",
-        "fmt": "rpm"
+        "fmt": "rpm",
+        "label_ru": "Скорость отжима",
+        "label_en": "Spin speed"
       },
       {
         "label": "Клас енергоефективності",
-        "key": "eclass"
+        "key": "eclass",
+        "label_ru": "Класс энергоэффективности",
+        "label_en": "Energy class"
       },
       {
         "label": "Мотор",
-        "key": "motor"
+        "key": "motor",
+        "label_ru": "Мотор",
+        "label_en": "Motor"
       },
       {
         "label": "Кількість програм",
-        "key": "programs"
+        "key": "programs",
+        "label_ru": "Количество программ",
+        "label_en": "Programs"
       },
       {
         "label": "Парова обробка",
-        "key": "steam"
+        "key": "steam",
+        "label_ru": "Паровая обработка",
+        "label_en": "Steam treatment"
       },
       {
         "label": "Дисплей",
-        "key": "display"
+        "key": "display",
+        "label_ru": "Дисплей",
+        "label_en": "Display"
       },
       {
         "label": "Глибина",
         "key": "depth",
-        "fmt": "cm"
+        "fmt": "cm",
+        "label_ru": "Глубина",
+        "label_en": "Depth"
       },
       {
         "label": "Габарити (Ш×Г×В)",
-        "key": "dims"
+        "key": "dims",
+        "label_ru": "Габариты (Ш×Г×В)",
+        "label_en": "Dimensions (W×D×H)"
       },
       {
         "label": "Рівень шуму (прання/віджим)",
-        "key": "noise_wm"
+        "key": "noise_wm",
+        "label_ru": "Уровень шума (стирка/отжим)",
+        "label_en": "Noise level (wash / spin)"
       },
       {
         "label": "Вага",
-        "key": "weight"
+        "key": "weight",
+        "label_ru": "Вес",
+        "label_en": "Weight"
       },
       {
         "label": "Гарантія",
-        "key": "warranty"
+        "key": "warranty",
+        "label_ru": "Гарантия",
+        "label_en": "Warranty"
       },
       {
         "label": "Функції",
-        "key": "features"
+        "key": "features",
+        "label_ru": "Функции",
+        "label_en": "Features"
       }
     ],
     "ppChips": [
@@ -231,10 +304,39 @@
       },
       {
         "flag": "inverter",
-        "label": "Інверторний мотор"
+        "label": "Інверторний мотор",
+        "label_ru": "Инверторный мотор",
+        "label_en": "Inverter motor"
       }
     ],
-    "quizCta": "Підібрати пральну машину"
+    "quizCta": "Підібрати пральну машину",
+    "name_ru": "Стиральные машины",
+    "name_en": "Washing machines",
+    "nameGen_ru": "стиральных машин",
+    "nameGen_en": "washing machines",
+    "seoTitle_ru": "Стиральные машины в Сумах — доставка и подключение | TEXNO PLAZA",
+    "seoTitle_en": "Washing machines in Sumy — delivery and hookup | TEXNO PLAZA",
+    "seoDesc_ru": "Стиральные машины в Сумах: 12 моделей от LG, Samsung, Beko, Gorenje, Haier, Indesit и украинских брендов. Доставка 400 грн, подключение 500 грн, оплата после получения, официальная гарантия.",
+    "seoDesc_en": "Washing machines in Sumy: 12 models from LG, Samsung, Beko, Gorenje, Haier, Indesit and Ukrainian brands. Delivery 400 UAH, hookup 500 UAH, pay on receipt, official warranty.",
+    "intro_ru": "Узкие и стандартные модели с инверторными моторами — от бюджетных Edler и Grifon до LG и Samsung. Привезём и подключим.",
+    "intro_en": "Slim and standard models with inverter motors — from budget Edler and Grifon to LG and Samsung. We deliver and connect them.",
+    "quizCta_ru": "Подобрать стиральную машину",
+    "quizCta_en": "Find your washing machine",
+    "productPrefix": {
+      "uk": "Пральна машина",
+      "ru": "Стиральная машина",
+      "en": "Washing machine"
+    },
+    "trust_ru": [
+      "Доставка по Сумам — 400 грн",
+      "Подключение — 500 грн",
+      "Официальная гарантия"
+    ],
+    "trust_en": [
+      "Delivery in Sumy — 400 UAH",
+      "Hookup — 500 UAH",
+      "Official warranty"
+    ]
   },
   "zaryadni-stantsii": {
     "name": "Зарядні станції",
@@ -271,87 +373,127 @@
       {
         "label": "Ємність акумулятора",
         "key": "capacity_wh",
-        "fmt": "wh"
+        "fmt": "wh",
+        "label_ru": "Ёмкость аккумулятора",
+        "label_en": "Battery capacity"
       },
       {
         "label": "Тип акумулятора",
-        "key": "battery"
+        "key": "battery",
+        "label_ru": "Тип аккумулятора",
+        "label_en": "Battery type"
       },
       {
         "label": "Ресурс (циклів)",
-        "key": "cycles"
+        "key": "cycles",
+        "label_ru": "Ресурс (циклов)",
+        "label_en": "Cycle life"
       },
       {
         "label": "Потужність (AC, номінал)",
         "key": "output_w",
-        "fmt": "watt"
+        "fmt": "watt",
+        "label_ru": "Мощность (AC, номинал)",
+        "label_en": "AC output (rated)"
       },
       {
         "label": "Пікова потужність",
         "key": "surge_w",
-        "fmt": "watt"
+        "fmt": "watt",
+        "label_ru": "Пиковая мощность",
+        "label_en": "Surge power"
       },
       {
         "label": "Форма сигналу",
-        "key": "waveform"
+        "key": "waveform",
+        "label_ru": "Форма сигнала",
+        "label_en": "Waveform"
       },
       {
         "label": "AC розетки",
         "key": "ac_sockets",
-        "fmt": "sockets"
+        "fmt": "sockets",
+        "label_ru": "AC розетки",
+        "label_en": "AC sockets"
       },
       {
         "label": "Частота",
-        "key": "ac_hz"
+        "key": "ac_hz",
+        "label_ru": "Частота",
+        "label_en": "Frequency"
       },
       {
         "label": "USB-C",
-        "key": "usb_c"
+        "key": "usb_c",
+        "label_ru": "USB-C",
+        "label_en": "USB-C"
       },
       {
         "label": "USB-A",
-        "key": "usb_a"
+        "key": "usb_a",
+        "label_ru": "USB-A",
+        "label_en": "USB-A"
       },
       {
         "label": "Автомобільний вихід",
-        "key": "car_out"
+        "key": "car_out",
+        "label_ru": "Автомобильный выход",
+        "label_en": "Car outlet"
       },
       {
         "label": "Вхід AC (зарядка)",
         "key": "ac_in_w",
-        "fmt": "watt"
+        "fmt": "watt",
+        "label_ru": "Вход AC (зарядка)",
+        "label_en": "AC input (charging)"
       },
       {
         "label": "Сонячний / DC вхід (XT60)",
-        "key": "dc_in"
+        "key": "dc_in",
+        "label_ru": "Солнечный / DC вход (XT60)",
+        "label_en": "Solar / DC input (XT60)"
       },
       {
         "label": "Час перемикання UPS",
-        "key": "ups_ms"
+        "key": "ups_ms",
+        "label_ru": "Время переключения UPS",
+        "label_en": "UPS switchover time"
       },
       {
         "label": "Вага",
-        "key": "weight"
+        "key": "weight",
+        "label_ru": "Вес",
+        "label_en": "Weight"
       },
       {
         "label": "Розміри (Д×Ш×В)",
-        "key": "dims"
+        "key": "dims",
+        "label_ru": "Размеры (Д×Ш×В)",
+        "label_en": "Dimensions (L×W×H)"
       },
       {
         "label": "Робоча температура",
-        "key": "op_temp"
+        "key": "op_temp",
+        "label_ru": "Рабочая температура",
+        "label_en": "Operating temperature"
       },
       {
         "label": "Захист",
-        "key": "protections"
+        "key": "protections",
+        "label_ru": "Защита",
+        "label_en": "Protection"
       },
       {
         "label": "Гарантія",
-        "key": "warranty"
+        "key": "warranty",
+        "label_ru": "Гарантия",
+        "label_en": "Warranty"
       },
       {
         "label": "Функції",
-        "key": "features"
+        "key": "features",
+        "label_ru": "Функции",
+        "label_en": "Features"
       }
     ],
     "ppChips": [
@@ -372,8 +514,25 @@
       },
       {
         "flag": "ups",
-        "label": "UPS 10 мс"
+        "label": "UPS 10 мс",
+        "label_ru": "UPS 10 мс",
+        "label_en": "UPS 10 ms"
       }
-    ]
+    ],
+    "name_ru": "Зарядные станции",
+    "name_en": "Power stations",
+    "nameGen_ru": "зарядных станций",
+    "nameGen_en": "power stations",
+    "seoTitle_ru": "Зарядные станции в Сумах — купить с доставкой | TEXNO PLAZA",
+    "seoTitle_en": "Portable power stations in Sumy — buy with delivery | TEXNO PLAZA",
+    "seoDesc_ru": "Портативные зарядные станции в Сумах: ёмкие аккумуляторы, чистая синусоида, розетки 220В и USB-C. Доставка, оплата после получения, официальная гарантия.",
+    "seoDesc_en": "Portable power stations in Sumy: high-capacity batteries, pure sine wave, 220 V sockets and USB-C. Delivery, pay on receipt, official warranty.",
+    "intro_ru": "Портативные источники питания для дома, дачи и отдыха — свет, техника и гаджеты даже без электросети.",
+    "intro_en": "Portable power for home, cottage and travel — light, appliances and gadgets even without the grid.",
+    "productPrefix": {
+      "uk": "Зарядна станція",
+      "ru": "Зарядная станция",
+      "en": "Power station"
+    }
   }
 }

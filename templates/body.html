@@ -162,9 +162,7 @@
       <button class="ctab" data-cat="zaryadni-stantsii" onclick="switchCat('zaryadni-stantsii')" type="button"><span class="ctab-ic">🔋</span><span data-i18n="ctab_ps">Зарядні станції</span><b class="ctab-n"></b></button>
     </div>
 
-    <div class="cat-quiz" id="cat-quiz" style="display:none">
-      <button class="btn-catquiz" id="cat-quiz-btn" type="button" onclick="openQuiz(window.__CATALOG_CAT__)"></button>
-    </div>
+    <!--QUIZ_INLINE-->
 
     <div class="filters" id="filters">
       <div class="frow" id="frow-brand">
@@ -178,9 +176,9 @@
         <span class="flabel" data-i18n="f_load">Завантаження</span>
         <div class="filter-group" id="load-filters" style="display:flex;flex-wrap:wrap;gap:8px">
           <button class="fbtn active" data-load="all" data-i18n="f_anyload">Будь-яке</button>
-          <button class="fbtn" data-load="5">5 кг</button>
-          <button class="fbtn" data-load="6">6 кг</button>
-          <button class="fbtn" data-load="7">7 кг</button>
+          <button class="fbtn" data-load="5" data-i18n="f_l5">5 кг</button>
+          <button class="fbtn" data-load="6" data-i18n="f_l6">6 кг</button>
+          <button class="fbtn" data-load="7" data-i18n="f_l7">7 кг</button>
         </div>
         <div class="fdiv"></div>
         <div class="filter-group" id="depth-filters" style="display:flex;flex-wrap:wrap;gap:8px">
@@ -193,10 +191,10 @@
         <span class="flabel" data-i18n="f_area">Площа</span>
         <div class="filter-group" id="area-filters" style="display:flex;flex-wrap:wrap;gap:8px">
           <button class="fbtn active" data-area="all" data-i18n="f_anyarea">Будь-яка</button>
-          <button class="fbtn" data-area="25">до 25 м²</button>
-          <button class="fbtn" data-area="35">25–35 м²</button>
-          <button class="fbtn" data-area="50">35–50 м²</button>
-          <button class="fbtn" data-area="70">50+ м²</button>
+          <button class="fbtn" data-area="25" data-i18n="f_a25">до 25 м²</button>
+          <button class="fbtn" data-area="35" data-i18n="f_a35">25–35 м²</button>
+          <button class="fbtn" data-area="50" data-i18n="f_a50">35–50 м²</button>
+          <button class="fbtn" data-area="70" data-i18n="f_a70">50+ м²</button>
         </div>
         <div class="fdiv"></div>
         <div class="filter-group" id="type-filters" style="display:flex;flex-wrap:wrap;gap:8px">
@@ -209,11 +207,11 @@
         <span class="flabel" data-i18n="f_price">Ціна</span>
         <div class="filter-group" id="price-filters" style="display:flex;flex-wrap:wrap;gap:8px">
           <button class="fbtn active" data-price="all" data-i18n="f_anyprice">Будь-яка</button>
-          <button class="fbtn" data-price="0-10000">до 10 000 ₴</button>
-          <button class="fbtn" data-price="10000-15000">10–15 тис.</button>
-          <button class="fbtn" data-price="15000-25000">15–25 тис.</button>
-          <button class="fbtn" data-price="25000-40000">25–40 тис.</button>
-          <button class="fbtn" data-price="40000-999999999">40+ тис.</button>
+          <button class="fbtn" data-price="0-10000" data-i18n="f_p10">до 10 000 ₴</button>
+          <button class="fbtn" data-price="10000-15000" data-i18n="f_p15">10–15 тис.</button>
+          <button class="fbtn" data-price="15000-25000" data-i18n="f_p25">15–25 тис.</button>
+          <button class="fbtn" data-price="25000-40000" data-i18n="f_p40">25–40 тис.</button>
+          <button class="fbtn" data-price="40000-999999999" data-i18n="f_p99">40+ тис.</button>
         </div>
         <div class="ftools">
           <select class="sort-select" id="sort-select" onchange="renderCatalog()">
@@ -280,21 +278,21 @@
       <h2 data-i18n="inst_h">Стандартний монтаж — усе включено</h2>
       <p class="lead" data-i18n="inst_lead">Усі витратні матеріали вже в ціні. Жодних доплат за «дрібниці».</p>
       <ul class="ilist">
-        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg data-i18n="inst_i1">Буріння отвору в стіні до 800 мм</li>
-        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg data-i18n="inst_i2">Міжблочні комунікації до 3 м</li>
-        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg data-i18n="inst_i3">Дренажна траса до 3 м</li>
-        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg data-i18n="inst_i4">Підведення живлення від розетки</li>
-        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg data-i18n="inst_i5">Встановлення обох блоків</li>
-        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg data-i18n="inst_i6">Перевірка тиску та дренажу</li>
-        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg data-i18n="inst_i7">Пусконалагоджувальні роботи</li>
-        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg data-i18n="inst_i8">Мідні трубки, кабель, кронштейни</li>
-        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg data-i18n="inst_i9">Інструктаж користувача</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="inst_i1">Буріння отвору в стіні до 800 мм</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="inst_i2">Міжблочні комунікації до 3 м</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="inst_i3">Дренажна траса до 3 м</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="inst_i4">Підведення живлення від розетки</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="inst_i5">Встановлення обох блоків</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="inst_i6">Перевірка тиску та дренажу</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="inst_i7">Пусконалагоджувальні роботи</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="inst_i8">Мідні трубки, кабель, кронштейни</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="inst_i9">Інструктаж користувача</span></li>
       </ul>
     </div>
     <div class="price-card reveal">
       <div class="pc-promo" data-i18n="inst_promo">🔥 Знижка 50% на монтаж</div>
       <div class="pc-label" data-i18n="inst_cost">Вартість стандартного монтажу</div>
-      <div class="pc-val">6 000 <span>грн</span></div>
+      <div class="pc-val">6 000 <span data-i18n="u_uah">грн</span></div>
       <div class="pc-note" data-i18n="inst_note">Фіксована ціна — без прихованих доплат</div>
       <button class="btn-primary" onclick="openCb()" data-i18n="inst_btn">Розрахувати монтаж</button>
       <div class="extra">
@@ -323,19 +321,19 @@
         <div class="svc-ic"><svg viewBox="0 0 24 24"><path d="M3 12h4l2 6 4-12 2 6h6"/></svg></div>
         <h3 data-i18n="svc1t">Технічне обслуговування</h3>
         <p data-i18n="svc1p">Чистка та дезінфекція, діагностика та ремонт — комплексно за один візит. Антибактеріальна обробка, заміна деталей.</p>
-        <div class="svc-price"><small>від</small> 1200 <small>грн</small></div>
+        <div class="svc-price"><small data-i18n="svc_from">від</small> 1200 <small data-i18n="u_uah">грн</small></div>
       </div>
       <div class="svc-card reveal">
         <div class="svc-ic"><svg viewBox="0 0 24 24"><path d="M12 2v6M12 8c-3 0-6 2.5-6 7a6 6 0 0 0 12 0c0-4.5-3-7-6-7z"/></svg></div>
         <h3 data-i18n="svc2t">Заправка фреоном</h3>
         <p data-i18n="svc2p">Перевірка тиску, дозаправка R32/R410, пошук та усунення витоку холодоагенту.</p>
-        <div class="svc-price"><small>від</small> 1000 <small>грн</small></div>
+        <div class="svc-price"><small data-i18n="svc_from">від</small> 1000 <small data-i18n="u_uah">грн</small></div>
       </div>
       <div class="svc-card reveal">
         <div class="svc-ic"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4l-6 6 3 3 6-6a4 4 0 0 0 5.4-5.4l-2.6 2.6-2-2 2.6-2.6z"/></svg></div>
         <h3 data-i18n="svc3t">Демонтаж</h3>
         <p data-i18n="svc3p">Акуратне зняття блоків при переїзді чи ремонті, збереження трас та підготовка до повторного монтажу.</p>
-        <div class="svc-price"><small>від</small> 1200 <small>грн</small></div>
+        <div class="svc-price"><small data-i18n="svc_from">від</small> 1200 <small data-i18n="u_uah">грн</small></div>
       </div>
     </div>
     <div class="svc-foot reveal">
@@ -362,7 +360,7 @@
         <span class="pay-tag" data-i18n="pay1t">до 12 платежів · 0% від магазину</span>
       </div>
       <div class="pay-card reveal">
-        <div class="pay-logo"><span class="pl-dot" style="background:#1B3B6F"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg></span>ПУМБ</div>
+        <div class="pay-logo"><span class="pl-dot" style="background:#1B3B6F"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg></span><span data-i18n="pay_fuib">ПУМБ</span></div>
         <div class="pay-h" data-i18n="pay2h">Оплата частинами</div>
         <p data-i18n="pay2p">Розстрочка через термінал або «Приват24» на популярні моделі кондиціонерів.</p>
         <span class="pay-tag" data-i18n="pay2t">до 24 місяців</span>
@@ -405,20 +403,7 @@
       <h2 class="sec-title" data-i18n="faq_h">Часті запитання</h2>
       <p class="sec-sub" data-i18n="faq_sub">Відповіді на те, що запитують найчастіше.</p>
     </div>
-    <div class="faq-list">
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Дізнаюся остаточну ціну до початку робіт?</div><div class="faq-a">Так. По телефону фахівець уточнить усі деталі та озвучить вартість. Перед початком майстер зафіксує ціну в квитанції. Ми за прозорий розрахунок — жодних прихованих доплат.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Чи потрібно платити щось до встановлення?</div><div class="faq-a">Ні. Оплата кондиціонера та монтажу — лише після прийняття в робочий стан. Виняток — якщо температура на вулиці нижче −10°C, тоді перевірку переносимо на наступний теплий день.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Підготуєте документи на висотні роботи для ОСББ/ЖЕКу?</div><div class="faq-a">Так, підготуємо повний пакет документів завчасно. Наші фахівці мають посвідчення промислових альпіністів. Для кожного об'єкта оформлюємо наряд-допуск.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Що, якщо мені не сподобається результат монтажу?</div><div class="faq-a">Перед початком роботи старший майстер погоджує з вами всі деталі. Якщо результат не відповідає домовленостям — ви нічого не платите. Це наша гарантія якості.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Чи можна встановити кондиціонер під час або після ремонту?</div><div class="faq-a">Так. Встановлення виконується до, під час або після ремонту. Також робимо монтаж у 2 етапи — прихований на етапі ремонту й завершення після. Зручно та акуратно.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Яка різниця між інверторним кондиціонером і звичайним?</div><div class="faq-a">Інверторний компресор регулює потужність плавно — економить до 30% електроенергії, тихіший, має довший ресурс. Звичайний (On/Off) вмикається та вимикається повністю — простіший і дешевший, але менш економічний.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Як вибрати потужність кондиціонера для моєї кімнати?</div><div class="faq-a">Проста формула: 1 кВт потужності на 10 м² площі. Для кімнати 25 м² — 2,5 кВт (9 000 BTU). Скористайтесь нашим калькулятором підбору вище або подзвоніть — фахівець врахує висоту стелі, кількість вікон та орієнтацію.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Ви підключаєте пральну машину?</div><div class="faq-a">Так. Доставка по Сумах — 400 грн, підключення — 500 грн. Майстер привезе машину, зніме транспортувальні болти, підключить до води й каналізації, вирівняє по рівню та запустить тестовий цикл. Якщо потрібні додаткові крани, шланги чи перенесення точки підключення — скажемо вартість заздалегідь.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Яку пральну машину обрати за глибиною?</div><div class="faq-a">Міряйте вільне місце й віднімайте 5 см на шланги ззаду. Вузькі моделі (до 45 см) підходять для ванних кімнат і ніш — у нас це Beko 40 см, Edler 41 см, Indesit 42,5 см, Haier 43,7 см. Стандартні (45+ см) вміщують більше білизни за раз. У фільтрі каталогу є окремий перемикач «Вузькі / Стандартні».</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Скільки кілограмів завантаження мені потрібно?</div><div class="faq-a">Орієнтир простий: 5 кг — для однієї-двох людей, 6 кг — для сім’ї з трьох, 7 кг — для сім’ї з чотирьох або якщо часто прете пледи й куртки. Завантаження вказане для бавовни; для синтетики та вовни машина бере приблизно вдвічі менше.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Чим інверторний мотор кращий за звичайний?</div><div class="faq-a">В інверторному моторі немає щіток, які стираються, — тому він тихіший, менше вібрує та служить довше. Виробники дають на такі мотори подовжену гарантію: наприклад, LG та Samsung — 10 років. Різниця в ціні окупається ресурсом, тож більшість моделей у нас саме інверторні.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Чи підійде зарядна станція для холодильника під час відключень світла?</div><div class="faq-a">Так. Fossibot F1800 видає 1800 Вт чистої синусоїди — цього достатньо для холодильника, роутера, освітлення та зарядки ґаджетів одночасно. Функція UPS перемикає живлення за ≤10 мс, тож техніка навіть не вимкнеться.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Як швидко заряджається зарядна станція?</div><div class="faq-a">Від розетки Fossibot F1800 приймає до 1200 Вт — повний заряд приблизно за годину. Також можна заряджати від сонячних панелей (до 500 Вт) або від автомобіля через XT60.</div></div>
+    <div class="faq-list"><!--FAQ_ITEMS--></div>
     </div>
   </div>
 </section>
@@ -438,7 +423,7 @@
           <div class="crow"><div class="ci"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div><div class="cl" data-i18n="con_phone">Телефон</div><div class="cv"><a href="tel:+380991108041">+38 (099) 110 80 41</a></div></div></div>
           <div class="crow"><div class="ci"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div><div><div class="cl">WhatsApp</div><div class="cv"><a href="https://api.whatsapp.com/send?phone=380991108041" target="_blank" data-i18n="m_wa">Написати в WhatsApp</a></div></div></div>
           <div class="crow"><div class="ci"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg></div><div><div class="cl">Email</div><div class="cv"><a href="mailto:dimagala48@gmail.com">dimagala48@gmail.com</a></div></div></div>
-          <div class="crow"><div class="ci"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="cl" data-i18n="con_addr">Адреса</div><div class="cv" id="con-addr-val">м. Суми, вул. Харківська 2/1, магазин «TEXNO PLAZA»</div></div></div>
+          <div class="crow"><div class="ci"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="cl" data-i18n="con_addr">Адреса</div><div class="cv" id="con-addr-val" data-i18n="con_addr_val">м. Суми, вул. Харківська 2/1, магазин «TEXNO PLAZA»</div></div></div>
           <div class="crow"><div class="ci"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div><div class="cl" data-i18n="con_hours">Графік роботи</div><div class="cv" data-i18n="top_hours">Пн–Пт 10:00–18:00 · Сб 10:00–17:00</div></div></div>
         </div>
         <div class="map-wrap">
@@ -487,11 +472,11 @@
       <h4 data-i18n="foot_info">Інформація</h4>
       <ul>
         <li><a href="/kondicioner/" data-i18n="cat_ac_t">Кондиціонери</a></li>
-        <li><a href="#installation">Монтаж під ключ</a></li>
+        <li><a href="#installation" data-i18n="foot_install">Монтаж під ключ</a></li>
         <li><a href="#service" data-i18n="nav_service">Сервіс</a></li>
         <li><a href="#payment" data-i18n="nav_payment">Оплата</a></li>
-        <li><a href="#advantages">Наші переваги</a></li>
-        <li><a href="#faq">Часті запитання</a></li>
+        <li><a href="#advantages" data-i18n="foot_adv">Наші переваги</a></li>
+        <li><a href="#faq" data-i18n="foot_faq">Часті запитання</a></li>
         <li><a href="/blog/" data-i18n="nav_blog">Блог</a></li>
         <li><a href="#contacts" data-i18n="con_eye">Контакти</a></li>
         <li><a href="/polityka-konfidentsiynosti/" data-i18n="nav_privacy">Політика конфіденційності</a></li>
@@ -503,8 +488,8 @@
         <li><a href="tel:+380991108041">+38 (099) 110 80 41</a></li>
         <li><a href="mailto:dimagala48@gmail.com">dimagala48@gmail.com</a></li>
         <li data-i18n="top_addr">Суми, вул. Харківська 2/1</li>
-        <li>Пн–Пт 10:00–18:00</li>
-        <li>Сб 10:00–17:00</li>
+        <li data-i18n="hours_wd">Пн–Пт 10:00–18:00</li>
+        <li data-i18n="hours_sat">Сб 10:00–17:00</li>
       </ul>
     </div>
   </div>
@@ -519,10 +504,10 @@
 
 <!-- STICKY MOBILE CTA -->
 <div class="mcta" aria-label="Швидкі дії">
-  <a class="mcta-b call" href="tel:+380991108041"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Дзвінок</a>
-  <a class="mcta-b wa" href="https://api.whatsapp.com/send?phone=380991108041" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2z"/></svg>WhatsApp</a>
-  <a class="mcta-b vb" href="viber://chat?number=%2B380991108041" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6 2 11c0 2.5 1.2 4.7 3 6.3V22l3.6-2c1 .3 2.2.5 3.4.5 5.5 0 10-4 10-9s-4.5-9.5-10-9.5z"/></svg>Viber</a>
-  <a class="mcta-b qz" href="#catalog"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg>Каталог</a>
+  <a class="mcta-b call" href="tel:+380991108041" ><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span data-i18n="mcta_call">Дзвінок</span></a>
+  <a class="mcta-b wa" href="https://api.whatsapp.com/send?phone=380991108041" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2z"/></svg><span>WhatsApp</span></a>
+  <a class="mcta-b vb" href="viber://chat?number=%2B380991108041" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6 2 11c0 2.5 1.2 4.7 3 6.3V22l3.6-2c1 .3 2.2.5 3.4.5 5.5 0 10-4 10-9s-4.5-9.5-10-9.5z"/></svg><span>Viber</span></a>
+  <a class="mcta-b qz" href="#catalog"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg><span data-i18n="mcta_catalog">Каталог</span></a>
 </div>
 
 <!-- CONTACT POPUP (Зв'язок) -->
@@ -532,6 +517,7 @@
     <h3 class="ct-h" data-i18n="ct_h">Зв'язатися з нами</h3>
     <a class="ct-row" href="tel:+380991108041"><span class="ct-ic ph"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><span class="ct-tx"><span class="ct-l" data-i18n="con_phone">Телефон</span><span class="ct-v">+38 (099) 110 80 41</span></span></a>
     <a class="ct-row" href="https://api.whatsapp.com/send?phone=380991108041" target="_blank" rel="noopener"><span class="ct-ic wa"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2z"/></svg></span><span class="ct-tx"><span class="ct-l">WhatsApp</span><span class="ct-v" data-i18n="m_wa">Написати в WhatsApp</span></span></a>
+    <a class="ct-row" href="viber://chat?number=%2B380991108041" rel="noopener"><span class="ct-ic vb"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6 2 11c0 2.5 1.2 4.7 3 6.3V22l3.6-2c1 .3 2.2.5 3.4.5 5.5 0 10-4 10-9s-4.5-9.5-10-9.5z"/></svg></span><span class="ct-tx"><span class="ct-l">Viber</span><span class="ct-v" data-i18n="m_vb">Написати у Viber</span></span></a>
     <a class="ct-row" href="https://t.me/a3w44" target="_blank" rel="noopener"><span class="ct-ic tg"><svg viewBox="0 0 24 24"><path d="M22 3 2 11l6 2 2 6 3-4 5 4z"/></svg></span><span class="ct-tx"><span class="ct-l">Telegram</span><span class="ct-v">@a3w44</span></span></a>
     <a class="ct-row" href="mailto:dimagala48@gmail.com"><span class="ct-ic em"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg></span><span class="ct-tx"><span class="ct-l">Email</span><span class="ct-v">dimagala48@gmail.com</span></span></a>
     <a class="ct-row" href="https://www.google.com/maps/place/%D0%9A%D0%9E%D0%9D%D0%94%D0%98%D0%A6%D0%86%D0%9E%D0%9D%D0%95%D0%A0%D0%98+-+%D0%A2%D0%95%D0%A5%D0%9D%D0%9E%D0%9F%D0%9B%D0%90%D0%97%D0%90/data=!4m8!3m7!1s0x412901be62b6ba2f:0xa156555d39aa61f!8m2!3d50.9044303!4d34.8064328" target="_blank" rel="noopener"><span class="ct-ic mp"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><span class="ct-tx"><span class="ct-l" data-i18n="con_addr">Адреса</span><span class="ct-v" data-i18n="top_addr">Суми, вул. Харківська 2/1</span></span></a>
@@ -550,7 +536,7 @@
       <div class="m-info">
         <div class="m-brand" id="m-brand"></div>
         <div class="m-name" id="m-name"></div>
-        <div class="m-price-row"><div class="m-price" id="m-price"></div><div class="m-price-uah">грн</div></div>
+        <div class="m-price-row"><div class="m-price" id="m-price"></div><div class="m-price-uah" data-i18n="u_uah">грн</div></div>
         <div class="m-hp" id="m-hp" style="display:none"></div>
         <div class="m-specs" id="m-specs"></div>
         <div class="m-desc" id="m-desc"></div>
