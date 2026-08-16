@@ -202,6 +202,23 @@
           <button class="fbtn" data-tech="inverter" data-i18n="f_invcomp">Інверторний</button>
         </div>
       </div>
+      <div class="frow" id="frow-ps" style="display:none">
+        <span class="flabel" data-i18n="f_capacity">Ємність</span>
+        <div class="filter-group" id="cap-filters" style="display:flex;flex-wrap:wrap;gap:8px">
+          <button class="fbtn active" data-cap="all" data-i18n="f_anycap">Будь-яка</button>
+          <button class="fbtn" data-cap="0-600" data-i18n="f_c600">до 600 Вт·год</button>
+          <button class="fbtn" data-cap="600-1500" data-i18n="f_c1500">600–1500 Вт·год</button>
+          <button class="fbtn" data-cap="1500-2500" data-i18n="f_c2500">1500–2500 Вт·год</button>
+          <button class="fbtn" data-cap="2500-99999" data-i18n="f_c2501">2500+ Вт·год</button>
+        </div>
+        <div class="fdiv"></div>
+        <div class="filter-group" id="pw-filters" style="display:flex;flex-wrap:wrap;gap:8px">
+          <button class="fbtn active" data-pw="all" data-i18n="f_anypw">Будь-яка потужність</button>
+          <button class="fbtn" data-pw="0-1000" data-i18n="f_p1000">до 1000 Вт</button>
+          <button class="fbtn" data-pw="1000-2000" data-i18n="f_p2000">1000–2000 Вт</button>
+          <button class="fbtn" data-pw="2000-99999" data-i18n="f_p2001">2000+ Вт</button>
+        </div>
+      </div>
       <div class="frow" id="frow-wm" style="display:none">
         <span class="flabel" data-i18n="f_load">Завантаження</span>
         <div class="filter-group" id="load-filters" style="display:flex;flex-wrap:wrap;gap:8px">

@@ -527,11 +527,12 @@ FILTERS_HTML = (() => {
 })();
 function filtersFor(catKey) {
   if (!FILTERS_HTML) return '';
-  const ac = catKey === 'kondicioneri', wm = catKey === 'pralni-mashyny', fr = catKey === 'holodylnyky';
+  const ac = catKey === 'kondicioneri', wm = catKey === 'pralni-mashyny', fr = catKey === 'holodylnyky', ps = catKey === 'zaryadni-stantsii';
   return FILTERS_HTML
     .replace('id="frow-area" style="display:none"', `id="frow-area"${ac ? '' : ' style="display:none"'}`)
     .replace('id="frow-wm" style="display:none"', `id="frow-wm"${wm ? '' : ' style="display:none"'}`)
     .replace('id="frow-fr" style="display:none"', `id="frow-fr"${fr ? '' : ' style="display:none"'}`)
+    .replace('id="frow-ps" style="display:none"', `id="frow-ps"${ps ? '' : ' style="display:none"'}`)
     .replace('<option value="area-asc"', `<option value="area-asc"${ac ? '' : ' hidden'}`);
 }
 function categoryPage(cat) {
@@ -549,7 +550,7 @@ function categoryPage(cat) {
   return `<!doctype html><html lang="${L}"><head>
 ${head({
   title: lf(cat, 'seoTitle') || t('seo_cat_t').replace('{name}', NAME),
-  desc: lf(cat, 'seoDesc') || lf(cat, 'intro') || `${NAME} ${t('cat_in_sumy')}: ${list.length} ${plural} ${t('cat_instock')}.`,
+  desc: subCounts(lf(cat, 'seoDesc') || lf(cat, 'intro') || `${NAME} ${t('cat_in_sumy')}: ${list.length} ${plural} ${t('cat_instock')}.`),
   canonical: abs(curl(cat)), altPath: cat.urlPrefix + '/', jsonld
 })}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>

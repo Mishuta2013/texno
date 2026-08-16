@@ -346,10 +346,12 @@
     "order": 4,
     "install": false,
     "seoTitle": "Зарядні станції у Сумах — купити з доставкою | TexnoPlaza",
-    "seoDesc": "Портативні зарядні станції у Сумах: ємні акумулятори, чиста синусоїда, розетки 220В та USB-C. Доставка, оплата після отримання, офіційна гарантія.",
-    "intro": "Портативні джерела живлення для дому, дачі та відпочинку — світло, техніка та ґаджети навіть без електромережі.",
+    "seoDesc": "Зарядні станції у Сумах: {{PS}} моделей від 288 до 3840 Вт·год — Pecron, Aferiy, Oukitel, ALLPOWERS, Ctolity, Fossibot. Батареї LiFePO₄, функція ДБЖ, заряджання від мережі та сонячних панелей. Доставка, оплата після отримання.",
+    "intro": "Портативні джерела живлення від 288 до 3840 Вт·год — від компактної станції для роутера й ноутбука до домашньої електростанції, що тримає холодильник, котел і насос.",
     "filters": [
       "brand",
+      "cap",
+      "pw",
       "price"
     ],
     "chips": [
@@ -441,11 +443,29 @@
         "label_en": "Car outlet"
       },
       {
+        "label": "DC-виходи",
+        "key": "dc_out",
+        "label_ru": "DC-выходы",
+        "label_en": "DC outputs"
+      },
+      {
+        "label": "Бездротова зарядка",
+        "key": "wireless",
+        "label_ru": "Беспроводная зарядка",
+        "label_en": "Wireless charging"
+      },
+      {
         "label": "Вхід AC (зарядка)",
         "key": "ac_in_w",
         "fmt": "watt",
         "label_ru": "Вход AC (зарядка)",
         "label_en": "AC input (charging)"
+      },
+      {
+        "label": "Час заряджання",
+        "key": "charge_time",
+        "label_ru": "Время зарядки",
+        "label_en": "Charging time"
       },
       {
         "label": "Сонячний / DC вхід (XT60)",
@@ -458,6 +478,12 @@
         "key": "ups_ms",
         "label_ru": "Время переключения UPS",
         "label_en": "UPS switchover time"
+      },
+      {
+        "label": "Розширення ємності",
+        "key": "expandable",
+        "label_ru": "Расширение ёмкости",
+        "label_en": "Capacity expansion"
       },
       {
         "label": "Вага",
@@ -525,10 +551,10 @@
     "nameGen_en": "power stations",
     "seoTitle_ru": "Зарядные станции в Сумах — купить с доставкой | TexnoPlaza",
     "seoTitle_en": "Portable power stations in Sumy — buy with delivery | TexnoPlaza",
-    "seoDesc_ru": "Портативные зарядные станции в Сумах: ёмкие аккумуляторы, чистая синусоида, розетки 220В и USB-C. Доставка, оплата после получения, официальная гарантия.",
-    "seoDesc_en": "Portable power stations in Sumy: high-capacity batteries, pure sine wave, 220 V sockets and USB-C. Delivery, pay on receipt, official warranty.",
-    "intro_ru": "Портативные источники питания для дома, дачи и отдыха — свет, техника и гаджеты даже без электросети.",
-    "intro_en": "Portable power for home, cottage and travel — light, appliances and gadgets even without the grid.",
+    "seoDesc_ru": "Зарядные станции в Сумах: {{PS}} моделей от 288 до 3840 Вт·ч — Pecron, Aferiy, Oukitel, ALLPOWERS, Ctolity, Fossibot. Батареи LiFePO₄, функция ИБП, зарядка от сети и солнечных панелей. Доставка, оплата после получения.",
+    "seoDesc_en": "Power stations in Sumy: {{PS}} models from 288Wh to 3840Wh — Pecron, Aferiy, Oukitel, ALLPOWERS, Ctolity, Fossibot. LiFePO₄ batteries, UPS mode, mains and solar charging. Delivery, pay on receipt.",
+    "intro_ru": "Портативные источники питания от 288 до 3840 Вт·ч — от компактной станции для роутера и ноутбука до домашней электростанции, которая держит холодильник, котёл и насос.",
+    "intro_en": "Portable power from 288Wh to 3840Wh — from a compact unit for a router and laptop to a home power plant that carries a fridge, boiler and pump.",
     "productPrefix": {
       "uk": "Зарядна станція",
       "ru": "Зарядная станция",

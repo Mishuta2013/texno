@@ -62,7 +62,7 @@ const LANG_FROM_PATH=(function(){var m=location.pathname.match(/^\/(ru|en)(?=\/|
 let LANG = LANG_FROM_PATH;
 if(!I18N[LANG]) LANG='uk';
 try{localStorage.setItem('tp_lang',LANG);}catch(e){}
-let activeBrand='all', activeArea='all', activeType='all', activePrice='all', activeLoad='all', activeDepth='all', activeVol='all', activeHeight='all', activeTech='all', currentProduct=null;
+let activeCap='all', activePw='all', activeBrand='all', activeArea='all', activeType='all', activePrice='all', activeLoad='all', activeDepth='all', activeVol='all', activeHeight='all', activeTech='all', currentProduct=null;
 let FAV = JSON.parse(localStorage.getItem('tp_fav')||'[]');
 let CMP = JSON.parse(localStorage.getItem('tp_cmp')||'[]');
 
@@ -143,6 +143,8 @@ function getFiltered(){
     else if(a===50)list=list.filter(p=>p.area>35&&p.area<=50);else if(a===70)list=list.filter(p=>p.area>50);}
   if(activeLoad!=='all'){const kg=parseInt(activeLoad);list=list.filter(p=>p.specs&&Number(p.specs.load_kg)===kg);}
   if(activeDepth!=='all'){list=list.filter(p=>{const d=p.specs&&parseFloat(p.specs.depth);if(!d)return false;return activeDepth==='narrow'?d<45:d>=45;});}
+  if(activeCap!=='all'){const [lo,hi]=activeCap.split('-').map(Number);list=list.filter(p=>{const v=p.specs&&Number(p.specs.capacity_wh);return v>lo&&v<=hi;});}
+  if(activePw!=='all'){const [lo,hi]=activePw.split('-').map(Number);list=list.filter(p=>{const v=p.specs&&Number(p.specs.output_w);return v>lo&&v<=hi;});}
   if(activeVol!=='all'){const [lo,hi]=activeVol.split('-').map(Number);list=list.filter(p=>{const v=p.specs&&Number(p.specs.volume_l);return v>lo&&v<=hi;});}
   if(activeHeight!=='all'){const [lo,hi]=activeHeight.split('-').map(Number);list=list.filter(p=>{const h=p.specs&&Number(p.specs.height_cm);return h>lo&&h<=hi;});}
   if(activeTech==='nofrost')list=list.filter(p=>p.nofrost);
@@ -199,13 +201,13 @@ function renderCatalog(){
   grid.innerHTML=list.map(cardHTML).join('');
 }
 function setupFilters(){
-  [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth'],['vol-filters','vol'],['height-filters','height'],['tech-filters','tech']].forEach(([gid,attr])=>{
+  [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth'],['vol-filters','vol'],['height-filters','height'],['tech-filters','tech'],['cap-filters','cap'],['pw-filters','pw']].forEach(([gid,attr])=>{
     const g=$(gid); if(!g) return;
     g.addEventListener('click',e=>{const b=e.target.closest('.fbtn');if(!b)return;const v=b.dataset[attr];if(v===undefined)return;
       g.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');
       if(attr==='brand')activeBrand=v;if(attr==='area')activeArea=v;if(attr==='type')activeType=v;if(attr==='price')activePrice=v;
       if(attr==='load')activeLoad=v;if(attr==='depth')activeDepth=v;
-      if(attr==='vol')activeVol=v;if(attr==='height')activeHeight=v;if(attr==='tech')activeTech=v;renderCatalog();});
+      if(attr==='vol')activeVol=v;if(attr==='height')activeHeight=v;if(attr==='tech')activeTech=v;if(attr==='cap')activeCap=v;if(attr==='pw')activePw=v;renderCatalog();});
   });
   renderBrandFilters();
 }
@@ -219,8 +221,8 @@ function renderBrandFilters(){
     +brands.map(b=>`<button class="fbtn${activeBrand===b?' active':''}" data-brand="${b.replace(/"/g,'&quot;')}">${b}</button>`).join('');
 }
 function setActive(gid,attr,val){$(gid).querySelectorAll('.fbtn').forEach(b=>b.classList.toggle('active',b.dataset[attr]===val));}
-function resetFilters(){activeBrand=activeArea=activeType=activePrice=activeLoad=activeDepth=activeVol=activeHeight=activeTech='all';
-  [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth'],['vol-filters','vol'],['height-filters','height'],['tech-filters','tech']].forEach(([g,a])=>{if($(g))setActive(g,a,'all');});
+function resetFilters(){activeCap=activePw=activeBrand=activeArea=activeType=activePrice=activeLoad=activeDepth=activeVol=activeHeight=activeTech='all';
+  [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth'],['vol-filters','vol'],['height-filters','height'],['tech-filters','tech'],['cap-filters','cap'],['pw-filters','pw']].forEach(([g,a])=>{if($(g))setActive(g,a,'all');});
   $('search-input').value='';$('sort-select').value='default';renderBrandFilters();renderCatalog();}
 /* homepage catalog category tabs */
 function switchCat(cat){
@@ -231,6 +233,7 @@ function switchCat(cat){
   ['frow-area'].forEach(id=>{const el=$(id);if(el)el.style.display=ac?'':'none';});
   const wmRow=$('frow-wm');if(wmRow)wmRow.style.display=cat==='pralni-mashyny'?'':'none';
   const frRow=$('frow-fr');if(frRow)frRow.style.display=cat==='holodylnyky'?'':'none';
+  const psRow=$('frow-ps');if(psRow)psRow.style.display=cat==='zaryadni-stantsii'?'':'none';
   const areaSort=document.querySelector('#sort-select option[value="area-asc"]');if(areaSort)areaSort.hidden=!ac;
   // full-size quiz appears right above the grid when the category has one
   const qHost=$('quiz-inline');
