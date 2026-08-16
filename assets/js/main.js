@@ -439,19 +439,24 @@ document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>doc
    over or the page settles. */
 (function(){
   const HEAD = 84;                       // sticky header, matches scroll-padding-top
+  let trip = 0;                          // only the newest jump may steer
   function goTo(el){
-    let done = false, aimed = -1, t0 = Date.now();
-    const stop = () => { done = true; };
+    const mine = ++trip;
+    let t0 = Date.now();
+    const done = () => mine !== trip;
+    const stop = () => { if (mine === trip) trip++; };
     addEventListener('wheel', stop, {passive:true, once:true});
     addEventListener('touchstart', stop, {passive:true, once:true});
     addEventListener('keydown', stop, {once:true});
     (function align(){
-      if (done) return;
+      if (done()) return;                // a newer click, or the visitor took over
       const y = Math.max(0, Math.round(el.getBoundingClientRect().top + scrollY - HEAD));
-      // only re-aim when the target itself moved — re-issuing the same scrollTo
-      // restarts the smooth animation and it would never arrive
-      if (y !== aimed) { aimed = y; scrollTo({top: y, behavior: 'smooth'}); }
-      if (Date.now() - t0 < 1600) setTimeout(align, 200);
+      /* Jump, never glide. The sections are tens of thousands of pixels apart
+         and a smooth scroll over that distance crawls for seconds — and while
+         it crawls, anything that finishes loading moves the target out from
+         under it, so it arrives in the wrong place. */
+      if (Math.abs(y - scrollY) > 3) scrollTo({top: y, behavior: 'instant'});
+      if (Date.now() - t0 < 1200) setTimeout(align, 150);
     })();
   }
   addEventListener('click', e => {
