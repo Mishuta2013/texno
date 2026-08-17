@@ -597,7 +597,7 @@ const QUIZZES={
       return `${t('quiz_area_lbl')}: ${s.area} м²; ${r?t(r[1]):''}; ${f?t(f[1]):''}; ${t('quiz_budget_lbl')}: ${fmt(s.budget)} грн; ~${this.need(s)} BTU`;}
   },
   'pralni-mashyny':{
-    cat:'pralni-mashyny', eyeKey:'wmq_eye', titleKey:'wmq_h', resKey:'wmq_res_h', overKey:'wmq_over', noneKey:'wmq_none', ctaKey:'wmq_cta',
+    cat:'pralni-mashyny', eyeKey:'wmq_eye', titleKey:'wmq_h', resKey:'wmq_res_h', overKey:'wmq_over', noneKey:'wmq_none', relaxKey:'wmq_relaxed', ctaKey:'wmq_cta',
     steps:[
       {type:'range',key:'depth',qKey:'wmq_s1',hintKey:'wmq_s1_hint',min:38,max:60,step:1,def:50,unit:()=>LANG==='en'?'cm':'см'},
       {type:'choice',key:'family',qKey:'wmq_s2',hintKey:'wmq_s2_hint',options:[['1','wmq_fam1'],['2','wmq_fam2'],['3','wmq_fam3']]},
@@ -651,6 +651,41 @@ const QUIZZES={
     meta(p){const sp=p.specs||{};return `${p.brand} · ${sp.volume_l} ${t('u_l')} · ${sp.height_cm} ${t('u_cm')}${p.nofrost?' · No Frost':''}`;},
     summary(s){const pe=(this.steps[1].options.find(o=>o[0]===s.people)||[])[1],pr=(this.steps[2].options.find(o=>o[0]===s.priority)||[])[1];
       return `${t('frq_niche_lbl')}: ${s.height} см; ${pe?t(pe):''}; ${pr?t(pr):''}; ${t('quiz_budget_lbl')}: ${fmt(s.budget)} грн; ~${this.need(s)} л`;}
+  }
+  ,
+  'zaryadni-stantsii':{
+    cat:'zaryadni-stantsii', eyeKey:'quiz_eye', titleKey:'psq_h', resKey:'psq_res_h', overKey:'psq_over', noneKey:'psq_none', relaxKey:'psq_none', ctaKey:'psq_cta',
+    steps:[
+      {type:'choice',key:'load',qKey:'psq_s1',hintKey:'psq_s1_hint',
+       options:[['light','psq_l1','psq_l1_h'],['fridge','psq_l2','psq_l2_h'],['home','psq_l3','psq_l3_h'],['power','psq_l4','psq_l4_h']]},
+      {type:'range',key:'hours',qKey:'psq_s2',hintKey:'psq_s2_hint',min:2,max:24,step:1,def:6,unit:()=>t('rt_hr')},
+      {type:'choice',key:'priority',qKey:'psq_s3',
+       options:[['autonomy','psq_pr_auto','psq_pr_auto_h'],['portable','psq_pr_port','psq_pr_port_h'],['expand','psq_pr_exp','psq_pr_exp_h'],['price','psq_pr_price','psq_pr_price_h']]},
+      {type:'budget',key:'budget',qKey:'quiz_s4',hintKey:'quiz_s4_hint'}
+    ],
+    /* watts the chosen set of appliances draws together — same figures as the
+       runtime calculator on the product page, so the two never disagree */
+    watts(s){return {light:70,fridge:190,home:410,power:1200}[s.load]||190;},
+    need(s){return Math.round(this.watts(s)*s.hours/0.85);},     // Wh, inverter loss included
+    fits(p,s){
+      const wh=num((p.specs||{}).capacity_wh);
+      if(!this.fitsPhysical(p,s))return false;
+      return wh!==null&&wh>=this.need(s);
+    },
+    // the hard constraint: it must be able to carry the load at all
+    fitsPhysical(p,s){const w=num((p.specs||{}).output_w);return w!==null&&w>=this.watts(s);},
+    score(p,s){
+      const sp=p.specs||{},wh=num(sp.capacity_wh)||0,kg=num(String(sp.weight||'').replace(/[^\d.]/g,''))||99;
+      if(s.priority==='autonomy')return wh/10;
+      if(s.priority==='portable')return -kg*10+wh/100;
+      if(s.priority==='expand')return (sp.expandable?500:0)+wh/10;
+      return -p.price/1000;
+    },
+    rank(a,b){const s=quizState;return this.score(b,s)-this.score(a,s)||a.price-b.price;},
+    warn(res,s){return (s.priority==='expand'&&res.length&&!res.some(p=>(p.specs||{}).expandable))?'psq_warn_exp':null;},
+    meta(p){const sp=p.specs||{};return `${p.brand} · ${sp.capacity_wh} ${t('u_wh')} · ${sp.output_w} ${t('u_w')}${sp.weight?' · '+sp.weight:''}`;},
+    summary(s){const l=(this.steps[0].options.find(o=>o[0]===s.load)||[])[1],pr=(this.steps[2].options.find(o=>o[0]===s.priority)||[])[1];
+      return `${l?t(l):''}; ${s.hours} ${t('rt_hr')}; ${pr?t(pr):''}; ${t('quiz_budget_lbl')}: ${fmt(s.budget)} ${t('u_uah')}; ~${this.watts(s)} ${t('u_w')} · ${this.need(s)} ${t('u_wh')}`;}
   }
 };
 let quizKind='kondicioneri', quizStep=0, quizState={}, quizHost='modal';
@@ -731,7 +766,7 @@ function quizResult(){
   qel('prog').style.width='100%';qel('back').style.visibility='visible';qel('next').style.display='none';
   const cards=res.map(p=>`<a class="quiz-card" href="${productUrl(p)}"><img src="${p.thumb||p.photos[0]}" alt="${p.name}" loading="lazy"><div class="quiz-card-b"><div class="quiz-card-m">${d.meta(p)}</div><div class="quiz-card-n">${p.name}</div><div class="quiz-card-p">${fmt(p.price)} грн</div></div></a>`).join('');
   const warnKey=d.warn?d.warn(res,quizState):null;
-  const relaxNote=relaxed?`<div class="quiz-note">${t('quiz_relaxed')}</div>`:'';
+  const relaxNote=relaxed?`<div class="quiz-note">${t(d.relaxKey||'quiz_relaxed')}</div>`:'';
   const note=(!res.length?`<div class="quiz-note">${t(d.noneKey||'quiz_over')}</div>`:(over?`<div class="quiz-note">${t(d.overKey)}</div>`:''))
     +relaxNote+(warnKey?`<div class="quiz-note">${t(warnKey)}</div>`:'');
   qel('body').innerHTML=`<div class="quiz-res"><div class="quiz-q">${t(d.resKey)}</div>${note}<div class="quiz-cards">${cards}</div>

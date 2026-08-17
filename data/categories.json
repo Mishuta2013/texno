@@ -559,7 +559,10 @@
       "uk": "Зарядна станція",
       "ru": "Зарядная станция",
       "en": "Power station"
-    }
+    },
+    "quizCta": "Підібрати зарядну станцію",
+    "quizCta_ru": "Подобрать зарядную станцию",
+    "quizCta_en": "Find a power station"
   },
   "holodylnyky": {
     "name": "Холодильники",
