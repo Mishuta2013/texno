@@ -1059,3 +1059,11 @@ a.gauge-card:hover{transform:translateY(-4px)}
 .foot-cats .fc-all a{color:var(--frost);font-weight:600}
 @media(max-width:980px){.foot-cats{grid-template-columns:1fr 1fr;gap:22px}}
 @media(max-width:520px){.foot-cats{grid-template-columns:1fr;padding-top:22px}}
+
+/* ---- brand page: other brands in the same category ---- */
+.brand-links{max-width:var(--max);margin:0 auto;padding:6px 20px 30px}
+.brand-links h2{font-size:19px;margin-bottom:14px}
+.bl-row{display:flex;flex-wrap:wrap;gap:9px}
+.bl-chip{display:inline-flex;align-items:center;padding:9px 16px;border:1px solid var(--g2);border-radius:999px;
+  background:#fff;color:var(--g5);font-size:14px;font-weight:600;text-decoration:none;transition:border-color .18s,color .18s}
+.bl-chip:hover{border-color:var(--blue);color:var(--blue-d)}

@@ -67,6 +67,7 @@ const VER = Date.now();   // cache-bust assets on each build
 const purl = p => `${pfx()}${catOf(p).urlPrefix}/${p.slug}/`;
 const curl = c => `${pfx()}${c.urlPrefix}/`;
 const ukPath = u => u.replace(/^\/(ru|en)(?=\/|$)/, '') || '/';   // strip the language prefix
+const brandSlug = b => b.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 // ---- category-driven spec formatting (works for AC, power stations, future categories) ----
 function fmtVal(p, f) {
@@ -359,8 +360,10 @@ body = body.replace('<div class="grid" id="catalog-grid"></div>',
      while air conditioners, fridges and stations were stacked into a single
      28-item list, which is what made the footer look lopsided. */
   const cols = catList.filter(c => catProducts(c.key).length).map(c => {
+    // point at the brand's own page — these are the links that let it be found.
+    // pfx() keeps /ru/ and /en/ visitors inside their own tree.
     const brands = brandsOf(c.key).map(b =>
-      `<li><a href="${curl(c)}" onclick="jumpBrand('${esc(b)}','${c.key}')">${esc(b)}</a></li>`).join('\n          ');
+      `<li><a href="${pfx()}${c.urlPrefix}/${brandSlug(b)}/">${esc(b)}</a></li>`).join('\n          ');
     return `<div class="foot-col">
         <h4><a href="${curl(c)}">${esc(lf(c, 'name'))}</a></h4>
         <ul>
@@ -672,6 +675,72 @@ function filtersFor(catKey) {
     .replace('id="frow-ps" style="display:none"', `id="frow-ps"${ps ? '' : ' style="display:none"'}`)
     .replace('<option value="area-asc"', `<option value="area-asc"${ac ? '' : ' hidden'}`);
 }
+/* Brand pages. People search "кондиціонер Ardesto Суми", not "каталог" — but a
+   brand was only ever a filter here, with no address of its own to rank. Each
+   brand that a category actually stocks gets a page at /<category>/<brand>/,
+   built from the same data as everything else so it can never go stale. */
+function catBrands(catKey) {
+  return [...new Set(catProducts(catKey).map(p => p.brand))]
+    .sort((a, b) => a.localeCompare(b, 'uk'));
+}
+const burl = (cat, brand) => `${pfx()}${cat.urlPrefix}/${brandSlug(brand)}/`;
+
+function brandPage(cat, brand) {
+  const list = catProducts(cat.key).filter(p => p.brand === brand);
+  const CAT = lf(cat, 'name');
+  const NAME = `${CAT} ${brand}`;
+  const prices = list.map(p => p.price);
+  const lo = Math.min(...prices), hi = Math.max(...prices);
+  const plural = list.length % 10 === 1 && list.length % 100 !== 11 ? t('cat_models1')
+    : (list.length % 10 >= 2 && list.length % 10 <= 4 && (list.length % 100 < 10 || list.length % 100 >= 20) ? t('cat_models2') : t('cat_models5'));
+  const intro = t('brand_intro')
+    .replace('{brand}', brand).replace('{cat}', (lf(cat, 'nameGen') || CAT).toLowerCase())
+    .replace('{n}', list.length).replace('{plural}', plural)
+    .replace('{lo}', fmt(lo)).replace('{hi}', fmt(hi));
+  const jsonld = {
+    '@context': 'https://schema.org', '@type': 'CollectionPage', name: NAME, url: abs(burl(cat, brand)),
+    about: { '@type': 'Brand', name: brand },
+    mainEntity: {
+      '@type': 'ItemList', numberOfItems: list.length,
+      itemListElement: list.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: abs(purl(p)), name: pname(p) }))
+    }
+  };
+  const crumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t('pp_home'), item: abs(pfx() + '/') },
+    { '@type': 'ListItem', position: 2, name: CAT, item: abs(curl(cat)) },
+    { '@type': 'ListItem', position: 3, name: brand, item: abs(burl(cat, brand)) } ] };
+  const siblings = catBrands(cat.key).filter(b => b !== brand)
+    .map(b => `<a class="bl-chip" href="${burl(cat, b)}">${esc(b)}</a>`).join('');
+  return `<!doctype html><html lang="${L}"><head>
+${head({
+  title: t('brand_seo_t').replace('{name}', NAME),
+  desc: t('brand_seo_d').replace('{brand}', brand).replace('{cat}', (lf(cat, 'nameGen') || CAT).toLowerCase())
+    .replace('{n}', list.length).replace('{plural}', plural).replace('{lo}', fmt(lo)).replace('{hi}', fmt(hi)),
+  canonical: abs(burl(cat, brand)), altPath: `${cat.urlPrefix}/${brandSlug(brand)}/`, jsonld
+})}
+<script type="application/ld+json">${JSON.stringify(crumbs)}</script>
+</head><body>${GTM_NS}
+${HEADER}
+<div class="cat-wrap">
+  <nav class="pp-bc"><a href="${pfx() || '/'}">${esc(t('pp_home'))}</a> › <a href="${curl(cat)}">${esc(CAT)}</a> › <span>${esc(brand)}</span></nav>
+  <header class="cat-head">
+    <h1 class="cat-h1">${esc(NAME)} ${esc(t('cat_in_sumy'))}</h1>
+    <p class="cat-sub">${esc(intro)}</p>
+    <div class="cat-count">${list.length} ${esc(plural)} ${esc(t('cat_instock'))}</div>
+  </header>
+  <section class="section catalog cat-catalog" id="catalog">
+    <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
+  </section>
+  ${siblings ? `<div class="brand-links"><h2>${esc(t('brand_other').replace('{cat}', (lf(cat, 'nameGen') || CAT).toLowerCase()))}</h2><div class="bl-row">${siblings}</div></div>` : ''}
+  <div class="pp-back"><a href="${curl(cat)}">← ${esc(CAT)}</a></div>
+</div>
+${FOOTER}
+${injectData(catalogData)}
+<script>window.__CATALOG_CAT__=${JSON.stringify(cat.key)};window.__BRAND__=${JSON.stringify(brand)};</script>
+<script src="/assets/js/main.js?v=${VER}" defer></script>
+</body></html>`;
+}
+
 function categoryPage(cat) {
   const list = catProducts(cat.key);
   const NAME = lf(cat, 'name');
@@ -718,6 +787,19 @@ for (const cat of catList) {
   const dir = outPath(cat.urlPrefix.replace(/^\//, ''));
   fs.writeFileSync(path.join(dir, 'index.html'), categoryPage(cat), 'utf8');
   SITEMAP.push(curl(cat));
+
+  /* Brand pages live beside the product pages in the same directory, so a brand
+     whose slug matched a product slug would silently overwrite that product.
+     Fail the build instead of shipping a missing page. */
+  for (const brand of catBrands(cat.key)) {
+    const slug = brandSlug(brand);
+    const clash = catProducts(cat.key).find(p => p.slug === slug);
+    if (clash) throw new Error(`brand page /${cat.urlPrefix}/${slug}/ collides with product ${clash.slug}`);
+    const bdir = outPath(cat.urlPrefix.replace(/^\//, ''), slug);
+    fs.writeFileSync(path.join(bdir, 'index.html'), brandPage(cat, brand), 'utf8');
+    SITEMAP.push(burl(cat, brand));
+    n++;
+  }
 }
 
 // ---- blog ----

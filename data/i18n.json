@@ -572,7 +572,11 @@
     "psq_pr_price": "Найдешевше рішення",
     "psq_pr_price_h": "Мінімальна ціна за потрібні характеристики",
     "psq_warn_exp": "Серед підібраних моделей немає таких, що нарощуються батареями — для цього дивіться Pecron E1500LFP, E3600LFP або Aferiy AF-P310.",
-    "wmq_relaxed": "Машин потрібного завантаження для такої ніші немає — показуємо всі, що фізично вміщуються за глибиною."
+    "wmq_relaxed": "Машин потрібного завантаження для такої ніші немає — показуємо всі, що фізично вміщуються за глибиною.",
+    "brand_seo_t": "{name} у Сумах — ціни, наявність, доставка | TexnoPlaza",
+    "brand_seo_d": "{brand}: {n} {plural} {cat} у наявності від {lo} до {hi} грн. Доставка по Сумах, підключення й монтаж під ключ, оплата після отримання, офіційна гарантія.",
+    "brand_intro": "У наявності {n} {plural} {cat} {brand} — від {lo} до {hi} грн. Усі моделі є на складі в Сумах: привеземо, підключимо та запустимо, оплата після отримання.",
+    "brand_other": "Інші бренди {cat}"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1147,7 +1151,11 @@
     "psq_pr_price": "Самое дешёвое решение",
     "psq_pr_price_h": "Минимальная цена за нужные характеристики",
     "psq_warn_exp": "Среди подобранных моделей нет наращиваемых батареями — для этого смотрите Pecron E1500LFP, E3600LFP или Aferiy AF-P310.",
-    "wmq_relaxed": "Машин нужной загрузки для такой ниши нет — показываем все, что физически помещаются по глубине."
+    "wmq_relaxed": "Машин нужной загрузки для такой ниши нет — показываем все, что физически помещаются по глубине.",
+    "brand_seo_t": "{name} в Сумах — цены, наличие, доставка | TexnoPlaza",
+    "brand_seo_d": "{brand}: {n} {plural} {cat} в наличии от {lo} до {hi} грн. Доставка по Сумам, подключение и монтаж под ключ, оплата после получения, официальная гарантия.",
+    "brand_intro": "В наличии {n} {plural} {cat} {brand} — от {lo} до {hi} грн. Все модели есть на складе в Сумах: привезём, подключим и запустим, оплата после получения.",
+    "brand_other": "Другие бренды {cat}"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -1722,6 +1730,10 @@
     "psq_pr_price": "The cheapest option",
     "psq_pr_price_h": "Lowest price that still meets the requirement",
     "psq_warn_exp": "None of the matches take expansion batteries — look at the Pecron E1500LFP, E3600LFP or Aferiy AF-P310 for that.",
-    "wmq_relaxed": "No machine with that load fits the niche — here is everything that physically fits by depth."
+    "wmq_relaxed": "No machine with that load fits the niche — here is everything that physically fits by depth.",
+    "brand_seo_t": "{name} in Sumy — prices, stock, delivery | TexnoPlaza",
+    "brand_seo_d": "{brand}: {n} {plural} of {cat} in stock from {lo} to {hi} UAH. Delivery in Sumy, hook-up and turnkey installation, pay on receipt, official warranty.",
+    "brand_intro": "{n} {plural} of {brand} {cat} in stock — from {lo} to {hi} UAH. Everything is on the shelf in Sumy: we deliver, connect and commission it, and you pay on receipt.",
+    "brand_other": "Other brands of {cat}"
   }
 }
