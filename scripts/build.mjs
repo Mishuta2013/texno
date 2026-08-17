@@ -229,6 +229,20 @@ function heroWasherCard(p) {
     </div></a>`;
 }
 
+function heroFridgeCard(p) {
+  const s = p.specs || {};
+  return `<a class="gauge-card gc-station" href="${purl(p)}">
+    <div class="gc-tag">${esc(t('gc_stock'))}</div>
+    <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
+    <div class="gc-img"><img src="${esc(av(p.photos[0]))}" alt="${esc(pname(p))}" width="680" height="510" loading="lazy"><div class="gc-frost"></div></div>
+    <div class="gc-name">${esc(pname(p))}</div>
+    <div class="gc-readout">
+      <div class="gc-r"><div class="v">${esc(s.volume_l)}<small> ${esc(t("u_l"))}</small></div><div class="k">${esc(t("hc_volume"))}</div></div>
+      <div class="gc-r"><div class="v">${esc(s.height_cm)}<small> ${esc(t("u_cm"))}</small></div><div class="k">${esc(t("hc_height"))}</div></div>
+      <div class="gc-r"><div class="v">${esc(String(s.eclass || '').split(' ')[0] || '—')}</div><div class="k">${esc(t("hc_class"))}</div></div>
+    </div></a>`;
+}
+
 // render current uk i18n text into static HTML (matches runtime applyI18n → correct for SEO/no-JS)
 function applyI18nStatic(html) {
   return html.replace(/(<([a-zA-Z0-9]+)((?:[^>]*?)\sdata-i18n="([^"]+)"(?:[^>]*?))>)([\s\S]*?)(<\/\2>)/g,
@@ -314,9 +328,10 @@ function buildLanguage() {
 body = TEMPLATE;
 const best = products.find(p => p.bestseller) || products[0];
 const bestStation = products.find(p => p.category === 'zaryadni-stantsii');
-// hero hits: station first (eager LCP image), AC second
+const bestFridge = products.find(p => p.slug === 'edler-ed-118wh') || products.find(p => p.category === 'holodylnyky');
+// hero hits: station first (eager LCP image), fridge second, washer third
 body = body.replace('<!--HERO_CARD-->', bestStation ? heroStationCard(bestStation) : heroCard(best));
-body = body.replace('<!--HERO_CARD2-->', bestStation ? heroCard(best) : '');
+body = body.replace('<!--HERO_CARD2-->', bestFridge ? heroFridgeCard(bestFridge) : (bestStation ? heroCard(best) : ''));
 const bestWasher = products.find(p => p.slug === 'lg-f2y2ns3we') || products.find(p => p.category === 'pralni-mashyny');
 body = body.replace('<!--HERO_CARD3-->', bestWasher ? heroWasherCard(bestWasher) : '');
 if (bestStation && bestWasher) body = body.replace('class="hero-vis two"', 'class="hero-vis two hv3"');
@@ -339,30 +354,22 @@ body = body.replace('<div class="grid" id="catalog-grid"></div>',
 {
   const brandsOf = key => [...new Set(products.filter(p => p.category === key).map(p => p.brand))]
     .sort((a, b) => a.localeCompare(b, 'uk'));
-  const catLinks = catList.filter(c => catProducts(c.key).length)
-    .map(c => `<li><a href="${curl(c)}"><b>${esc(lf(c, 'name'))}</b></a></li>`).join('\n        ');
-  const acKey = 'kondicioneri', wmKey = 'pralni-mashyny';
-  const brandLi = (key, prefix) => brandsOf(key)
-    .map(b => `<li><a href="#catalog" onclick="jumpBrand('${esc(b)}','${key}')">${esc(prefix)} ${esc(b)}</a></li>`).join('\n        ');
-  const otherBrands = catList.filter(c => c.key !== acKey && c.key !== wmKey && catProducts(c.key).length)
-    .map(c => brandLi(c.key, lf(c, 'name'))).join('\n        ');
-  const col1 = `<div class="foot-col">
-      <h4>${esc(t('cat_eye'))}</h4>
-      <ul>
-        ${catLinks}
-        ${brandLi(acKey, lf(CATS[acKey],'name'))}
-        ${otherBrands}
-      </ul>
-    </div>`;
-  const wmBrands = brandLi(wmKey, (CATS[wmKey].productPrefix||{})[L] || 'Пральна машина');
-  const col2 = wmBrands ? `<div class="foot-col">
-      <h4>${esc(lf(CATS[wmKey],'name'))}</h4>
-      <ul>
-        ${wmBrands}
-      </ul>
-    </div>` : '';
-  body = body.replace('<!--FOOT_CATALOG-->', col1 + '\n    ' + col2);
-  if (col2) body = body.replace('<div class="foot-in">', '<div class="foot-in foot-in-5">');
+  /* One column per category, each headed by the category itself and listing its
+     own brands. The old layout grew by accident — washing machines had a column
+     while air conditioners, fridges and stations were stacked into a single
+     28-item list, which is what made the footer look lopsided. */
+  const cols = catList.filter(c => catProducts(c.key).length).map(c => {
+    const brands = brandsOf(c.key).map(b =>
+      `<li><a href="${curl(c)}" onclick="jumpBrand('${esc(b)}','${c.key}')">${esc(b)}</a></li>`).join('\n          ');
+    return `<div class="foot-col">
+        <h4><a href="${curl(c)}">${esc(lf(c, 'name'))}</a></h4>
+        <ul>
+          ${brands}
+          <li class="fc-all"><a href="${curl(c)}">${esc(t('foot_all'))} →</a></li>
+        </ul>
+      </div>`;
+  }).join('\n      ');
+  body = body.replace('<!--FOOT_CATALOG-->', cols);
 }
 body = body.replace('<!--QUIZ_INLINE-->', quizInline(true));
 body = body.replace('<!--FAQ_ITEMS-->', faqItems());

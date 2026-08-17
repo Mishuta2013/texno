@@ -541,7 +541,10 @@
     "rt_light": "Освітлення LED",
     "rt_boiler": "Насос газового котла",
     "rt_phone": "Зарядка телефона",
-    "rt_pump": "Свердловинний насос"
+    "rt_pump": "Свердловинний насос",
+    "foot_all": "Усі моделі",
+    "hc_volume": "Об’єм",
+    "hc_height": "Висота"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1085,7 +1088,10 @@
     "rt_light": "Освещение LED",
     "rt_boiler": "Насос газового котла",
     "rt_phone": "Зарядка телефона",
-    "rt_pump": "Скважинный насос"
+    "rt_pump": "Скважинный насос",
+    "foot_all": "Все модели",
+    "hc_volume": "Объём",
+    "hc_height": "Высота"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -1629,6 +1635,9 @@
     "rt_light": "LED lighting",
     "rt_boiler": "Gas-boiler pump",
     "rt_phone": "Phone charging",
-    "rt_pump": "Well pump"
+    "rt_pump": "Well pump",
+    "foot_all": "All models",
+    "hc_volume": "Capacity",
+    "hc_height": "Height"
   }
 }

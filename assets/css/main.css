@@ -1047,3 +1047,15 @@ a.gauge-card:hover{transform:translateY(-4px)}
   .pp-runtime{padding:20px 16px}
 }
 @media(max-width:420px){.rt-grid{grid-template-columns:1fr}}
+
+/* ---- footer: catalogue band, one column per category ---- */
+.foot-cats{max-width:var(--max);margin:0 auto;padding:30px 20px 6px;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:26px 30px;
+  border-top:1px solid rgba(255,255,255,.09)}
+.foot-cats .foot-col h4{margin-bottom:12px}
+.foot-cats .foot-col h4 a{color:#fff;text-decoration:none}
+.foot-cats .foot-col h4 a:hover{color:var(--frost)}
+.foot-cats .foot-col ul{display:flex;flex-direction:column;gap:8px}
+.foot-cats .fc-all a{color:var(--frost);font-weight:600}
+@media(max-width:980px){.foot-cats{grid-template-columns:1fr 1fr;gap:22px}}
+@media(max-width:520px){.foot-cats{grid-template-columns:1fr;padding-top:22px}}
