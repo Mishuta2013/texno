@@ -978,3 +978,72 @@ a.gauge-card:hover{transform:translateY(-4px)}
 .foot-bottom a{color:var(--frost)}
 .foot-bottom a:hover{color:#fff;text-decoration:underline}
 @media(max-width:560px){.foot-bottom{justify-content:center;text-align:center}}
+
+/* ---- product page: secondary actions ---- */
+.pp-acts{display:flex;flex-wrap:wrap;gap:8px;margin:-10px 0 22px}
+.pp-act{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border:1px solid var(--g2);
+  border-radius:999px;background:#fff;color:var(--g5);font-size:13.5px;font-weight:600;cursor:pointer;
+  transition:border-color .18s,color .18s,background .18s}
+.pp-act svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pp-act:hover{border-color:var(--blue);color:var(--blue-d)}
+.pp-act.on{border-color:var(--blue);background:var(--ice);color:var(--blue-d)}
+.pp-act.on svg{fill:currentColor;stroke:none}
+#pp-cmp-btn.on svg{fill:none;stroke:currentColor}
+.pp-share-wrap{position:relative}
+.pp-share-menu{position:absolute;top:calc(100% + 8px);left:0;z-index:40;min-width:190px;padding:6px;
+  background:#fff;border:1px solid var(--g2);border-radius:var(--r);box-shadow:0 18px 40px rgba(11,26,51,.16)}
+.pp-share-menu a,.pp-share-menu button{display:block;width:100%;text-align:left;padding:10px 12px;border:0;
+  background:none;border-radius:10px;font:inherit;font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none}
+.pp-share-menu a:hover,.pp-share-menu button:hover{background:var(--ice)}
+
+/* ---- collapsible spec table ---- */
+.pp-specs-more{margin-top:12px;padding:10px 18px;border:1px solid var(--g2);border-radius:999px;background:#fff;
+  color:var(--blue-d);font-weight:700;font-size:14px;cursor:pointer;width:100%}
+.pp-specs-more:hover{border-color:var(--blue)}
+
+/* ---- runtime calculator ---- */
+.pp-runtime{margin-top:26px;padding:26px;border:1px solid var(--g2);border-radius:var(--r-lg);background:var(--white)}
+.pp-runtime h2{margin-bottom:6px}
+.rt-sub{font-size:14.5px;color:var(--g5);margin-bottom:18px;max-width:640px}
+.rt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-bottom:20px}
+.rt-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1px solid var(--g2);border-radius:12px;
+  background:var(--paper);cursor:pointer;transition:border-color .18s,background .18s}
+.rt-item:hover{border-color:var(--blue)}
+.rt-item:has(input:checked){border-color:var(--blue);background:var(--ice)}
+.rt-item input{width:17px;height:17px;accent-color:var(--blue);flex:0 0 auto;cursor:pointer}
+.rt-name{flex:1;font-size:14px;font-weight:600;color:var(--ink)}
+.rt-w{font-size:12.5px;color:var(--g4);font-family:var(--mono)}
+.rt-out{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px}
+.rt-cell{flex:1;min-width:150px;padding:16px 18px;border-radius:14px;background:var(--paper);border:1px solid var(--g2)}
+.rt-cell .rt-lbl{display:block;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--g4);margin-bottom:6px}
+.rt-cell b{font-family:var(--disp);font-size:24px;font-weight:800;color:var(--ink)}
+.rt-main{background:linear-gradient(140deg,var(--ink),#16305c);border-color:transparent}
+.rt-main .rt-lbl{color:rgba(255,255,255,.6)}
+.rt-main b{color:#fff}
+.pp-runtime.over .rt-main{background:linear-gradient(140deg,#7a1d1d,#a52a2a)}
+.rt-note{font-size:13px;color:var(--g4);line-height:1.55}
+
+/* ---- sticky buy bar (phones only) ---- */
+.pp-sticky{display:none}
+@media(max-width:760px){
+  /* the product page gets its own bottom bar, so the global one steps aside */
+  body:has(.pp-sticky) .mcta{display:none}
+  .pp-sticky{display:flex;align-items:center;gap:12px;position:fixed;left:0;right:0;bottom:0;z-index:130;
+    padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.97);
+    backdrop-filter:blur(10px);border-top:1px solid var(--g2);box-shadow:0 -8px 26px rgba(11,26,51,.1)}
+  .pps-info{flex:1;min-width:0}
+  .pps-price{font-family:var(--disp);font-size:19px;font-weight:800;color:var(--ink);line-height:1.1}
+  .pps-price span{font-size:13px;font-weight:600;color:var(--g4)}
+  .pps-name{font-size:11.5px;color:var(--g4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pps-btn{flex:0 0 auto;padding:12px 22px}
+  .pp-wrap{padding-bottom:84px}
+  /* long spec tables are folded until asked for */
+  .pp-table-wrap.clip{max-height:322px;overflow:hidden;position:relative;
+    -webkit-mask-image:linear-gradient(#000 68%,transparent);mask-image:linear-gradient(#000 68%,transparent)}
+  .pp-table-wrap.clip.open{max-height:none;-webkit-mask-image:none;mask-image:none}
+  .pp-acts{gap:6px}
+  .pp-act{padding:8px 12px;font-size:12.5px}
+  .rt-grid{grid-template-columns:1fr 1fr}
+  .pp-runtime{padding:20px 16px}
+}
+@media(max-width:420px){.rt-grid{grid-template-columns:1fr}}

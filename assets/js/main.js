@@ -158,7 +158,10 @@ function getFiltered(){
   else list.sort((a,b)=>(a.pin||99)-(b.pin||99));   // default: pinned products first
   return list;
 }
-function productUrl(p){return (catOf(p).urlPrefix||SITE.productUrlPrefix||'/kondicioner')+'/'+p.slug+'/';}
+/* Every language lives in its own page tree, so a link built on /ru/ has to stay
+   in /ru/ — without the prefix a Russian visitor is thrown onto the Ukrainian page. */
+const langPfx=()=>(LANG==='uk'?'':'/'+LANG);
+function productUrl(p){return langPfx()+(catOf(p).urlPrefix||SITE.productUrlPrefix||'/kondicioner')+'/'+p.slug+'/';}
 function cardHTML(p){
   const idx=PRODUCTS.indexOf(p);
   const url=productUrl(p);
@@ -328,34 +331,52 @@ function renderCmpBar(){
   bar.classList.toggle('show',CMP.length>0);
   $('cmp-thumbs').innerHTML=CMP.map(idx=>`<div class="cmp-th"><img src="${PRODUCTS[idx].thumb||PRODUCTS[idx].photos[0]}"><span class="x" onclick="toggleCmp(${idx})">✕</span></div>`).join('');
 }
+/* Which way is "better" for a numeric spec, so the winning cell can be marked.
+   A spec not listed here is still compared, just without a winner — that is the
+   honest default for anything where more is not automatically better. */
+const CMP_BETTER={capacity_wh:'max',output_w:'max',surge_w:'max',area:'max',btu:'max',
+  load_kg:'max',rpm:'max',volume_l:'max',programs:'max',ac_sockets:'max',ac_in_w:'max',
+  noise:'min',noise_wm:'min',depth:'min',price:'min'};
 function openCompare(){
-  if(CMP.length<2){alert(t('cmp_max'));}
-  const rows=[
-    ['',null],
-    [t('sp_power'),p=>(p.btu/1000).toFixed(0)+'k BTU'],
-    [t('sp_area'),p=>`${p.area} ${LANG==='en'?'m²':'м²'}`,'max',p=>p.area],
-    [t('sp_comp'),p=>p.inverter?t('sp_inv'):t('sp_onoff')],
-    [t('sp_eclass'),p=>p.specs.eclass||'—'],
-    [t('sp_noise'),p=>p.specs.noise?p.specs.noise+' '+(LANG==='en'?'dB':'дБ'):'—','min',p=>p.specs.noise||999],
-    [t('sp_heat_min'),p=>p.specs.heat_min!==undefined?p.specs.heat_min+'°C':'—','min',p=>p.specs.heat_min!==undefined?p.specs.heat_min:99],
-    [t('sp_wifi'),p=>p.wifi?t('sp_yes'):t('sp_opt')],
-    [t('sp_heat'),p=>p.heatpump?t('sp_hp'):t('sp_yes')],
-    [t('sp_freon'),()=>'R32'],
-  ];
-  const prods=CMP.map(i=>PRODUCTS[i]);
-  let html='<table class="cmp-table"><thead><tr><th></th>';
-  prods.forEach((p,i)=>{html+=`<th><div class="cmp-prod-img"><img src="${p.photos[0]}"></div><div class="cmp-prod-name">${p.name}</div><div class="cmp-prod-price">${fmt(p.price)} ${LANG==='en'?'UAH':'грн'}</div></th>`;});
+  const prods=CMP.map(i=>PRODUCTS[i]).filter(Boolean);
+  if(!prods.length){
+    $('compare-content').innerHTML=`<div class="cmp-empty">${t('cmp_empty')}</div>`;
+    $('compare-modal').classList.add('open');document.body.style.overflow='hidden';return;
+  }
+  /* Rows come from the category's own spec list, so washing machines are
+     compared on load and spin speed rather than on BTU and refrigerant. */
+  const cats=[...new Set(prods.map(p=>p.category))];
+  const mixed=cats.length>1;
+  const specs=mixed?[]:(catOf(prods[0]).specs||[]);
+  let html='';
+  if(mixed) html+=`<div class="cmp-note">${t('cmp_mixed')}</div>`;
+  html+='<table class="cmp-table"><thead><tr><th></th>';
+  prods.forEach(p=>{html+=`<th><div class="cmp-prod-img"><img src="${p.thumb||p.photos[0]}" alt="${pnameJS(p)}"></div>`
+    +`<div class="cmp-prod-name"><a href="${productUrl(p)}">${pnameJS(p)}</a></div>`
+    +`<div class="cmp-prod-price">${fmt(p.price)} ${t('u_uah')}</div></th>`;});
   html+='</tr></thead><tbody>';
-  rows.slice(1).forEach(([lbl,fn,best,metric])=>{
-    html+=`<tr><td class="cmp-row-lbl">${lbl}</td>`;
-    let bestVal=null;
-    if(best&&metric){const vals=prods.map(metric);bestVal=best==='max'?Math.max(...vals):Math.min(...vals);}
-    prods.forEach(p=>{const v=fn(p);const isBest=best&&metric&&metric(p)===bestVal&&prods.length>1;html+=`<td class="${isBest?'best':''}">${v}</td>`;});
-    html+='</tr>';
+  // price first — it is the row every buyer reads
+  html+=cmpRow(t('cmp_price'),prods,p=>fmt(p.price)+' '+t('u_uah'),'min',p=>p.price);
+  specs.forEach(f=>{
+    const vals=prods.map(p=>jFmtVal(p,f));
+    if(vals.every(v=>v===null||v===undefined||v==='')) return;   // nobody has it
+    const dir=CMP_BETTER[f.key];
+    const metric=dir?(p=>{const n=parseFloat(p.specs&&p.specs[f.key]);return isNaN(n)?(dir==='max'?-Infinity:Infinity):n;}):null;
+    html+=cmpRow(lfJS(f,'label'),prods,p=>{const v=jFmtVal(p,f);return (v===null||v===undefined||v==='')?'—':v;},dir,metric);
   });
   html+='</tbody></table>';
-  $('compare-content').innerHTML=prods.length?html:`<div class="cmp-empty">${t('fav_empty')}</div>`;
+  $('compare-content').innerHTML=html;
   $('compare-modal').classList.add('open');document.body.style.overflow='hidden';
+}
+function cmpRow(label,prods,fn,dir,metric){
+  let best=null;
+  if(dir&&metric&&prods.length>1){
+    const vals=prods.map(metric).filter(v=>isFinite(v));
+    if(vals.length>1&&new Set(vals).size>1) best=dir==='max'?Math.max(...vals):Math.min(...vals);
+  }
+  let r=`<tr><td class="cmp-row-lbl">${label}</td>`;
+  prods.forEach(p=>{const win=best!==null&&metric(p)===best;r+=`<td class="${win?'best':''}">${fn(p)}</td>`;});
+  return r+'</tr>';
 }
 
 /* ============ QUICK BUY ============ */
@@ -377,7 +398,14 @@ function closeQbuy(){$('qbuy-pop').classList.remove('show');$('qbuy-backdrop').c
 /* ============ CALLBACK + FORMSPREE ============ */
 function openOrder(idx){const p=PRODUCTS[idx];currentProduct=p;$('cb-product').value=p.name;$('cb-product-wrap').style.display='block';openCb();}
 function orderFromModal(){if(currentProduct){$('cb-product').value=currentProduct.name;$('cb-product-wrap').style.display='block';}closeProductModal();openCb();}
-function openCb(){$('cb-form').style.display='block';$('cb-success').style.display='none';$('cb-modal').classList.add('open');document.body.style.overflow='hidden';}
+/* kind 'question' comes from the product page's "Задати питання" — same form,
+   but the heading and the Telegram label say it is a question, not a callback. */
+function openCb(kind){
+  window.__CB_TYPE__=kind==='question'?'question':'callback';
+  const h=$('cb-title');if(h)h.textContent=t(kind==='question'?'pp_ask_sub':'cb_btn');
+  $('cb-form').style.display='block';$('cb-success').style.display='none';
+  $('cb-modal').classList.add('open');document.body.style.overflow='hidden';
+}
 function closeCb(e){if(e.target===e.currentTarget)forceCloseCb();}
 function forceCloseCb(){$('cb-modal').classList.remove('open');document.body.style.overflow='';}
 function closeOverlay(e,id){if(e.target===e.currentTarget)closeModalById(id);}
@@ -399,7 +427,7 @@ async function sendLead(data){
 }
 async function submitCb(){
   const ph=$('cb-phone').value.trim();if(!ph){alert(t('cb_phone'));return;}
-  const ok=await sendLead({type:'callback',name:$('cb-name').value.trim(),phone:ph,product:$('cb-product').value||'',lang:LANG});
+  const ok=await sendLead({type:window.__CB_TYPE__||'callback',name:$('cb-name').value.trim(),phone:ph,product:$('cb-product').value||'',lang:LANG});
   if(ok){$('cb-form').style.display='none';$('cb-success').style.display='block';track('generate_lead',{method:'callback'});}
   else alert(t('form_send_err'));
 }
@@ -741,3 +769,13 @@ if($('catalog-grid')){ setupFilters(); renderCatalog(); }
 applyI18n();
 if($('cmp-bar')) renderCmpBar();
 if($('fav-count')) updateFavCount();
+
+/* Product pages carry their own inline script and cannot see the consts above.
+   Expose them through getters rather than copies — CMP and FAV are reassigned
+   on clear, and a snapshot would silently go stale. */
+window.ppState={
+  index:slug=>PRODUCTS.findIndex(p=>p.slug===slug),
+  inCmp:i=>CMP.indexOf(i)>=0,
+  inFav:i=>FAV.indexOf(i)>=0,
+  t:t
+};

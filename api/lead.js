@@ -17,12 +17,12 @@ export default async function handler(req, res) {
   const TOKEN = process.env.TELEGRAM_BOT_TOKEN, CHAT = process.env.TELEGRAM_CHAT_ID;
   if (!TOKEN || !CHAT) { res.status(500).json({ ok: false, error: 'not_configured' }); return; }
 
-  const typeMap = { callback: '📞 Зворотний дзвінок', consultation: '💬 Консультація', quiz: '🧩 Підбір (квіз)', order: '🛒 Замовлення', '': '📩 Заявка' };
+  const typeMap = { callback: '📞 Зворотний дзвінок', consultation: '💬 Консультація', quiz: '🧩 Підбір (квіз)', order: '🛒 Замовлення', question: '❓ Питання про товар', '': '📩 Заявка' };
   const lines = [
     `<b>${typeMap[b.type] || typeMap['']}</b> — TexnoPlaza`,
     b.name && `👤 ${esc(b.name)}`,
     `📱 <b>${esc(phone)}</b>`,
-    b.product && `❄️ Модель: ${esc(b.product)}`,
+    b.product && `📦 Модель: ${esc(b.product)}`,
     b.interest && `Цікавить: ${esc(b.interest)}`,
     b.comment && `📝 ${esc(b.comment)}`,
     b.note && `📝 ${esc(b.note)}`,

@@ -420,6 +420,34 @@ function related(p) {
   });
   return ranked.slice(0, 3);
 }
+/* "How long will it run" — the question every power-station buyer actually has.
+   Typical draws are conservative: a fridge is averaged over its compressor
+   cycle, a gas-boiler pump is its running figure. Only rendered where the
+   product has a usable capacity. */
+const RUNTIME_LOADS = [
+  { key: 'rt_fridge', w: 120, on: true }, { key: 'rt_router', w: 15, on: true },
+  { key: 'rt_light', w: 40, on: true }, { key: 'rt_tv', w: 100 },
+  { key: 'rt_laptop', w: 65 }, { key: 'rt_boiler', w: 120 },
+  { key: 'rt_phone', w: 20 }, { key: 'rt_pump', w: 800 }
+];
+function runtimeCalc(p) {
+  const wh = Number((p.specs || {}).capacity_wh);
+  if (p.category !== 'zaryadni-stantsii' || !wh) return '';
+  const items = RUNTIME_LOADS.map((l, i) =>
+    `<label class="rt-item"><input type="checkbox" data-w="${l.w}"${l.on ? ' checked' : ''} onchange="rtCalc()">
+      <span class="rt-name">${esc(t(l.key))}</span><span class="rt-w">${l.w} ${esc(t('u_w'))}</span></label>`).join('');
+  return `<div class="pp-runtime" id="pp-runtime" data-wh="${wh}" data-max="${Number((p.specs || {}).output_w) || 0}">
+    <h2>${esc(t('rt_h'))}</h2>
+    <p class="rt-sub">${esc(t('rt_sub'))}</p>
+    <div class="rt-grid">${items}</div>
+    <div class="rt-out">
+      <div class="rt-cell"><span class="rt-lbl">${esc(t('rt_load'))}</span><b id="rt-load">—</b></div>
+      <div class="rt-cell rt-main"><span class="rt-lbl">${esc(t('rt_time'))}</span><b id="rt-time">—</b></div>
+    </div>
+    <p class="rt-note" id="rt-note">${esc(t('rt_note'))}</p>
+  </div>`;
+}
+
 function productPage(p) {
   const s = p.specs || {};
   const NAME = pname(p);
@@ -475,15 +503,46 @@ ${HEADER}
         <a class="btn-wa" href="${esc(site.whatsapp)}&text=${encodeURIComponent(NAME)}" target="_blank" rel="noopener">WhatsApp</a>
         <a class="btn-ghost2" href="tel:${esc(site.phone)}">${esc(site.phoneDisplay)}</a>
       </div>
+      <div class="pp-acts">
+        <button class="pp-act" id="pp-cmp-btn" onclick="ppToggleCmp()">
+          <svg viewBox="0 0 24 24"><path d="M3 6h7M14 6h7M6.5 6v12M17.5 6v12M3 12l3.5-6 3.5 6a3.5 3.5 0 0 1-7 0zM14 12l3.5-6 3.5 6a3.5 3.5 0 0 1-7 0z"/></svg>
+          <span id="pp-cmp-lbl">${esc(t('pp_cmp_add'))}</span></button>
+        <button class="pp-act" id="pp-fav-btn" onclick="ppToggleFav()">
+          <svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+          <span id="pp-fav-lbl">${esc(t('pp_fav_add'))}</span></button>
+        <div class="pp-share-wrap">
+          <button class="pp-act" onclick="ppShare(event)" aria-haspopup="true" aria-expanded="false" id="pp-share-btn">
+            <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+            <span>${esc(t('pp_share'))}</span></button>
+          <div class="pp-share-menu" id="pp-share-menu" hidden>
+            <a href="#" id="sh-vb" target="_blank" rel="noopener">Viber</a>
+            <a href="#" id="sh-tg" target="_blank" rel="noopener">Telegram</a>
+            <a href="#" id="sh-wa" target="_blank" rel="noopener">WhatsApp</a>
+            <button type="button" onclick="ppCopyLink()">${esc(t('pp_copy'))}</button>
+          </div>
+        </div>
+        <button class="pp-act" onclick="ppAsk()">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.3 2.4c-.5.2-.8.7-.8 1.2v.6M12 17h.01"/></svg>
+          <span>${esc(t('pp_ask'))}</span></button>
+      </div>
       <div class="pp-trust">${trustLines.map(x => `<span>${esc(x)}</span>`).join('')}</div>
     </div>
   </div>
   <div class="pp-cols">
-    <div class="pp-specs"><h2>${esc(t('pp_specs'))}</h2><table class="pp-table">${specTable(p)}</table></div>
+    <div class="pp-specs"><h2>${esc(t('pp_specs'))}</h2>
+      <div class="pp-table-wrap" id="pp-table-wrap"><table class="pp-table">${specTable(p)}</table></div>
+      <button class="pp-specs-more" id="pp-specs-more" onclick="ppSpecsToggle()" hidden>${esc(t('pp_specs_all'))}</button>
+    </div>
     <div class="pp-desc"><h2>${esc(t('pp_desc'))}</h2><p>${esc(pdesc(p))}</p></div>
   </div>
+  ${runtimeCalc(p)}
   ${(() => { const rel = related(p); return rel.length ? `<div class="pp-related"><h2>${esc(t('pp_related'))}</h2><div class="grid grid-rel">${rel.map(card).join('')}</div></div>` : ''; })()}
   <div class="pp-back"><a href="${curl(cat)}">← ${esc(lf(cat, 'name'))}</a></div>
+</div>
+<div class="pp-sticky" id="pp-sticky">
+  <div class="pps-info"><div class="pps-price">${fmt(p.price)} <span>${esc(t('u_uah'))}</span></div>
+    <div class="pps-name">${esc(NAME)}</div></div>
+  <button class="btn-primary pps-btn" onclick="ppLead('${esc(NAME)}')">${esc(t('pp_order'))}</button>
 </div>
 ${FOOTER}
 ${injectData(catalogData)}
@@ -507,6 +566,77 @@ document.addEventListener('keydown',function(e){if(!document.getElementById('lbo
   el.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
   el.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)ppStep(dx<0?1:-1);},{passive:true});})();
 function ppLead(name){ if(window.openCb){var f=document.getElementById('cb-product');if(f){f.value=name;var w=document.getElementById('cb-product-wrap');if(w)w.style.display='block';}window.openCb();} else {location.href='tel:${esc(site.phone)}';} }
+
+/* ---- compare / favourite / share / ask, driven by main.js state ---- */
+var PP_SLUG=${JSON.stringify(p.slug)},PP_NAME=${JSON.stringify(NAME)};
+function TT(k){return window.ppState?window.ppState.t(k):k;}
+function ppIndex(){return window.ppState?window.ppState.index(PP_SLUG):-1;}
+function ppSyncActs(){
+  var i=ppIndex(); if(i<0||!window.ppState) return;
+  var S=window.ppState,inC=S.inCmp(i),inF=S.inFav(i);
+  var cb=document.getElementById('pp-cmp-btn'),fb=document.getElementById('pp-fav-btn');
+  if(cb){cb.classList.toggle('on',inC);document.getElementById('pp-cmp-lbl').textContent=S.t(inC?'pp_cmp_in':'pp_cmp_add');}
+  if(fb){fb.classList.toggle('on',inF);document.getElementById('pp-fav-lbl').textContent=S.t(inF?'pp_fav_in':'pp_fav_add');}
+}
+function ppToggleCmp(){var i=ppIndex();if(i<0)return;window.toggleCmp(i);ppSyncActs();}
+function ppToggleFav(){var i=ppIndex();if(i<0)return;window.toggleFav(i);ppSyncActs();}
+function ppShare(e){
+  e.stopPropagation();
+  var url=location.href,txt=PP_NAME+' — '+url;
+  if(navigator.share){navigator.share({title:PP_NAME,url:url}).catch(function(){});return;}
+  var m=document.getElementById('pp-share-menu');
+  document.getElementById('sh-vb').href='viber://forward?text='+encodeURIComponent(txt);
+  document.getElementById('sh-tg').href='https://t.me/share/url?url='+encodeURIComponent(url)+'&text='+encodeURIComponent(PP_NAME);
+  document.getElementById('sh-wa').href='https://wa.me/?text='+encodeURIComponent(txt);
+  m.hidden=!m.hidden;
+  document.getElementById('pp-share-btn').setAttribute('aria-expanded',String(!m.hidden));
+}
+document.addEventListener('click',function(e){
+  var m=document.getElementById('pp-share-menu');
+  if(m&&!m.hidden&&!e.target.closest('.pp-share-wrap'))m.hidden=true;
+});
+function ppCopyLink(){
+  var done=function(){document.getElementById('pp-share-menu').hidden=true;
+    if(window.toast)window.toast(TT('pp_copied'));else alert(TT('pp_copied'));};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(location.href).then(done,done);
+  else{var ta=document.createElement('textarea');ta.value=location.href;document.body.appendChild(ta);ta.select();
+       try{document.execCommand('copy');}catch(err){}ta.remove();done();}
+}
+function ppAsk(){
+  var f=document.getElementById('cb-product');
+  if(f){f.value=PP_NAME;var w=document.getElementById('cb-product-wrap');if(w)w.style.display='block';}
+  if(window.openCb)window.openCb('question');
+}
+
+/* ---- long spec tables collapse on phones ---- */
+function ppSpecsToggle(){
+  var w=document.getElementById('pp-table-wrap'),b=document.getElementById('pp-specs-more');
+  var open=w.classList.toggle('open');
+  b.textContent=TT(open?'pp_specs_less':'pp_specs_all');
+}
+(function(){
+  var rows=document.querySelectorAll('.pp-table tr').length,b=document.getElementById('pp-specs-more');
+  // only worth hiding when there is a real tail to hide
+  if(b&&rows>8){document.getElementById('pp-table-wrap').classList.add('clip');b.hidden=false;}
+})();
+
+/* ---- runtime calculator (power stations) ---- */
+function rtCalc(){
+  var box=document.getElementById('pp-runtime'); if(!box) return;
+  var wh=+box.dataset.wh, max=+box.dataset.max||0, w=0;
+  box.querySelectorAll('input:checked').forEach(function(c){w+=+c.dataset.w;});
+  var lo=document.getElementById('rt-load'),ti=document.getElementById('rt-time'),nt=document.getElementById('rt-note');
+  lo.textContent=w?w+' '+TT('u_w'):'—';
+  if(!w){ti.textContent='—';nt.textContent=TT('rt_pick');return;}
+  if(max&&w>max){ti.textContent='—';nt.textContent=TT('rt_over');box.classList.add('over');return;}
+  box.classList.remove('over');
+  var hours=wh*0.85/w, h=Math.floor(hours), m=Math.round((hours-h)*60);
+  if(m===60){h++;m=0;}
+  ti.textContent=(h?h+' '+TT('rt_hr')+' ':'')+(m?m+' '+TT('rt_min'):(h?'':'0 '+TT('rt_min')));
+  nt.textContent=TT('rt_note');
+}
+
+addEventListener('load',function(){ppSyncActs();rtCalc();});
 </script>
 </body></html>`;
 }
