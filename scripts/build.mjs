@@ -16,7 +16,47 @@ const BLOG_LANGS = ['uk', 'ru'];   // languages the articles are actually writte
 const bt = a => lf(a, 'title');
 const bd = a => lf(a, 'desc');
 const bg = a => lf(a, 'tag');
-const bh = a => (L !== 'uk' && a['html_' + L]) || a.html;
+const bh = a => linkProducts((L !== 'uk' && a['html_' + L]) || a.html);
+
+/* Articles name real models — "Edler ED-120DT", "Beko RCNA406I30XB" — and until
+   now they were plain text, so an interested reader had to go hunting in the
+   catalogue. Link the first mention of each model to its page.
+
+   The scan walks the html and only touches text nodes that are not already
+   inside a link, so existing markup cannot be broken or double-wrapped. */
+function linkProducts(html) {
+  const targets = products.map(p => {
+    const pref = (catOf(p).productPrefix || {}).uk;
+    let label = p.name;
+    if (pref && label.startsWith(pref)) label = label.slice(pref.length).trim();
+    return { label, url: purl(p) };
+  }).filter(x => x.label.length >= 8)
+    .sort((a, b) => b.label.length - a.label.length);   // longest first, so a model code wins over its prefix
+  const used = new Set();
+  let out = '', i = 0, depth = 0;
+  while (i < html.length) {
+    if (html[i] === '<') {
+      const end = html.indexOf('>', i);
+      const tag = html.slice(i, end + 1);
+      if (/^<a[\s>]/i.test(tag)) depth++;
+      else if (/^<\/a>/i.test(tag)) depth--;
+      out += tag; i = end + 1; continue;
+    }
+    const next = html.indexOf('<', i);
+    let text = html.slice(i, next === -1 ? html.length : next);
+    if (depth === 0) {
+      for (const t of targets) {
+        if (used.has(t.label)) continue;
+        const at = text.indexOf(t.label);
+        if (at === -1) continue;
+        text = text.slice(0, at) + `<a href="${t.url}">${t.label}</a>` + text.slice(at + t.label.length);
+        used.add(t.label);
+      }
+    }
+    out += text; i = next === -1 ? html.length : next;
+  }
+  return out;
+}
 const CATS = read('categories.json');
 const catOf = p => CATS[p.category] || CATS['kondicioneri'];
 const catList = Object.entries(CATS).map(([key, c]) => ({ key, ...c })).sort((a, b) => (a.order || 99) - (b.order || 99));
@@ -542,6 +582,9 @@ ${HEADER}
         <button class="pp-act" onclick="ppAsk()">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.3 2.4c-.5.2-.8.7-.8 1.2v.6M12 17h.01"/></svg>
           <span>${esc(t('pp_ask'))}</span></button>
+        <button class="pp-act pp-act-price" onclick="ppCheaper()">
+          <svg viewBox="0 0 24 24"><path d="M12 2v20M17 6.5A4 4 0 0 0 13 4h-2a3.5 3.5 0 0 0 0 7h2a3.5 3.5 0 0 1 0 7h-2a4 4 0 0 1-4-2.5"/></svg>
+          <span>${esc(t('pp_cheaper'))}</span></button>
       </div>
       <div class="pp-trust">${trustLines.map(x => `<span>${esc(x)}</span>`).join('')}</div>
     </div>
@@ -619,6 +662,11 @@ function ppCopyLink(){
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(location.href).then(done,done);
   else{var ta=document.createElement('textarea');ta.value=location.href;document.body.appendChild(ta);ta.select();
        try{document.execCommand('copy');}catch(err){}ta.remove();done();}
+}
+function ppCheaper(){
+  var f=document.getElementById('cb-product');
+  if(f){f.value=PP_NAME;var w=document.getElementById('cb-product-wrap');if(w)w.style.display='block';}
+  if(window.openCb)window.openCb('cheaper');
 }
 function ppAsk(){
   var f=document.getElementById('cb-product');
@@ -739,6 +787,7 @@ ${HEADER}
     <div class="cat-count">${list.length} ${esc(plural)} ${esc(t('cat_instock'))}</div>
   </header>
   ${about ? `<div class="brand-about"><p>${esc(about)}</p></div>` : ''}
+  ${lf(cat, 'quizCta') && list.length > 1 ? quizInline(false) : ''}
   <section class="section catalog cat-catalog" id="catalog">
     <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
   </section>

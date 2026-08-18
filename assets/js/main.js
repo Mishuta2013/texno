@@ -420,9 +420,12 @@ function openOrder(idx){const p=PRODUCTS[idx];currentProduct=p;$('cb-product').v
 function orderFromModal(){if(currentProduct){$('cb-product').value=currentProduct.name;$('cb-product-wrap').style.display='block';}closeProductModal();openCb();}
 /* kind 'question' comes from the product page's "Задати питання" — same form,
    but the heading and the Telegram label say it is a question, not a callback. */
+const CB_KINDS={question:['question','pp_ask_sub','cb_p'],cheaper:['cheaper','pp_cheaper_h','pp_cheaper_p']};
 function openCb(kind){
-  window.__CB_TYPE__=kind==='question'?'question':'callback';
-  const h=$('cb-title');if(h)h.textContent=t(kind==='question'?'pp_ask_sub':'cb_btn');
+  const k=CB_KINDS[kind];
+  window.__CB_TYPE__=k?k[0]:'callback';
+  const h=$('cb-title');if(h)h.textContent=t(k?k[1]:'cb_btn');
+  const sub=$('cb-sub');if(sub)sub.textContent=t(k?k[2]:'cb_p');
   $('cb-form').style.display='block';$('cb-success').style.display='none';
   $('cb-modal').classList.add('open');document.body.style.overflow='hidden';
 }
@@ -774,7 +777,10 @@ function quizNext(){
 function quizBack(){if(quizStep>0){quizStep--;quizRender();}}
 function quizSummary(){return quizDef().summary(quizState);}
 function quizResult(){
-  const d=quizDef(),pool=PRODUCTS.filter(p=>!d.cat||p.category===d.cat);
+  const d=quizDef();
+  // on a brand page the visitor has already chosen the make — keep the picker
+  // inside it rather than sending them off to a different brand
+  const pool=PRODUCTS.filter(p=>(!d.cat||p.category===d.cat)&&(!window.__BRAND__||p.brand===window.__BRAND__));
   let fitting=pool.filter(p=>d.fits(p,quizState)),relaxed=false;
   if(!fitting.length&&d.fitsPhysical){                        // nothing ideal — drop the size wish
     fitting=pool.filter(p=>d.fitsPhysical(p,quizState));
@@ -784,7 +790,7 @@ function quizResult(){
   let over=false,res=within.slice(0,3);
   if(!res.length&&fitting.length){over=true;res=fitting.slice().sort((a,b)=>d.rank(a,b)).slice(0,3);}
   qel('prog').style.width='100%';qel('back').style.visibility='visible';qel('next').style.display='none';
-  const cards=res.map(p=>`<a class="quiz-card" href="${productUrl(p)}"><img src="${p.thumb||p.photos[0]}" alt="${p.name}" loading="lazy"><div class="quiz-card-b"><div class="quiz-card-m">${d.meta(p)}</div><div class="quiz-card-n">${p.name}</div><div class="quiz-card-p">${fmt(p.price)} грн</div></div></a>`).join('');
+  const cards=res.map(p=>`<a class="quiz-card" href="${productUrl(p)}"><img src="${p.thumb||p.photos[0]}" alt="${pnameJS(p)}" loading="lazy"><div class="quiz-card-b"><div class="quiz-card-m">${d.meta(p)}</div><div class="quiz-card-n">${pnameJS(p)}</div><div class="quiz-card-p">${fmt(p.price)} ${t('u_uah')}</div></div></a>`).join('');
   const warnKey=d.warn?d.warn(res,quizState):null;
   const relaxNote=relaxed?`<div class="quiz-note">${t(d.relaxKey||'quiz_relaxed')}</div>`:'';
   const note=(!res.length?`<div class="quiz-note">${t(d.noneKey||'quiz_over')}</div>`:(over?`<div class="quiz-note">${t(d.overKey)}</div>`:''))

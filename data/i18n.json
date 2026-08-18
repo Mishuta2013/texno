@@ -578,7 +578,10 @@
     "brand_intro": "У наявності {n} {plural} {cat} {brand} — від {lo} до {hi} грн. Усі моделі є на складі в Сумах: привеземо, підключимо та запустимо, оплата після отримання.",
     "brand_other": "Інші бренди {cat}",
     "cat_reads": "Почитайте перед покупкою",
-    "blog_all": "Усі теми"
+    "blog_all": "Усі теми",
+    "pp_cheaper": "Знайшли дешевше?",
+    "pp_cheaper_h": "Знайшли дешевше — скажіть нам",
+    "pp_cheaper_p": "Надішліть посилання на нижчу ціну — перевіримо й, якщо це та сама модель з гарантією, зробимо не гірше."
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1159,7 +1162,10 @@
     "brand_intro": "В наличии {n} {plural} {cat} {brand} — от {lo} до {hi} грн. Все модели есть на складе в Сумах: привезём, подключим и запустим, оплата после получения.",
     "brand_other": "Другие бренды {cat}",
     "cat_reads": "Почитайте перед покупкой",
-    "blog_all": "Все темы"
+    "blog_all": "Все темы",
+    "pp_cheaper": "Нашли дешевле?",
+    "pp_cheaper_h": "Нашли дешевле — скажите нам",
+    "pp_cheaper_p": "Пришлите ссылку на более низкую цену — проверим и, если это та же модель с гарантией, сделаем не хуже."
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -1740,6 +1746,9 @@
     "brand_intro": "{n} {plural} of {brand} {cat} in stock — from {lo} to {hi} UAH. Everything is on the shelf in Sumy: we deliver, connect and commission it, and you pay on receipt.",
     "brand_other": "Other brands of {cat}",
     "cat_reads": "Worth reading before you buy",
-    "blog_all": "All topics"
+    "blog_all": "All topics",
+    "pp_cheaper": "Found it cheaper?",
+    "pp_cheaper_h": "Found it cheaper? Tell us",
+    "pp_cheaper_p": "Send us the link with the lower price — if it is the same model with a warranty, we will match it."
   }
 }

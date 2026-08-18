@@ -17,7 +17,7 @@ export default async function handler(req, res) {
   const TOKEN = process.env.TELEGRAM_BOT_TOKEN, CHAT = process.env.TELEGRAM_CHAT_ID;
   if (!TOKEN || !CHAT) { res.status(500).json({ ok: false, error: 'not_configured' }); return; }
 
-  const typeMap = { callback: '📞 Зворотний дзвінок', consultation: '💬 Консультація', quiz: '🧩 Підбір (квіз)', order: '🛒 Замовлення', question: '❓ Питання про товар', '': '📩 Заявка' };
+  const typeMap = { callback: '📞 Зворотний дзвінок', consultation: '💬 Консультація', quiz: '🧩 Підбір (квіз)', order: '🛒 Замовлення', question: '❓ Питання про товар', cheaper: '💰 Знайшли дешевше', '': '📩 Заявка' };
   const lines = [
     `<b>${typeMap[b.type] || typeMap['']}</b> — TexnoPlaza`,
     b.name && `👤 ${esc(b.name)}`,
