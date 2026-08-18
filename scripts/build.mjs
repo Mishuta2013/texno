@@ -177,7 +177,7 @@ function card(p) {
   return `<div class="card">
     <a class="card-img" href="${url}">${badge}<span class="cstock"><i></i>${esc(t('c_instock'))}</span>
       <img src="${esc(av(p.thumb || p.photos[0]))}" alt="${esc(pname(p))}" loading="lazy" width="400" height="300"></a>
-    <div class="card-body"><div class="card-brand">${esc(p.brand)}</div>
+    <div class="card-body"><a class="card-brand" href="${pfx()}${catOf(p).urlPrefix}/${brandSlug(p.brand)}/">${esc(p.brand)}</a>
       <a class="card-name" href="${url}">${esc(pname(p))}</a>
       <div class="card-specs">${catChips(p)}</div>
       <div class="card-foot"><div class="card-price">${fmt(p.price)} <small>${esc(t("u_uah"))}</small></div>
@@ -235,7 +235,7 @@ function heroFridgeCard(p) {
   return `<a class="gauge-card gc-station" href="${purl(p)}">
     <div class="gc-tag">${esc(t('gc_stock'))}</div>
     <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
-    <div class="gc-img"><img src="${esc(av(p.photos[0]))}" alt="${esc(pname(p))}" width="680" height="510" loading="lazy"><div class="gc-frost"></div></div>
+    <div class="gc-img"><img src="${esc(av(p.photos[0]))}" alt="${esc(pname(p))}" width="680" height="510" loading="lazy"><div class="gc-chill" id="chill"></div></div>
     <div class="gc-name">${esc(pname(p))}</div>
     <div class="gc-readout">
       <div class="gc-r"><div class="v">${esc(s.volume_l)}<small> ${esc(t("u_l"))}</small></div><div class="k">${esc(t("hc_volume"))}</div></div>
@@ -503,7 +503,7 @@ ${HEADER}
       <div class="pp-thumbs">${thumbs}</div>
     </div>
     <div class="pp-info">
-      <div class="pp-brand">${esc(p.brand)}</div>
+      <a class="pp-brand" href="${pfx()}${cat.urlPrefix}/${brandSlug(p.brand)}/">${esc(p.brand)}</a>
       <h1 class="pp-title">${esc(NAME)}</h1>
       <div class="pp-chips">${chips}</div>
       <div class="pp-price">${fmt(p.price)} <span>${esc(t('u_uah'))}</span></div>
@@ -741,6 +741,47 @@ ${injectData(catalogData)}
 </body></html>`;
 }
 
+/* Two articles that answer what someone browsing this category is weighing up.
+   Matched on the tags each category cares about, newest first, so a new article
+   joins the rotation without an edit here. */
+const CAT_TAGS = {
+  kondicioneri: ['Підбір', 'Поради', 'Монтаж', 'Опалення', 'Сервіс'],
+  'pralni-mashyny': ['Підбір', 'Поради'],
+  holodylnyky: ['Підбір', 'Поради'],
+  'zaryadni-stantsii': ['Живлення']
+};
+const CAT_ARTICLE_MATCH = {
+  kondicioneri: /kondicioner|invertor-chy-on-off/i,
+  'pralni-mashyny': /pralnu|pralna/i,
+  holodylnyky: /kholodylnyk|no-frost/i,
+  'zaryadni-stantsii': /stantsi/i
+};
+function catArticles(catKey) {
+  // the blog is Ukrainian-only, so /ru/ and /en/ would be offering Ukrainian
+  // headlines under a translated page — better to show nothing than that
+  if (L !== 'uk') return '';
+  const re = CAT_ARTICLE_MATCH[catKey];
+  let list = re ? blog.filter(a => re.test(a.slug)) : [];
+  if (list.length < 2) {
+    // fall back on tags, but never borrow an article that plainly belongs to
+    // another category — a washing-machine page offering "what an air
+    // conditioner costs to run" reads like a mistake, because it is one
+    const others = Object.entries(CAT_ARTICLE_MATCH).filter(([k]) => k !== catKey).map(([, r]) => r);
+    const tags = CAT_TAGS[catKey] || [];
+    list = list.concat(blog.filter(a =>
+      !list.includes(a) && tags.includes(a.tag) && !others.some(r => r.test(a.slug))));
+  }
+  list = list.slice(0, 2);
+  if (!list.length) return '';
+  return `<div class="cat-reads">
+    <h2>${esc(t('cat_reads'))}</h2>
+    <div class="cr-row">${list.map(a => `<a class="cr-card" href="${blogUrl(a)}">
+      <span class="cr-tag">${esc(a.tag)}</span>
+      <span class="cr-t">${esc(a.title)}</span>
+      <span class="cr-d">${esc(a.desc)}</span></a>`).join('')}</div>
+  </div>`;
+}
+
 function categoryPage(cat) {
   const list = catProducts(cat.key);
   const NAME = lf(cat, 'name');
@@ -774,6 +815,7 @@ ${HEADER}
     ${filtersFor(cat.key)}
     <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
   </section>
+  ${catArticles(cat.key)}
   <div class="pp-back"><a href="${pfx() || '/'}#catalog">← ${esc(t('pp_back_all'))}</a></div>
 </div>
 ${FOOTER}
@@ -804,7 +846,7 @@ for (const cat of catList) {
 
 // ---- blog ----
 function blogCard(a) {
-  return `<a class="bl-card" href="${blogUrl(a)}">
+  return `<a class="bl-card" data-tag="${esc(a.tag)}" href="${blogUrl(a)}">
     <div class="bl-tag">${esc(a.tag)}</div>
     <h3 class="bl-card-t">${esc(a.title)}</h3>
     <p class="bl-card-d">${esc(a.desc)}</p>
@@ -819,7 +861,11 @@ ${HEADER}
   <nav class="pp-bc"><a href="/">${esc(t("pp_home"))}</a> › <span>${esc(t("nav_blog"))}</span></nav>
   <h1 class="bl-h1">${esc(t("blog_h1"))}</h1>
   <p class="bl-sub">${esc(t("blog_sub"))}</p>
-  <div class="bl-grid">${blog.map(blogCard).join('')}</div>
+  <div class="bl-tags" id="bl-tags">
+    <button class="bl-tbtn active" data-tag="all">${esc(t('blog_all'))}</button>
+    ${[...new Set(blog.map(a => a.tag))].map(tg => `<button class="bl-tbtn" data-tag="${esc(tg)}">${esc(tg)}</button>`).join('')}
+  </div>
+  <div class="bl-grid" id="bl-grid">${blog.map(blogCard).join('')}</div>
 </div>
 ${FOOTER}
 ${injectData(catalogData)}

@@ -127,6 +127,10 @@ function setLang(l){
 /* ============ HERO ============ */
 (function(){const af=$('airflow');if(!af)return;for(let i=0;i<5;i++){const s=document.createElement('span');s.style.top=(8+i*12)+'px';s.style.width=(50+Math.random()*40)+'%';s.style.left='0';s.style.animationDelay=(i*0.4)+'s';af.appendChild(s);}})();
 /* energy sparks on the power-station hero card */
+/* fridge hero card: drifting cold-air specks */
+(function(){const cl=$('chill');if(!cl)return;for(let i=0;i<9;i++){const s=document.createElement('span');
+  s.style.left=(6+i*10+Math.random()*7)+'%';s.style.animationDelay=(i*0.42+Math.random()*0.5)+'s';
+  s.style.animationDuration=(3.4+Math.random()*1.8)+'s';cl.appendChild(s);}})();
 (function(){const ch=$('charge');if(!ch)return;for(let i=0;i<7;i++){const s=document.createElement('span');s.style.left=(12+i*12+Math.random()*6)+'%';s.style.animationDelay=(i*0.34)+'s';s.style.animationDuration=(2.2+Math.random()*1.2)+'s';ch.appendChild(s);}})();
 
 /* ============ CATALOG ============ */
@@ -161,6 +165,7 @@ function getFiltered(){
 /* Every language lives in its own page tree, so a link built on /ru/ has to stay
    in /ru/ — without the prefix a Russian visitor is thrown onto the Ukrainian page. */
 const langPfx=()=>(LANG==='uk'?'':'/'+LANG);
+const brandSlugJS=b=>String(b).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 function productUrl(p){return langPfx()+(catOf(p).urlPrefix||SITE.productUrlPrefix||'/kondicioner')+'/'+p.slug+'/';}
 function cardHTML(p){
   const idx=PRODUCTS.indexOf(p);
@@ -179,7 +184,7 @@ function cardHTML(p){
       <img src="${p.thumb||p.photos[0]}" alt="${pnameJS(p)}" loading="lazy" width="400" height="300">
     </a>
     <div class="card-body">
-      <div class="card-brand">${p.brand}</div>
+      <a class="card-brand" href="${langPfx()}${(catOf(p).urlPrefix||'')}/${brandSlugJS(p.brand)}/">${p.brand}</a>
       <a class="card-name" href="${url}">${pnameJS(p)}</a>
       <div class="card-specs">${catChipsJS(p)}</div>
       <div class="card-foot">
@@ -814,3 +819,17 @@ window.ppState={
   inFav:i=>FAV.indexOf(i)>=0,
   t:t
 };
+
+/* Blog index: filter the cards by tag. Pure show/hide — the articles are all
+   in the page already, so there is nothing to fetch and nothing to break. */
+(function(){
+  const bar=document.getElementById('bl-tags'); if(!bar) return;
+  bar.addEventListener('click',e=>{
+    const b=e.target.closest('.bl-tbtn'); if(!b) return;
+    const tag=b.dataset.tag;
+    bar.querySelectorAll('.bl-tbtn').forEach(x=>x.classList.toggle('active',x===b));
+    document.querySelectorAll('#bl-grid .bl-card').forEach(c=>{
+      c.style.display=(tag==='all'||c.dataset.tag===tag)?'':'none';
+    });
+  });
+})();

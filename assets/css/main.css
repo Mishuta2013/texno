@@ -258,7 +258,8 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .cstock{position:absolute;top:12px;right:12px;font-size:11px;font-weight:600;color:var(--green);background:var(--green-bg);padding:5px 10px;border-radius:var(--r-pill);display:flex;align-items:center;gap:5px;z-index:2}
 .cstock i{width:6px;height:6px;border-radius:50%;background:var(--green)}
 .card-body{padding:16px 17px 17px;display:flex;flex-direction:column;flex:1}
-.card-brand{font-family:var(--disp);font-size:12px;font-weight:700;color:var(--blue);letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px}
+.card-brand{display:inline-block;font-family:var(--disp);font-size:12px;font-weight:700;color:var(--blue);letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px;text-decoration:none}
+.card-brand:hover{color:var(--blue-d);text-decoration:underline}
 .card-name{font-family:var(--disp);font-size:14.5px;font-weight:600;color:var(--ink);line-height:1.35;margin-bottom:12px;min-height:39px}
 .card-specs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
 .stag{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:500;color:var(--g5);background:var(--g1);padding:4px 9px;border-radius:7px;font-family:var(--mono)}
@@ -720,7 +721,8 @@ a.gauge-card:hover{transform:translateY(-4px)}
 .pp-thumb{aspect-ratio:1;border:2px solid var(--g2);border-radius:10px;overflow:hidden;background:linear-gradient(160deg,#F4F8FD,#E4EDF8);cursor:pointer;padding:0}
 .pp-thumb.active{border-color:var(--blue)}
 .pp-thumb img{width:100%;height:100%;object-fit:contain;padding:6px}
-.pp-brand{font-family:var(--disp);font-weight:700;font-size:13px;color:var(--blue);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pp-brand{display:inline-block;font-family:var(--disp);font-weight:700;font-size:13px;color:var(--blue);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;text-decoration:none}
+.pp-brand:hover{color:var(--blue-d);text-decoration:underline}
 .pp-title{font-family:var(--disp);font-size:clamp(22px,3vw,30px);font-weight:800;color:var(--ink);line-height:1.2;margin-bottom:16px}
 .pp-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
 .pp-chip{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--g5);background:var(--g1);border:1px solid var(--g2);padding:6px 11px;border-radius:8px}
@@ -1067,3 +1069,47 @@ a.gauge-card:hover{transform:translateY(-4px)}
 .bl-chip{display:inline-flex;align-items:center;padding:9px 16px;border:1px solid var(--g2);border-radius:999px;
   background:#fff;color:var(--g5);font-size:14px;font-weight:600;text-decoration:none;transition:border-color .18s,color .18s}
 .bl-chip:hover{border-color:var(--blue);color:var(--blue-d)}
+
+/* ---- category: what to read before buying ---- */
+.cat-reads{max-width:var(--max);margin:0 auto;padding:10px 20px 34px}
+.cat-reads h2{font-size:20px;margin-bottom:16px}
+.cr-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.cr-card{display:flex;flex-direction:column;gap:8px;padding:20px 22px;border:1px solid var(--g2);
+  border-radius:var(--r);background:#fff;text-decoration:none;transition:border-color .18s,transform .18s,box-shadow .18s}
+.cr-card:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 14px 30px rgba(11,26,51,.09)}
+.cr-tag{align-self:flex-start;font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--blue-d);background:var(--ice);padding:4px 10px;border-radius:999px}
+.cr-t{font-family:var(--disp);font-weight:700;font-size:16px;color:var(--ink);line-height:1.35}
+.cr-d{font-size:13.5px;color:var(--g5);line-height:1.55}
+@media(max-width:760px){.cr-row{grid-template-columns:1fr}.cat-reads{padding:6px 16px 26px}}
+
+/* ---- blog: topic filter ---- */
+.bl-tags{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}
+.bl-tbtn{padding:9px 16px;border:1px solid var(--g2);border-radius:999px;background:#fff;color:var(--g5);
+  font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;transition:border-color .18s,color .18s,background .18s}
+.bl-tbtn:hover{border-color:var(--blue);color:var(--blue-d)}
+.bl-tbtn.active{background:var(--ink);border-color:var(--ink);color:#fff}
+
+/* fridge hero card: cold air settling — the counterpart to the station's rising
+   sparks and the washer's turning drum */
+.gc-chill{position:absolute;left:0;right:0;top:0;height:100%;overflow:hidden;pointer-events:none}
+.gc-chill span{position:absolute;top:-8px;width:4px;height:4px;border-radius:50%;
+  background:rgba(200,232,255,.9);box-shadow:0 0 8px rgba(124,196,255,.8);
+  animation:chillFall 4.2s linear infinite;opacity:0}
+@keyframes chillFall{
+  0%{transform:translateY(0) scale(.6);opacity:0}
+  15%{opacity:.95}
+  80%{opacity:.5}
+  100%{transform:translateY(150px) scale(1);opacity:0}}
+.gc-chill::after{content:'';position:absolute;left:50%;top:50%;width:130px;height:130px;margin:-65px 0 0 -65px;
+  border-radius:26px;border:1.5px solid rgba(124,196,255,.28);animation:chillPulse 3.6s ease-in-out infinite}
+@keyframes chillPulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.7;transform:scale(1.07)}}
+@media(prefers-reduced-motion:reduce){.gc-chill span,.gc-chill::after{animation:none}}
+
+/* On a phone the brand link sat 3px above the product name and was 17px tall —
+   a thumb aiming for the product would land on the brand page. Give it its own
+   pill so the two targets are visibly and physically separate. */
+@media(max-width:760px){
+  .card-brand{padding:4px 9px;background:var(--ice);border-radius:999px;margin-bottom:8px;line-height:1.3}
+  .pp-brand{padding:5px 11px;background:var(--ice);border-radius:999px}
+}

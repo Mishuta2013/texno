@@ -82,7 +82,14 @@ def edge_wall(im, strength=8):
     """
     g = ImageOps.autocontrast(im.convert("L").filter(ImageFilter.GaussianBlur(0.6)))
     e = g.filter(ImageFilter.FIND_EDGES)
-    return e.point(lambda p: 255 if p > strength else 0).filter(ImageFilter.MaxFilter(3))
+    wall = e.point(lambda p: 255 if p > strength else 0).filter(ImageFilter.MaxFilter(3))
+    # FIND_EDGES lights up the frame of the image itself. Left in place it walls
+    # the flood fill out of its own canvas: nothing gets filled, so fill_holes
+    # sees the entire background as unreachable and paints it opaque — a white
+    # box around the product instead of a cutout.
+    ImageDraw.Draw(wall).rectangle([0, 0, wall.width - 1, wall.height - 1],
+                                   outline=0, width=4)
+    return wall
 
 
 def _cut_once(im, thresh, feather=0.8):
