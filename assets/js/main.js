@@ -116,6 +116,14 @@ function setText(id,v){const e=$(id);if(e)e.textContent=v;}
 function setLang(l){
   if(!I18N[l]||l===LANG)return;
   try{localStorage.setItem('tp_lang',l);}catch(e){}
+  /* Not every page exists in every language — the blog is written in Ukrainian
+     and Russian only. Each page lists the languages it really has as hreflang
+     links, so follow those; if this one has no version in the chosen language,
+     land on that language's home page rather than a 404. */
+  var alt=document.querySelector('link[rel="alternate"][hreflang="'+l+'"]');
+  if(alt){location.href=alt.getAttribute('href')+location.hash;return;}
+  var here=document.querySelector('link[rel="alternate"][hreflang="'+LANG+'"]');
+  if(here){location.href=(l==='uk'?'/':'/'+l+'/');return;}
   var base=location.pathname.replace(/^\/(ru|en)(?=\/|$)/,'')||'/';
   if(!base.startsWith('/'))base='/'+base;
   location.href=(l==='uk'?'':'/'+l)+base+location.hash;
@@ -137,7 +145,12 @@ function setLang(l){
 function getFiltered(){
   let list=[...PRODUCTS];
   if(window.__CATALOG_CAT__&&window.__CATALOG_CAT__!=='all') list=list.filter(p=>p.category===window.__CATALOG_CAT__);
-  const q=$('search-input').value.toLowerCase().trim();
+  // a brand page is pinned to its brand, whatever else is on the page
+  if(window.__BRAND__) list=list.filter(p=>p.brand===window.__BRAND__);
+  // brand pages show a grid without the filter bar, so these controls may not
+  // exist — reading them blindly threw and left the catalogue unrendered
+  const si=$('search-input');
+  const q=si?si.value.toLowerCase().trim():'';
   if(q) list=list.filter(p=>p.name.toLowerCase().includes(q)||p.brand.toLowerCase().includes(q)||p.series.toLowerCase().includes(q));
   if(activeBrand!=='all') list=list.filter(p=>p.brand===activeBrand);
   if(activeType==='inverter') list=list.filter(p=>p.inverter);
@@ -155,7 +168,8 @@ function getFiltered(){
   if(activeTech==='inverter')list=list.filter(p=>p.inverter);
   if(activePrice!=='all'){const [lo,hi]=String(activePrice).split('-').map(Number);
     if(!isNaN(lo)&&!isNaN(hi))list=list.filter(p=>p.price>lo&&p.price<=hi);}
-  const sort=$('sort-select').value;
+  const so=$('sort-select');
+  const sort=so?so.value:'default';
   if(sort==='price-asc')list.sort((a,b)=>a.price-b.price);
   else if(sort==='price-desc')list.sort((a,b)=>b.price-a.price);
   else if(sort==='area-asc')list.sort((a,b)=>(a.area||0)-(b.area||0));
@@ -231,7 +245,8 @@ function renderBrandFilters(){
 function setActive(gid,attr,val){$(gid).querySelectorAll('.fbtn').forEach(b=>b.classList.toggle('active',b.dataset[attr]===val));}
 function resetFilters(){activeCap=activePw=activeBrand=activeArea=activeType=activePrice=activeLoad=activeDepth=activeVol=activeHeight=activeTech='all';
   [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth'],['vol-filters','vol'],['height-filters','height'],['tech-filters','tech'],['cap-filters','cap'],['pw-filters','pw']].forEach(([g,a])=>{if($(g))setActive(g,a,'all');});
-  $('search-input').value='';$('sort-select').value='default';renderBrandFilters();renderCatalog();}
+  const si2=$('search-input'),ss=$('sort-select');
+  if(si2)si2.value='';if(ss)ss.value='default';renderBrandFilters();renderCatalog();}
 /* homepage catalog category tabs */
 function switchCat(cat){
   if(cat!=='all'&&!window.__CATS__[cat])return;

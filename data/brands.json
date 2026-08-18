@@ -1,0 +1,116 @@
+{
+  "_readme": "Text shown on each brand page under the stock line. Two or three factual sentences: what the brand is, where it sits on price, who it suits. Keyed by the brand name exactly as it appears in products.json. A brand with no entry simply shows the generated stock line — nothing breaks.",
+
+  "TCL": {
+    "uk": "TCL — китайський виробник побутової техніки й електроніки, один із найбільших у світі за обсягами випуску телевізорів і кондиціонерів. У кондиціонерах робить ставку на інверторні моделі середнього цінового рівня: тиха робота, робота на обігрів до −15 °C і Wi-Fi у більшості серій. Розумний вибір, якщо потрібен інвертор із гарантією виробника, але без переплати за преміальний бренд.",
+    "ru": "TCL — китайский производитель бытовой техники и электроники, один из крупнейших в мире по объёмам выпуска телевизоров и кондиционеров. В кондиционерах делает ставку на инверторные модели среднего ценового уровня: тихая работа, обогрев до −15 °C и Wi-Fi в большинстве серий. Разумный выбор, если нужен инвертор с гарантией производителя, но без переплаты за премиальный бренд.",
+    "en": "TCL is a Chinese appliance and electronics maker, among the world's largest by television and air-conditioner output. Its air conditioners centre on mid-priced inverter models: quiet operation, heating down to −15 °C and Wi-Fi across most series. A sensible pick when you want an inverter with a manufacturer's warranty and no premium-badge markup."
+  },
+  "MIDEA": {
+    "uk": "MIDEA — один з найбільших виробників кліматичної техніки у світі; випускає компресори й вузли не лише для себе, а й для інших відомих марок. Кондиціонери MIDEA цінують за надійність механіки та ремонтопридатність: запчастини доступні, сервіс знає ці моделі. Хороший варіант, коли важлива не «начинка з телефона», а те, щоб працювало роками.",
+    "ru": "MIDEA — один из крупнейших производителей климатической техники в мире; выпускает компрессоры и узлы не только для себя, но и для других известных марок. Кондиционеры MIDEA ценят за надёжность механики и ремонтопригодность: запчасти доступны, сервис знает эти модели. Хороший вариант, когда важна не «начинка из телефона», а то, чтобы работало годами.",
+    "en": "MIDEA is one of the world's largest climate-equipment manufacturers, supplying compressors and assemblies to other well-known brands as well as its own. Its air conditioners are valued for mechanical reliability and serviceability: parts are available and technicians know these models. A good choice when longevity matters more than app features."
+  },
+  "IDEA": {
+    "uk": "IDEA — бюджетна лінійка кондиціонерів, що виробляється на потужностях MIDEA. Це той самий завод і схожі вузли, але простіша комплектація й нижча ціна. Раціональний вибір для дачі, орендованої квартири чи кімнати, де кондиціонер вмикають кілька разів на літо.",
+    "ru": "IDEA — бюджетная линейка кондиционеров, производимая на мощностях MIDEA. Это тот же завод и схожие узлы, но более простая комплектация и ниже цена. Рациональный выбор для дачи, съёмной квартиры или комнаты, где кондиционер включают несколько раз за лето.",
+    "en": "IDEA is a budget air-conditioner line built in MIDEA's own plants — the same factory and similar components, with simpler equipment and a lower price. A rational choice for a summer house, a rented flat, or a room where the unit runs a handful of times a season."
+  },
+  "Ardesto": {
+    "uk": "Ardesto — торгова марка українського дистриб’ютора, техніка виробляється на замовлення в Китаї. Головна перевага — присутність гарантії й сервісу в Україні: питання вирішуються тут, а не через закордонну підтримку. Кондиціонери Ardesto займають нішу «інвертор за адекватні гроші».",
+    "ru": "Ardesto — торговая марка украинского дистрибьютора, техника производится под заказ в Китае. Главное преимущество — наличие гарантии и сервиса в Украине: вопросы решаются здесь, а не через зарубежную поддержку. Кондиционеры Ardesto занимают нишу «инвертор за адекватные деньги».",
+    "en": "Ardesto is a Ukrainian distributor's own label, with equipment built to order in China. Its main advantage is that warranty and service sit inside Ukraine, so problems are settled locally rather than through foreign support. The air conditioners occupy the sensible-money inverter niche."
+  },
+  "Olmo": {
+    "uk": "Olmo — марка кліматичної техніки з італійським корінням, добре відома на українському ринку понад десять років. Моделі прості в обслуговуванні, з базовим набором функцій і зрозумілою механікою. Беруть тоді, коли потрібен робочий кондиціонер без зайвого.",
+    "ru": "Olmo — марка климатической техники с итальянскими корнями, хорошо известная на украинском рынке более десяти лет. Модели просты в обслуживании, с базовым набором функций и понятной механикой. Берут тогда, когда нужен рабочий кондиционер без лишнего.",
+    "en": "Olmo is a climate-equipment brand with Italian roots, well known on the Ukrainian market for over a decade. The models are simple to service, with a basic feature set and straightforward mechanics — bought when you want a working air conditioner and nothing more."
+  },
+  "Samurai": {
+    "uk": "Samurai — бюджетний сегмент кліматичної техніки, представлений в Україні вже кілька років. Ставка на просту й недорогу конструкцію: мінімум електроніки, яка може вийти з ладу. Підходить для приміщень, де кондиціонер потрібен сезонно й нечасто.",
+    "ru": "Samurai — бюджетный сегмент климатической техники, представленный в Украине уже несколько лет. Ставка на простую и недорогую конструкцию: минимум электроники, которая может выйти из строя. Подходит для помещений, где кондиционер нужен сезонно и нечасто.",
+    "en": "Samurai sits in the budget end of the climate market and has been sold in Ukraine for several years. The design is deliberately simple and cheap, with little electronics to fail — suited to rooms where cooling is seasonal and occasional."
+  },
+  "Grunhelm": {
+    "uk": "Grunhelm — українська торгова марка з широким асортиментом: від кондиціонерів до холодильників та інструменту. Сильна сторона — ціна й доступний сервіс по всій країні. У холодильниках представлена насамперед у компактному та середньому сегменті.",
+    "ru": "Grunhelm — украинская торговая марка с широким ассортиментом: от кондиционеров до холодильников и инструмента. Сильная сторона — цена и доступный сервис по всей стране. В холодильниках представлена прежде всего в компактном и среднем сегменте.",
+    "en": "Grunhelm is a Ukrainian label with a broad range, from air conditioners to fridges and power tools. Its strengths are price and service coverage across the country; in refrigeration it is mainly present in the compact and mid-size segments."
+  },
+
+  "LG": {
+    "uk": "LG — південнокорейський виробник, один із технологічних лідерів у побутовій техніці. У пральних машинах відомий інверторним прямим приводом (Direct Drive), де барабан обертається без ременя: менше шуму, менше зношуваних деталей і 10 років гарантії на мотор. У холодильниках — лінійний компресор і система No Frost із рівномірним охолодженням.",
+    "ru": "LG — южнокорейский производитель, один из технологических лидеров в бытовой технике. В стиральных машинах известен инверторным прямым приводом (Direct Drive), где барабан вращается без ремня: меньше шума, меньше изнашиваемых деталей и 10 лет гарантии на мотор. В холодильниках — линейный компрессор и система No Frost с равномерным охлаждением.",
+    "en": "LG is a South Korean maker and one of the technology leaders in home appliances. Its washing machines are known for the inverter Direct Drive motor, which turns the drum without a belt — less noise, fewer wearing parts and a ten-year motor warranty. Its fridges use a linear compressor and No Frost with even cooling."
+  },
+  "Samsung": {
+    "uk": "Samsung — південнокорейський концерн, який у побутовій техніці робить ставку на власні розробки: інверторні мотори, обробку парою в пральних машинах і систему Space Max у холодильниках, що дає більший внутрішній об’єм при тих самих габаритах. Сервісна мережа в Україні одна з найширших.",
+    "ru": "Samsung — южнокорейский концерн, который в бытовой технике делает ставку на собственные разработки: инверторные моторы, обработку паром в стиральных машинах и систему Space Max в холодильниках, дающую больший внутренний объём при тех же габаритах. Сервисная сеть в Украине одна из самых широких.",
+    "en": "Samsung is a South Korean group that builds its appliances around in-house technology: inverter motors, steam treatment in washing machines, and the Space Max system in fridges, which yields more usable volume within the same footprint. Its Ukrainian service network is among the widest."
+  },
+  "Beko": {
+    "uk": "Beko — турецький виробник, що входить до групи Arçelik, одного з найбільших виробників побутової техніки в Європі. Славиться поєднанням європейської збірки й помірної ціни. У пральних машинах пропонує вузькі моделі до 40 см — рятівний варіант для тісних ванних кімнат.",
+    "ru": "Beko — турецкий производитель, входящий в группу Arçelik, одного из крупнейших производителей бытовой техники в Европе. Славится сочетанием европейской сборки и умеренной цены. В стиральных машинах предлагает узкие модели до 40 см — спасительный вариант для тесных ванных комнат.",
+    "en": "Beko is a Turkish manufacturer within the Arçelik group, one of Europe's largest appliance makers. It is known for pairing European build with a moderate price, and its washing machines include narrow models down to 40 cm — a rescue for cramped bathrooms."
+  },
+  "Gorenje": {
+    "uk": "Gorenje — словенський виробник із понад 70-річною історією, тепер частина групи Hisense. Відомий увагою до дизайну та європейськими стандартами складання. Пральні машини Gorenje зазвичай стандартної глибини з великим набором програм.",
+    "ru": "Gorenje — словенский производитель с более чем 70-летней историей, теперь часть группы Hisense. Известен вниманием к дизайну и европейскими стандартами сборки. Стиральные машины Gorenje обычно стандартной глубины с большим набором программ.",
+    "en": "Gorenje is a Slovenian manufacturer with more than seventy years of history, now part of the Hisense group. It is known for design and European assembly standards; its washing machines are typically full-depth with a generous programme list."
+  },
+  "Haier": {
+    "uk": "Haier — найбільший у світі виробник великої побутової техніки за обсягом продажів, власник брендів Candy і Hoover. У пральних машинах пропонує інверторні мотори з тривалою гарантією та прямий привід у старших серіях. Часто дає більше функцій за ті самі гроші, ніж європейські марки.",
+    "ru": "Haier — крупнейший в мире производитель крупной бытовой техники по объёму продаж, владелец брендов Candy и Hoover. В стиральных машинах предлагает инверторные моторы с длительной гарантией и прямой привод в старших сериях. Часто даёт больше функций за те же деньги, чем европейские марки.",
+    "en": "Haier is the world's largest maker of major appliances by sales and owns the Candy and Hoover brands. Its washing machines offer long-warranty inverter motors and direct drive in the upper ranges, often giving more features for the money than European labels."
+  },
+  "Indesit": {
+    "uk": "Indesit — італійська марка, що входить до групи Whirlpool. Історично займає нішу простої та зрозумілої техніки за доступною ціною: базові програми, надійна механіка, широка сервісна мережа в Україні. Один із найпоширеніших брендів пральних машин у країні.",
+    "ru": "Indesit — итальянская марка, входящая в группу Whirlpool. Исторически занимает нишу простой и понятной техники по доступной цене: базовые программы, надёжная механика, широкая сервисная сеть в Украине. Один из самых распространённых брендов стиральных машин в стране.",
+    "en": "Indesit is an Italian brand within the Whirlpool group. It has long occupied the plain, affordable end of the market: basic programmes, dependable mechanics and a wide Ukrainian service network. One of the most common washing-machine brands in the country."
+  },
+  "Edler": {
+    "uk": "Edler — торгова марка, орієнтована на бюджетний сегмент з офіційною гарантією в Україні. Пропонує вузькі пральні машини та компактні холодильники — те, що часто важко знайти у великих брендів. Вибір, коли бюджет обмежений, а техніка потрібна нова й з гарантією.",
+    "ru": "Edler — торговая марка, ориентированная на бюджетный сегмент с официальной гарантией в Украине. Предлагает узкие стиральные машины и компактные холодильники — то, что часто трудно найти у крупных брендов. Выбор, когда бюджет ограничен, а техника нужна новая и с гарантией.",
+    "en": "Edler is a budget-focused label carrying an official Ukrainian warranty. It offers narrow washing machines and compact fridges — sizes the big brands often skip. The choice when the budget is tight but the appliance must be new and covered."
+  },
+  "Grifon": {
+    "uk": "Grifon — марка побутової техніки, представлена в Україні у нижньому ціновому сегменті. Пральні машини мають базовий, але повний набір програм і просту механіку без надлишкової електроніки. Практичний варіант для орендованого житла або як друга машина.",
+    "ru": "Grifon — марка бытовой техники, представленная в Украине в нижнем ценовом сегменте. Стиральные машины имеют базовый, но полный набор программ и простую механику без избыточной электроники. Практичный вариант для съёмного жилья или как вторая машина.",
+    "en": "Grifon is an appliance label sold in Ukraine at the lower end of the price range. Its washing machines carry a basic but complete programme set and simple mechanics without surplus electronics — practical for rented housing or as a second machine."
+  },
+  "Liberton": {
+    "uk": "Liberton — бренд побутової техніки, що працює в Україні в бюджетному сегменті. Пропонує компактні та вузькі моделі для невеликих приміщень. Гарантія й сервіс — на території України.",
+    "ru": "Liberton — бренд бытовой техники, работающий в Украине в бюджетном сегменте. Предлагает компактные и узкие модели для небольших помещений. Гарантия и сервис — на территории Украины.",
+    "en": "Liberton is a budget appliance brand operating in Ukraine, offering compact and narrow models for small spaces, with warranty and service handled inside the country."
+  },
+
+  "Pecron": {
+    "uk": "Pecron — китайський виробник зарядних станцій, що спеціалізується на моделях середньої та великої ємності з можливістю нарощування батарей. Усі актуальні станції на комірках LiFePO₄ з ресурсом понад 3500 циклів, корпус із вогнестійкого пластику UL94V. Сильна сторона — швидка зарядка від мережі та потужний сонячний вхід.",
+    "ru": "Pecron — китайский производитель зарядных станций, специализирующийся на моделях средней и большой ёмкости с возможностью наращивания батарей. Все актуальные станции на ячейках LiFePO₄ с ресурсом более 3500 циклов, корпус из огнестойкого пластика UL94V. Сильная сторона — быстрая зарядка от сети и мощный солнечный вход.",
+    "en": "Pecron is a Chinese power-station maker focused on mid and large capacities with expandable battery packs. Its current range uses LiFePO₄ cells rated beyond 3500 cycles in flame-retardant UL94V housings, and its strengths are fast mains charging and a high-capacity solar input."
+  },
+  "Oukitel": {
+    "uk": "Oukitel — виробник, відомий спершу захищеними смартфонами, а згодом зарядними станціями. Ставка на щедру комплектацію портами: багато USB-C високої потужності та чотири розетки навіть у середніх моделях. Батареї LiFePO₄, керування через застосунок по Wi-Fi і Bluetooth.",
+    "ru": "Oukitel — производитель, известный сначала защищёнными смартфонами, а затем зарядными станциями. Ставка на щедрую комплектацию портами: много USB-C высокой мощности и четыре розетки даже в средних моделях. Батареи LiFePO₄, управление через приложение по Wi-Fi и Bluetooth.",
+    "en": "Oukitel made its name in rugged phones before moving into power stations. Its pitch is generous port provision — plenty of high-wattage USB-C and four sockets even mid-range — on LiFePO₄ cells, with app control over Wi-Fi and Bluetooth."
+  },
+  "Aferiy": {
+    "uk": "Aferiy — виробник портативних електростанцій великої ємності. Старші моделі оснащені колесами й висувною ручкою, бо важать понад 40 кг, і нарощуються додатковими батареями до 11 520 Вт·год. Це вже не туристичний пристрій, а резервне живлення для будинку.",
+    "ru": "Aferiy — производитель портативных электростанций большой ёмкости. Старшие модели оснащены колёсами и выдвижной ручкой, так как весят более 40 кг, и наращиваются дополнительными батареями до 11 520 Вт·ч. Это уже не туристическое устройство, а резервное питание для дома.",
+    "en": "Aferiy builds high-capacity portable power plants. The larger models carry wheels and a telescopic handle because they weigh over 40 kg, and expand with extra packs to 11,520Wh — backup power for a house rather than a camping accessory."
+  },
+  "ALLPOWERS": {
+    "uk": "ALLPOWERS — виробник зарядних станцій і сонячних панелей із доволі широкою лінійкою. Особливість — чотири розетки навіть у середніх моделях і керування зі смартфона через Wi-Fi та Bluetooth. Батареї LiFePO₄, вбудований MPPT-контролер для сонячних панелей.",
+    "ru": "ALLPOWERS — производитель зарядных станций и солнечных панелей с довольно широкой линейкой. Особенность — четыре розетки даже в средних моделях и управление со смартфона через Wi-Fi и Bluetooth. Батареи LiFePO₄, встроенный MPPT-контроллер для солнечных панелей.",
+    "en": "ALLPOWERS makes power stations and solar panels across a fairly broad range. Notable features are four sockets even in mid-size units and phone control over Wi-Fi and Bluetooth, on LiFePO₄ cells with a built-in MPPT solar controller."
+  },
+  "Fossibot": {
+    "uk": "Fossibot — виробник зарядних станцій на комірках LiFePO₄ від EVE з ресурсом до 4000 циклів. Відомий швидкою зарядкою та потужними портами USB-C до 140 Вт, здатними живити ноутбук напряму. Компактні розміри при пристойній потужності.",
+    "ru": "Fossibot — производитель зарядных станций на ячейках LiFePO₄ от EVE с ресурсом до 4000 циклов. Известен быстрой зарядкой и мощными портами USB-C до 140 Вт, способными питать ноутбук напрямую. Компактные размеры при приличной мощности.",
+    "en": "Fossibot builds its stations on EVE LiFePO₄ cells rated to 4000 cycles. It is known for fast charging and 140 W USB-C ports able to run a laptop directly, in a compact body for the output on offer."
+  },
+  "Ctolity": {
+    "uk": "Ctolity — виробник портативних електростанцій і літієвих акумуляторів. Станції оснащені двонаправленим інвертором і MPPT-контролером, функція ДБЖ перемикається за 10 мс. Робочий діапазон від −10 до +50 °C дозволяє тримати станцію в гаражі чи неопалюваному приміщенні.",
+    "ru": "Ctolity — производитель портативных электростанций и литиевых аккумуляторов. Станции оснащены двунаправленным инвертором и MPPT-контроллером, функция ИБП переключается за 10 мс. Рабочий диапазон от −10 до +50 °C позволяет держать станцию в гараже или неотапливаемом помещении.",
+    "en": "Ctolity makes portable power plants and lithium batteries. Its stations pair a bidirectional inverter with an MPPT controller and switch to UPS mode in 10 ms, and the −10 to +50 °C operating range allows a garage or unheated room."
+  }
+}

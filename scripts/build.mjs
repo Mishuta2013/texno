@@ -11,12 +11,18 @@ const products = read('products.json');
 const site = read('site.json');
 const i18n = read('i18n.json');
 const blog = read('blog.json');
-const blogUrl = a => `/blog/${a.slug}/`;
+const blogUrl = a => `${pfx()}/blog/${a.slug}/`;
+const BLOG_LANGS = ['uk', 'ru'];   // languages the articles are actually written in
+const bt = a => lf(a, 'title');
+const bd = a => lf(a, 'desc');
+const bg = a => lf(a, 'tag');
+const bh = a => (L !== 'uk' && a['html_' + L]) || a.html;
 const CATS = read('categories.json');
 const catOf = p => CATS[p.category] || CATS['kondicioneri'];
 const catList = Object.entries(CATS).map(([key, c]) => ({ key, ...c })).sort((a, b) => (a.order || 99) - (b.order || 99));
 const catProducts = key => products.filter(p => p.category === key);
 const SPECV = read('spec-values.json');
+const BRANDS = read('brands.json');   // per-brand copy for the brand pages
 const LANGS = ['uk', 'ru', 'en'];                 // uk at /, others at /ru/ and /en/
 let L = 'uk';                                     // current language of the page being rendered
 const pfx = () => (L === 'uk' ? '' : '/' + L);
@@ -137,10 +143,12 @@ const GTM = `<!-- Google Tag Manager -->
 <!-- End Google Tag Manager -->`;
 const GTM_NS = `<!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W3NLLCQT" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`;
 
-function head({ title, desc, canonical, ogTitle, ogDesc, ogImage, jsonld, altPath }) {
+function head({ title, desc, canonical, ogTitle, ogDesc, ogImage, jsonld, altPath, altLangs }) {
   const og = ogImage || abs('/assets/og/default.jpg');
   // hreflang: altPath is the uk-form path; each language lives under its own prefix
-  const alts = altPath ? LANGS.map(l => {
+  // altLangs narrows the set for pages that do not exist in every language —
+  // the blog is written in Ukrainian and Russian only
+  const alts = altPath ? (altLangs || LANGS).map(l => {
     const u = abs((l === 'uk' ? '' : '/' + l) + (altPath === '/' ? '/' : altPath));
     return `<link rel="alternate" hreflang="${l === 'uk' ? 'uk' : l}" href="${esc(u)}">`;
   }).join('\n') + `\n<link rel="alternate" hreflang="x-default" href="${esc(abs(altPath))}">` : '';
@@ -709,6 +717,8 @@ function brandPage(cat, brand) {
     { '@type': 'ListItem', position: 1, name: t('pp_home'), item: abs(pfx() + '/') },
     { '@type': 'ListItem', position: 2, name: CAT, item: abs(curl(cat)) },
     { '@type': 'ListItem', position: 3, name: brand, item: abs(burl(cat, brand)) } ] };
+  // a couple of sentences about the brand itself, if we have them
+  const about = (BRANDS[brand] || {})[L] || (BRANDS[brand] || {}).uk || '';
   const siblings = catBrands(cat.key).filter(b => b !== brand)
     .map(b => `<a class="bl-chip" href="${burl(cat, b)}">${esc(b)}</a>`).join('');
   return `<!doctype html><html lang="${L}"><head>
@@ -728,6 +738,7 @@ ${HEADER}
     <p class="cat-sub">${esc(intro)}</p>
     <div class="cat-count">${list.length} ${esc(plural)} ${esc(t('cat_instock'))}</div>
   </header>
+  ${about ? `<div class="brand-about"><p>${esc(about)}</p></div>` : ''}
   <section class="section catalog cat-catalog" id="catalog">
     <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
   </section>
@@ -752,14 +763,14 @@ const CAT_TAGS = {
 };
 const CAT_ARTICLE_MATCH = {
   kondicioneri: /kondicioner|invertor-chy-on-off/i,
-  'pralni-mashyny': /pralnu|pralna/i,
+  'pralni-mashyny': /pralnu|pralna|prannia/i,
   holodylnyky: /kholodylnyk|no-frost/i,
   'zaryadni-stantsii': /stantsi/i
 };
 function catArticles(catKey) {
-  // the blog is Ukrainian-only, so /ru/ and /en/ would be offering Ukrainian
-  // headlines under a translated page — better to show nothing than that
-  if (L !== 'uk') return '';
+  // English has no articles, and a translated page must not offer headlines
+  // in a language the reader did not choose
+  if (!BLOG_LANGS.includes(L)) return '';
   const re = CAT_ARTICLE_MATCH[catKey];
   let list = re ? blog.filter(a => re.test(a.slug)) : [];
   if (list.length < 2) {
@@ -776,9 +787,9 @@ function catArticles(catKey) {
   return `<div class="cat-reads">
     <h2>${esc(t('cat_reads'))}</h2>
     <div class="cr-row">${list.map(a => `<a class="cr-card" href="${blogUrl(a)}">
-      <span class="cr-tag">${esc(a.tag)}</span>
-      <span class="cr-t">${esc(a.title)}</span>
-      <span class="cr-d">${esc(a.desc)}</span></a>`).join('')}</div>
+      <span class="cr-tag">${esc(bg(a))}</span>
+      <span class="cr-t">${esc(bt(a))}</span>
+      <span class="cr-d">${esc(bd(a))}</span></a>`).join('')}</div>
   </div>`;
 }
 
@@ -846,24 +857,24 @@ for (const cat of catList) {
 
 // ---- blog ----
 function blogCard(a) {
-  return `<a class="bl-card" data-tag="${esc(a.tag)}" href="${blogUrl(a)}">
-    <div class="bl-tag">${esc(a.tag)}</div>
-    <h3 class="bl-card-t">${esc(a.title)}</h3>
-    <p class="bl-card-d">${esc(a.desc)}</p>
+  return `<a class="bl-card" data-tag="${esc(bg(a))}" href="${blogUrl(a)}">
+    <div class="bl-tag">${esc(bg(a))}</div>
+    <h3 class="bl-card-t">${esc(bt(a))}</h3>
+    <p class="bl-card-d">${esc(bd(a))}</p>
     <span class="bl-more">${esc(t("blog_more"))}</span></a>`;
 }
 function blogIndexPage() {
-  return `<!doctype html><html lang="uk"><head>
-${head({ title: t('seo_blog_t'), desc: t('seo_blog_d'), canonical: abs('/blog/') })}
+  return `<!doctype html><html lang="${L}"><head>
+${head({ title: t('seo_blog_t'), desc: t('seo_blog_d'), canonical: abs(pfx() + '/blog/'), altPath: '/blog/', altLangs: BLOG_LANGS })}
 </head><body>${GTM_NS}
 ${HEADER}
 <div class="pp-wrap">
-  <nav class="pp-bc"><a href="/">${esc(t("pp_home"))}</a> › <span>${esc(t("nav_blog"))}</span></nav>
+  <nav class="pp-bc"><a href="${pfx() + '/'}">${esc(t("pp_home"))}</a> › <span>${esc(t("nav_blog"))}</span></nav>
   <h1 class="bl-h1">${esc(t("blog_h1"))}</h1>
   <p class="bl-sub">${esc(t("blog_sub"))}</p>
   <div class="bl-tags" id="bl-tags">
     <button class="bl-tbtn active" data-tag="all">${esc(t('blog_all'))}</button>
-    ${[...new Set(blog.map(a => a.tag))].map(tg => `<button class="bl-tbtn" data-tag="${esc(tg)}">${esc(tg)}</button>`).join('')}
+    ${[...new Set(blog.map(bg))].map(tg => `<button class="bl-tbtn" data-tag="${esc(tg)}">${esc(tg)}</button>`).join('')}
   </div>
   <div class="bl-grid" id="bl-grid">${blog.map(blogCard).join('')}</div>
 </div>
@@ -874,26 +885,26 @@ ${injectData(catalogData)}
 }
 function blogPost(a) {
   const others = blog.filter(x => x.slug !== a.slug).slice(0, 3);
-  const jsonld = { '@context': 'https://schema.org', '@type': 'Article', headline: a.title, description: a.desc,
+  const jsonld = { '@context': 'https://schema.org', '@type': 'Article', headline: bt(a), description: bd(a),
     datePublished: a.date, dateModified: a.date, author: { '@type': 'Organization', name: site.name },
     publisher: { '@type': 'Organization', name: site.name, logo: { '@type': 'ImageObject', url: abs('/assets/icons/icon-512.png') } },
     mainEntityOfPage: abs(blogUrl(a)), image: abs('/assets/og/default.jpg') };
   const crumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
-    { '@type': 'ListItem', position: 1, name: t('pp_home'), item: BASE + '/' },
-    { '@type': 'ListItem', position: 2, name: t('nav_blog'), item: abs('/blog/') },
-    { '@type': 'ListItem', position: 3, name: a.title, item: abs(blogUrl(a)) } ] };
-  return `<!doctype html><html lang="uk"><head>
-${head({ title: a.title + ' | ' + site.name, desc: a.desc, canonical: abs(blogUrl(a)), ogTitle: a.title, jsonld })}
+    { '@type': 'ListItem', position: 1, name: t('pp_home'), item: abs(pfx() + '/') },
+    { '@type': 'ListItem', position: 2, name: t('nav_blog'), item: abs(pfx() + '/blog/') },
+    { '@type': 'ListItem', position: 3, name: bt(a), item: abs(blogUrl(a)) } ] };
+  return `<!doctype html><html lang="${L}"><head>
+${head({ title: bt(a) + ' | ' + site.name, desc: bd(a), canonical: abs(blogUrl(a)), ogTitle: bt(a), altPath: `/blog/${a.slug}/`, altLangs: BLOG_LANGS, jsonld })}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
 </head><body>${GTM_NS}
 ${HEADER}
 <article class="pp-wrap bl-article">
-  <nav class="pp-bc"><a href="/">${esc(t("pp_home"))}</a> › <a href="/blog/">${esc(t("nav_blog"))}</a> › <span>${esc(a.tag)}</span></nav>
-  <div class="bl-tag">${esc(a.tag)}</div>
-  <h1 class="bl-art-h1">${esc(a.title)}</h1>
-  <div class="bl-meta">${new Date(a.date).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' })} · ${a.read} ${esc(t('blog_read'))}</div>
-  <div class="bl-body">${a.html}</div>
-  <div class="bl-cta"><a class="btn-primary" href="/#catalog">${esc(t('blog_cta1'))}</a> <a class="btn-ghost2" href="/kondicioner/">${esc(lf(CATS['kondicioneri'],'name'))}</a></div>
+  <nav class="pp-bc"><a href="${pfx() + '/'}">${esc(t("pp_home"))}</a> › <a href="${pfx()}/blog/">${esc(t("nav_blog"))}</a> › <span>${esc(bg(a))}</span></nav>
+  <div class="bl-tag">${esc(bg(a))}</div>
+  <h1 class="bl-art-h1">${esc(bt(a))}</h1>
+  <div class="bl-meta">${new Date(a.date).toLocaleDateString(L === 'ru' ? 'ru-RU' : 'uk-UA', { day: 'numeric', month: 'long', year: 'numeric' })} · ${a.read} ${esc(t('blog_read'))}</div>
+  <div class="bl-body">${bh(a)}</div>
+  <div class="bl-cta"><a class="btn-primary" href="${pfx()}/#catalog">${esc(t('blog_cta1'))}</a> <a class="btn-ghost2" href="${pfx()}/kondicioner/">${esc(lf(CATS['kondicioneri'],'name'))}</a></div>
   ${others.length ? `<div class="bl-related"><h2>${esc(t("blog_also"))}</h2><div class="bl-grid">${others.map(blogCard).join('')}</div></div>` : ''}
 </article>
 ${FOOTER}
@@ -901,14 +912,13 @@ ${injectData(catalogData)}
 <script src="/assets/js/main.js?v=${VER}" defer></script>
 </body></html>`;
 }
-// the blog is written in Ukrainian only — generate it once, on the uk pass
-if (L === 'uk') {
-  fs.mkdirSync(path.join(DIST, 'blog'), { recursive: true });
-  fs.writeFileSync(path.join(DIST, 'blog', 'index.html'), blogIndexPage(), 'utf8');
-  SITEMAP.push('/blog/');
+// the articles are written in Ukrainian and Russian, so those trees get a blog
+if (BLOG_LANGS.includes(L)) {
+  const root = outPath('blog');
+  fs.writeFileSync(path.join(root, 'index.html'), blogIndexPage(), 'utf8');
+  SITEMAP.push(pfx() + '/blog/');
   for (const a of blog) {
-    const dir = path.join(DIST, 'blog', a.slug);
-    fs.mkdirSync(dir, { recursive: true });
+    const dir = outPath('blog', a.slug);
     fs.writeFileSync(path.join(dir, 'index.html'), blogPost(a), 'utf8');
     SITEMAP.push(blogUrl(a));
   }

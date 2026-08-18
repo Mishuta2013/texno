@@ -1113,3 +1113,10 @@ a.gauge-card:hover{transform:translateY(-4px)}
   .card-brand{padding:4px 9px;background:var(--ice);border-radius:999px;margin-bottom:8px;line-height:1.3}
   .pp-brand{padding:5px 11px;background:var(--ice);border-radius:999px}
 }
+
+/* ---- brand page: what the brand actually is ---- */
+.brand-about{max-width:var(--max);margin:0 auto;padding:0 20px 22px}
+.brand-about p{max-width:780px;font-size:15.5px;line-height:1.7;color:var(--g5);
+  padding:20px 24px;background:var(--white);border:1px solid var(--g2);border-radius:var(--r);
+  border-left:3px solid var(--blue)}
+@media(max-width:760px){.brand-about{padding:0 16px 18px}.brand-about p{padding:16px 18px;font-size:14.5px}}
