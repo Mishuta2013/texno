@@ -869,7 +869,7 @@ a.gauge-card:hover{transform:translateY(-4px)}
   .header-in{gap:12px}
 }
 @media(max-width:430px){
-  .wrap,.header-in,.topbar-in,.foot-in,.calc-in,.install-in,.cgrid{padding-left:14px;padding-right:14px}
+  .wrap,.header-in,.topbar-in,.foot-in,.calc-in,.install-in{padding-left:14px;padding-right:14px}
   .section{padding:46px 0}
   .sec-title{font-size:24px}
   .hero h1{font-size:30px}
@@ -1120,3 +1120,23 @@ a.gauge-card:hover{transform:translateY(-4px)}
   padding:20px 24px;background:var(--white);border:1px solid var(--g2);border-radius:var(--r);
   border-left:3px solid var(--blue)}
 @media(max-width:760px){.brand-about{padding:0 16px 18px}.brand-about p{padding:16px 18px;font-size:14.5px}}
+
+/* On a 320px screen the H1 word "енергонезалежність" is wider than the column,
+   and a grid child defaults to min-width:auto, so it refused to shrink and
+   pushed the page 2px sideways. Let it shrink and let the word break. */
+.hero-copy{min-width:0}
+.hero h1,.hero-badge,.hero-sub{overflow-wrap:break-word}
+@media(max-width:360px){.hero h1{hyphens:auto}}
+
+/* Very narrow phones (320px): the two-column category tabs and the category
+   cards each ran a few pixels past the edge, which is enough for the whole page
+   to scroll sideways. Let the grid children shrink and wrap their labels. */
+.ctab{min-width:0}
+.ctab span,.ctab b{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.cat-card,.cat-body,.cat-name{min-width:0}
+@media(max-width:400px){
+  .cat-tabs{gap:6px}
+  .ctab{padding:10px 6px;font-size:12px;gap:4px}
+  .ctab-ic{display:none}
+  .cat-card{padding:16px 14px;gap:12px}
+}

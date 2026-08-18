@@ -114,7 +114,8 @@ function applyI18n(){
 function setText(id,v){const e=$(id);if(e)e.textContent=v;}
 /* switching language navigates to the same page in the other tree */
 function setLang(l){
-  if(!I18N[l]||l===LANG)return;
+  // I18N now only carries this page's language, so validity comes from __LANGS__
+  if((window.__LANGS__||['uk','ru','en']).indexOf(l)<0||l===LANG)return;
   try{localStorage.setItem('tp_lang',l);}catch(e){}
   /* Not every page exists in every language — the blog is written in Ukrainian
      and Russian only. Each page lists the languages it really has as hreflang

@@ -352,7 +352,14 @@ function faqItems() {
 // ---- catalog dataset injected for client hydration (no heavy desc fields) ----
 const catalogData = products.map(({ desc_ru, desc_en, desc_uk, srcIndex, photoCount, ...keep }) =>
   ({ ...keep, thumb: av(keep.thumb), photos: (keep.photos || []).map(av) }));
-const injectData = (extraProducts) => `<script>window.__I18N__=${JSON.stringify(i18n)};window.__SITE__=${JSON.stringify(site)};window.__CATS__=${JSON.stringify(CATS)};window.__SPECV__=${JSON.stringify(SPECV)};window.__PRODUCTS__=${JSON.stringify(extraProducts)};</script>`;
+/* Ship only the strings this page can actually use: its own language plus the
+   Ukrainian fallback the client falls back to. Sending all three put ~48KB of
+   dead weight on every one of the 369 pages. The switcher needs to know which
+   languages exist, so that list travels separately as a few bytes. */
+const injectData = (extraProducts) => {
+  const i18nSlim = L === 'uk' ? { uk: i18n.uk } : { uk: i18n.uk, [L]: i18n[L] };
+  return `<script>window.__I18N__=${JSON.stringify(i18nSlim)};window.__LANGS__=${JSON.stringify(LANGS)};window.__SITE__=${JSON.stringify(site)};window.__CATS__=${JSON.stringify(CATS)};window.__SPECV__=${JSON.stringify(SPECV)};window.__PRODUCTS__=${JSON.stringify(extraProducts)};</script>`;
+};
 
 // ===================== BUILD =====================
 fs.rmSync(DIST, { recursive: true, force: true });
