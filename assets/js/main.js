@@ -870,16 +870,30 @@ window.ppState={
 /* A visitor comparing five fridges loses the thread the moment they navigate.
    Remember what they opened and offer it back — kept entirely in this browser,
    nothing is sent anywhere. */
-const RECENT_KEY='tp_recent', RECENT_MAX=8;
+const RECENT_KEY='tp_recent', RECENT_MAX=8, RECENT_DAYS=30;
+/* Entries carry the time they were viewed and expire after RECENT_DAYS, so the
+   strip shows what someone is shopping for now rather than what they glanced at
+   last spring. Reading also accepts the old plain-slug format, so nobody's
+   existing history is thrown away when this ships. */
 function recentRead(){
-  try{const v=JSON.parse(localStorage.getItem(RECENT_KEY)||'[]');return Array.isArray(v)?v:[];}
-  catch(e){return [];}
+  let v;
+  try{v=JSON.parse(localStorage.getItem(RECENT_KEY)||'[]');}catch(e){return [];}
+  if(!Array.isArray(v))return [];
+  const cutoff=Date.now()-RECENT_DAYS*864e5;
+  const list=v.map(e=>typeof e==='string'?{s:e,t:Date.now()}:e)   // migrate the old format
+              .filter(e=>e&&e.s&&(!e.t||e.t>=cutoff));
+  if(list.length!==v.length)recentWrite(list);                    // drop the expired ones for good
+  return list;
 }
+function recentWrite(list){
+  try{localStorage.setItem(RECENT_KEY,JSON.stringify(list.slice(0,RECENT_MAX)));}catch(e){}
+}
+function recentSlugs(){return recentRead().map(e=>e.s);}
 function recentAdd(slug){
   if(!slug)return;
-  const list=recentRead().filter(s=>s!==slug);
-  list.unshift(slug);
-  try{localStorage.setItem(RECENT_KEY,JSON.stringify(list.slice(0,RECENT_MAX)));}catch(e){}
+  const list=recentRead().filter(e=>e.s!==slug);
+  list.unshift({s:slug,t:Date.now()});
+  recentWrite(list);
 }
 function clearRecent(){
   try{localStorage.removeItem(RECENT_KEY);}catch(e){}
@@ -889,7 +903,7 @@ function renderRecent(){
   const box=$('recent'),row=$('recent-row');
   if(!box||!row)return;
   const here=window.PP_SLUG||null;                       // never offer the page you are on
-  const items=recentRead().filter(s=>s!==here)
+  const items=recentSlugs().filter(s=>s!==here)
     .map(s=>PRODUCTS.find(p=>p.slug===s)).filter(Boolean);
   if(!items.length){box.hidden=true;return;}
   row.innerHTML=items.map(p=>`<a class="rc-card" href="${productUrl(p)}">

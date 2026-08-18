@@ -574,8 +574,8 @@
     "psq_warn_exp": "Серед підібраних моделей немає таких, що нарощуються батареями — для цього дивіться Pecron E1500LFP, E3600LFP або Aferiy AF-P310.",
     "wmq_relaxed": "Машин потрібного завантаження для такої ніші немає — показуємо всі, що фізично вміщуються за глибиною.",
     "brand_seo_t": "{name} у Сумах — ціни, наявність, доставка | TexnoPlaza",
-    "brand_seo_d": "{brand}: {n} {plural} {cat} у наявності від {lo} до {hi} грн. Доставка по Сумах, підключення й монтаж під ключ, оплата після отримання, офіційна гарантія.",
-    "brand_intro": "У наявності {n} {plural} {cat} {brand} — від {lo} до {hi} грн. Усі моделі є на складі в Сумах: привеземо, підключимо та запустимо, оплата після отримання.",
+    "brand_seo_d": "{brand}: {n} {plural} {cat} у наявності {price}. Доставка по Сумах, підключення й монтаж під ключ, оплата після отримання, офіційна гарантія.",
+    "brand_intro": "У наявності {n} {plural} {cat} {brand} — {price}. Усі моделі є на складі в Сумах: привеземо, підключимо та запустимо, оплата після отримання.",
     "brand_other": "Інші бренди {cat}",
     "cat_reads": "Почитайте перед покупкою",
     "blog_all": "Усі теми",
@@ -583,7 +583,9 @@
     "pp_cheaper_h": "Знайшли дешевше — скажіть нам",
     "pp_cheaper_p": "Надішліть посилання на нижчу ціну — перевіримо й, якщо це та сама модель з гарантією, зробимо не гірше.",
     "recent_h": "Ви нещодавно дивилися",
-    "recent_clear": "Очистити історію"
+    "recent_clear": "Очистити історію",
+    "brand_price_range": "від {lo} до {hi} грн",
+    "brand_price_one": "за {lo} грн"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1160,8 +1162,8 @@
     "psq_warn_exp": "Среди подобранных моделей нет наращиваемых батареями — для этого смотрите Pecron E1500LFP, E3600LFP или Aferiy AF-P310.",
     "wmq_relaxed": "Машин нужной загрузки для такой ниши нет — показываем все, что физически помещаются по глубине.",
     "brand_seo_t": "{name} в Сумах — цены, наличие, доставка | TexnoPlaza",
-    "brand_seo_d": "{brand}: {n} {plural} {cat} в наличии от {lo} до {hi} грн. Доставка по Сумам, подключение и монтаж под ключ, оплата после получения, официальная гарантия.",
-    "brand_intro": "В наличии {n} {plural} {cat} {brand} — от {lo} до {hi} грн. Все модели есть на складе в Сумах: привезём, подключим и запустим, оплата после получения.",
+    "brand_seo_d": "{brand}: {n} {plural} {cat} в наличии {price}. Доставка по Сумам, подключение и монтаж под ключ, оплата после получения, официальная гарантия.",
+    "brand_intro": "В наличии {n} {plural} {cat} {brand} — {price}. Все модели есть на складе в Сумах: привезём, подключим и запустим, оплата после получения.",
     "brand_other": "Другие бренды {cat}",
     "cat_reads": "Почитайте перед покупкой",
     "blog_all": "Все темы",
@@ -1169,7 +1171,9 @@
     "pp_cheaper_h": "Нашли дешевле — скажите нам",
     "pp_cheaper_p": "Пришлите ссылку на более низкую цену — проверим и, если это та же модель с гарантией, сделаем не хуже.",
     "recent_h": "Вы недавно смотрели",
-    "recent_clear": "Очистить историю"
+    "recent_clear": "Очистить историю",
+    "brand_price_range": "от {lo} до {hi} грн",
+    "brand_price_one": "за {lo} грн"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -1746,8 +1750,8 @@
     "psq_warn_exp": "None of the matches take expansion batteries — look at the Pecron E1500LFP, E3600LFP or Aferiy AF-P310 for that.",
     "wmq_relaxed": "No machine with that load fits the niche — here is everything that physically fits by depth.",
     "brand_seo_t": "{name} in Sumy — prices, stock, delivery | TexnoPlaza",
-    "brand_seo_d": "{brand}: {n} {plural} of {cat} in stock from {lo} to {hi} UAH. Delivery in Sumy, hook-up and turnkey installation, pay on receipt, official warranty.",
-    "brand_intro": "{n} {plural} of {brand} {cat} in stock — from {lo} to {hi} UAH. Everything is on the shelf in Sumy: we deliver, connect and commission it, and you pay on receipt.",
+    "brand_seo_d": "{brand}: {n} {plural} of {cat} in stock {price}. Delivery in Sumy, hook-up and turnkey installation, pay on receipt, official warranty.",
+    "brand_intro": "{n} {plural} of {brand} {cat} in stock — {price}. Everything is on the shelf in Sumy: we deliver, connect and commission it, and you pay on receipt.",
     "brand_other": "Other brands of {cat}",
     "cat_reads": "Worth reading before you buy",
     "blog_all": "All topics",
@@ -1755,6 +1759,8 @@
     "pp_cheaper_h": "Found it cheaper? Tell us",
     "pp_cheaper_p": "Send us the link with the lower price — if it is the same model with a warranty, we will match it.",
     "recent_h": "Recently viewed",
-    "recent_clear": "Clear history"
+    "recent_clear": "Clear history",
+    "brand_price_range": "from {lo} to {hi} UAH",
+    "brand_price_one": "at {lo} UAH"
   }
 }

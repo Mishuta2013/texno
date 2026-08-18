@@ -772,10 +772,14 @@ function brandPage(cat, brand) {
   const lo = Math.min(...prices), hi = Math.max(...prices);
   const plural = list.length % 10 === 1 && list.length % 100 !== 11 ? t('cat_models1')
     : (list.length % 10 >= 2 && list.length % 10 <= 4 && (list.length % 100 < 10 || list.length % 100 >= 20) ? t('cat_models2') : t('cat_models5'));
-  const intro = t('brand_intro')
+  // a brand with one model would otherwise read "від 83 999 до 83 999 грн"
+  const priceKey = lo === hi ? 'brand_price_one' : 'brand_price_range';
+  const priceText = t(priceKey).replace('{lo}', fmt(lo)).replace('{hi}', fmt(hi));
+  const fill = str => str
     .replace('{brand}', brand).replace('{cat}', (lf(cat, 'nameGen') || CAT).toLowerCase())
     .replace('{n}', list.length).replace('{plural}', plural)
-    .replace('{lo}', fmt(lo)).replace('{hi}', fmt(hi));
+    .replace('{price}', priceText);
+  const intro = fill(t('brand_intro'));
   const jsonld = {
     '@context': 'https://schema.org', '@type': 'CollectionPage', name: NAME, url: abs(burl(cat, brand)),
     about: { '@type': 'Brand', name: brand },
@@ -795,8 +799,7 @@ function brandPage(cat, brand) {
   return `<!doctype html><html lang="${L}"><head>
 ${head({
   title: t('brand_seo_t').replace('{name}', NAME),
-  desc: t('brand_seo_d').replace('{brand}', brand).replace('{cat}', (lf(cat, 'nameGen') || CAT).toLowerCase())
-    .replace('{n}', list.length).replace('{plural}', plural).replace('{lo}', fmt(lo)).replace('{hi}', fmt(hi)),
+  desc: fill(t('brand_seo_d')),
   canonical: abs(burl(cat, brand)), altPath: `${cat.urlPrefix}/${brandSlug(brand)}/`, jsonld
 })}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
