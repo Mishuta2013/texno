@@ -1165,3 +1165,9 @@ a.gauge-card:hover{transform:translateY(-4px)}
   .rc-card{flex-basis:142px;padding:11px}
   .rc-img{height:88px}
 }
+
+/* the strip now sits above the catalogue, so it needs its own breathing room
+   rather than the padding it had when it hung under the grid */
+.recent-band{padding:8px 0 0}
+.recent-band .recent{padding-left:0;padding-right:0}
+.recent-band .wrap{padding-top:0;padding-bottom:0}

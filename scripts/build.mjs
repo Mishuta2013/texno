@@ -811,10 +811,10 @@ ${HEADER}
   </header>
   ${about ? `<div class="brand-about"><p>${esc(about)}</p></div>` : ''}
   ${lf(cat, 'quizCta') && list.length > 1 ? quizInline(false) : ''}
+  <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
   <section class="section catalog cat-catalog" id="catalog">
     <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
   </section>
-  <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
   ${siblings ? `<div class="brand-links"><h2>${esc(t('brand_other').replace('{cat}', (lf(cat, 'nameGen') || CAT).toLowerCase()))}</h2><div class="bl-row">${siblings}</div></div>` : ''}
   <div class="pp-back"><a href="${curl(cat)}">← ${esc(CAT)}</a></div>
 </div>
@@ -895,11 +895,11 @@ ${HEADER}
     <div class="cat-count">${list.length} ${esc(plural)} ${esc(t('cat_instock'))}</div>
   </header>
   ${lf(cat, 'quizCta') ? quizInline(false) : ''}
+  <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
   <section class="section catalog cat-catalog" id="catalog">
     ${filtersFor(cat.key)}
     <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
   </section>
-  <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
   ${catArticles(cat.key)}
   <div class="pp-back"><a href="${pfx() || '/'}#catalog">← ${esc(t('pp_back_all'))}</a></div>
 </div>
@@ -980,6 +980,7 @@ ${HEADER}
   <div class="bl-body">${bh(a)}</div>
   <div class="bl-cta"><a class="btn-primary" href="${pfx()}/#catalog">${esc(t('blog_cta1'))}</a> <a class="btn-ghost2" href="${pfx()}/kondicioner/">${esc(lf(CATS['kondicioneri'],'name'))}</a></div>
   ${others.length ? `<div class="bl-related"><h2>${esc(t("blog_also"))}</h2><div class="bl-grid">${others.map(blogCard).join('')}</div></div>` : ''}
+  <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
 </article>
 ${FOOTER}
 ${injectData(catalogData)}
