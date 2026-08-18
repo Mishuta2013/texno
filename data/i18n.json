@@ -428,12 +428,13 @@
     "hc_load": "Завантаження",
     "hc_spin": "Віджим",
     "hc_class": "Клас",
-    "seo_home_t": "TexnoPlaza — побутова техніка у Сумах: холодильники, пральні машини, кондиціонери",
-    "seo_home_d": "Магазин побутової техніки у Сумах: {{ITEMS}} у наявності — холодильники, пральні машини, кондиціонери та зарядні станції. Доставка, підключення й монтаж під ключ, оплата після встановлення, гарантія до 5 років. Суми, вул. Харківська 2/1.",
+    "seo_home_t": "TexnoPlaza — побутова техніка у Сумах: доставка та монтаж",
+    "seo_home_d": "Магазин побутової техніки у Сумах: {{ITEMS}} у наявності — холодильники, пральні машини, кондиціонери, зарядні станції. Доставка, монтаж, оплата після встановлення.",
     "seo_blog_t": "Блог — поради щодо техніки для дому | TexnoPlaza",
     "seo_blog_d": "Корисні статті про вибір та обслуговування техніки для дому у Сумах: кондиціонери, монтаж, пральні машини, зарядні станції.",
     "seo_cat_t": "{name} у Сумах — купити з доставкою | TexnoPlaza",
     "pp_buy_t": "{name} — купити в Сумах",
+    "pp_buy_short": "{name} — Суми",
     "pp_buy_install": ", монтаж під ключ",
     "cat_in_sumy": "у Сумах",
     "svc_from": "від",
@@ -585,7 +586,8 @@
     "recent_h": "Ви нещодавно дивилися",
     "recent_clear": "Очистити історію",
     "brand_price_range": "від {lo} до {hi} грн",
-    "brand_price_one": "за {lo} грн"
+    "brand_price_one": "за {lo} грн",
+    "sort_label": "Сортування"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1016,12 +1018,13 @@
     "hc_load": "Загрузка",
     "hc_spin": "Отжим",
     "hc_class": "Класс",
-    "seo_home_t": "TexnoPlaza — бытовая техника в Сумах: холодильники, стиральные машины, кондиционеры",
-    "seo_home_d": "Магазин бытовой техники в Сумах: {{ITEMS}} в наличии — холодильники, стиральные машины, кондиционеры и зарядные станции. Доставка, подключение и монтаж под ключ, оплата после установки, гарантия до 5 лет. Сумы, ул. Харьковская 2/1.",
+    "seo_home_t": "TexnoPlaza — бытовая техника в Сумах: доставка и монтаж",
+    "seo_home_d": "Магазин бытовой техники в Сумах: {{ITEMS}} в наличии — холодильники, стиральные машины, кондиционеры, зарядные станции. Доставка, монтаж, оплата после установки.",
     "seo_blog_t": "Блог — советы по технике для дома | TexnoPlaza",
     "seo_blog_d": "Полезные статьи о выборе и обслуживании техники для дома в Сумах: кондиционеры, монтаж, стиральные машины, зарядные станции.",
     "seo_cat_t": "{name} в Сумах — купить с доставкой | TexnoPlaza",
     "pp_buy_t": "{name} — купить в Сумах",
+    "pp_buy_short": "{name} — Сумы",
     "pp_buy_install": ", монтаж под ключ",
     "cat_in_sumy": "в Сумах",
     "svc_from": "от",
@@ -1173,7 +1176,8 @@
     "recent_h": "Вы недавно смотрели",
     "recent_clear": "Очистить историю",
     "brand_price_range": "от {lo} до {hi} грн",
-    "brand_price_one": "за {lo} грн"
+    "brand_price_one": "за {lo} грн",
+    "sort_label": "Сортировка"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -1604,12 +1608,13 @@
     "hc_load": "Load",
     "hc_spin": "Spin",
     "hc_class": "Class",
-    "seo_home_t": "TexnoPlaza — home appliances in Sumy: refrigerators, washing machines, air conditioners",
-    "seo_home_d": "Home-appliance store in Sumy: {{ITEMS}} in stock — refrigerators, washing machines, air conditioners and power stations. Delivery, hook-up and turnkey installation, pay after setup, warranty up to 5 years. Sumy, 2/1 Kharkivska St.",
+    "seo_home_t": "TexnoPlaza — home appliances in Sumy: delivery and installation",
+    "seo_home_d": "Home-appliance store in Sumy: {{ITEMS}} in stock — fridges, washing machines, air conditioners, power stations. Delivery, installation, pay after setup.",
     "seo_blog_t": "Blog — home appliance advice | TexnoPlaza",
     "seo_blog_d": "Useful articles on choosing and maintaining home appliances in Sumy: air conditioners, installation, washing machines, power stations.",
     "seo_cat_t": "{name} in Sumy — buy with delivery | TexnoPlaza",
     "pp_buy_t": "{name} — buy in Sumy",
+    "pp_buy_short": "{name} — Sumy",
     "pp_buy_install": ", turnkey installation",
     "cat_in_sumy": "in Sumy",
     "svc_from": "from",
@@ -1761,6 +1766,7 @@
     "recent_h": "Recently viewed",
     "recent_clear": "Clear history",
     "brand_price_range": "from {lo} to {hi} UAH",
-    "brand_price_one": "at {lo} UAH"
+    "brand_price_one": "at {lo} UAH",
+    "sort_label": "Sort by"
   }
 }

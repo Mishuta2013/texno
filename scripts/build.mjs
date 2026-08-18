@@ -109,7 +109,9 @@ const t = (k) => subCounts((i18n[L] && i18n[L][k]) ?? (i18n.uk && i18n.uk[k]) ??
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fmt = n => Number(n).toLocaleString('uk-UA').replace(/ /g, ' ').replace(/,/g, ' ');
 const BASE = site.baseUrl.replace(/\/$/, '');
-const VER = Date.now();   // cache-bust assets on each build
+/* Assets are cache-busted by content hash via av(), not by build time: /assets/*
+   is served immutable, so a timestamp would re-download the CSS and JS on every
+   deploy even when neither file changed. */
 const purl = p => `${pfx()}${catOf(p).urlPrefix}/${p.slug}/`;
 const curl = c => `${pfx()}${c.urlPrefix}/`;
 const ukPath = u => u.replace(/^\/(ru|en)(?=\/|$)/, '') || '/';   // strip the language prefix
@@ -173,7 +175,7 @@ function av(u) {
 }
 const abs = u => BASE + u.split('?')[0];   // canonical/schema URLs stay clean
 const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230B1A33'/%3E%3Cpath d='M22 40h56a6 6 0 0 1 6 6v6a6 6 0 0 1-6 6H22a6 6 0 0 1-6-6v-6a6 6 0 0 1 6-6z' fill='none' stroke='%232E8BFF' stroke-width='5'/%3E%3Cpath d='M30 64v6M50 64v8M70 64v6' stroke='%237CC4FF' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E";
-const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">`;
+const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap"></noscript>`;
 
 const GA = `<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HJC1PWRVE9"></script>
@@ -212,7 +214,7 @@ ${alts}
 <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.webmanifest">
 ${FONTS}
-<link rel="stylesheet" href="/assets/css/main.css?v=${VER}">
+<link rel="stylesheet" href="${av('/assets/css/main.css')}">
 <script>if('serviceWorker'in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}`;
 }
@@ -220,7 +222,7 @@ ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script
 // ---- card (mirrors assets/js/main.js cardHTML, uk static) ----
 function card(p) {
   const url = purl(p);
-  const badge = p.heatpump ? `<span class="cbadge hp">${esc(t('sp_hp'))}</span>`
+  const badge = p.heatpump ? `<span class="cbadge heat">${esc(t('sp_hp'))}</span>`
     : p.inverter ? `<span class="cbadge inv">${esc(t("c_inverter"))}</span>` : '';
   return `<div class="card">
     <a class="card-img" href="${url}">${badge}<span class="cstock"><i></i>${esc(t('c_instock'))}</span>
@@ -435,7 +437,7 @@ body = body.replace('<div class="grid" id="catalog-grid"></div>',
     const brands = brandsOf(c.key).map(b =>
       `<li><a href="${pfx()}${c.urlPrefix}/${brandSlug(b)}/">${esc(b)}</a></li>`).join('\n          ');
     return `<div class="foot-col">
-        <h4><a href="${curl(c)}">${esc(lf(c, 'name'))}</a></h4>
+        <h2 class="foot-h"><a href="${curl(c)}">${esc(lf(c, 'name'))}</a></h2>
         <ul>
           ${brands}
           <li class="fc-all"><a href="${curl(c)}">${esc(t('foot_all'))} →</a></li>
@@ -448,7 +450,7 @@ body = body.replace('<!--QUIZ_INLINE-->', quizInline(true));
 body = body.replace('<!--FAQ_ITEMS-->', faqItems());
 body = applyI18nStatic(body);   // bake the current language into static HTML (SEO)
 body = subCounts(body);         // resolve {{TOTAL}}/{{AC}}/{{WM}}/{{PS}} tokens in raw markup
-body = body.replace(/src="(\/assets\/img\/site\/[^"]+)"/g, (m, u) => `src="${av(u)}"`);
+body = body.replace(/src="(\/assets\/img\/(?:site|logo)[^"]*)"/g, (m, u) => `src="${av(u)}"`);
 
 // shared chrome (header before hero; footer+modals+floats from <footer> onward) for product pages
 const _heroAt = body.indexOf('<section class="hero"');
@@ -480,7 +482,7 @@ ${head({
 ${body}
 ${injectData(catalogData)}
 <script>window.__CATALOG_CAT__=${JSON.stringify(homeCatalogCat)};</script>
-<script src="/assets/js/main.js?v=${VER}" defer></script>
+<script src="${av('/assets/js/main.js')}" defer></script>
 </body></html>`;
 fs.writeFileSync(path.join(outPath(), 'index.html'), indexHtml, 'utf8');
 SITEMAP.push(pfx() + '/');
@@ -531,7 +533,14 @@ function runtimeCalc(p) {
 function productPage(p) {
   const s = p.specs || {};
   const NAME = pname(p);
-  const thumbs = p.photos.map((src, i) => `<button class="pp-thumb${i === 0 ? ' active' : ''}" onclick="ppShow(${i})"><img src="${esc(av(src))}" alt="${esc(NAME)} ${i + 1}" loading="lazy" width="800" height="600"></button>`).join('');
+  /* The strip draws these at about 80x60, so serving the 900px originals meant
+     half a megabyte to render a row of postage stamps. Use the 240px copies from
+     make_thumbs.py, falling back to the original if one has not been generated. */
+  const smallOf = src => {
+    const sm = src.replace(/\/([^/]+)$/, '/sm/$1');
+    return fs.existsSync(path.join(ROOT, sm.replace(/^\//, ''))) ? sm : src;
+  };
+  const thumbs = p.photos.map((src, i) => `<button class="pp-thumb${i === 0 ? ' active' : ''}" onclick="ppShow(${i})"><img src="${esc(av(smallOf(src)))}" alt="${esc(NAME)} ${i + 1}" loading="lazy" width="240" height="180"></button>`).join('');
   const cat = catOf(p);
   const chips = ppChips(p);
   const trustLines = lf(cat, 'trust') || (cat.install
@@ -556,8 +565,30 @@ ${(() => {
   const keySpec = (cat.ppChips || cat.chips || []).filter(c => !c.flag).map(c => fmtVal(p, c)).filter(Boolean).slice(0, 2).join(', ');
   const trust = trustLines.join('. ') + '.';
   return head({
-    title: t('pp_buy_t').replace('{name}', nm) + (cat.install ? t('pp_buy_install') : ''),
-    desc: `${nm} ${t('cat_in_sumy')} — ${fmt(p.price)} ${t('u_uah')}.${keySpec ? ' ' + keySpec + '.' : ''} ${trust}`,
+    /* Google shows roughly the first 60 characters of a title. A model name
+       like "TCL TAC-09CHSD/XA82I Black Inverter R32 Wi-Fi" already fills most
+       of that, so the ", монтаж під ключ" tail was never visible — it only
+       pushed the title to 97 characters. Add it only when there is room. */
+    title: (() => {
+      const base = t('pp_buy_t').replace('{name}', nm);
+      const tail = cat.install ? t('pp_buy_install') : '';
+      const short = t('pp_buy_short').replace('{name}', nm);
+      /* Longest form that still fits. Model names like "TAC-09CHSD/XA82I Black
+         Inverter R32 Wi-Fi" spend the whole budget on their own; when the full
+         "— купити в Сумах" would be cut off mid-phrase, the short form keeps the
+         city visible instead of losing it to the ellipsis. */
+      for (const c of [base + tail, base, short]) if (c.length <= 65) return c;
+      return short;
+    })(),
+    /* The model, the city and the price must survive truncation; the trust
+       lines are the tail Google cuts. Drop them one at a time until the whole
+       description fits in the ~165 characters that actually get shown. */
+    desc: (() => {
+      const lead = `${nm} ${t('cat_in_sumy')} — ${fmt(p.price)} ${t('u_uah')}.${keySpec ? ' ' + keySpec + '.' : ''}`;
+      const lines = trustLines.slice();
+      while (lines.length && (lead + ' ' + lines.join('. ') + '.').length > 165) lines.pop();
+      return lines.length ? `${lead} ${lines.join('. ')}.` : lead;
+    })(),
     canonical: abs(purl(p)), altPath: `${cat.urlPrefix}/${p.slug}/`,
     ogTitle: NAME, ogImage: abs('/assets/og/' + p.slug + '.jpg'), jsonld
   });
@@ -630,7 +661,7 @@ ${HEADER}
 </div>
 ${FOOTER}
 ${injectData(catalogData)}
-<script src="/assets/js/main.js?v=${VER}" defer></script>
+<script src="${av('/assets/js/main.js')}" defer></script>
 <div class="lbox" id="lbox" onclick="if(event.target.id==='lbox')ppClose()">
   <button class="lbox-x" onclick="ppClose()" aria-label="${esc(t('lb_close'))}">×</button>
   <button class="lbox-nav prev" onclick="ppStep(-1)" aria-label="${esc(t('lb_prev'))}">‹</button>
@@ -649,7 +680,7 @@ document.addEventListener('keydown',function(e){if(!document.getElementById('lbo
 (function(){var sx=0,el=document.getElementById('lbox');
   el.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
   el.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)ppStep(dx<0?1:-1);},{passive:true});})();
-function ppLead(name){ if(window.openCb){var f=document.getElementById('cb-product');if(f){f.value=name;var w=document.getElementById('cb-product-wrap');if(w)w.style.display='block';}window.openCb();} else {location.href='tel:${esc(site.phone)}';} }
+function ppLead(name){ if(window.openCb){window.openCb(null,name);} else {location.href='tel:${esc(site.phone)}';} }
 
 /* ---- compare / favourite / share / ask, driven by main.js state ---- */
 var PP_SLUG=${JSON.stringify(p.slug)},PP_NAME=${JSON.stringify(NAME)};
@@ -686,16 +717,8 @@ function ppCopyLink(){
   else{var ta=document.createElement('textarea');ta.value=location.href;document.body.appendChild(ta);ta.select();
        try{document.execCommand('copy');}catch(err){}ta.remove();done();}
 }
-function ppCheaper(){
-  var f=document.getElementById('cb-product');
-  if(f){f.value=PP_NAME;var w=document.getElementById('cb-product-wrap');if(w)w.style.display='block';}
-  if(window.openCb)window.openCb('cheaper');
-}
-function ppAsk(){
-  var f=document.getElementById('cb-product');
-  if(f){f.value=PP_NAME;var w=document.getElementById('cb-product-wrap');if(w)w.style.display='block';}
-  if(window.openCb)window.openCb('question');
-}
+function ppCheaper(){ if(window.openCb)window.openCb('cheaper',PP_NAME); }
+function ppAsk(){ if(window.openCb)window.openCb('question',PP_NAME); }
 
 /* ---- long spec tables collapse on phones ---- */
 function ppSpecsToggle(){
@@ -798,7 +821,10 @@ function brandPage(cat, brand) {
     .map(b => `<a class="bl-chip" href="${burl(cat, b)}">${esc(b)}</a>`).join('');
   return `<!doctype html><html lang="${L}"><head>
 ${head({
-  title: t('brand_seo_t').replace('{name}', NAME),
+  title: (() => {                       // the brand and city matter, the suffix does not
+    const full = t('brand_seo_t').replace('{name}', NAME);
+    return full.length <= 65 ? full : full.replace(/\s*\|\s*[^|]+$/, '');
+  })(),
   desc: fill(t('brand_seo_d')),
   canonical: abs(burl(cat, brand)), altPath: `${cat.urlPrefix}/${brandSlug(brand)}/`, jsonld
 })}
@@ -824,7 +850,7 @@ ${HEADER}
 ${FOOTER}
 ${injectData(catalogData)}
 <script>window.__CATALOG_CAT__=${JSON.stringify(cat.key)};window.__BRAND__=${JSON.stringify(brand)};</script>
-<script src="/assets/js/main.js?v=${VER}" defer></script>
+<script src="${av('/assets/js/main.js')}" defer></script>
 </body></html>`;
 }
 
@@ -909,7 +935,7 @@ ${HEADER}
 ${FOOTER}
 ${injectData(catalogData)}
 <script>window.__CATALOG_CAT__=${JSON.stringify(cat.key)};</script>
-<script src="/assets/js/main.js?v=${VER}" defer></script>
+<script src="${av('/assets/js/main.js')}" defer></script>
 </body></html>`;
 }
 for (const cat of catList) {
@@ -936,7 +962,7 @@ for (const cat of catList) {
 function blogCard(a) {
   return `<a class="bl-card" data-tag="${esc(bg(a))}" href="${blogUrl(a)}">
     <div class="bl-tag">${esc(bg(a))}</div>
-    <h3 class="bl-card-t">${esc(bt(a))}</h3>
+    <h2 class="bl-card-t">${esc(bt(a))}</h2>
     <p class="bl-card-d">${esc(bd(a))}</p>
     <span class="bl-more">${esc(t("blog_more"))}</span></a>`;
 }
@@ -954,10 +980,11 @@ ${HEADER}
     ${[...new Set(blog.map(bg))].map(tg => `<button class="bl-tbtn" data-tag="${esc(tg)}">${esc(tg)}</button>`).join('')}
   </div>
   <div class="bl-grid" id="bl-grid">${blog.map(blogCard).join('')}</div>
+  <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
 </div>
 ${FOOTER}
 ${injectData(catalogData)}
-<script src="/assets/js/main.js?v=${VER}" defer></script>
+<script src="${av('/assets/js/main.js')}" defer></script>
 </body></html>`;
 }
 function blogPost(a) {
@@ -971,7 +998,7 @@ function blogPost(a) {
     { '@type': 'ListItem', position: 2, name: t('nav_blog'), item: abs(pfx() + '/blog/') },
     { '@type': 'ListItem', position: 3, name: bt(a), item: abs(blogUrl(a)) } ] };
   return `<!doctype html><html lang="${L}"><head>
-${head({ title: bt(a) + ' | ' + site.name, desc: bd(a), canonical: abs(blogUrl(a)), ogTitle: bt(a), altPath: `/blog/${a.slug}/`, altLangs: BLOG_LANGS, jsonld })}
+${head({ title: (bt(a) + ' | ' + site.name).length <= 65 ? bt(a) + ' | ' + site.name : bt(a), desc: bd(a), canonical: abs(blogUrl(a)), ogTitle: bt(a), altPath: `/blog/${a.slug}/`, altLangs: BLOG_LANGS, jsonld })}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
 </head><body>${GTM_NS}
 ${HEADER}
@@ -987,7 +1014,7 @@ ${HEADER}
 </article>
 ${FOOTER}
 ${injectData(catalogData)}
-<script src="/assets/js/main.js?v=${VER}" defer></script>
+<script src="${av('/assets/js/main.js')}" defer></script>
 </body></html>`;
 }
 // the articles are written in Ukrainian and Russian, so those trees get a blog
@@ -1012,7 +1039,7 @@ ${HEADER}
 ${privacyBody}
 ${FOOTER}
 ${injectData(catalogData)}
-<script src="/assets/js/main.js?v=${VER}" defer></script>
+<script src="${av('/assets/js/main.js')}" defer></script>
 </body></html>`;
   fs.mkdirSync(path.join(DIST, 'polityka-konfidentsiynosti'), { recursive: true });
   fs.writeFileSync(path.join(DIST, 'polityka-konfidentsiynosti', 'index.html'), html, 'utf8');

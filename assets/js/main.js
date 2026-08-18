@@ -92,6 +92,11 @@ function applyI18n(){
     const k=el.getAttribute('data-i18n'); const v=t(k);
     if(v!==undefined) el.textContent=v;
   });
+  // icon-only controls carry their name in aria-label, which must translate too
+  document.querySelectorAll('[data-i18n-aria]').forEach(el=>{
+    const k=el.getAttribute('data-i18n-aria'); const v=t(k);
+    if(v!==undefined) el.setAttribute('aria-label',v);
+  });
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
     const k=el.getAttribute('data-i18n-ph'); const v=t(k);
     if(v!==undefined) el.setAttribute('placeholder',v);
@@ -196,7 +201,7 @@ function cardHTML(p){
   const idx=PRODUCTS.indexOf(p);
   const url=productUrl(p);
   let badge='';
-  if(p.heatpump)badge=`<span class="cbadge hp">${t('sp_hp')}</span>`;
+  if(p.heatpump)badge=`<span class="cbadge heat">${t('sp_hp')}</span>`;
   else if(p.inverter)badge=`<span class="cbadge inv">${t('f_inv').replace(/і$|ые$|s$/,'')||'Inverter'}</span>`;
   const favOn=FAV.includes(idx)?'on':'';
   const cmpOn=CMP.includes(idx)?'on':'';
@@ -427,16 +432,23 @@ function openQbuy(e,idx){
 function closeQbuy(){$('qbuy-pop').classList.remove('show');$('qbuy-backdrop').classList.remove('show');}
 
 /* ============ CALLBACK + FORMSPREE ============ */
-function openOrder(idx){const p=PRODUCTS[idx];currentProduct=p;$('cb-product').value=p.name;$('cb-product-wrap').style.display='block';openCb();}
-function orderFromModal(){if(currentProduct){$('cb-product').value=currentProduct.name;$('cb-product-wrap').style.display='block';}closeProductModal();openCb();}
+function openOrder(idx){const p=PRODUCTS[idx];currentProduct=p;openCb(null,p.name);}
+function orderFromModal(){const n=currentProduct?currentProduct.name:'';closeProductModal();openCb(null,n);}
 /* kind 'question' comes from the product page's "Задати питання" — same form,
    but the heading and the Telegram label say it is a question, not a callback. */
 const CB_KINDS={question:['question','pp_ask_sub','cb_p'],cheaper:['cheaper','pp_cheaper_h','pp_cheaper_p']};
-function openCb(kind){
+/* The product line is owned here, not by the callers: the modal is shared, so a
+   name left over from a product button used to ride along on the next plain
+   callback opened from the header. */
+function openCb(kind,product){
   const k=CB_KINDS[kind];
   window.__CB_TYPE__=k?k[0]:'callback';
   const h=$('cb-title');if(h)h.textContent=t(k?k[1]:'cb_btn');
   const sub=$('cb-sub');if(sub)sub.textContent=t(k?k[2]:'cb_p');
+  const f=$('cb-product'),w=$('cb-product-wrap');
+  if(f)f.value=product||'';
+  if(w)w.style.display=product?'block':'none';
+  const hp=$('cb-hp');if(hp)hp.value='';
   $('cb-form').style.display='block';$('cb-success').style.display='none';
   $('cb-modal').classList.add('open');document.body.style.overflow='hidden';
 }
@@ -460,6 +472,7 @@ async function sendLead(data){
   return true; // never block the user; lead still reachable via phone/WhatsApp
 }
 async function submitCb(){
+  const hp=$('cb-hp');if(hp&&hp.value)return;   // spam bots fill every field they find
   const ph=$('cb-phone').value.trim();if(!ph){alert(t('cb_phone'));return;}
   const ok=await sendLead({type:window.__CB_TYPE__||'callback',name:$('cb-name').value.trim(),phone:ph,product:$('cb-product').value||'',lang:LANG});
   if(ok){$('cb-form').style.display='none';$('cb-success').style.display='block';track('generate_lead',{method:'callback'});}

@@ -254,13 +254,13 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .card:hover .card-img img{transform:scale(1.06) translateY(-2px);filter:drop-shadow(0 20px 22px rgba(11,26,51,.26))}
 .cbadge{position:absolute;top:12px;left:12px;font-family:var(--disp);font-size:11px;font-weight:700;padding:5px 11px;border-radius:var(--r-pill);z-index:2;letter-spacing:.01em}
 .cbadge.inv{background:var(--ice);color:var(--blue-d)}
-.cbadge.hp{background:var(--ice);color:var(--blue-d)}
+.cbadge.heat{background:var(--ice);color:var(--blue-d)}
 .cstock{position:absolute;top:12px;right:12px;font-size:11px;font-weight:600;color:var(--green);background:var(--green-bg);padding:5px 10px;border-radius:var(--r-pill);display:flex;align-items:center;gap:5px;z-index:2}
 .cstock i{width:6px;height:6px;border-radius:50%;background:var(--green)}
 .card-body{padding:16px 17px 17px;display:flex;flex-direction:column;flex:1}
 .card-brand{display:inline-block;font-family:var(--disp);font-size:12px;font-weight:700;color:var(--blue);letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px;text-decoration:none}
 .card-brand:hover{color:var(--blue-d);text-decoration:underline}
-.card-name{font-family:var(--disp);font-size:14.5px;font-weight:600;color:var(--ink);line-height:1.35;margin-bottom:12px;min-height:39px}
+.card-name{font-family:var(--disp);font-size:14.5px;font-weight:600;color:var(--ink);line-height:1.35;margin-bottom:12px;min-height:39px;overflow-wrap:anywhere}
 .card-specs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
 .stag{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:500;color:var(--g5);background:var(--g1);padding:4px 9px;border-radius:7px;font-family:var(--mono)}
 .card-foot{margin-top:auto;padding-top:13px;border-top:1px solid var(--g2)}
@@ -432,7 +432,7 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
 .foot-soc a{width:40px;height:40px;border-radius:11px;background:rgba(124,196,255,.1);display:flex;align-items:center;justify-content:center;transition:.18s}
 .foot-soc a:hover{background:var(--blue)}
 .foot-soc svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2}
-.foot-col h4{font-family:var(--disp);font-size:14px;font-weight:700;color:#fff;margin-bottom:16px;text-transform:uppercase;letter-spacing:.05em}
+.foot-col h2,.foot-col .foot-h{font-family:var(--disp);font-size:14px;font-weight:700;color:#fff;margin-bottom:16px;text-transform:uppercase;letter-spacing:.05em}
 .foot-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
 .foot-col a{font-size:14px;color:rgba(233,243,255,.6);transition:.16s}
 .foot-col a:hover{color:var(--frost)}
@@ -832,7 +832,8 @@ a.gauge-card:hover{transform:translateY(-4px)}
 .quiz-lead input{flex:1;width:100%;background:var(--paper);border:1.5px solid var(--g2);border-radius:var(--r-sm);padding:12px 14px;font-size:14.5px;font-family:var(--body);color:var(--ink);outline:none}
 .quiz-lead input:focus{border-color:var(--blue)}
 .quiz-lead .btn-primary{width:100%;justify-content:center}
-.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0}
+/* spam honeypot — only ever the hidden form field, never a content class */
+input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0}
 .quiz-done{text-align:center;padding:30px 10px}
 .quiz-done-ic{width:64px;height:64px;border-radius:50%;background:var(--green-bg);color:var(--green);font-size:32px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
 .quiz-done h3{font-family:var(--disp);font-size:21px;color:var(--ink);margin-bottom:8px}
@@ -909,7 +910,7 @@ a.gauge-card:hover{transform:translateY(-4px)}
 @media(max-width:760px){
   .topbar-in{gap:10px;padding:7px 12px;flex-wrap:nowrap}
   .topbar .tb-right{margin-left:8px;gap:8px}
-  .lang-btn{padding:4px 7px;font-size:11px}
+  .lang-btn{padding:7px 9px;font-size:11px;min-height:28px;display:inline-flex;align-items:center}
   .tb-contact{font-size:11px;padding:4px 10px}
   /* address + hours = seamless marquee in the strip */
   .tb-info{overflow:hidden;flex:1;-webkit-mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
@@ -1054,9 +1055,9 @@ a.gauge-card:hover{transform:translateY(-4px)}
 .foot-cats{max-width:var(--max);margin:0 auto;padding:30px 20px 6px;display:grid;
   grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:26px 30px;
   border-top:1px solid rgba(255,255,255,.09)}
-.foot-cats .foot-col h4{margin-bottom:12px}
-.foot-cats .foot-col h4 a{color:#fff;text-decoration:none}
-.foot-cats .foot-col h4 a:hover{color:var(--frost)}
+.foot-cats .foot-col h2,.foot-col .foot-h{margin-bottom:12px}
+.foot-cats .foot-col h2 a{color:#fff;text-decoration:none}
+.foot-cats .foot-col h2 a:hover{color:var(--frost)}
 .foot-cats .foot-col ul{display:flex;flex-direction:column;gap:8px}
 .foot-cats .fc-all a{color:var(--frost);font-weight:600}
 @media(max-width:980px){.foot-cats{grid-template-columns:1fr 1fr;gap:22px}}
@@ -1110,7 +1111,7 @@ a.gauge-card:hover{transform:translateY(-4px)}
    a thumb aiming for the product would land on the brand page. Give it its own
    pill so the two targets are visibly and physically separate. */
 @media(max-width:760px){
-  .card-brand{padding:4px 9px;background:var(--ice);border-radius:999px;margin-bottom:8px;line-height:1.3}
+  .card-brand{padding:5px 10px;background:var(--ice);border-radius:999px;margin-bottom:8px;line-height:1.3;min-height:24px;display:inline-flex;align-items:center}
   .pp-brand{padding:5px 11px;background:var(--ice);border-radius:999px}
 }
 
@@ -1171,3 +1172,16 @@ a.gauge-card:hover{transform:translateY(-4px)}
 .recent-band{padding:8px 0 0}
 .recent-band .recent{padding-left:0;padding-right:0}
 .recent-band .wrap{padding-top:0;padding-bottom:0}
+
+/* The address in the top strip is a link too; on a phone it was a 20px-tall
+   target squeezed into a moving marquee. Give it room to be tapped. */
+@media(max-width:760px){
+  .tb-addr{min-height:28px;display:inline-flex;align-items:center}
+  .tb-contact{min-height:28px}
+}
+
+/* phone, WhatsApp and e-mail in the contacts block were 22px tall — just under
+   the comfortable tap minimum on a phone */
+@media(max-width:760px){
+  .cv a,.pp-back a{min-height:26px;display:inline-flex;align-items:center}
+}
