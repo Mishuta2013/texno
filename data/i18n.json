@@ -581,7 +581,9 @@
     "blog_all": "Усі теми",
     "pp_cheaper": "Знайшли дешевше?",
     "pp_cheaper_h": "Знайшли дешевше — скажіть нам",
-    "pp_cheaper_p": "Надішліть посилання на нижчу ціну — перевіримо й, якщо це та сама модель з гарантією, зробимо не гірше."
+    "pp_cheaper_p": "Надішліть посилання на нижчу ціну — перевіримо й, якщо це та сама модель з гарантією, зробимо не гірше.",
+    "recent_h": "Ви нещодавно дивилися",
+    "recent_clear": "Очистити історію"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1165,7 +1167,9 @@
     "blog_all": "Все темы",
     "pp_cheaper": "Нашли дешевле?",
     "pp_cheaper_h": "Нашли дешевле — скажите нам",
-    "pp_cheaper_p": "Пришлите ссылку на более низкую цену — проверим и, если это та же модель с гарантией, сделаем не хуже."
+    "pp_cheaper_p": "Пришлите ссылку на более низкую цену — проверим и, если это та же модель с гарантией, сделаем не хуже.",
+    "recent_h": "Вы недавно смотрели",
+    "recent_clear": "Очистить историю"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -1749,6 +1753,8 @@
     "blog_all": "All topics",
     "pp_cheaper": "Found it cheaper?",
     "pp_cheaper_h": "Found it cheaper? Tell us",
-    "pp_cheaper_p": "Send us the link with the lower price — if it is the same model with a warranty, we will match it."
+    "pp_cheaper_p": "Send us the link with the lower price — if it is the same model with a warranty, we will match it.",
+    "recent_h": "Recently viewed",
+    "recent_clear": "Clear history"
   }
 }

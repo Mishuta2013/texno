@@ -143,6 +143,16 @@ function setLang(l){
 (function(){const ch=$('charge');if(!ch)return;for(let i=0;i<7;i++){const s=document.createElement('span');s.style.left=(12+i*12+Math.random()*6)+'%';s.style.animationDelay=(i*0.34)+'s';s.style.animationDuration=(2.2+Math.random()*1.2)+'s';ch.appendChild(s);}})();
 
 /* ============ CATALOG ============ */
+/* Mirror of mixedOrder() in build.mjs — the pre-rendered grid and this
+   re-render must produce the identical order or the page reshuffles on load. */
+function mixedOrder(list){
+  const seen={},size={};
+  list.forEach(p=>{size[p.category]=(size[p.category]||0)+1;});
+  return list.map((p,i)=>{
+    const n=(seen[p.category]=(seen[p.category]||0)+1)-1;
+    return {p,i,pin:p.pin||99,k:(n+0.5)/size[p.category]};
+  }).sort((a,b)=>a.pin-b.pin||a.k-b.k||a.i-b.i).map(x=>x.p);
+}
 function getFiltered(){
   let list=[...PRODUCTS];
   if(window.__CATALOG_CAT__&&window.__CATALOG_CAT__!=='all') list=list.filter(p=>p.category===window.__CATALOG_CAT__);
@@ -174,7 +184,7 @@ function getFiltered(){
   if(sort==='price-asc')list.sort((a,b)=>a.price-b.price);
   else if(sort==='price-desc')list.sort((a,b)=>b.price-a.price);
   else if(sort==='area-asc')list.sort((a,b)=>(a.area||0)-(b.area||0));
-  else list.sort((a,b)=>(a.pin||99)-(b.pin||99));   // default: pinned products first
+  else list=mixedOrder(list);            // default: pinned first, then categories interleaved
   return list;
 }
 /* Every language lives in its own page tree, so a link built on /ru/ has to stay
@@ -855,3 +865,38 @@ window.ppState={
     });
   });
 })();
+
+/* ============ RECENTLY VIEWED ============ */
+/* A visitor comparing five fridges loses the thread the moment they navigate.
+   Remember what they opened and offer it back — kept entirely in this browser,
+   nothing is sent anywhere. */
+const RECENT_KEY='tp_recent', RECENT_MAX=8;
+function recentRead(){
+  try{const v=JSON.parse(localStorage.getItem(RECENT_KEY)||'[]');return Array.isArray(v)?v:[];}
+  catch(e){return [];}
+}
+function recentAdd(slug){
+  if(!slug)return;
+  const list=recentRead().filter(s=>s!==slug);
+  list.unshift(slug);
+  try{localStorage.setItem(RECENT_KEY,JSON.stringify(list.slice(0,RECENT_MAX)));}catch(e){}
+}
+function clearRecent(){
+  try{localStorage.removeItem(RECENT_KEY);}catch(e){}
+  renderRecent();
+}
+function renderRecent(){
+  const box=$('recent'),row=$('recent-row');
+  if(!box||!row)return;
+  const here=window.PP_SLUG||null;                       // never offer the page you are on
+  const items=recentRead().filter(s=>s!==here)
+    .map(s=>PRODUCTS.find(p=>p.slug===s)).filter(Boolean);
+  if(!items.length){box.hidden=true;return;}
+  row.innerHTML=items.map(p=>`<a class="rc-card" href="${productUrl(p)}">
+    <span class="rc-img"><img src="${p.thumb||p.photos[0]}" alt="${pnameJS(p)}" loading="lazy" width="200" height="150"></span>
+    <span class="rc-n">${pnameJS(p)}</span>
+    <span class="rc-p">${fmt(p.price)} ${t('u_uah')}</span></a>`).join('');
+  box.hidden=false;
+}
+if(window.PP_SLUG) recentAdd(window.PP_SLUG);            // product pages record themselves
+renderRecent();

@@ -1140,3 +1140,28 @@ a.gauge-card:hover{transform:translateY(-4px)}
   .ctab-ic{display:none}
   .cat-card{padding:16px 14px;gap:12px}
 }
+
+/* ---- recently viewed: a scrollable strip, hidden until there is history ---- */
+.recent{max-width:var(--max);margin:0 auto;padding:6px 20px 34px}
+.recent-h{font-size:20px;margin-bottom:14px}
+.recent-row{display:flex;gap:14px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin;
+  -webkit-overflow-scrolling:touch;scroll-snap-type:x proximity}
+.rc-card{flex:0 0 168px;scroll-snap-align:start;display:flex;flex-direction:column;gap:8px;
+  padding:14px;border:1px solid var(--g2);border-radius:var(--r);background:#fff;text-decoration:none;
+  transition:border-color .18s,transform .18s,box-shadow .18s}
+.rc-card:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 12px 26px rgba(11,26,51,.09)}
+.rc-img{display:block;height:104px;border-radius:10px;overflow:hidden;
+  background:radial-gradient(120% 100% at 50% 10%,#FCFEFF,#E8EFFA)}
+.rc-img img{width:100%;height:100%;object-fit:contain;padding:8px}
+.rc-n{font-size:13px;line-height:1.35;color:var(--ink);font-weight:600;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rc-p{font-family:var(--disp);font-weight:800;font-size:15px;color:var(--ink);margin-top:auto}
+.recent-clear{margin-top:12px;padding:8px 15px;border:1px solid var(--g2);border-radius:999px;
+  background:#fff;color:var(--g4);font:inherit;font-size:13px;cursor:pointer}
+.recent-clear:hover{border-color:var(--blue);color:var(--blue-d)}
+@media(max-width:760px){
+  .recent{padding:4px 16px 26px}
+  .recent-h{font-size:17px}
+  .rc-card{flex-basis:142px;padding:11px}
+  .rc-img{height:88px}
+}

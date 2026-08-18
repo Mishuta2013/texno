@@ -394,7 +394,22 @@ if (bestStation && bestWasher) body = body.replace('class="hero-vis two"', 'clas
 // pre-render catalog grid for SEO (client re-renders on filter) — default tab shows ALL products
 const homeCatalogCat = 'all';
 // pinned products lead the default "Всі товари" view (mirrors getFiltered in main.js)
-const defaultOrder = products.slice().sort((a, b) => (a.pin || 99) - (b.pin || 99));
+/* "Всі товари" used to run 51 air conditioners in a row before anything else
+   appeared, because the list simply followed the order of the data file. Spread
+   each category evenly across the whole list instead, in proportion to its size:
+   a product's place is decided by how far through its own category it sits, so
+   52 air conditioners and 9 fridges both stretch from the top to the bottom.
+   Pinned products still come first, and the order is the same for every visitor
+   and every crawl. mixedOrder() is mirrored by the same function in main.js. */
+function mixedOrder(list) {
+  const seen = {}, size = {};
+  for (const p of list) size[p.category] = (size[p.category] || 0) + 1;
+  return list.map((p, i) => {
+    const n = (seen[p.category] = (seen[p.category] || 0) + 1) - 1;
+    return { p, i, pin: p.pin || 99, k: (n + 0.5) / size[p.category] };
+  }).sort((a, b) => a.pin - b.pin || a.k - b.k || a.i - b.i).map(x => x.p);
+}
+const defaultOrder = mixedOrder(products);
 body = body.replace('<div class="grid" id="catalog-grid"></div>',
   `<div class="grid" id="catalog-grid">${defaultOrder.map(card).join('')}</div>`);
 // brand strip: every brand actually in stock, ordered by how many products it has
@@ -605,6 +620,7 @@ ${HEADER}
   </div>
   ${runtimeCalc(p)}
   ${(() => { const rel = related(p); return rel.length ? `<div class="pp-related"><h2>${esc(t('pp_related'))}</h2><div class="grid grid-rel">${rel.map(card).join('')}</div></div>` : ''; })()}
+  <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
   <div class="pp-back"><a href="${curl(cat)}">← ${esc(lf(cat, 'name'))}</a></div>
 </div>
 <div class="pp-sticky" id="pp-sticky">
@@ -798,6 +814,7 @@ ${HEADER}
   <section class="section catalog cat-catalog" id="catalog">
     <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
   </section>
+  <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
   ${siblings ? `<div class="brand-links"><h2>${esc(t('brand_other').replace('{cat}', (lf(cat, 'nameGen') || CAT).toLowerCase()))}</h2><div class="bl-row">${siblings}</div></div>` : ''}
   <div class="pp-back"><a href="${curl(cat)}">← ${esc(CAT)}</a></div>
 </div>
@@ -882,6 +899,7 @@ ${HEADER}
     ${filtersFor(cat.key)}
     <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
   </section>
+  <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
   ${catArticles(cat.key)}
   <div class="pp-back"><a href="${pfx() || '/'}#catalog">← ${esc(t('pp_back_all'))}</a></div>
 </div>
