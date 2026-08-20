@@ -625,20 +625,6 @@ document.querySelectorAll('a[href*="380991108041"]').forEach(()=>{});
     for(let i=0;i<9;i++){const s=document.createElement('div');s.className='flake';s.textContent='❄';s.style.left=(Math.random()*100).toFixed(1)+'%';s.style.fontSize=(8+Math.random()*9).toFixed(0)+'px';s.style.animationDuration=(11+Math.random()*12).toFixed(1)+'s';s.style.animationDelay=(-Math.random()*14).toFixed(1)+'s';wrap.appendChild(s);}
     hero.insertBefore(wrap,hero.firstChild);
   }
-  /* count-up hero stats */
-  const cu=document.querySelectorAll('.hstat .n');
-  if(!reduce && cu.length){
-    cu.forEach(el=>el.dataset.cu=el.innerHTML);
-    const cio=new IntersectionObserver(es=>es.forEach(e=>{
-      if(!e.isIntersecting)return;cio.unobserve(e.target);
-      const el=e.target,html=el.dataset.cu,m=html.match(/^\s*(\d+)/);if(!m)return;
-      const target=+m[1];let t0;const dur=1200;
-      requestAnimationFrame(function step(ts){t0=t0||ts;const p=Math.min(1,(ts-t0)/dur);
-        const v=Math.round(target*(1-Math.pow(1-p,3)));el.innerHTML=html.replace(/^\s*\d+/,v);
-        if(p<1)requestAnimationFrame(step);});
-    }),{threshold:.6});
-    cu.forEach(el=>cio.observe(el));
-  }
 })();
 
 /* ============ QUIZ ENGINE ============

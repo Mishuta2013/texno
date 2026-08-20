@@ -49,11 +49,25 @@ def og_bg():
     im = Image.composite(glow, im, g.filter(ImageFilter.GaussianBlur(160)))
     return im
 
+def fitted(d, text, size, maxw, bold=False):
+    """Largest font at or below `size` whose line still fits `maxw`."""
+    while size > 14:
+        f = font(size, bold)
+        if d.textlength(text, font=f) <= maxw:
+            return f
+        size -= 1
+    return font(14, bold)
+
+
 def default_og():
     im = og_bg(); d = ImageDraw.Draw(im)
-    d.text((80, 210), "TEXNO PLAZA", font=font(92), fill=WHITE)
-    d.text((84, 330), "Побутова техніка у Сумах", font=font(54), fill=FROST)
-    d.text((84, 410), "Холодильники · пральні машини · кондиціонери · бойлери", font=font(32, False), fill=(210, 225, 245))
+    cats = "Холодильники · пральні машини · кондиціонери · бойлери · зарядні станції"
+    serv = "Доставка та монтаж по Сумах · оплата після встановлення"
+    d.text((80, 196), "TEXNO PLAZA", font=font(92), fill=WHITE)
+    d.text((84, 316), "Побутова техніка у Сумах", font=font(54), fill=FROST)
+    # five categories overrun 1200px at the old fixed 32pt, so the line is fitted
+    d.text((84, 396), cats, font=fitted(d, cats, 32, 1032), fill=(210, 225, 245))
+    d.text((84, 446), serv, font=fitted(d, serv, 30, 1032), fill=(150, 180, 220))
     im.save(os.path.join(OG, "default.jpg"), quality=86)
 
 # What the shop actually promises for this kind of product. A washing machine
