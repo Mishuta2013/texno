@@ -2,19 +2,26 @@
 # -*- coding: utf-8 -*-
 """Build the delivery-map SVG from OpenStreetMap extracts.
 
-The first version of this map was the city outline and one pin, which told a
-visitor nothing about where anything is. This adds the things people in Sumy
-actually navigate by: the Psel and its two tributaries, the primary and
-secondary road network, the two city districts, and the landmarks customers
-name on the phone — Altanka, Manufaktura, Lavina, the central market, the
-station.
+The first attempt drew the whole administrative boundary. Everything a customer
+navigates by sits in a strip about 5 km across, so nine tenths of the frame was
+empty outskirts and the landmarks were a pile in the middle — labels had to be
+flung outwards on leader lines, which made Manufaktura look as if it were a
+kilometre east of the shop when it is next door.
 
-Everything is real OSM data, projected once so every layer lines up, simplified
-until the whole thing fits in a few kilobytes, and written as a static SVG
-fragment. Nothing is fetched at runtime; attribution stays in the caption.
+So the map is framed on the built-up centre instead. The window is computed
+from the landmarks themselves plus a margin, then squared off to the viewBox
+aspect; the city boundary simply runs off the edges, the way it does on any
+real map. Labels sit tight against their dots and one that cannot fit is
+dropped rather than dragged across the map.
 
-Inputs are the raw Overpass/Nominatim dumps in SRC (see the fetch commands in
-FETCHED_WITH below). Output: templates/map.svg, injected at <!--DELIVERY_MAP-->.
+The shop and TRC Manufaktura are one marker: Kharkivska 2/1 and 2/2 are
+neighbouring buildings, so at any honest scale they are the same point, and
+"we are at Manufaktura" is more use to a customer than two dots on top of each
+other.
+
+Everything is real OSM data, projected once so the layers line up, and written
+as a static fragment. Nothing is fetched at runtime; attribution is in the
+caption. Output: templates/map.svg, injected at <!--DELIVERY_MAP-->.
 
 Run: python scripts/make_map.py
 """
@@ -33,26 +40,44 @@ FETCHED_WITH = """
   roads     way[highway~"^(trunk|primary|secondary)$"](bbox)
   water     way[waterway=river] + way[natural=water](bbox)
   poi       nwr[shop=mall|department_store] + [amenity=marketplace] + [tourism=attraction]
-  districts relation(4045817); relation(4045818)
+  districts relation(4045817) Zarichnyi; relation(4045818) Kovpakivskyi
 """
 
-W, H, PAD = 560.0, 440.0, 14.0
-SHOP = (34.8064328, 50.9044303)          # вул. Харківська 2/1
+W, H, PAD = 560.0, 440.0, 10.0
+# How much of Sumy to show, measured across. The administrative boundary is
+# 16 km wide and mostly empty fields; the landmarks live in the middle 5 km.
+# This is the compromise: wide enough that the city keeps its silhouette,
+# tight enough that the centre stays legible. Set it in kilometres and the
+# height follows the viewBox aspect.
+FRAME_KM = 11.0
 
-# name -> (lon, lat, i18n key). Coordinates straight out of the OSM dump above.
-# The first three are the ones customers name on the phone and stay on every
-# screen; the rest are marked minor and step aside on a narrow one, where the
-# map is barely 300px wide and six labels would be a smudge.
-MINOR_FROM = 3
+# The shop: Kharkivska 2/1, the building beside TRC Manufaktura at 2/2, so the
+# two share one marker.
+SHOP = (34.8064328, 50.9044303)
+
+# (name, lon, lat, i18n key, minor). Coordinates and addresses read out of the
+# OSM dump: Lavina = Lushpy 4/1, Epicentr = Heroiv Krut 1/3, Manufaktura =
+# Kharkivska 2/2. "minor" ones stand down on a phone.
 PLACES = [
-    (u"Альтанка",         34.79927, 50.90678, "dm_altanka"),
-    (u"Мануфактура",      34.80499, 50.90417, "dm_manufaktura"),
-    (u"Лавина",           34.81953, 50.90473, "dm_lavina"),
-    (u"Центральний ринок", 34.79609, 50.91399, "dm_rynok"),
-    (u"Вокзал",           34.80813, 50.92728, "dm_vokzal"),
-    (u"Епіцентр",         34.83421, 50.91858, "dm_epicentr"),
+    (u"Альтанка",           34.79927, 50.90678, "dm_altanka",  False),
+    (u"Лавина",             34.81953, 50.90473, "dm_lavina",   False),
+    (u"Центральний ринок",  34.79609, 50.91399, "dm_rynok",    False),
+    (u"Вокзал",             34.80813, 50.92728, "dm_vokzal",   True),
+    (u"Епіцентр",           34.83421, 50.91858, "dm_epicentr", True),
 ]
-DISTRICTS = {4045817: (u"Зарічний", "dm_zarichnyi"), 4045818: (u"Ковпаківський", "dm_kovpakivskyi")}
+DISTRICTS = {4045817: (u"Зарічний", "dm_zarichnyi"),
+             4045818: (u"Ковпаківський", "dm_kovpakivskyi")}
+
+# Streets worth naming, with how far from the shop the label may sit.
+# Kharkivska runs the whole width of Sumy and out towards Kharkiv: naming its
+# far end while the shop sits on it in the centre is the sort of thing that
+# makes a reader mistrust the map, so it is only labelled close to home.
+STREETS = [
+    (u"Харківська вулиця", u"Харківська", "dm_st_kharkiv", 150),
+    (u"проспект Михайла Лушпи", u"пр. Лушпи", "dm_st_lushpy", None),
+    (u"Петропавлівська вулиця", u"Петропавлівська", "dm_st_petropavl", None),
+    (u"Роменська вулиця", u"Роменська", "dm_st_romenska", None),
+]
 
 
 def load(name):
@@ -87,197 +112,318 @@ def rdp(points, eps):
     return [p for p, k in zip(points, keep) if k]
 
 
+def stitch(ways):
+    """Join relation member ways into closed rings by matching endpoints.
+
+    Overpass hands back the outer ways in no particular order and pointing
+    either way round, so a district is a bag of fragments until they are sewn
+    together. Anything that will not close is returned as-is; it is only used
+    for drawing, where an open run is harmless.
+    """
+    rings, pool = [], [list(w) for w in ways if len(w) > 1]
+    while pool:
+        ring = pool.pop(0)
+        joined = True
+        while joined and ring[0] != ring[-1]:
+            joined = False
+            for i, w in enumerate(pool):
+                if w[0] == ring[-1]:
+                    ring += w[1:]
+                elif w[-1] == ring[-1]:
+                    ring += w[::-1][1:]
+                elif w[-1] == ring[0]:
+                    ring = w[:-1] + ring
+                elif w[0] == ring[0]:
+                    ring = w[::-1][:-1] + ring
+                else:
+                    continue
+                pool.pop(i)
+                joined = True
+                break
+        rings.append(ring)
+    return rings
+
+
+def inside(poly, x, y):
+    """Even-odd point in polygon."""
+    hit = False
+    n = len(poly)
+    for i in range(n):
+        x1, y1 = poly[i]
+        x2, y2 = poly[(i + 1) % n]
+        if (y1 > y) != (y2 > y) and x < (x2 - x1) * (y - y1) / (y2 - y1 + 1e-12) + x1:
+            hit = not hit
+    return hit
+
+
+def label_spot(poly, box, step=14):
+    """The point inside `poly` and inside `box` that is furthest from any edge.
+
+    A centroid is useless for a district shaped like a crescent — Zarichnyi's
+    landed next to the shop, on the far side of the river from itself. This
+    walks a grid and keeps the roomiest interior point instead.
+    """
+    x0, y0, x1, y1 = box
+    best, bestd = None, -1.0
+    gy = y0
+    while gy <= y1:
+        gx = x0
+        while gx <= x1:
+            if inside(poly, gx, gy):
+                d = min(math.hypot(gx - px, gy - py) for px, py in poly)
+                edge = min(gx - x0, x1 - gx, gy - y0, y1 - gy)
+                d = min(d, edge)
+                if d > bestd:
+                    best, bestd = (gx, gy), d
+            gx += step
+        gy += step
+    return best
+
+
 def main():
-    # ---- the city outline sets the projection every other layer uses ----
     city = load("sumy.json")[0]["geojson"]
     rings = ([r for poly in city["coordinates"] for r in poly]
              if city["type"] == "MultiPolygon" else city["coordinates"])
     ring = max(rings, key=len)
 
-    lat0 = sum(p[1] for p in ring) / len(ring)
-    k = math.cos(math.radians(lat0))
+    kx = math.cos(math.radians(SHOP[1]))
 
     def proj(lon, lat):
-        return (lon * k, -lat)
+        return (lon * kx, -lat)
 
-    cpts = [proj(*p) for p in ring]
-    xs = [p[0] for p in cpts]
-    ys = [p[1] for p in cpts]
-    minx, maxx, miny, maxy = min(xs), max(xs), min(ys), max(ys)
-    sc = min((W - 2 * PAD) / (maxx - minx), (H - 2 * PAD) / (maxy - miny))
-    ox = (W - (maxx - minx) * sc) / 2 - minx * sc
-    oy = (H - (maxy - miny) * sc) / 2 - miny * sc
+    # ---- frame: centred between the shop and the landmarks it has to show ----
+    anchors = [proj(SHOP[0], SHOP[1])] + [proj(p[1], p[2]) for p in PLACES]
+    axs = [p[0] for p in anchors]
+    ays = [p[1] for p in anchors]
+    cx0 = (min(axs) + max(axs)) / 2
+    cy0 = (min(ays) + max(ays)) / 2
+    # x is lon*cos(lat), so one unit is 111.32 km in both axes
+    half_w = FRAME_KM / 2 / 111.32
+    half_h = half_w / ((W - 2 * PAD) / (H - 2 * PAD))
+    sc = (W - 2 * PAD) / (2 * half_w)
 
     def to(lon, lat):
         x, y = proj(lon, lat)
-        return (x * sc + ox, y * sc + oy)
+        return ((x - cx0) * sc + W / 2, (y - cy0) * sc + H / 2)
 
-    def path_of(coords, eps=0.35, close=False):
-        pts = [to(c[0], c[1]) if isinstance(c, (list, tuple)) else to(c["lon"], c["lat"])
-               for c in coords]
-        pts = rdp(pts, eps)
+    def xy(c):
+        return to(c[0], c[1]) if isinstance(c, (list, tuple)) else to(c["lon"], c["lat"])
+
+    def path_of(coords, eps=1.1, close=False):
+        pts = rdp([xy(c) for c in coords], eps)
         if len(pts) < 2:
             return None
-        # whole pixels: at this scale a decimal place is invisible and costs
-        # roughly a third of the file
         d = "M" + " L".join("%d %d" % (round(x), round(y)) for x, y in pts)
         return d + " Z" if close else d
 
-    def span(coords):
-        pts = [to(c[0], c[1]) if isinstance(c, (list, tuple)) else to(c["lon"], c["lat"])
-               for c in coords]
-        xs2 = [q[0] for q in pts]; ys2 = [q[1] for q in pts]
-        return math.hypot(max(xs2) - min(xs2), max(ys2) - min(ys2))
+    # geometry well outside the window never reaches the file
+    def touches(coords):
+        for c in coords:
+            x, y = xy(c)
+            if -70 <= x <= W + 70 and -70 <= y <= H + 70:
+                return True
+        return False
 
-    inside = lambda x, y: -20 <= x <= W + 20 and -20 <= y <= H + 20
+    # ---- layers ----
+    city_d = path_of([(p[0], p[1]) for p in ring], eps=0.8, close=True)
 
-    # ---- city ----
-    city_d = path_of([(p[0], p[1]) for p in ring], eps=0.6, close=True)
-
-    # ---- districts: boundary lines, drawn faint under everything ----
-    dist_paths, dist_labels = [], []
+    dist_paths, dist_rings = [], {}
     for el in load("adm_geom.json")["elements"]:
         label = DISTRICTS.get(el["id"])
         if not label:
             continue
-        segs, pts_all = [], []
+        ways = []
         for m in el.get("members", []):
             if m.get("role") != "outer" or not m.get("geometry"):
                 continue
-            d = path_of(m["geometry"], eps=1.6)
-            if d:
-                segs.append(d)
-            pts_all += [to(g["lon"], g["lat"]) for g in m["geometry"]]
-        if segs:
-            dist_paths.append(" ".join(segs))
-        if pts_all:
-            vis = [p for p in pts_all if inside(*p)] or pts_all
-            cx = sum(p[0] for p in vis) / len(vis)
-            cy = sum(p[1] for p in vis) / len(vis)
-            dist_labels.append((label[0], label[1], cx, cy))
+            if touches(m["geometry"]):
+                d = path_of(m["geometry"], eps=1.1)
+                if d:
+                    dist_paths.append(d)
+            ways.append([(round(g["lon"], 7), round(g["lat"], 7)) for g in m["geometry"]])
+        rings = [[to(*pt) for pt in r] for r in stitch(ways) if len(r) > 3]
+        if rings:
+            dist_rings[label] = max(rings, key=len)
 
-    # ---- water: rivers as lines, the larger bodies as fills ----
     rivers, lakes = [], []
     for el in load("water.json")["elements"]:
         t = el.get("tags", {})
         g = el.get("geometry")
-        if not g:
+        if not g or not touches(g):
             continue
         if t.get("waterway") == "river":
             if t.get("name") not in (u"Псел", u"Сумка", u"Стрілка"):
-                continue                       # the rest are ditches at this scale
-            d = path_of(g, eps=1.1)
+                continue
+            d = path_of(g, eps=0.8)
             if d:
                 rivers.append(d)
         elif t.get("natural") == "water":
-            pts = [to(p["lon"], p["lat"]) for p in g]
+            pts = [xy(p) for p in g]
             if len(pts) < 4:
                 continue
             area = abs(sum(pts[i][0] * pts[i - 1][1] - pts[i - 1][0] * pts[i][1]
                            for i in range(len(pts)))) / 2
-            if area < 45:                      # px² — anything smaller is a dot
+            if area < 60:
                 continue
-            d = path_of(g, eps=1.0, close=True)
+            d = path_of(g, eps=0.8, close=True)
             if d:
                 lakes.append(d)
 
-    # ---- roads ----
-    major, minor = [], []
+    major, minor_r, street_runs = [], [], {}
     for el in load("roads.json")["elements"]:
         g = el.get("geometry")
-        if not g:
+        if not g or not touches(g):
             continue
-        if span(g) < 7:                        # a stub this short reads as a speck
-            continue
-        d = path_of(g, eps=1.6)
+        d = path_of(g, eps=1.0)
         if not d:
             continue
-        (major if el.get("tags", {}).get("highway") in ("trunk", "primary") else minor).append(d)
+        name = el.get("tags", {}).get("name")
+        if name and any(name == full for full, _s, _k, _r in STREETS):
+            street_runs.setdefault(name, []).append([xy(p) for p in g])
+        (major if el.get("tags", {}).get("highway") in ("trunk", "primary")
+         else minor_r).append(d)
 
-    # ---- labels, placed so they do not sit on top of each other ----
+    # ---- labels: tight to their dot, dropped if there is no room ----
     boxes = []
 
-    def place(x, y, text, size=10.5, prefer=None):
-        w = len(text) * size * 0.52 + 12
-        h = size + 6
-        near = [(9, 3.5, "start"), (-9, 3.5, "end"), (0, -9, "middle"), (0, 14, "middle"),
-                (9, -8, "start"), (-9, -8, "end")]
-        far = [(d * sx2, d * sy2, a) for d in (22, 34, 46)
-               for sx2, sy2, a in ((1, -0.5, "start"), (-1, -0.5, "end"),
-                                   (1, 0.7, "start"), (-1, 0.7, "end"),
-                                   (0, -1, "middle"), (0, 1, "middle"))]
-        for dx, dy, anchor in (prefer or near + far):
+    def inframe(b):
+        return b[0] >= 3 and b[2] <= W - 3 and b[1] >= 3 and b[3] <= H - 3
+
+    def free(b):
+        return not any(not (b[2] < o[0] or b[0] > o[2] or b[3] < o[1] or b[1] > o[3])
+                       for o in boxes)
+
+    def place(x, y, text, size=11.5):
+        w = len(text) * size * 0.53 + 10
+        h = size + 5
+        for dx, dy, anchor in [(8, 4, "start"), (-8, 4, "end"),
+                               (0, -8, "middle"), (0, 15, "middle"),
+                               (8, -6, "start"), (-8, -6, "end"),
+                               (8, 14, "start"), (-8, 14, "end")]:
             lx, ly = x + dx, y + dy
             x0 = lx if anchor == "start" else (lx - w if anchor == "end" else lx - w / 2)
             box = (x0, ly - h + 3, x0 + w, ly + 3)
-            if box[0] < 2 or box[2] > W - 2 or box[1] < 2 or box[3] > H - 2:
-                continue
-            if any(not (box[2] < b[0] or box[0] > b[2] or box[3] < b[1] or box[1] > b[3])
-                   for b in boxes):
-                continue
-            boxes.append(box)
-            return lx, ly, anchor
+            if inframe(box) and free(box):
+                boxes.append(box)
+                return lx, ly, anchor
         return None
 
-    # district names are painted under everything and must not be overwritten
-    for _name, _key, cx, cy in dist_labels:
-        w = len(_name) * 13 * 0.62 + 14
-        boxes.append((cx - w / 2, cy - 12, cx + w / 2, cy + 6))
+    # the pin and its two-line caption claim their space before anything else
+    sx, sy = to(*SHOP)
+    boxes.append((sx - 46, sy + 2, sx + 46, sy + 34))
 
-    shop_xy = to(*SHOP)
-    # the pin, its halo and its caption; nearby labels get pushed out and
-    # picked up a leader line rather than sitting on top of the marker
-    boxes.append((shop_xy[0] - 36, shop_xy[1] - 10, shop_xy[0] + 36, shop_xy[1] + 22))
+    dist_labels = []
+    for (name, key), ring in dist_rings.items():
+        w = len(name) * 13 * 0.62 + 14
+        spot = label_spot(ring, (w / 2 + 6, 20, W - w / 2 - 6, H - 20))
+        if not spot:
+            continue
+        dx, dy = spot
+        for ox, oy in ((0, 0), (0, -24), (0, 24), (-34, 0), (34, 0), (0, -48), (0, 48)):
+            b = (dx + ox - w / 2, dy + oy - 12, dx + ox + w / 2, dy + oy + 6)
+            if inframe(b) and free(b) and inside(ring, dx + ox, dy + oy):
+                boxes.append(b)
+                dist_labels.append((name, key, dx + ox, dy + oy))
+                break
 
-    pois = []
-    for i, (name, lon, lat, key) in enumerate(PLACES):
+    pois, dropped = [], []
+    for name, lon, lat, key, is_minor in PLACES:
         x, y = to(lon, lat)
+        if not (0 <= x <= W and 0 <= y <= H):
+            dropped.append(name + " (outside the frame)")
+            continue
         p = place(x, y, name)
         if p:
-            pois.append((x, y, p[0], p[1], p[2], name, key, i >= MINOR_FROM))
+            pois.append((x, y, p[0], p[1], p[2], name, key, is_minor))
+        else:
+            dropped.append(name + " (no room)")
+
+    # ---- street names, set along the straightest visible run ----
+    street_labels = []
+    for full, short, key, max_from_shop in STREETS:
+        runs = []
+        for pts in street_runs.get(full, []):
+            vis = [p for p in pts if 24 <= p[0] <= W - 24 and 24 <= p[1] <= H - 24]
+            if len(vis) < 2:
+                continue
+            span = math.hypot(vis[-1][0] - vis[0][0], vis[-1][1] - vis[0][1])
+            if span < 42:
+                continue
+            mid = vis[len(vis) // 2]
+            gap = math.hypot(mid[0] - sx, mid[1] - sy)
+            if max_from_shop is not None and gap > max_from_shop:
+                continue
+            runs.append((gap, vis))
+        if not runs:
+            continue
+        runs.sort(key=lambda r: r[0])          # nearest the shop wins
+        w = len(short) * 9.5 * 0.53 + 8
+        placed = False
+        for _dist, vis in runs:
+            ang = math.degrees(math.atan2(vis[-1][1] - vis[0][1], vis[-1][0] - vis[0][0]))
+            ang = ang - 180 if ang > 90 else (ang + 180 if ang < -90 else ang)
+            # walk the run rather than insisting on its midpoint: near the shop
+            # the middle is always taken, but a stretch further along is free
+            n = len(vis)
+            for frac in (0.5, 0.35, 0.65, 0.2, 0.8):
+                mx, my = vis[min(n - 1, int(n * frac))]
+                b = (mx - w / 2, my - 12, mx + w / 2, my + 3)
+                if inframe(b) and free(b):
+                    boxes.append(b)
+                    street_labels.append((short, key, mx, my, round(ang, 1)))
+                    placed = True
+                    break
+            if placed:
+                break
 
     # ---- assemble ----
-    esc = lambda s: (s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
+    def esc(s):
+        return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
     L = []
     A = L.append
     A('<svg viewBox="0 0 %g %g" role="img" aria-labelledby="dl-map-t">' % (W, H))
-    A('  <title id="dl-map-t" data-i18n="dl_map_alt">Мапа Сум: райони, головні вулиці та орієнтири</title>')
+    A('  <title id="dl-map-t" data-i18n="dl_map_alt">Мапа центру Сум: райони, вулиці та орієнтири</title>')
     A('  <defs><clipPath id="dm-clip"><path d="%s"/></clipPath></defs>' % city_d)
     A('  <path class="dm-city" d="%s"/>' % city_d)
     A('  <g clip-path="url(#dm-clip)">')
     for cls, group in (("dm-district", dist_paths), ("dm-water-fill", lakes),
-                       ("dm-river", rivers), ("dm-road", minor), ("dm-road-major", major)):
+                       ("dm-river", rivers), ("dm-road", minor_r),
+                       ("dm-road-major", major)):
         if group:
             A('    <path class="%s" d="%s"/>' % (cls, " ".join(group)))
     A('  </g>')
-    for name, key, cx, cy in dist_labels:
+    for name, key, dx, dy in dist_labels:
         A('  <text class="dm-dist" x="%g" y="%g" data-i18n="%s">%s</text>'
-          % (round(cx, 1), round(cy, 1), key, esc(name)))
-    sx, sy = shop_xy
-    A('  <circle class="dm-halo" cx="%g" cy="%g" r="7"/>' % (round(sx, 1), round(sy, 1)))
-    for x, y, lx, ly, anchor, name, key, is_minor in pois:
-        m = " dm-minor" if is_minor else ""
-        if math.hypot(lx - x, ly - y) > 16:
-            A('  <path class="dm-leader%s" d="M%d %d L%d %d"/>'
-              % (m, round(x), round(y), round(lx), round(ly - 3)))
-        A('  <circle class="dm-poi%s" cx="%g" cy="%g" r="3"/>' % (m, round(x, 1), round(y, 1)))
-    for x, y, lx, ly, anchor, name, key, is_minor in pois:
+          % (round(dx, 1), round(dy, 1), key, esc(name)))
+    for short, key, mx, my, ang in street_labels:
+        A('  <text class="dm-street" x="%g" y="%g" transform="rotate(%g %g %g)" data-i18n="%s">%s</text>'
+          % (round(mx, 1), round(my, 1), ang, round(mx, 1), round(my, 1), key, esc(short)))
+    A('  <circle class="dm-halo" cx="%g" cy="%g" r="8"/>' % (round(sx, 1), round(sy, 1)))
+    for x, y, _lx, _ly, _a, _n, _k, is_minor in pois:
+        A('  <circle class="dm-poi%s" cx="%g" cy="%g" r="3.2"/>'
+          % (" dm-minor" if is_minor else "", round(x, 1), round(y, 1)))
+    for _x, _y, lx, ly, anchor, name, key, is_minor in pois:
         A('  <text class="dm-poi-t%s" x="%g" y="%g" text-anchor="%s" data-i18n="%s">%s</text>'
           % (" dm-minor" if is_minor else "", round(lx, 1), round(ly, 1), anchor, key, esc(name)))
-    A('  <circle class="dm-pin" cx="%g" cy="%g" r="4.5"/>' % (round(sx, 1), round(sy, 1)))
+    A('  <circle class="dm-pin" cx="%g" cy="%g" r="5"/>' % (round(sx, 1), round(sy, 1)))
     A('  <text class="dm-shop-t" x="%g" y="%g" text-anchor="middle" data-i18n="dm_shop">TexnoPlaza</text>'
-      % (round(sx, 1), round(sy + 16, 1)))
+      % (round(sx, 1), round(sy + 18, 1)))
+    A('  <text class="dm-shop-s" x="%g" y="%g" text-anchor="middle" data-i18n="dm_shop_at">ТРЦ Мануфактура</text>'
+      % (round(sx, 1), round(sy + 30, 1)))
     A('</svg>')
     svg = "\n".join(L) + "\n"
-
     io.open(OUT, "w", encoding="utf-8", newline="\n").write(svg)
-    print("districts %d, rivers %d, water %d, roads %d+%d, labels %d/%d"
-          % (len(dist_paths), len(rivers), len(lakes), len(major), len(minor),
-             len(pois), len(PLACES)))
+
+    print("frame %.1f x %.1f km" % (2 * half_w * 111.32, 2 * half_h * 111.32))
+    print("districts %d, rivers %d, water %d, roads %d+%d"
+          % (len(dist_paths), len(rivers), len(lakes), len(major), len(minor_r)))
+    print("labels: %d/%d places, %d/%d districts, %d/%d streets"
+          % (len(pois), len(PLACES), len(dist_labels), len(DISTRICTS),
+             len(street_labels), len(STREETS)))
     print("map.svg: %.1f KB" % (len(svg.encode("utf-8")) / 1024.0))
-    dropped = [n for n, _, _, _ in PLACES if n not in [q[5] for q in pois]]
     if dropped:
-        print("  !! no room for label(s):", ", ".join(dropped))
+        print("  !! not drawn:", ", ".join(dropped))
 
 
 if __name__ == "__main__":

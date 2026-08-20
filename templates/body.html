@@ -40,6 +40,11 @@
       </a>
       <button class="btn-cb" onclick="openCb()" data-i18n="cb_btn">Замовити дзвінок</button>
       <div class="h-tools">
+        <button class="hdr-icon-btn theme-btn" onclick="toggleTheme()" title="Тема"
+                aria-label="Перемкнути тему" data-i18n-aria="th_toggle">
+          <svg class="th-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.6M12 19.4V22M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M2 12h2.6M19.4 12H22M4.9 19.1l1.9-1.9M17.2 6.8l1.9-1.9"/></svg>
+          <svg class="th-moon" viewBox="0 0 24 24"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"/></svg>
+        </button>
         <button class="hdr-icon-btn" onclick="openFav()" title="Обране" aria-label="Обране">
           <svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
           <span class="cnt" id="fav-count">0</span>
@@ -94,15 +99,15 @@
 <div class="trust">
   <div class="trust-in">
     <div class="trust-card reveal">
-      <div class="ti"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+      <div class="ti"><svg viewBox="0 0 24 24"><path d="M1 3h13v13H1zM14 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="17.5" cy="18.5" r="2"/></svg></div>
       <div><div class="tt" data-i18n="trust1t">Монтаж за 1 день</div><div class="ts" data-i18n="trust1s">У день замовлення</div></div>
     </div>
     <div class="trust-card reveal">
-      <div class="ti"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+      <div class="ti"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0 5 5l-9 9a2.8 2.8 0 0 1-4-4z"/><path d="M14.7 6.3 18 3l3 3-3.3 3.3"/></svg></div>
       <div><div class="tt" data-i18n="trust2t">Оплата після</div><div class="ts" data-i18n="trust2s">Спершу — перевірка</div></div>
     </div>
     <div class="trust-card reveal">
-      <div class="ti"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="ti"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
       <div><div class="tt" data-i18n="trust3t">Гарантія до 5 років</div><div class="ts" data-i18n="trust3s">Офіційна + на монтаж</div></div>
     </div>
     <div class="trust-card reveal">

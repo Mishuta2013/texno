@@ -80,6 +80,44 @@ const pname = p => {
   return pref[L] + p.name.slice(pref.uk.length);
 };
 const pdesc = p => p['desc_' + L] || p.desc_uk;
+/* One honest superlative per product, worked out from the catalogue itself.
+   Only a strict winner is labelled: on a tie nobody gets the badge, because
+   "the quietest" stops meaning anything the moment two models share it. The
+   result travels on the product, so build.mjs and main.js render the same
+   badge from the same number rather than each deciding for itself. */
+{
+  /* First number in the string, not every digit in it: stripping the
+     separators turned "51 / 72 дБ" into 5172 and handed "quietest washing
+     machine" to the loudest one in the list. */
+  const num = v => {
+    const m = String(v ?? '').replace(',', '.').match(/-?\d+(?:\.\d+)?/);
+    return m ? parseFloat(m[0]) : null;
+  };
+  const METRICS = [
+    ['edge_cheap',    p => p.price,                          'min'],
+    /* Air conditioners only. noise_wm is written two ways across the washing
+       machines — some list wash/spin, one lists spin alone — so the numbers are
+       not comparable and no badge is safer than a wrong one. */
+    ['edge_quiet',    p => (p.category === 'kondicioneri' ? num(p.specs?.noise) : null), 'min'],
+    ['edge_fast',     p => num(p.specs?.heat_time),          'min'],
+    ['edge_roomy',    p => num(p.specs?.volume_l),           'max'],
+    ['edge_power',    p => num(p.specs?.output_w ?? p.specs?.capacity_wh), 'max'],
+    ['edge_load',     p => num(p.specs?.load_kg),            'max']
+  ];
+  for (const key of Object.keys(CATS)) {
+    const list = products.filter(p => p.category === key);
+    if (list.length < 3) continue;             // a superlative needs a field
+    for (const [label, get, dir] of METRICS) {
+      const vals = list.map(p => [p, get(p)]).filter(([, v]) => v !== null && v > 0);
+      if (vals.length < 3) continue;
+      const best = dir === 'min' ? Math.min(...vals.map(v => v[1])) : Math.max(...vals.map(v => v[1]));
+      const winners = vals.filter(([, v]) => v === best);
+      if (winners.length !== 1) continue;      // a tie is not a superlative
+      const p = winners[0][0];
+      if (!p.edge) p.edge = label;             // first metric in the list wins
+    }
+  }
+}
 // live product counts — never hardcode a number in copy, write {{TOTAL}}/{{AC}}/{{WM}}/{{PS}}
 const COUNTS = {
   TOTAL: products.length,
@@ -224,7 +262,7 @@ ${alts}
 <link rel="manifest" href="/manifest.webmanifest">
 ${FONTS}
 <link rel="stylesheet" href="${av('/assets/css/main.css')}">
-<script>document.documentElement.className+=' js';if('serviceWorker'in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
+<script>document.documentElement.className+=' js';(function(){var t=null;try{t=localStorage.getItem('tp_theme')}catch(e){}if(t!=='dark'&&t!=='light')t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)})();if('serviceWorker'in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}`;
 }
 
@@ -233,12 +271,13 @@ function card(p) {
   const url = purl(p);
   const badge = p.heatpump ? `<span class="cbadge heat">${esc(t('sp_hp'))}</span>`
     : p.inverter ? `<span class="cbadge inv">${esc(t("c_inverter"))}</span>` : '';
+  const edge = p.edge ? `<span class="cedge">${esc(t(p.edge))}</span>` : '';
   return `<div class="card">
     <a class="card-img" href="${url}">${badge}<span class="cstock"><i></i>${esc(t('c_instock'))}</span>
       <img src="${esc(av(p.thumb || p.photos[0]))}" alt="${esc(pname(p))}" loading="lazy" width="400" height="300"></a>
     <div class="card-body"><a class="card-brand" href="${pfx()}${catOf(p).urlPrefix}/${brandSlug(p.brand)}/">${esc(p.brand)}</a>
       <a class="card-name" href="${url}">${esc(pname(p))}</a>
-      <div class="card-specs">${catChips(p)}</div>
+      <div class="card-specs">${catChips(p)}</div>${edge}
       <div class="card-foot"><div class="card-price">${fmt(p.price)} <small>${esc(t("u_uah"))}</small></div>
         <div class="card-act"><div class="row2">
           <a class="btn-order" href="${url}">${esc(t('c_order'))}</a>
@@ -464,18 +503,17 @@ const SEASON = ['warm', 'cold', 'mild'].includes(process.env.TP_SEASON) ? proces
 //   TP_SEASON=cold node scripts/build.mjs   — to preview another season
 const bestBoiler = products.find(p => p.category === 'boylery');
 const bestWasher = products.find(p => p.slug === 'lg-f2y2ns3we') || products.find(p => p.category === 'pralni-mashyny');
-/* The Fossibot carries the "Новинка" badge and stays in the hero all year —
-   the season only decides what leads and what fills the remaining slot. In
-   summer the air conditioner takes the lead and the station sits second. */
+/* The Fossibot carries the "Новинка" badge and always leads the hero. */
 const stationCard = bestStation ? heroStationCard(bestStation) : '';
 const seasonCards = {
   warm: [best && heroCard(best), bestFridge && heroFridgeCard(bestFridge)],
   cold: [bestBoiler && heroBoilerCard(bestBoiler), bestWasher && heroWasherCard(bestWasher)],
   mild: [bestFridge && heroFridgeCard(bestFridge), bestWasher && heroWasherCard(bestWasher)]
 }[SEASON].filter(Boolean);
-const heroSlots = (SEASON === 'warm'
-  ? [seasonCards[0], stationCard, seasonCards[1]]
-  : [stationCard, ...seasonCards]).filter(Boolean);
+// The Fossibot leads in every season — it is the flagship новинка and the owner
+// wants it at the top of the hits all year. The season only picks the two
+// cards under it.
+const heroSlots = [stationCard, ...seasonCards].filter(Boolean);
 // never leave the hero short of a card if a category runs empty
 for (const spare of [stationCard, bestFridge && heroFridgeCard(bestFridge), best && heroCard(best)]) {
   if (heroSlots.length >= 3) break;
@@ -706,7 +744,7 @@ ${(() => {
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
 </head><body>${GTM_NS}
 ${HEADER}
-<div class="pp-wrap">
+<div class="pp-wrap" data-print-contact="${esc(`${site.phoneDisplay} · ${lf(site, 'address') || site.address} · ${BASE.replace(/^https?:\/\//, '')}`)}">
   <nav class="pp-bc"><a href="${pfx() || '/'}">${esc(t('pp_home'))}</a> › <a href="${curl(cat)}">${esc(lf(cat, 'name'))}</a> › <span>${esc(p.brand)}</span></nav>
   <div class="pp-top">
     <div class="pp-gallery">

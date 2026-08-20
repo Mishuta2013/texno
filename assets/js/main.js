@@ -212,6 +212,9 @@ function cardHTML(p){
   let badge='';
   if(p.heatpump)badge=`<span class="cbadge heat">${t('sp_hp')}</span>`;
   else if(p.inverter)badge=`<span class="cbadge inv">${t('f_inv').replace(/і$|ые$|s$/,'')||'Inverter'}</span>`;
+  /* worked out at build time and shipped on the product, so this cannot
+     disagree with the statically rendered cards */
+  const edge=p.edge?`<span class="cedge">${t(p.edge)}</span>`:'';
   const favOn=FAV.includes(idx)?'on':'';
   const cmpOn=CMP.includes(idx)?'on':'';
   return`<div class="card">
@@ -225,6 +228,7 @@ function cardHTML(p){
     <div class="card-body">
       <a class="card-brand" href="${langPfx()}${(catOf(p).urlPrefix||'')}/${brandSlugJS(p.brand)}/">${p.brand}</a>
       <a class="card-name" href="${url}">${pnameJS(p)}</a>
+      ${edge}
       <div class="card-specs">${catChipsJS(p)}</div>
       <div class="card-foot">
         <div class="card-price">${fmt(p.price)} <small>${t('u_uah')}</small></div>
@@ -243,9 +247,38 @@ function renderCatalog(){
   const grid=$('catalog-grid'); if(!grid) return;
   const list=getFiltered();
   const base=(window.__CATALOG_CAT__&&window.__CATALOG_CAT__!=='all')?PRODUCTS.filter(p=>p.category===window.__CATALOG_CAT__).length:PRODUCTS.length;
-  const rc=$('results-count'); if(rc) rc.innerHTML=`${t('found')} <strong>${list.length}</strong> ${t('of')} ${base} ${t('models_w')}`;
+  const rc=$('results-count'); if(rc) setResultCount(rc,list.length,base);
   if(!list.length){grid.innerHTML=`<div class="no-results"><p>${t('no_res_t')}</p><span>${t('no_res_s')}</span></div>`;return;}
   grid.innerHTML=list.map(cardHTML).join('');
+}
+/* The result count rewrote itself in place, so a filter that took the grid
+   from 52 models to 9 looked like nothing had happened. Count to the new
+   figure instead: long enough to notice, short enough that nobody waits to
+   read it, and only the number is rewritten rather than the whole line. */
+let rcSeen=null, rcRun=0;
+function setResultCount(el,to,base){
+  const key=base+'|'+LANG;
+  if(el.dataset.rcKey!==key){
+    el.innerHTML=`${t('found')} <strong class="rc-n">${to}</strong> ${t('of')} ${base} ${t('models_w')}`;
+    el.dataset.rcKey=key; rcSeen=to; return;
+  }
+  const num=el.querySelector('.rc-n'); if(!num){el.dataset.rcKey='';return setResultCount(el,to,base);}
+  const from=rcSeen==null?to:rcSeen;
+  rcSeen=to;
+  const token=++rcRun;
+  /* Write the real figure first and let the tween play over it. If the frame
+     callbacks never arrive — a hidden tab, reduced motion, anything — what is
+     left on screen is the correct number rather than the previous one. */
+  num.textContent=to;
+  if(from===to||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  el.classList.remove('rc-bump'); void el.offsetWidth; el.classList.add('rc-bump');
+  const t0=performance.now(), dur=Math.min(420,140+Math.abs(to-from)*12);
+  requestAnimationFrame(function step(now){
+    if(token!==rcRun)return;                       // a newer filter click won
+    const p=Math.min(1,(now-t0)/dur);
+    num.textContent=Math.round(from+(to-from)*(1-Math.pow(1-p,3)));
+    if(p<1)requestAnimationFrame(step); else num.textContent=to;
+  });
 }
 function setupFilters(){
   [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth'],['vol-filters','vol'],['height-filters','height'],['tech-filters','tech'],['cap-filters','cap'],['pw-filters','pw'],['bvol-filters','bvol'],['heat-filters','heat']].forEach(([gid,attr])=>{
@@ -479,6 +512,24 @@ function openCb(kind,product){
   $('cb-form').style.display='block';$('cb-success').style.display='none';
   $('cb-modal').classList.add('open');document.body.style.overflow='hidden';
 }
+/* Theme. The choice is applied in <head> before first paint; this only flips
+   it and remembers. Once a visitor has chosen, the system preference stops
+   overriding them — that is the whole point of an explicit switch. */
+function toggleTheme(){
+  const now=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',now);
+  try{localStorage.setItem('tp_theme',now);}catch(e){}
+  track('switch_theme',{theme:now});
+}
+/* follow the system only while the visitor has not chosen for themselves */
+try{
+  const mq=matchMedia('(prefers-color-scheme:dark)');
+  mq.addEventListener('change',e=>{
+    let saved=null;try{saved=localStorage.getItem('tp_theme');}catch(_){}
+    if(saved!=='dark'&&saved!=='light')
+      document.documentElement.setAttribute('data-theme',e.matches?'dark':'light');
+  });
+}catch(e){}
 function closeCb(e){if(e.target===e.currentTarget)forceCloseCb();}
 function forceCloseCb(){$('cb-modal').classList.remove('open');document.body.style.overflow='';}
 function closeOverlay(e,id){if(e.target===e.currentTarget)closeModalById(id);}
