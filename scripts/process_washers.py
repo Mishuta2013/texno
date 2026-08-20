@@ -33,6 +33,15 @@ THUMB = (400, 400)
 
 # folder -> (slug, [source files in display order])
 PLAN = {
+u"Пральна машина Bosch WAN28281UA": ("bosch-wan28281ua", [
+    "wan28281ua.webp",               # straight front
+    "wan28281ua_1_.webp",            # control panel
+    "wan28281ua_1.webp",             # drum
+    "wan28281ua_3.webp",             # side, VarioDrum moulding
+    "ebc89fc14b874f609605aceadf137e35-(1)_4b063.webp",   # kitchen scene
+    "6979c365122044d7b386a1e31cbfd89e_a39a7.webp",       # utility-room scene
+    "a6be329c30b04e85b5417d709598fdac_d9382.webp"]),     # bathroom scene
+
 u"\u0421\u0442\u0438\u0440\u0430\u043b\u044c\u043d\u0430\u044f \u043c\u0430\u0448\u0438\u043d\u0430   Edler   EWF7012PIBG": ("edler-ewf7012pibg", [
     "main-1-720x720.webp",            # straight front
     "add-1-720x720.webp",             # control panel

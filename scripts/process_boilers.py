@@ -66,6 +66,18 @@ B + u"Opro Profi VM 080 D400S (1500W": ("atlantic-opro-profi-vm-080-d400s", [
     "atlantic-opro-profi-vm-080-d400s-1500w-interior-min-500x500_1_.webp",
     "atlantic-opro-profi-vm-80-d400s-1500w-box-min-500x500_1_.webp"]),
 
+u"Atlantic Round Eco VMR 80 (1200W)": ("atlantic-round-eco-vmr-80", [
+    "265282278.webp",        # straight front
+    "265282289.webp",        # right three-quarter, rating plate
+    "265282299.webp",        # back, wall bracket
+    "265282309.webp",        # underside
+    "265282321.webp",        # cold/hot stubs
+    "265282331.webp",        # wall bracket detail
+    "265282236.webp",        # dimensions diagram
+    "265282078.webp",        # safety valve supplied with it
+    "265282347.webp",        # kitchen scene
+    "265282377.webp"]),      # carton
+
 B + u"Round Eco VMR 50 (1200W) NEW": ("atlantic-round-eco-vmr-50", [
     "round-eco-vmr-50-front-new-min-325x450.webp",
     "round-eco-vmr-50-left-new-min-325x450.webp",
@@ -158,7 +170,9 @@ B + u"Steatite Elite VM 080 D400S-2-BC (1500W)": (
 def main(only=None):
     total = 0
     for folder, (slug, files) in sorted(PLAN.items()):
-        d = os.path.join(SRC, folder)
+        # the Eco 80 came in a separate archive, so it sits beside the main folder
+        d = (os.path.join(SRC, folder) if folder.startswith(B)
+             else os.path.join(os.path.dirname(os.path.dirname(SRC)), "eco80", folder))
         if only and slug not in only:
             continue
         avail = set(os.listdir(d)) if os.path.isdir(d) else set()

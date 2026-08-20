@@ -17,17 +17,23 @@ def font(sz, bold=True):
 def rrect(d, box, r, **kw): d.rounded_rectangle(box, radius=r, **kw)
 
 def icon(size, maskable=False):
+    """Brand mark, not a product.
+
+    This used to draw an air-conditioner indoor unit with airflow lines, from
+    when the shop sold only air conditioners. It is a five-category store now,
+    so the icon is the monogram: a white crossbar over a frost stem, with the
+    blue rule that runs through the rest of the branding. Kept geometric so the
+    inline SVG favicon in build.mjs can be an exact match.
+    """
     im = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
     pad = int(size * 0.10) if maskable else 0
     rrect(d, [pad, pad, size - pad, size - pad], int(size * 0.22), fill=NAVY)
-    # AC unit
-    s = size
-    bx = [s*0.24, s*0.40, s*0.76, s*0.56]
-    rrect(d, bx, int(s*0.03), outline=BLUE, width=max(3, int(s*0.022)))
-    # airflow lines
-    for i, x in enumerate([0.34, 0.50, 0.66]):
-        d.line([s*x, s*0.60, s*x, s*0.60 + s*(0.06 + i % 2 * 0.02)], fill=FROST, width=max(2, int(s*0.018)))
+    s = float(size)
+    r = max(2, int(s * 0.03))
+    rrect(d, [s*0.435, s*0.26, s*0.565, s*0.74], r, fill=FROST)   # stem
+    rrect(d, [s*0.24, s*0.26, s*0.76, s*0.39], r, fill=WHITE)     # crossbar, over the stem
+    rrect(d, [s*0.32, s*0.80, s*0.68, s*0.86], r, fill=BLUE)      # baseline rule
     return im
 
 for sz in (192, 512):
@@ -46,9 +52,22 @@ def og_bg():
 def default_og():
     im = og_bg(); d = ImageDraw.Draw(im)
     d.text((80, 210), "TEXNO PLAZA", font=font(92), fill=WHITE)
-    d.text((84, 330), "Кондиціонери у Сумах", font=font(54), fill=FROST)
-    d.text((84, 410), "Монтаж під ключ за 1 день · оплата після встановлення", font=font(32, False), fill=(210, 225, 245))
+    d.text((84, 330), "Побутова техніка у Сумах", font=font(54), fill=FROST)
+    d.text((84, 410), "Холодильники · пральні машини · кондиціонери · бойлери", font=font(32, False), fill=(210, 225, 245))
     im.save(os.path.join(OG, "default.jpg"), quality=86)
+
+# What the shop actually promises for this kind of product. A washing machine
+# card used to read "монтаж під ключ · гарантія до 5 років", which is the air
+# conditioner's offer and nobody else's.
+TAGLINE = {
+    "kondicioneri":     "Монтаж під ключ · оплата після встановлення",
+    "pralni-mashyny":   "Доставка та підключення у Сумах",
+    "holodylnyky":      "Доставка по Сумах · оплата після отримання",
+    "zaryadni-stantsii": "Доставка по Сумах · офіційна гарантія",
+    "boylery":          "Доставка по Сумах · гарантія на бак до 8 років",
+    None:               "Доставка по Сумах · оплата після отримання",
+}
+
 
 def product_og(p):
     im = og_bg(); d = ImageDraw.Draw(im)
@@ -67,7 +86,7 @@ def product_og(p):
         else: line = (line + " " + w).strip()
     d.text((70, y), line, font=f, fill=WHITE); y += 74
     d.text((70, y), f"{p['price']:,} грн".replace(",", " "), font=font(54), fill=FROST)
-    d.text((70, y + 78), "Монтаж під ключ · гарантія до 5 років", font=font(28, False), fill=(210, 225, 245))
+    d.text((70, y + 78), TAGLINE.get(p.get("category"), TAGLINE[None]), font=font(28, False), fill=(210, 225, 245))
     im.save(os.path.join(OG, p["slug"] + ".jpg"), quality=84)
 
 default_og()

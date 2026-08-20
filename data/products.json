@@ -3558,5 +3558,86 @@
       "/assets/img/products/atlantic-steatite-ego-slim-vm-080-d325/4.webp",
       "/assets/img/products/atlantic-steatite-ego-slim-vm-080-d325/5.webp"
     ]
+  },
+  {
+    "brand": "Atlantic",
+    "series": "Round Eco VMR 80 1200W",
+    "name": "Бойлер Atlantic Round Eco VMR 80 1200W",
+    "price": 4399,
+    "category": "boylery",
+    "specs": {
+      "tank": "Емальована сталь із цирконієм",
+      "temp_max": "65 °C",
+      "pressure": "8 бар",
+      "ip": "IP24",
+      "mount": "Вертикальний, настінний",
+      "warranty": "2 роки",
+      "volume_l": 80,
+      "volume_real": "75 л",
+      "power_w": 1200,
+      "heater": "Мокрий, мідний",
+      "heat_time": 240,
+      "anode": "Магнієвий анод",
+      "eclass": "C",
+      "control": "Механічний термостат",
+      "dims": "802 × 433 × 455 мм",
+      "weight": "18.1",
+      "warranty_tank": "3 роки",
+      "features": "Прихований термостат із захистом від перегріву, запобіжний клапан у комплекті, патрубок гарячої води з нержавіючої сталі"
+    },
+    "desc_uk": "Вісімдесят літрів на зниженій потужності 1200 Вт — той самий бак, що й у Round VMR 80, але менше навантаження на проводку. Платити за це доводиться часом: повний бак гріється чотири години, тож цей бойлер створений під нічний тариф. Найдешевша вісімдесятка в асортименті.",
+    "desc_ru": "Восемьдесят литров на сниженной мощности 1200 Вт — тот же бак, что и у Round VMR 80, но меньше нагрузка на проводку. Платить за это приходится временем: полный бак греется четыре часа, поэтому этот бойлер создан под ночной тариф. Самая дешёвая восьмидесятка в ассортименте.",
+    "desc_en": "Eighty litres at a reduced 1200 W — the same tank as the Round VMR 80, but a lighter load on the wiring. You pay for that in time: a full tank takes four hours, so this one is built for a night tariff. The cheapest eighty-litre we stock.",
+    "slug": "atlantic-round-eco-vmr-80",
+    "thumb": "/assets/img/products/atlantic-round-eco-vmr-80/thumb.webp",
+    "photos": [
+      "/assets/img/products/atlantic-round-eco-vmr-80/1.webp",
+      "/assets/img/products/atlantic-round-eco-vmr-80/2.webp",
+      "/assets/img/products/atlantic-round-eco-vmr-80/3.webp",
+      "/assets/img/products/atlantic-round-eco-vmr-80/4.webp",
+      "/assets/img/products/atlantic-round-eco-vmr-80/5.webp",
+      "/assets/img/products/atlantic-round-eco-vmr-80/6.webp",
+      "/assets/img/products/atlantic-round-eco-vmr-80/7.webp",
+      "/assets/img/products/atlantic-round-eco-vmr-80/8.webp",
+      "/assets/img/products/atlantic-round-eco-vmr-80/9.webp",
+      "/assets/img/products/atlantic-round-eco-vmr-80/10.webp"
+    ]
+  },
+  {
+    "brand": "Bosch",
+    "series": "WAN28281UA",
+    "name": "Пральна машина Bosch WAN28281UA",
+    "price": 23599,
+    "category": "pralni-mashyny",
+    "inverter": true,
+    "specs": {
+      "load_type": "Фронтальне",
+      "load_kg": 8,
+      "rpm": 1400,
+      "eclass": "A+++",
+      "motor": "Інверторний EcoSilence Drive (гарантія 10 років)",
+      "programs": 14,
+      "display": "LED",
+      "depth": "59",
+      "dims": "59.8 × 59 × 84.8 см",
+      "noise_wm": "51 / 72 дБ",
+      "weight": "70.1 кг",
+      "warranty": "2 роки",
+      "features": "AquaStop, VarioDrum, ActiveWater Plus, дозавантаження білизни під час прання, швидке прання за 15 хв, відкладений старт до 24 год, барабан 65 л"
+    },
+    "desc_uk": "Восьмикілограмова Bosch серії 4 з інверторним мотором EcoSilence Drive, на який виробник дає десять років гарантії. ActiveWater Plus зважує білизну й підбирає воду під завантаження — за цикл витрачається близько 47 літрів. Барабан VarioDrum із хвилястою поверхнею дбайливіший до тканини, а забуту річ можна докинути вже після старту.",
+    "desc_ru": "Восьмикилограммовая Bosch серии 4 с инверторным мотором EcoSilence Drive, на который производитель даёт десять лет гарантии. ActiveWater Plus взвешивает бельё и подбирает воду под загрузку — за цикл расходуется около 47 литров. Барабан VarioDrum с волнистой поверхностью бережнее к ткани, а забытую вещь можно докинуть уже после старта.",
+    "desc_en": "An 8 kg Bosch Serie 4 with the EcoSilence Drive inverter motor, which the maker warrants for ten years. ActiveWater Plus weighs the load and matches the water to it — about 47 litres a cycle. The VarioDrum's wave surface is gentler on fabric, and a forgotten item can still go in after the cycle has started.",
+    "slug": "bosch-wan28281ua",
+    "thumb": "/assets/img/products/bosch-wan28281ua/thumb.webp",
+    "photos": [
+      "/assets/img/products/bosch-wan28281ua/1.webp",
+      "/assets/img/products/bosch-wan28281ua/2.webp",
+      "/assets/img/products/bosch-wan28281ua/3.webp",
+      "/assets/img/products/bosch-wan28281ua/4.webp",
+      "/assets/img/products/bosch-wan28281ua/5.webp",
+      "/assets/img/products/bosch-wan28281ua/6.webp",
+      "/assets/img/products/bosch-wan28281ua/7.webp"
+    ]
   }
 ]
