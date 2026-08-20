@@ -86,7 +86,8 @@ const COUNTS = {
   AC: products.filter(p => p.category === 'kondicioneri').length,
   WM: products.filter(p => p.category === 'pralni-mashyny').length,
   PS: products.filter(p => p.category === 'zaryadni-stantsii').length,
-  FR: products.filter(p => p.category === 'holodylnyky').length
+  FR: products.filter(p => p.category === 'holodylnyky').length,
+  BL: products.filter(p => p.category === 'boylery').length
 };
 // Slavic plurals: 1 товар / 2-4 товари / 5+ товарів — needed wherever a count
 // is followed by a noun, otherwise the copy reads broken at most numbers.
@@ -104,7 +105,7 @@ function plural(n, forms) {
 }
 const subCounts = s => String(s)
   .replace(/\{\{ITEMS\}\}/g, () => `${COUNTS.TOTAL} ${plural(COUNTS.TOTAL, PLURALS[L] || PLURALS.uk)}`)
-  .replace(/\{\{(TOTAL|AC|WM|PS|FR)\}\}/g, (m, k) => COUNTS[k]);
+  .replace(/\{\{(TOTAL|AC|WM|PS|FR|BL)\}\}/g, (m, k) => COUNTS[k]);
 const t = (k) => subCounts((i18n[L] && i18n[L][k]) ?? (i18n.uk && i18n.uk[k]) ?? k);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fmt = n => Number(n).toLocaleString('uk-UA').replace(/ /g, ' ').replace(/,/g, ' ');
@@ -137,6 +138,12 @@ function fmtVal(p, f) {
     case 'sockets': return raw ? `${raw} ${t('u_sockets')}` : null;
     case 'first': return raw ? String(raw).split(' ')[0] : null;
     case 'litres': return raw ? `${raw} ${t('u_l')}` : null;
+    /* heat-up time is stored in minutes so it can be compared and sorted;
+       "109" means nothing to a reader, "1 год 49 хв" does. */
+    case 'mins': { const n = Number(raw); if (!n) return null;
+      const h = Math.floor(n / 60), m = n % 60;
+      return h ? (m ? `${h} ${t('rt_hr')} ${m} ${t('rt_min')}` : `${h} ${t('rt_hr')}`)
+               : `${m} ${t('rt_min')}`; }
     case 'kg': return raw ? `${raw} ${t('u_kg')}` : null;
     case 'rpm': return raw ? `${raw} ${t('u_rpm')}` : null;
     case 'cm': return raw ? `${raw} ${t('u_cm')}` : null;
@@ -445,6 +452,19 @@ body = body.replace('<div class="grid" id="catalog-grid"></div>',
       </div>`;
   }).join('\n      ');
   body = body.replace('<!--FOOT_CATALOG-->', cols);
+}
+/* The template writes its own links root-relative (/kondicioner/), which is
+   only correct on the Ukrainian tree — on /ru/ and /en/ the category cards were
+   quietly dropping visitors back into Ukrainian. Rewrite the paths that really
+   do have a page in this language: every category does, the blog only in
+   BLOG_LANGS, and the privacy policy exists in Ukrainian alone — so those two
+   are decided explicitly instead of by a blanket rule that would 404.
+   split/join, not replace: replace(string) only swaps the first hit. */
+if (pfx()) {
+  for (const c of catList)
+    body = body.split(`href="${c.urlPrefix}/"`).join(`href="${pfx()}${c.urlPrefix}/"`);
+  if (BLOG_LANGS.includes(L))
+    body = body.split('href="/blog/"').join(`href="${pfx()}/blog/"`);
 }
 body = body.replace('<!--QUIZ_INLINE-->', quizInline(true));
 body = body.replace('<!--FAQ_ITEMS-->', faqItems());
@@ -769,12 +789,14 @@ FILTERS_HTML = (() => {
 })();
 function filtersFor(catKey) {
   if (!FILTERS_HTML) return '';
-  const ac = catKey === 'kondicioneri', wm = catKey === 'pralni-mashyny', fr = catKey === 'holodylnyky', ps = catKey === 'zaryadni-stantsii';
+  const ac = catKey === 'kondicioneri', wm = catKey === 'pralni-mashyny', fr = catKey === 'holodylnyky',
+        ps = catKey === 'zaryadni-stantsii', bl = catKey === 'boylery';
   return FILTERS_HTML
     .replace('id="frow-area" style="display:none"', `id="frow-area"${ac ? '' : ' style="display:none"'}`)
     .replace('id="frow-wm" style="display:none"', `id="frow-wm"${wm ? '' : ' style="display:none"'}`)
     .replace('id="frow-fr" style="display:none"', `id="frow-fr"${fr ? '' : ' style="display:none"'}`)
     .replace('id="frow-ps" style="display:none"', `id="frow-ps"${ps ? '' : ' style="display:none"'}`)
+    .replace('id="frow-bl" style="display:none"', `id="frow-bl"${bl ? '' : ' style="display:none"'}`)
     .replace('<option value="area-asc"', `<option value="area-asc"${ac ? '' : ' hidden'}`);
 }
 /* Brand pages. People search "кондиціонер Ardesto Суми", not "каталог" — but a
@@ -1067,7 +1089,8 @@ copyDir(path.join(ROOT, 'public'), DIST);
     kondicioneri: '605',               // Home & Garden > Household Appliances > Climate Control > Air Conditioners
     'pralni-mashyny': '2706',          // ... > Laundry Appliances > Washing Machines
     holodylnyky: '689',                // ... > Kitchen Appliances > Refrigerators
-    'zaryadni-stantsii': '5710'        // Electronics > Electronics Accessories > Power > Portable Power
+    'zaryadni-stantsii': '5710',       // Electronics > Electronics Accessories > Power > Portable Power
+    boylery: '621'                     // Home & Garden > Household Appliances > Water Heaters
   };
   const xe = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]));
   L = 'uk';

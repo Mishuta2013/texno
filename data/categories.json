@@ -763,5 +763,215 @@
     ],
     "quizCta_ru": "Подобрать холодильник",
     "quizCta_en": "Find your refrigerator"
+  },
+  "boylery": {
+    "name": "Бойлери",
+    "nameGen": "бойлерів",
+    "urlPrefix": "/boylery",
+    "icon": "boiler",
+    "order": 5,
+    "install": false,
+    "trust": [
+      "Доставка по Сумах — 400 грн",
+      "Оплата після отримання",
+      "Гарантія на бак — до 8 років"
+    ],
+    "seoTitle": "Бойлери у Сумах — водонагрівачі Atlantic | TexnoPlaza",
+    "seoDesc": "Бойлери та водонагрівачі у Сумах: {{BL}} моделей Atlantic на 30–100 л. Сухий і мокрий ТЕН, вузькі Ø380 мм. Гарантія на бак до 8 років.",
+    "intro": "Накопичувальні водонагрівачі Atlantic на 30–100 літрів. Економні серії з мідним ТЕНом і моделі зі стеатитовим «сухим» ТЕНом, який не торкається води — і тому не заростає накипом. Є вузькі версії Ø380 мм для тісної ніші.",
+    "filters": [
+      "brand",
+      "price"
+    ],
+    "chips": [
+      {
+        "icon": "💧",
+        "key": "volume_l",
+        "fmt": "litres"
+      },
+      {
+        "icon": "⚡",
+        "key": "power_w",
+        "fmt": "watt"
+      },
+      {
+        "icon": "🛡",
+        "flag": "dryheat",
+        "label": "Сухий ТЕН",
+        "label_ru": "Сухой ТЭН",
+        "label_en": "Dry element"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Об'єм бака",
+        "key": "volume_l",
+        "fmt": "litres",
+        "label_ru": "Объём бака",
+        "label_en": "Tank volume"
+      },
+      {
+        "label": "Фактична місткість",
+        "key": "volume_real",
+        "label_ru": "Фактическая вместимость",
+        "label_en": "Actual capacity"
+      },
+      {
+        "label": "Потужність ТЕНа",
+        "key": "power_w",
+        "fmt": "watt",
+        "label_ru": "Мощность ТЭНа",
+        "label_en": "Element power"
+      },
+      {
+        "label": "Тип ТЕНа",
+        "key": "heater",
+        "label_ru": "Тип ТЭНа",
+        "label_en": "Heating element"
+      },
+      {
+        "label": "Час нагріву до 65 °C",
+        "key": "heat_time",
+        "fmt": "mins",
+        "label_ru": "Время нагрева до 65 °C",
+        "label_en": "Heat-up time to 65 °C"
+      },
+      {
+        "label": "Матеріал бака",
+        "key": "tank",
+        "label_ru": "Материал бака",
+        "label_en": "Tank material"
+      },
+      {
+        "label": "Захист від корозії",
+        "key": "anode",
+        "label_ru": "Защита от коррозии",
+        "label_en": "Corrosion protection"
+      },
+      {
+        "label": "Клас енергоефективності",
+        "key": "eclass",
+        "label_ru": "Класс энергоэффективности",
+        "label_en": "Energy class"
+      },
+      {
+        "label": "Максимальна температура",
+        "key": "temp_max",
+        "label_ru": "Максимальная температура",
+        "label_en": "Maximum temperature"
+      },
+      {
+        "label": "Робочий тиск",
+        "key": "pressure",
+        "label_ru": "Рабочее давление",
+        "label_en": "Working pressure"
+      },
+      {
+        "label": "Клас захисту",
+        "key": "ip",
+        "label_ru": "Класс защиты",
+        "label_en": "Protection rating"
+      },
+      {
+        "label": "Керування",
+        "key": "control",
+        "label_ru": "Управление",
+        "label_en": "Control"
+      },
+      {
+        "label": "Монтаж",
+        "key": "mount",
+        "label_ru": "Монтаж",
+        "label_en": "Mounting"
+      },
+      {
+        "label": "Габарити (В×Ш×Г)",
+        "key": "dims",
+        "label_ru": "Габариты (В×Ш×Г)",
+        "label_en": "Dimensions (H×W×D)"
+      },
+      {
+        "label": "Вага",
+        "key": "weight",
+        "label_ru": "Вес",
+        "label_en": "Weight",
+        "fmt": "kg"
+      },
+      {
+        "label": "Гарантія на бак",
+        "key": "warranty_tank",
+        "label_ru": "Гарантия на бак",
+        "label_en": "Tank warranty"
+      },
+      {
+        "label": "Гарантія на електричну частину",
+        "key": "warranty",
+        "label_ru": "Гарантия на электрическую часть",
+        "label_en": "Warranty on electrical parts"
+      },
+      {
+        "label": "Особливості",
+        "key": "features",
+        "label_ru": "Особенности",
+        "label_en": "Features"
+      }
+    ],
+    "ppChips": [
+      {
+        "icon": "💧",
+        "key": "volume_l",
+        "fmt": "litres"
+      },
+      {
+        "icon": "⚡",
+        "key": "power_w",
+        "fmt": "watt"
+      },
+      {
+        "icon": "⏱",
+        "key": "heat_time",
+        "fmt": "mins"
+      },
+      {
+        "flag": "dryheat",
+        "label": "Сухий ТЕН",
+        "label_ru": "Сухой ТЭН",
+        "label_en": "Dry element"
+      },
+      {
+        "flag": "slim",
+        "label": "Вузький, Ø380 мм",
+        "label_ru": "Узкий, Ø380 мм",
+        "label_en": "Slim, Ø380 mm"
+      }
+    ],
+    "quizCta": "Підібрати бойлер",
+    "name_ru": "Бойлеры",
+    "name_en": "Water heaters",
+    "nameGen_ru": "бойлеров",
+    "nameGen_en": "water heaters",
+    "seoTitle_ru": "Бойлеры в Сумах — водонагреватели Atlantic | TexnoPlaza",
+    "seoTitle_en": "Water heaters in Sumy — Atlantic boilers | TexnoPlaza",
+    "seoDesc_ru": "Бойлеры и водонагреватели в Сумах: {{BL}} моделей Atlantic на 30–100 л. Сухой и мокрый ТЭН, узкие Ø380 мм. Гарантия на бак до 8 лет.",
+    "seoDesc_en": "Water heaters in Sumy: {{BL}} Atlantic models from 30 to 100 l. Dry and wet elements, slim Ø380 mm versions. Tank warranty up to 8 years.",
+    "intro_ru": "Накопительные водонагреватели Atlantic на 30–100 литров. Экономные серии с медным ТЭНом и модели со стеатитовым «сухим» ТЭНом, который не касается воды — и потому не зарастает накипью. Есть узкие версии Ø380 мм для тесной ниши.",
+    "intro_en": "Atlantic storage water heaters from 30 to 100 litres. Economical copper-element series alongside steatite dry-element models, where the heater never touches the water and so never scales up. Slim Ø380 mm versions fit a tight recess.",
+    "quizCta_ru": "Подобрать бойлер",
+    "quizCta_en": "Find your water heater",
+    "productPrefix": {
+      "uk": "Бойлер",
+      "ru": "Бойлер",
+      "en": "Water heater"
+    },
+    "trust_ru": [
+      "Доставка по Сумам — 400 грн",
+      "Оплата после получения",
+      "Гарантия на бак — до 8 лет"
+    ],
+    "trust_en": [
+      "Delivery in Sumy — 400 UAH",
+      "Pay on receipt",
+      "Tank warranty up to 8 years"
+    ]
   }
 }

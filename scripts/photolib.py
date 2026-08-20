@@ -44,11 +44,29 @@ def content_bbox(im):
 
 
 def is_white_bg(im):
+    """True when the photo sits on a white studio background.
+
+    Eight fixed sample points missed tightly-cropped renders: on a 413x630
+    boiler shot the edge midpoints land on the tank itself, so a pure-white
+    background scored 4/8, the cut was skipped, and the product kept a white
+    box around it. Walk the whole border instead and require the four corners
+    — a room photo fails the corners long before the ratio matters.
+    """
     w, h = im.size
-    pts = [(2, 2), (w - 3, 2), (2, h - 3), (w - 3, h - 3),
-           (w // 2, 2), (w // 2, h - 3), (2, h // 2), (w - 3, h // 2)]
-    ok = sum(1 for x, y in pts if all(c > 240 for c in im.getpixel((x, y))[:3]))
-    return ok >= 7
+    px = im.load()
+
+    def white(c):
+        return all(v > 240 for v in c[:3])
+
+    if not all(white(px[x, y]) for x, y in
+               ((1, 1), (w - 2, 1), (1, h - 2), (w - 2, h - 2))):
+        return False
+    step = max(1, min(w, h) // 100)
+    ring = ([px[x, 0] for x in range(0, w, step)]
+            + [px[x, h - 1] for x in range(0, w, step)]
+            + [px[0, y] for y in range(0, h, step)]
+            + [px[w - 1, y] for y in range(0, h, step)])
+    return sum(1 for c in ring if white(c)) >= 0.4 * len(ring)
 
 
 def fill_holes(alpha):

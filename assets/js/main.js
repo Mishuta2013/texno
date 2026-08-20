@@ -22,6 +22,8 @@ function jFmtVal(p,f){
     case'sockets':return raw?raw+' '+t('u_sockets'):null;
     case'first':return raw?String(raw).split(' ')[0]:null;
     case'litres':return raw?raw+' '+t('u_l'):null;
+    case'mins':{const n=Number(raw);if(!n)return null;const h=Math.floor(n/60),m=n%60;
+      return h?(m?h+' '+t('rt_hr')+' '+m+' '+t('rt_min'):h+' '+t('rt_hr')):m+' '+t('rt_min');}
     case'kg':return raw?raw+' '+t('u_kg'):null;
     case'rpm':return raw?raw+' '+t('u_rpm'):null;
     case'cm':return raw?raw+' '+t('u_cm'):null;
@@ -62,7 +64,7 @@ const LANG_FROM_PATH=(function(){var m=location.pathname.match(/^\/(ru|en)(?=\/|
 let LANG = LANG_FROM_PATH;
 if(!I18N[LANG]) LANG='uk';
 try{localStorage.setItem('tp_lang',LANG);}catch(e){}
-let activeCap='all', activePw='all', activeBrand='all', activeArea='all', activeType='all', activePrice='all', activeLoad='all', activeDepth='all', activeVol='all', activeHeight='all', activeTech='all', currentProduct=null;
+let activeBvol='all', activeHeat='all', activeCap='all', activePw='all', activeBrand='all', activeArea='all', activeType='all', activePrice='all', activeLoad='all', activeDepth='all', activeVol='all', activeHeight='all', activeTech='all', currentProduct=null;
 let FAV = JSON.parse(localStorage.getItem('tp_fav')||'[]');
 let CMP = JSON.parse(localStorage.getItem('tp_cmp')||'[]');
 
@@ -180,6 +182,13 @@ function getFiltered(){
   if(activePw!=='all'){const [lo,hi]=activePw.split('-').map(Number);list=list.filter(p=>{const v=p.specs&&Number(p.specs.output_w);return v>lo&&v<=hi;});}
   if(activeVol!=='all'){const [lo,hi]=activeVol.split('-').map(Number);list=list.filter(p=>{const v=p.specs&&Number(p.specs.volume_l);return v>lo&&v<=hi;});}
   if(activeHeight!=='all'){const [lo,hi]=activeHeight.split('-').map(Number);list=list.filter(p=>{const h=p.specs&&Number(p.specs.height_cm);return h>lo&&h<=hi;});}
+  /* water heaters: volume bands of their own (30/50/80/100 l, not the fridge
+     bands), plus the one distinction that actually decides the purchase —
+     a dry steatite element versus a wet copper one. */
+  if(activeBvol!=='all'){const [lo,hi]=activeBvol.split('-').map(Number);list=list.filter(p=>{const v=p.specs&&Number(p.specs.volume_l);return v>lo&&v<=hi;});}
+  if(activeHeat==='dry')list=list.filter(p=>p.dryheat);
+  if(activeHeat==='wet')list=list.filter(p=>!p.dryheat);
+  if(activeHeat==='slim')list=list.filter(p=>p.slim);
   if(activeTech==='nofrost')list=list.filter(p=>p.nofrost);
   if(activeTech==='inverter')list=list.filter(p=>p.inverter);
   if(activePrice!=='all'){const [lo,hi]=String(activePrice).split('-').map(Number);
@@ -239,15 +248,16 @@ function renderCatalog(){
   grid.innerHTML=list.map(cardHTML).join('');
 }
 function setupFilters(){
-  [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth'],['vol-filters','vol'],['height-filters','height'],['tech-filters','tech'],['cap-filters','cap'],['pw-filters','pw']].forEach(([gid,attr])=>{
+  [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth'],['vol-filters','vol'],['height-filters','height'],['tech-filters','tech'],['cap-filters','cap'],['pw-filters','pw'],['bvol-filters','bvol'],['heat-filters','heat']].forEach(([gid,attr])=>{
     const g=$(gid); if(!g) return;
     g.addEventListener('click',e=>{const b=e.target.closest('.fbtn');if(!b)return;const v=b.dataset[attr];if(v===undefined)return;
       g.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');
       if(attr==='brand')activeBrand=v;if(attr==='area')activeArea=v;if(attr==='type')activeType=v;if(attr==='price')activePrice=v;
       if(attr==='load')activeLoad=v;if(attr==='depth')activeDepth=v;
-      if(attr==='vol')activeVol=v;if(attr==='height')activeHeight=v;if(attr==='tech')activeTech=v;if(attr==='cap')activeCap=v;if(attr==='pw')activePw=v;renderCatalog();});
+      if(attr==='vol')activeVol=v;if(attr==='height')activeHeight=v;if(attr==='tech')activeTech=v;if(attr==='cap')activeCap=v;if(attr==='pw')activePw=v;
+      if(attr==='bvol')activeBvol=v;if(attr==='heat')activeHeat=v;renderCatalog();});
   });
-  renderBrandFilters();
+  renderBrandFilters();renderPriceFilters();
 }
 /* brand buttons follow the active category — every brand actually in stock, nothing stale */
 function renderBrandFilters(){
@@ -258,11 +268,27 @@ function renderBrandFilters(){
   g.innerHTML=`<button class="fbtn${activeBrand==='all'?' active':''}" data-brand="all">${t('f_all')}</button>`
     +brands.map(b=>`<button class="fbtn${activeBrand===b?' active':''}" data-brand="${b.replace(/"/g,'&quot;')}">${b}</button>`).join('');
 }
+/* The price bands are one global set spanning 4 000 to 84 000 UAH. In a
+   category that only occupies one of them — every water heater is under
+   10 000 — the other four buttons return an empty grid, which reads as a
+   broken page rather than as an empty band. Show a band only if something
+   in this category actually falls into it. */
+function renderPriceFilters(){
+  const g=$('price-filters'); if(!g) return;
+  const cat=window.__CATALOG_CAT__;
+  const pool=(cat&&cat!=='all')?PRODUCTS.filter(p=>p.category===cat):PRODUCTS;
+  g.querySelectorAll('.fbtn').forEach(b=>{
+    const v=b.dataset.price;
+    if(v==='all'){b.style.display='';return;}
+    const [lo,hi]=String(v).split('-').map(Number);
+    b.style.display=pool.some(p=>p.price>lo&&p.price<=hi)?'':'none';
+  });
+}
 function setActive(gid,attr,val){$(gid).querySelectorAll('.fbtn').forEach(b=>b.classList.toggle('active',b.dataset[attr]===val));}
-function resetFilters(){activeCap=activePw=activeBrand=activeArea=activeType=activePrice=activeLoad=activeDepth=activeVol=activeHeight=activeTech='all';
-  [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth'],['vol-filters','vol'],['height-filters','height'],['tech-filters','tech'],['cap-filters','cap'],['pw-filters','pw']].forEach(([g,a])=>{if($(g))setActive(g,a,'all');});
+function resetFilters(){activeBvol=activeHeat=activeCap=activePw=activeBrand=activeArea=activeType=activePrice=activeLoad=activeDepth=activeVol=activeHeight=activeTech='all';
+  [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth'],['vol-filters','vol'],['height-filters','height'],['tech-filters','tech'],['cap-filters','cap'],['pw-filters','pw'],['bvol-filters','bvol'],['heat-filters','heat']].forEach(([g,a])=>{if($(g))setActive(g,a,'all');});
   const si2=$('search-input'),ss=$('sort-select');
-  if(si2)si2.value='';if(ss)ss.value='default';renderBrandFilters();renderCatalog();}
+  if(si2)si2.value='';if(ss)ss.value='default';renderBrandFilters();renderPriceFilters();renderCatalog();}
 /* homepage catalog category tabs */
 function switchCat(cat){
   if(cat!=='all'&&!window.__CATS__[cat])return;
@@ -273,11 +299,12 @@ function switchCat(cat){
   const wmRow=$('frow-wm');if(wmRow)wmRow.style.display=cat==='pralni-mashyny'?'':'none';
   const frRow=$('frow-fr');if(frRow)frRow.style.display=cat==='holodylnyky'?'':'none';
   const psRow=$('frow-ps');if(psRow)psRow.style.display=cat==='zaryadni-stantsii'?'':'none';
+  const blRow=$('frow-bl');if(blRow)blRow.style.display=cat==='boylery'?'':'none';
   const areaSort=document.querySelector('#sort-select option[value="area-asc"]');if(areaSort)areaSort.hidden=!ac;
   // full-size quiz appears right above the grid when the category has one
   const qHost=$('quiz-inline');
   if(qHost){ if(QUIZZES[cat]) startInlineQuiz(cat); else qHost.style.display='none'; }
-  const h=$('cat-title');if(h){const key={all:'cat_h_all',kondicioneri:'cat_h','zaryadni-stantsii':'cat_h_ps','pralni-mashyny':'cat_h_wm',holodylnyky:'cat_h_fr'}[cat]||'cat_h_all';h.textContent=t(key);}
+  const h=$('cat-title');if(h){const key={all:'cat_h_all',kondicioneri:'cat_h','zaryadni-stantsii':'cat_h_ps','pralni-mashyny':'cat_h_wm',holodylnyky:'cat_h_fr',boylery:'cat_h_bl'}[cat]||'cat_h_all';h.textContent=t(key);}
   resetFilters();   // also re-renders the brand buttons for this category
 }
 function jumpCat(cat){switchCat(cat);document.getElementById('catalog').scrollIntoView({behavior:'smooth'});}
@@ -733,6 +760,41 @@ const QUIZZES={
     meta(p){const sp=p.specs||{};return `${p.brand} · ${sp.capacity_wh} ${t('u_wh')} · ${sp.output_w} ${t('u_w')}${sp.weight?' · '+sp.weight:''}`;},
     summary(s){const l=(this.steps[0].options.find(o=>o[0]===s.load)||[])[1],pr=(this.steps[2].options.find(o=>o[0]===s.priority)||[])[1];
       return `${l?t(l):''}; ${s.hours} ${t('rt_hr')}; ${pr?t(pr):''}; ${t('quiz_budget_lbl')}: ${fmt(s.budget)} ${t('u_uah')}; ~${this.watts(s)} ${t('u_w')} · ${this.need(s)} ${t('u_wh')}`;}
+  }
+  ,
+  boylery:{
+    cat:'boylery', eyeKey:'quiz_eye', titleKey:'blq_h', resKey:'blq_res_h', overKey:'blq_over',
+    noneKey:'blq_none', relaxKey:'blq_relaxed', ctaKey:'blq_cta',
+    steps:[
+      {type:'choice',key:'people',qKey:'blq_s1',hintKey:'blq_s1_hint',
+       options:[['1','blq_p1'],['2','blq_p2'],['3','blq_p3'],['5','blq_p4']]},
+      {type:'choice',key:'niche',qKey:'blq_s2',hintKey:'blq_s2_hint',
+       options:[['any','blq_n1','blq_n1_h'],['narrow','blq_n2','blq_n2_h']]},
+      {type:'choice',key:'priority',qKey:'blq_s3',
+       options:[['life','blq_pr_life','blq_pr_life_h'],['fast','blq_pr_fast','blq_pr_fast_h'],['price','blq_pr_price','blq_pr_price_h']]},
+      {type:'budget',key:'budget',qKey:'quiz_s4',hintKey:'quiz_s4_hint'}
+    ],
+    need(s){return {'1':30,'2':50,'3':80,'5':100}[s.people]||50;},   // litres the household needs
+    fits(p,s){
+      const v=num((p.specs||{}).volume_l);
+      if(!this.fitsPhysical(p,s))return false;
+      return v!==null&&v>=this.need(s);
+    },
+    // a narrow recess is the hard constraint: a 433 mm body will not go in at all
+    fitsPhysical(p,s){return s.niche!=='narrow'||!!p.slim;},
+    score(p,s){
+      const sp=p.specs||{},mins=num(sp.heat_time)||999,yrs=parseInt(String(sp.warranty_tank||''),10)||3;
+      if(s.priority==='life')return (p.dryheat?300:0)+yrs*20;
+      if(s.priority==='fast')return -mins;
+      return -p.price/1000;
+    },
+    rank(a,b){const s=quizState;return this.score(b,s)-this.score(a,s)||a.price-b.price;},
+    warn(res,s){return (s.priority==='life'&&res.length&&!res.some(p=>p.dryheat))?'blq_warn_dry':null;},
+    meta(p){const sp=p.specs||{};return `${p.brand} · ${sp.volume_l} ${t('u_l')} · ${sp.power_w} ${t('u_w')}${p.slim?' · Ø380':''}`;},
+    summary(s){const pe=(this.steps[0].options.find(o=>o[0]===s.people)||[])[1],
+      ni=(this.steps[1].options.find(o=>o[0]===s.niche)||[])[1],
+      pr=(this.steps[2].options.find(o=>o[0]===s.priority)||[])[1];
+      return `${pe?t(pe):''}; ${ni?t(ni):''}; ${pr?t(pr):''}; ${t('quiz_budget_lbl')}: ${fmt(s.budget)} ${t('u_uah')}; ${t('blq_need_lbl')} ~${this.need(s)} ${t('u_l')}`;}
   }
 };
 let quizKind='kondicioneri', quizStep=0, quizState={}, quizHost='modal';

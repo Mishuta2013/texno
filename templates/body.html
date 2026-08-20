@@ -146,6 +146,11 @@
         <span class="cat-tx"><span class="cat-t" data-i18n="cat_ps_t">Зарядні станції</span><span class="cat-s" data-i18n="cat_ps_s">Портативні джерела живлення для дому</span></span>
         <span class="cat-go" data-i18n="cats_more">Перейти →</span>
       </a>
+      <a class="cat-card reveal" href="/boylery/">
+        <span class="cat-ic" aria-hidden="true">💧</span>
+        <span class="cat-tx"><span class="cat-t" data-i18n="cat_bl_t">Бойлери</span><span class="cat-s" data-i18n="cat_bl_s">Водонагрівачі Atlantic на 30–100 л</span></span>
+        <span class="cat-go" data-i18n="cats_more">Перейти →</span>
+      </a>
     </div>
   </div>
 </section>
@@ -172,6 +177,7 @@
       <button class="ctab" data-cat="pralni-mashyny" onclick="switchCat('pralni-mashyny')" type="button"><span class="ctab-ic">🧺</span><span data-i18n="ctab_wm">Пральні машини</span><b class="ctab-n"></b></button>
       <button class="ctab" data-cat="holodylnyky" onclick="switchCat('holodylnyky')" type="button"><span class="ctab-ic">🧊</span><span data-i18n="ctab_fr">Холодильники</span><b class="ctab-n"></b></button>
       <button class="ctab" data-cat="zaryadni-stantsii" onclick="switchCat('zaryadni-stantsii')" type="button"><span class="ctab-ic">🔋</span><span data-i18n="ctab_ps">Зарядні станції</span><b class="ctab-n"></b></button>
+      <button class="ctab" data-cat="boylery" onclick="switchCat('boylery')" type="button"><span class="ctab-ic">💧</span><span data-i18n="ctab_bl">Бойлери</span><b class="ctab-n"></b></button>
     </div>
 
     <!--QUIZ_INLINE-->
@@ -223,6 +229,23 @@
           <button class="fbtn" data-pw="0-1000" data-i18n="f_p1000">до 1000 Вт</button>
           <button class="fbtn" data-pw="1000-2000" data-i18n="f_p2000">1000–2000 Вт</button>
           <button class="fbtn" data-pw="2000-99999" data-i18n="f_p2001">2000+ Вт</button>
+        </div>
+      </div>
+      <div class="frow" id="frow-bl" style="display:none">
+        <span class="flabel" data-i18n="f_volume">Об'єм</span>
+        <div class="filter-group" id="bvol-filters" style="display:flex;flex-wrap:wrap;gap:8px">
+          <button class="fbtn active" data-bvol="all" data-i18n="f_anyvol">Будь-який</button>
+          <button class="fbtn" data-bvol="0-30" data-i18n="f_bv30">30 л</button>
+          <button class="fbtn" data-bvol="30-50" data-i18n="f_bv50">50 л</button>
+          <button class="fbtn" data-bvol="50-80" data-i18n="f_bv80">80 л</button>
+          <button class="fbtn" data-bvol="80-999" data-i18n="f_bv100">100 л</button>
+        </div>
+        <div class="fdiv"></div>
+        <div class="filter-group" id="heat-filters" style="display:flex;flex-wrap:wrap;gap:8px">
+          <button class="fbtn active" data-heat="all" data-i18n="f_alltech">Всі</button>
+          <button class="fbtn" data-heat="dry" data-i18n="f_dryheat">Сухий ТЕН</button>
+          <button class="fbtn" data-heat="wet" data-i18n="f_wetheat">Мокрий ТЕН</button>
+          <button class="fbtn" data-heat="slim" data-i18n="f_slim">Вузькі Ø380</button>
         </div>
       </div>
       <div class="frow" id="frow-wm" style="display:none">
