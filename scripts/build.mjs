@@ -448,7 +448,8 @@ function outPath(...parts) {
 function buildLanguage() {
 body = TEMPLATE;
 const best = products.find(p => p.bestseller) || products[0];
-const bestStation = products.find(p => p.category === 'zaryadni-stantsii');
+const bestStation = products.find(p => p.slug === 'fossibot-f1800-1800w-1024wh')
+  || products.find(p => p.category === 'zaryadni-stantsii');
 const bestFridge = products.find(p => p.slug === 'edler-ed-118wh') || products.find(p => p.category === 'holodylnyky');
 /* Seasonal accent. Sumy buys air conditioners in the summer and power for the
    heating season in the winter, so the three hero cards rotate rather than
@@ -461,17 +462,22 @@ const SEASON = ['warm', 'cold', 'mild'].includes(process.env.TP_SEASON) ? proces
 //   TP_SEASON=cold node scripts/build.mjs   — to preview another season
 const bestBoiler = products.find(p => p.category === 'boylery');
 const bestWasher = products.find(p => p.slug === 'lg-f2y2ns3we') || products.find(p => p.category === 'pralni-mashyny');
-const heroSlots = {
-  warm: [best && heroCard(best), bestFridge && heroFridgeCard(bestFridge), bestWasher && heroWasherCard(bestWasher)],
-  cold: [bestStation && heroStationCard(bestStation), bestBoiler && heroBoilerCard(bestBoiler), bestWasher && heroWasherCard(bestWasher)],
-  mild: [bestStation && heroStationCard(bestStation), bestFridge && heroFridgeCard(bestFridge), bestWasher && heroWasherCard(bestWasher)]
+/* The Fossibot carries the "Новинка" badge and stays in the hero all year —
+   the season only decides what leads and what fills the remaining slot. In
+   summer the air conditioner takes the lead and the station sits second. */
+const stationCard = bestStation ? heroStationCard(bestStation) : '';
+const seasonCards = {
+  warm: [best && heroCard(best), bestFridge && heroFridgeCard(bestFridge)],
+  cold: [bestBoiler && heroBoilerCard(bestBoiler), bestWasher && heroWasherCard(bestWasher)],
+  mild: [bestFridge && heroFridgeCard(bestFridge), bestWasher && heroWasherCard(bestWasher)]
 }[SEASON].filter(Boolean);
-// whatever the season leaves out, fall back so the hero is never short a card
-while (heroSlots.length < 3) {
-  const spare = [bestStation && heroStationCard(bestStation), bestFridge && heroFridgeCard(bestFridge), best && heroCard(best)]
-    .filter(x => x && !heroSlots.includes(x))[0];
-  if (!spare) break;
-  heroSlots.push(spare);
+const heroSlots = (SEASON === 'warm'
+  ? [seasonCards[0], stationCard, seasonCards[1]]
+  : [stationCard, ...seasonCards]).filter(Boolean);
+// never leave the hero short of a card if a category runs empty
+for (const spare of [stationCard, bestFridge && heroFridgeCard(bestFridge), best && heroCard(best)]) {
+  if (heroSlots.length >= 3) break;
+  if (spare && !heroSlots.includes(spare)) heroSlots.push(spare);
 }
 body = body.replace('<!--HERO_CARD-->', heroSlots[0] || '');
 body = body.replace('<!--HERO_CARD2-->', heroSlots[1] || '');
