@@ -1221,7 +1221,30 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 .dl-b{font-family:var(--disp);font-weight:700;color:#fff}
 .deliv-map{margin:0;background:linear-gradient(165deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid rgba(124,196,255,.22);border-radius:var(--r-lg);padding:18px;box-shadow:var(--sh-lg)}
 .deliv-map svg{display:block;width:100%;height:auto}
-.dm-city{fill:rgba(46,139,255,.16);stroke:var(--frost);stroke-width:1.6;stroke-linejoin:round}
+.dm-city{fill:rgba(46,139,255,.13);stroke:rgba(124,196,255,.75);stroke-width:1.4;stroke-linejoin:round}
+.dm-district{fill:none;stroke:rgba(124,196,255,.22);stroke-width:1;stroke-dasharray:2 5;stroke-linecap:round}
+.dm-water-fill{fill:rgba(46,139,255,.34);stroke:none}
+.dm-river{fill:none;stroke:rgba(96,178,255,.85);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.dm-road{fill:none;stroke:rgba(233,243,255,.16);stroke-width:.9;stroke-linecap:round;stroke-linejoin:round}
+.dm-road-major{fill:none;stroke:rgba(233,243,255,.34);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.dm-leader{stroke:rgba(233,243,255,.38);stroke-width:.8}
+.dm-poi{fill:var(--frost)}
+.dm-poi-t{fill:rgba(233,243,255,.90);font:600 10.5px/1 var(--disp),sans-serif;paint-order:stroke;stroke:rgba(11,26,51,.85);stroke-width:3}
+.dm-dist{fill:rgba(124,196,255,.34);font:800 13px/1 var(--disp),sans-serif;text-anchor:middle;letter-spacing:.08em;text-transform:uppercase}
+.dm-shop-t{fill:#fff;font:800 11.5px/1 var(--disp),sans-serif;paint-order:stroke;stroke:rgba(11,26,51,.9);stroke-width:3.5}
+/* On a phone the map is barely 300px wide, so a 10.5-unit label renders at
+   about 6px. Scale the type up in viewBox units and let the three secondary
+   landmarks step aside — six labels at that size would be a smudge. */
+@media(max-width:640px){
+  .dm-minor{display:none}
+  .dm-poi-t{font-size:17px;stroke-width:4.5}
+  .dm-dist{font-size:19px}
+  .dm-shop-t{font-size:18px;stroke-width:5}
+  .dm-poi{r:4.5}
+  .dm-road{stroke-width:1.4}
+  .dm-road-major{stroke-width:2.2}
+  .dm-river{stroke-width:3}
+}
 .dm-pin{fill:var(--amber)}
 .dm-halo{fill:rgba(255,122,41,.28)}
 @media(prefers-reduced-motion:no-preference){

@@ -645,8 +645,17 @@
     "dl_3b": "За межі Сум",
     "dl_3": "уточнюйте у менеджера",
     "dl_pin": "Суми, вул. Харківська 2/1",
-    "dl_map_alt": "Межі Сум і розташування магазину TexnoPlaza",
-    "dl_1b": "400 грн"
+    "dl_map_alt": "Мапа Сум: райони, головні вулиці та орієнтири",
+    "dl_1b": "400 грн",
+    "dm_altanka": "Альтанка",
+    "dm_manufaktura": "Мануфактура",
+    "dm_lavina": "Лавина",
+    "dm_rynok": "Центральний ринок",
+    "dm_vokzal": "Вокзал",
+    "dm_epicentr": "Епіцентр",
+    "dm_zarichnyi": "Зарічний",
+    "dm_kovpakivskyi": "Ковпаківський",
+    "dm_shop": "TexnoPlaza"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1294,8 +1303,17 @@
     "dl_3b": "За пределы Сум",
     "dl_3": "уточняйте у менеджера",
     "dl_pin": "Сумы, ул. Харьковская 2/1",
-    "dl_map_alt": "Границы Сум и расположение магазина TexnoPlaza",
-    "dl_1b": "400 грн"
+    "dl_map_alt": "Карта Сум: районы, главные улицы и ориентиры",
+    "dl_1b": "400 грн",
+    "dm_altanka": "Альтанка",
+    "dm_manufaktura": "Мануфактура",
+    "dm_lavina": "Лавина",
+    "dm_rynok": "Центральный рынок",
+    "dm_vokzal": "Вокзал",
+    "dm_epicentr": "Эпицентр",
+    "dm_zarichnyi": "Заречный",
+    "dm_kovpakivskyi": "Ковпаковский",
+    "dm_shop": "TexnoPlaza"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -1943,7 +1961,16 @@
     "dl_3b": "Outside Sumy",
     "dl_3": "ask the manager",
     "dl_pin": "Sumy, 2/1 Kharkivska St",
-    "dl_map_alt": "The Sumy city boundary and the TexnoPlaza shop location",
-    "dl_1b": "400 UAH"
+    "dl_map_alt": "Map of Sumy: districts, main streets and landmarks",
+    "dl_1b": "400 UAH",
+    "dm_altanka": "Altanka",
+    "dm_manufaktura": "Manufaktura",
+    "dm_lavina": "Lavina",
+    "dm_rynok": "Central market",
+    "dm_vokzal": "Railway station",
+    "dm_epicentr": "Epicentr",
+    "dm_zarichnyi": "Zarichnyi",
+    "dm_kovpakivskyi": "Kovpakivskyi",
+    "dm_shop": "TexnoPlaza"
   }
 }
