@@ -490,8 +490,8 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
 .cb-close:hover{background:var(--g2)}
 
 /* reveal */
-.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
-.reveal.in{opacity:1;transform:none}
+.js .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.js .reveal.in{opacity:1;transform:none}
 
 /* ============ RESPONSIVE ============ */
 @media(max-width:980px){
@@ -529,7 +529,7 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
   html{scroll-behavior:auto}
-  .reveal{opacity:1;transform:none}
+  .js .reveal{opacity:1;transform:none}
 }
 /* lang controls in header */
 .h-tools{display:flex;align-items:center;gap:10px}
@@ -644,6 +644,7 @@ a.card-img{text-decoration:none}
 a.btn-det{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
 /* hero "Хіт продажів" card is now a link to the product page, light image stage */
 a.gauge-card{display:block;text-decoration:none;color:inherit;cursor:pointer;transition:transform .25s ease,box-shadow .25s ease}
+.hero-vis .gauge-card{transform-style:preserve-3d;will-change:transform;transition:transform .16s cubic-bezier(.2,.7,.2,1),box-shadow .25s ease}
 a.gauge-card:hover{transform:translateY(-4px)}
 .gc-img{background:radial-gradient(125% 100% at 50% 12%,#FCFEFF 0%,#E8EFFA 55%,#D2DFF0 100%)}
 .gc-img img{object-fit:contain;padding:14px;filter:drop-shadow(0 12px 16px rgba(11,26,51,.22))}
@@ -1180,3 +1181,56 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 @media(max-width:760px){
   .cv a,.pp-back a{min-height:26px;display:inline-flex;align-items:center}
 }
+
+/* "Підбір за 30 секунд" — the doors into each category's picker */
+.picker{background:linear-gradient(180deg,var(--ice) 0%,var(--paper) 100%)}
+.picker-head{margin-bottom:26px}
+.pick-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.pick-card{display:flex;align-items:center;gap:12px;min-width:0;padding:16px 14px;background:var(--white);border:1px solid var(--g2);border-radius:16px;box-shadow:var(--sh-sm);cursor:pointer;text-align:left;font:inherit;min-height:76px;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.pick-card:hover{transform:translateY(-3px);box-shadow:var(--sh);border-color:var(--blue)}
+.pick-card:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.pick-ic{flex:0 0 auto;width:44px;height:44px;display:grid;place-items:center;font-size:22px;border-radius:12px;background:var(--ice)}
+.pick-tx{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1 1 auto}
+.pick-t{font-family:var(--disp);font-weight:700;font-size:15px;color:var(--ink);line-height:1.25;overflow-wrap:anywhere}
+.pick-s{font-size:12.5px;color:var(--g5)}
+.pick-go{flex:0 0 auto;font-family:var(--disp);font-weight:700;font-size:16px;color:var(--blue-d);transition:transform .18s ease}
+.pick-card:hover .pick-go{transform:translateX(3px)}
+@media(max-width:1120px){.pick-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.pick-grid{grid-template-columns:repeat(2,1fr);gap:10px}.pick-card{padding:13px 12px;gap:10px;min-height:66px}.pick-ic{width:38px;height:38px;font-size:19px}.pick-t{font-size:14px}}
+@media(max-width:380px){.pick-grid{grid-template-columns:1fr}}
+
+/* boiler hero card: warmth rising off the tank — the counterpart to the
+   fridge's settling cold air and the station's rising charge */
+.gc-warm{position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 45% at 50% 88%,rgba(255,122,41,.20) 0%,transparent 70%);opacity:.85}
+@media(prefers-reduced-motion:no-preference){
+  .gc-warm{animation:warmpulse 5.5s ease-in-out infinite}
+  @keyframes warmpulse{0%,100%{opacity:.55}50%{opacity:.95}}
+}
+
+/* Delivery map. The outline is the real Sumy city boundary from OpenStreetMap,
+   simplified to 142 points and baked in as a path — no tiles, no third-party
+   request, and it weighs under 2 KB. */
+.deliv{background:var(--navy);color:#fff}
+.deliv-in{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+.deliv .sec-title{color:#fff}
+.deliv .sec-sub{color:rgba(233,243,255,.72)}
+.deliv .eyebrow{color:var(--frost)}
+.dl-list{list-style:none;padding:0;margin:22px 0 26px;display:flex;flex-direction:column;gap:12px}
+.dl-list li{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;font-size:15px;color:rgba(233,243,255,.76);padding-left:20px;position:relative}
+.dl-list li::before{content:"";position:absolute;left:0;top:.5em;width:7px;height:7px;border-radius:50%;background:var(--frost)}
+.dl-b{font-family:var(--disp);font-weight:700;color:#fff}
+.deliv-map{margin:0;background:linear-gradient(165deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid rgba(124,196,255,.22);border-radius:var(--r-lg);padding:18px;box-shadow:var(--sh-lg)}
+.deliv-map svg{display:block;width:100%;height:auto}
+.dm-city{fill:rgba(46,139,255,.16);stroke:var(--frost);stroke-width:1.6;stroke-linejoin:round}
+.dm-pin{fill:var(--amber)}
+.dm-halo{fill:rgba(255,122,41,.28)}
+@media(prefers-reduced-motion:no-preference){
+  .dm-halo{transform-origin:center;transform-box:fill-box;animation:dmpulse 2.6s ease-out infinite}
+  @keyframes dmpulse{0%{transform:scale(.7);opacity:.85}70%{transform:scale(2.4);opacity:0}100%{transform:scale(2.4);opacity:0}}
+}
+.dm-cap{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;font-size:12.5px;color:rgba(233,243,255,.62)}
+.dm-dot{width:9px;height:9px;border-radius:50%;background:var(--amber);flex:0 0 auto}
+.dm-attr{margin-left:auto;color:rgba(233,243,255,.42);text-decoration:none}
+.dm-attr:hover{color:var(--frost)}
+@media(max-width:900px){.deliv-in{grid-template-columns:1fr;gap:28px}.deliv-map{order:-1}}
+@media(max-width:640px){.deliv-map{padding:12px}.dl-list li{font-size:14.5px}}

@@ -584,25 +584,48 @@ document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>doc
 })();
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeProductModal();forceCloseCb();closeModalById('compare-modal');closeModalById('fav-modal');closeQbuy();}});
 window.addEventListener('scroll',closeQbuy,{passive:true});
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+/* Sixty-five blocks start at opacity 0 and only the observer brings them back,
+   so if it is missing the page is mostly blank. Without IntersectionObserver,
+   reveal everything at once rather than animating nothing. */
+const io='IntersectionObserver' in window
+  ? new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12})
+  : null;
+/* Callable again for anything rendered later; already-revealed nodes are
+   unobserved, and re-observing one that is still hidden is harmless. */
+function scanReveals(root){
+  (root||document).querySelectorAll('.reveal:not(.in)').forEach(el=>{
+    if(io)io.observe(el); else el.classList.add('in');
+  });
+}
+scanReveals();
+window.scanReveals=scanReveals;
 
 /* WhatsApp float + contact links use new phone */
 document.querySelectorAll('a[href*="380991108041"]').forEach(()=>{});
 
-/* Premium 3D tilt on product cards (delegated, survives re-renders) */
+/* 3D tilt on product cards and on the hero cards (delegated, survives
+   re-renders). The hero cards are large and sit against a dark backdrop, so
+   they get shallower angles — the same numbers that read as "premium" on a
+   260px catalogue card read as a wobble on a 460px one. */
 (function(){
   if(!matchMedia('(hover:hover) and (pointer:fine)').matches) return;
   if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  const TILT=[['.card',4.5,5.5,6],['.hero-vis .gauge-card',3,3.6,4]];
   let cur=null;
   function reset(c){if(c)c.style.transform='';}
+  function find(target){
+    for(const [sel,rx,ry,lift] of TILT){const el=target.closest(sel);if(el)return [el,rx,ry,lift];}
+    return null;
+  }
   document.addEventListener('pointermove',e=>{
-    const card=e.target.closest('.card');
+    const hit=e.target.closest?find(e.target):null;
+    const card=hit&&hit[0];
     if(card!==cur){reset(cur);cur=card;}
-    if(!card)return;
-    const r=card.getBoundingClientRect();
+    if(!hit)return;
+    const [el,rx,ry,lift]=hit;
+    const r=el.getBoundingClientRect();
     const px=(e.clientX-r.left)/r.width-0.5, py=(e.clientY-r.top)/r.height-0.5;
-    card.style.transform=`perspective(950px) rotateX(${(-py*4.5).toFixed(2)}deg) rotateY(${(px*5.5).toFixed(2)}deg) translateY(-6px)`;
+    el.style.transform=`perspective(950px) rotateX(${(-py*rx).toFixed(2)}deg) rotateY(${(px*ry).toFixed(2)}deg) translateY(-${lift}px)`;
   },{passive:true});
   document.addEventListener('pointerout',e=>{if(cur&&!cur.contains(e.relatedTarget)){reset(cur);cur=null;}},true);
 })();
@@ -619,8 +642,14 @@ document.querySelectorAll('a[href*="380991108041"]').forEach(()=>{});
   if(hero && matchMedia('(pointer:fine)').matches && !reduce){
     hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect();hero.style.setProperty('--mx',((e.clientX-r.left)/r.width*100).toFixed(1)+'%');hero.style.setProperty('--my',((e.clientY-r.top)/r.height*100).toFixed(1)+'%');},{passive:true});
   }
-  /* snowflakes in hero */
-  if(hero && !reduce){
+  /* The season is baked into <html data-season> at build time, which is right
+     as long as the site is deployed now and then. Re-check it against today's
+     date and correct the attribute: a stale deploy showing snow over the hero
+     in July reads as a broken page, not an old one. */
+  const liveSeason=(m=>m>=4&&m<=7?'warm':(m>=10||m<=1?'cold':'mild'))(new Date().getMonth());
+  document.documentElement.dataset.season=liveSeason;
+  /* snowflakes in hero — cold months only */
+  if(hero && !reduce && liveSeason==='cold'){
     const wrap=document.createElement('div');wrap.style.cssText='position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0';
     for(let i=0;i<9;i++){const s=document.createElement('div');s.className='flake';s.textContent='❄';s.style.left=(Math.random()*100).toFixed(1)+'%';s.style.fontSize=(8+Math.random()*9).toFixed(0)+'px';s.style.animationDuration=(11+Math.random()*12).toFixed(1)+'s';s.style.animationDelay=(-Math.random()*14).toFixed(1)+'s';wrap.appendChild(s);}
     hero.insertBefore(wrap,hero.firstChild);

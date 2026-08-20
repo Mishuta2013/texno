@@ -154,7 +154,9 @@
       "uk": "Кондиціонер",
       "ru": "Кондиционер",
       "en": "Air conditioner"
-    }
+    },
+    "quiz": true,
+    "emoji": "❄"
   },
   "pralni-mashyny": {
     "name": "Пральні машини",
@@ -336,7 +338,9 @@
       "Delivery in Sumy — 400 UAH",
       "Hookup — 500 UAH",
       "Official warranty"
-    ]
+    ],
+    "quiz": true,
+    "emoji": "🧺"
   },
   "zaryadni-stantsii": {
     "name": "Зарядні станції",
@@ -562,7 +566,9 @@
     },
     "quizCta": "Підібрати зарядну станцію",
     "quizCta_ru": "Подобрать зарядную станцию",
-    "quizCta_en": "Find a power station"
+    "quizCta_en": "Find a power station",
+    "quiz": true,
+    "emoji": "🔋"
   },
   "holodylnyky": {
     "name": "Холодильники",
@@ -762,7 +768,9 @@
       }
     ],
     "quizCta_ru": "Подобрать холодильник",
-    "quizCta_en": "Find your refrigerator"
+    "quizCta_en": "Find your refrigerator",
+    "quiz": true,
+    "emoji": "🧊"
   },
   "boylery": {
     "name": "Бойлери",
@@ -975,6 +983,8 @@
       "Installation — price agreed with the manager",
       "Pay on receipt",
       "Tank warranty up to 8 years"
-    ]
+    ],
+    "quiz": true,
+    "emoji": "💧"
   }
 }

@@ -224,7 +224,7 @@ ${alts}
 <link rel="manifest" href="/manifest.webmanifest">
 ${FONTS}
 <link rel="stylesheet" href="${av('/assets/css/main.css')}">
-<script>if('serviceWorker'in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
+<script>document.documentElement.className+=' js';if('serviceWorker'in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}`;
 }
 
@@ -275,6 +275,19 @@ function heroStationCard(p) {
     </div></a>`;
 }
 
+function heroBoilerCard(p) {
+  const s = p.specs || {};
+  return `<a class="gauge-card gc-station" href="${purl(p)}">
+    <div class="gc-tag">${esc(t('gc_stock'))}</div>
+    <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
+    <div class="gc-img"><img src="${esc(av(p.photos[0]))}" alt="${esc(pname(p))}" width="680" height="510" loading="lazy"><div class="gc-warm"></div></div>
+    <div class="gc-name">${esc(pname(p))}</div>
+    <div class="gc-readout">
+      <div class="gc-r"><div class="v">${esc(s.volume_l)}<small> ${esc(t("u_l"))}</small></div><div class="k">${esc(t("hc_volume"))}</div></div>
+      <div class="gc-r"><div class="v">${esc(s.power_w)}<small> ${esc(t("u_w"))}</small></div><div class="k">${esc(t("hc_power"))}</div></div>
+      <div class="gc-r"><div class="v">${esc(String(s.warranty_tank || '').split(' ')[0] || '—')}<small> ${esc(t('hc_yr'))}</small></div><div class="k">${esc(t("hc_tank"))}</div></div>
+    </div></a>`;
+}
 function heroWasherCard(p) {
   const s = p.specs || {};
   return `<a class="gauge-card gc-station" href="${purl(p)}">
@@ -355,9 +368,50 @@ function searchLd() {
   };
 }
 // FAQ list + FAQPage schema, both from the current language
+/* Staggered on reveal, but the delay is capped: across 16 questions an
+   uncapped ramp would leave the last row arriving half a second late. */
+/* "модель / моделі / моделей" — the brand page and the category page each
+   worked this out inline, and the picker needs the same answer, so it lives in
+   one place now. */
+function modelsWord(n) {
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return t('cat_models1');
+  if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return t('cat_models2');
+  return t('cat_models5');
+}
+
+/* "Підбір за 30 секунд": one door per category that ships a picker, built from
+   the data — a new category shows up here the day it is added, which is what
+   the hardcoded tab strip failed to do when water heaters arrived. */
+function pickerSection() {
+  const open = catList.filter(c => c.quiz && catProducts(c.key).length);
+  if (!open.length) return '';
+  const cards = open.map(c => {
+    const n = catProducts(c.key).length;
+    return `<button class="pick-card reveal" type="button" onclick="openQuiz('${esc(c.key)}')" aria-label="${esc(lf(c, 'quizCta'))}">
+        <span class="pick-ic" aria-hidden="true">${esc(c.emoji || '•')}</span>
+        <span class="pick-tx"><span class="pick-t">${esc(lf(c, 'name'))}</span><span class="pick-s">${n} ${esc(modelsWord(n))}</span></span>
+        <span class="pick-go" aria-hidden="true">&rarr;</span>
+      </button>`;
+  }).join(`
+      `);
+  return `<section class="section picker" id="picker">
+  <div class="wrap">
+    <div class="reveal picker-head">
+      <div class="eyebrow">${esc(t('pick_eye'))}</div>
+      <h2 class="sec-title">${esc(t('pick_h'))}</h2>
+      <p class="sec-sub">${esc(t('pick_sub'))}</p>
+    </div>
+    <div class="pick-grid">
+      ${cards}
+    </div>
+  </div>
+</section>`;
+}
+
 function faqItems() {
-  return (i18n[L].faq || i18n.uk.faq || []).map(([q, a]) =>
-    `<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">${esc(q)}</div><div class="faq-a">${esc(a)}</div></div>`).join('\n      ');
+  return (i18n[L].faq || i18n.uk.faq || []).map(([q, a], i) =>
+    `<div class="faq-item reveal" style="transition-delay:${Math.min(i, 6) * 45}ms"><div class="faq-q" onclick="toggleFaq(this)">${esc(q)}</div><div class="faq-a">${esc(a)}</div></div>`).join('\n      ');
 }
 
 // ---- catalog dataset injected for client hydration (no heavy desc fields) ----
@@ -396,11 +450,32 @@ body = TEMPLATE;
 const best = products.find(p => p.bestseller) || products[0];
 const bestStation = products.find(p => p.category === 'zaryadni-stantsii');
 const bestFridge = products.find(p => p.slug === 'edler-ed-118wh') || products.find(p => p.category === 'holodylnyky');
-// hero hits: station first (eager LCP image), fridge second, washer third
-body = body.replace('<!--HERO_CARD-->', bestStation ? heroStationCard(bestStation) : heroCard(best));
-body = body.replace('<!--HERO_CARD2-->', bestFridge ? heroFridgeCard(bestFridge) : (bestStation ? heroCard(best) : ''));
+/* Seasonal accent. Sumy buys air conditioners in the summer and power for the
+   heating season in the winter, so the three hero cards rotate rather than
+   showing the same trio all year. The month comes from the build, which is
+   right as long as the site is deployed now and then; the decorative half
+   (snowflakes) is re-checked in the browser against the real date, because
+   snow over the hero in July reads as a broken page rather than a stale one. */
+const SEASON = ['warm', 'cold', 'mild'].includes(process.env.TP_SEASON) ? process.env.TP_SEASON
+  : (m => m >= 4 && m <= 7 ? 'warm' : (m >= 10 || m <= 1 ? 'cold' : 'mild'))(new Date().getMonth());
+//   TP_SEASON=cold node scripts/build.mjs   — to preview another season
+const bestBoiler = products.find(p => p.category === 'boylery');
 const bestWasher = products.find(p => p.slug === 'lg-f2y2ns3we') || products.find(p => p.category === 'pralni-mashyny');
-body = body.replace('<!--HERO_CARD3-->', bestWasher ? heroWasherCard(bestWasher) : '');
+const heroSlots = {
+  warm: [best && heroCard(best), bestFridge && heroFridgeCard(bestFridge), bestWasher && heroWasherCard(bestWasher)],
+  cold: [bestStation && heroStationCard(bestStation), bestBoiler && heroBoilerCard(bestBoiler), bestWasher && heroWasherCard(bestWasher)],
+  mild: [bestStation && heroStationCard(bestStation), bestFridge && heroFridgeCard(bestFridge), bestWasher && heroWasherCard(bestWasher)]
+}[SEASON].filter(Boolean);
+// whatever the season leaves out, fall back so the hero is never short a card
+while (heroSlots.length < 3) {
+  const spare = [bestStation && heroStationCard(bestStation), bestFridge && heroFridgeCard(bestFridge), best && heroCard(best)]
+    .filter(x => x && !heroSlots.includes(x))[0];
+  if (!spare) break;
+  heroSlots.push(spare);
+}
+body = body.replace('<!--HERO_CARD-->', heroSlots[0] || '');
+body = body.replace('<!--HERO_CARD2-->', heroSlots[1] || '');
+body = body.replace('<!--HERO_CARD3-->', heroSlots[2] || '');
 if (bestStation && bestWasher) body = body.replace('class="hero-vis two"', 'class="hero-vis two hv3"');
 // pre-render catalog grid for SEO (client re-renders on filter) — default tab shows ALL products
 const homeCatalogCat = 'all';
@@ -468,6 +543,7 @@ if (pfx()) {
   if (BLOG_LANGS.includes(L))
     body = body.split('href="/blog/"').join(`href="${pfx()}/blog/"`);
 }
+body = body.replace('<!--PICKER-->', pickerSection());
 body = body.replace('<!--QUIZ_INLINE-->', quizInline(true));
 body = body.replace('<!--FAQ_ITEMS-->', faqItems());
 body = applyI18nStatic(body);   // bake the current language into static HTML (SEO)
@@ -483,7 +559,7 @@ HEADER = toHome(body.slice(0, _heroAt));
 FOOTER = toHome(body.slice(_footAt));
 
 const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: ((i18n[L].faq) || i18n.uk.faq || []).map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
-const indexHtml = `<!doctype html><html lang="${L}"><head>
+const indexHtml = `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
 ${head({
   title: t('seo_home_t'),
   desc: t('seo_home_d'),
@@ -581,7 +657,7 @@ function productPage(p) {
     ]
   };
   const ukPrefix = (cat.productPrefix || {}).uk;
-  return `<!doctype html><html lang="${L}"><head>
+  return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
 ${(() => {
   const nm = ukPrefix ? NAME.replace(new RegExp('^' + ((cat.productPrefix || {})[L] || ukPrefix) + '\s+', 'i'), '') : NAME;
   const keySpec = (cat.ppChips || cat.chips || []).filter(c => !c.flag).map(c => fmtVal(p, c)).filter(Boolean).slice(0, 2).join(', ');
@@ -817,8 +893,7 @@ function brandPage(cat, brand) {
   const NAME = `${CAT} ${brand}`;
   const prices = list.map(p => p.price);
   const lo = Math.min(...prices), hi = Math.max(...prices);
-  const plural = list.length % 10 === 1 && list.length % 100 !== 11 ? t('cat_models1')
-    : (list.length % 10 >= 2 && list.length % 10 <= 4 && (list.length % 100 < 10 || list.length % 100 >= 20) ? t('cat_models2') : t('cat_models5'));
+  const plural = modelsWord(list.length);
   // a brand with one model would otherwise read "від 83 999 до 83 999 грн"
   const priceKey = lo === hi ? 'brand_price_one' : 'brand_price_range';
   const priceText = t(priceKey).replace('{lo}', fmt(lo)).replace('{hi}', fmt(hi));
@@ -843,7 +918,7 @@ function brandPage(cat, brand) {
   const about = (BRANDS[brand] || {})[L] || (BRANDS[brand] || {}).uk || '';
   const siblings = catBrands(cat.key).filter(b => b !== brand)
     .map(b => `<a class="bl-chip" href="${burl(cat, b)}">${esc(b)}</a>`).join('');
-  return `<!doctype html><html lang="${L}"><head>
+  return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
 ${head({
   title: (() => {                       // the brand and city matter, the suffix does not
     const full = t('brand_seo_t').replace('{name}', NAME);
@@ -922,8 +997,7 @@ function catArticles(catKey) {
 function categoryPage(cat) {
   const list = catProducts(cat.key);
   const NAME = lf(cat, 'name');
-  const plural = list.length % 10 === 1 && list.length % 100 !== 11 ? t('cat_models1')
-    : (list.length % 10 >= 2 && list.length % 10 <= 4 && (list.length % 100 < 10 || list.length % 100 >= 20) ? t('cat_models2') : t('cat_models5'));
+  const plural = modelsWord(list.length);
   const jsonld = {
     '@context': 'https://schema.org', '@type': 'CollectionPage', name: NAME, url: abs(curl(cat)),
     mainEntity: { '@type': 'ItemList', numberOfItems: list.length, itemListElement: list.slice(0, 20).map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: abs(purl(p)) })) }
@@ -931,7 +1005,7 @@ function categoryPage(cat) {
   const crumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
     { '@type': 'ListItem', position: 1, name: t('pp_home'), item: abs(pfx() + '/') },
     { '@type': 'ListItem', position: 2, name: NAME, item: abs(curl(cat)) } ] };
-  return `<!doctype html><html lang="${L}"><head>
+  return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
 ${head({
   title: lf(cat, 'seoTitle') || t('seo_cat_t').replace('{name}', NAME),
   desc: subCounts(lf(cat, 'seoDesc') || lf(cat, 'intro') || `${NAME} ${t('cat_in_sumy')}: ${list.length} ${plural} ${t('cat_instock')}.`),
@@ -991,7 +1065,7 @@ function blogCard(a) {
     <span class="bl-more">${esc(t("blog_more"))}</span></a>`;
 }
 function blogIndexPage() {
-  return `<!doctype html><html lang="${L}"><head>
+  return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
 ${head({ title: t('seo_blog_t'), desc: t('seo_blog_d'), canonical: abs(pfx() + '/blog/'), altPath: '/blog/', altLangs: BLOG_LANGS })}
 </head><body>${GTM_NS}
 ${HEADER}
@@ -1021,7 +1095,7 @@ function blogPost(a) {
     { '@type': 'ListItem', position: 1, name: t('pp_home'), item: abs(pfx() + '/') },
     { '@type': 'ListItem', position: 2, name: t('nav_blog'), item: abs(pfx() + '/blog/') },
     { '@type': 'ListItem', position: 3, name: bt(a), item: abs(blogUrl(a)) } ] };
-  return `<!doctype html><html lang="${L}"><head>
+  return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
 ${head({ title: (bt(a) + ' | ' + site.name).length <= 65 ? bt(a) + ' | ' + site.name : bt(a), desc: bd(a), canonical: abs(blogUrl(a)), ogTitle: bt(a), altPath: `/blog/${a.slug}/`, altLangs: BLOG_LANGS, jsonld })}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
 </head><body>${GTM_NS}

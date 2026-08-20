@@ -112,6 +112,9 @@
   </div>
 </div>
 
+<!-- PICKER -->
+<!--PICKER-->
+
 <!-- CATEGORY HUB -->
 <section class="section cats" id="cats">
   <div class="wrap">
@@ -165,7 +168,7 @@
       <p class="sec-sub" data-i18n="cat_sub">Інверторні моделі, теплові насоси та класичні On/Off. Доставка та монтаж день у день по Сумах і області.</p>
     </div>
 
-    <div class="cat-tabs" id="cat-tabs">
+    <div class="cat-tabs reveal" id="cat-tabs">
       <button class="ctab active" data-cat="all" onclick="switchCat('all')" type="button"><span class="ctab-ic">☰</span><span data-i18n="ctab_all">Всі товари</span><b class="ctab-n"></b></button>
       <button class="ctab" data-cat="kondicioneri" onclick="switchCat('kondicioneri')" type="button"><span class="ctab-ic">❄</span><span data-i18n="ctab_ac">Кондиціонери</span><b class="ctab-n"></b></button>
       <button class="ctab" data-cat="pralni-mashyny" onclick="switchCat('pralni-mashyny')" type="button"><span class="ctab-ic">🧺</span><span data-i18n="ctab_wm">Пральні машини</span><b class="ctab-n"></b></button>
@@ -479,6 +482,36 @@
 </section>
 
 <!-- CONTACTS -->
+<!-- DELIVERY -->
+<section class="section deliv" id="delivery">
+  <div class="wrap deliv-in">
+    <div class="deliv-copy reveal">
+      <div class="eyebrow" data-i18n="dl_eye">Доставка</div>
+      <h2 class="sec-title" data-i18n="dl_h">Куди возимо</h2>
+      <p class="sec-sub" data-i18n="dl_sub">Магазин на вул. Харківській, 2/1 — звідси розвозимо по всіх Сумах.</p>
+      <ul class="dl-list">
+        <li><span class="dl-b" data-i18n="dl_1b">400 грн</span> <span data-i18n="dl_1">доставка по місту</span></li>
+        <li><span class="dl-b" data-i18n="dl_2b">Після отримання</span> <span data-i18n="dl_2">оплата за товар</span></li>
+        <li><span class="dl-b" data-i18n="dl_3b">За межі Сум</span> <span data-i18n="dl_3">уточнюйте у менеджера</span></li>
+      </ul>
+      <button class="btn-primary" type="button" onclick="openCb()" data-i18n="cb_btn">Замовити дзвінок</button>
+    </div>
+    <figure class="deliv-map reveal">
+      <svg viewBox="0 0 520 420" role="img" aria-labelledby="dl-map-t">
+        <title id="dl-map-t" data-i18n="dl_map_alt">Межі Сум і розташування магазину TexnoPlaza</title>
+        <path class="dm-city" d="M41.2 95.4 L45.2 101.4 L43.4 113.7 L51.1 119.2 L73.5 117.8 L85.2 125.3 L89.7 120.4 L97.7 118.7 L102.1 126.4 L114.5 128.1 L117.5 138.3 L111.5 146.9 L113.7 149.1 L124.7 144.6 L131.8 149 L134.7 154 L147.8 149.8 L160.7 151.7 L159.1 170.3 L165.2 172.4 L159.1 212.6 L148.2 219.5 L156.6 226.8 L153.7 229.9 L162.1 237 L148.5 248 L158.3 252.7 L150.3 260.4 L163.4 271.7 L167.3 277.8 L164.8 280.5 L187.7 302.3 L167.8 321.7 L140 326.2 L145.3 339.1 L134.1 342.9 L134.4 344.7 L139.8 344.5 L140.4 349 L212.5 340.4 L224.9 334.1 L218.3 330.6 L206.2 332 L205.9 330.2 L173.5 335.5 L170.2 322 L175.8 315.8 L184.4 325.7 L207.5 307.7 L233.4 334.9 L238.3 324.1 L250.3 310.5 L258.3 309.5 L257.8 305.3 L277.8 304.8 L281.8 313.3 L301 326.1 L310.5 341.7 L335.9 371.8 L333.3 380.3 L345.3 398.3 L347.8 397.2 L352.9 404 L387.7 382.1 L391.4 377.1 L395 384 L436.4 382 L430.2 362.4 L426.6 361 L423 352.4 L435.5 348 L454.2 362.7 L465 349.4 L471.8 346.2 L465.8 333.1 L478.8 314.7 L460 291.5 L445 281.9 L447.2 278.4 L444 276.7 L441.7 279.9 L421.7 268.6 L423.1 265.8 L417.8 262.7 L416.2 265.6 L367.7 239.1 L360 231.8 L355.7 220.9 L360 220.9 L361.2 225.9 L364.9 225.2 L368.9 221.6 L364.8 216.8 L366.8 213 L377.8 215.3 L379.1 213.3 L366.4 129.4 L359.2 124.1 L360.7 116.8 L355.1 108.7 L375.9 106.3 L382.4 98.5 L381.4 89.9 L376.3 86.2 L380.3 73 L364.7 67.1 L364.3 64.4 L377 60.9 L373.7 39.7 L368.4 32.6 L358.5 35.2 L359.2 41.9 L355.8 44.3 L334.9 44.8 L330.7 52.3 L321.7 52.9 L302.6 73.9 L282.2 81.5 L280.2 86 L275.1 88.9 L247.5 47.4 L242.5 30 L240.6 30.4 L243 39.2 L235.3 39.5 L231.2 43.1 L223.8 31.8 L228 28.4 L226.6 24.7 L222.3 24.2 L219 16.4 L214.1 17.9 L211 16 L177.4 27.4 L124.5 53.2 L114.1 53.3 L97.6 74 L92 69.8 L96.1 82.3 L96.1 93.9 L58.1 89.1 L41.2 95.4 Z"/>
+        <circle class="dm-halo" cx="263.6" cy="197.4" r="9"/>
+        <circle class="dm-pin" cx="263.6" cy="197.4" r="5.5"/>
+      </svg>
+      <figcaption class="dm-cap">
+        <span class="dm-dot" aria-hidden="true"></span>
+        <span data-i18n="dl_pin">Суми, вул. Харківська 2/1</span>
+        <a class="dm-attr" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap</a>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
 <section class="section contacts" id="contacts">
   <div class="wrap">
     <div class="reveal">
@@ -544,6 +577,7 @@
         <li><a href="#installation" data-i18n="foot_install">Монтаж під ключ</a></li>
         <li><a href="#service" data-i18n="nav_service">Сервіс</a></li>
         <li><a href="#payment" data-i18n="nav_payment">Оплата</a></li>
+        <li><a href="#delivery" data-i18n="dl_h">Куди возимо</a></li>
         <li><a href="#advantages" data-i18n="foot_adv">Наші переваги</a></li>
         <li><a href="#faq" data-i18n="foot_faq">Часті запитання</a></li>
         <li><a href="/blog/" data-i18n="nav_blog">Блог</a></li>
