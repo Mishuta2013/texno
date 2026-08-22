@@ -4,7 +4,7 @@
   --blue:#2E8BFF;--blue-d:#1C6FE0;--frost:#7CC4FF;--ice:#E9F3FF;
   --amber:#FF7A29;--amber-d:#E8631A;
   --paper:#F7FAFD;--white:#fff;--card:#fff;--line:#E1E9F3;--blue-a:#EAF3FF;
-  --stripe:rgba(233,243,255,.45);--chip-line:#C9E2FB;
+  --stripe:rgba(233,243,255,.45);--chip-line:#C9E2FB;--bar-bg:rgba(255,255,255,.97);
   --g1:#EEF3F9;--g2:#E1E9F3;--g3:#C6D2E2;--g4:#8597AE;--g5:#4D5E76;--ink:#0E1726;
   --green:#16A34A;--green-bg:#DCFCE7;
   --r:14px;--r-sm:10px;--r-lg:22px;--r-pill:999px;
@@ -23,6 +23,7 @@
    colours and are deliberately left alone. */
 :root[data-theme="dark"]{
   --filter-bg:rgba(20,31,54,.90);--stripe:rgba(255,255,255,.045);--chip-line:#2C4569;
+  --bar-bg:rgba(20,31,54,.97);
   --paper:#0C1526;--white:#141F36;--card:#141F36;--line:#27344F;
   --g1:#1A2640;--g2:#27344F;--g3:#3C4C6B;--g4:#8CA0BE;--g5:#B6C6DD;--ink:#E9F0FA;
   --ice:#16283F;--blue-a:#16283F;--blue-d:#68ADFF;
@@ -875,7 +876,7 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
   /* hide floating WA (replaced by sticky bar) */
   .wa-float,.vb-float{display:none}
   /* room for the sticky CTA bar */
-  body{padding-bottom:64px}
+  body{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
 }
 @media(max-width:480px){
   /* de-crowd header (sticky CTA covers call/order on mobile) */
@@ -1046,7 +1047,7 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
   /* the product page gets its own bottom bar, so the global one steps aside */
   body:has(.pp-sticky) .mcta{display:none}
   .pp-sticky{display:flex;align-items:center;gap:12px;position:fixed;left:0;right:0;bottom:0;z-index:130;
-    padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.97);
+    padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:var(--bar-bg);
     backdrop-filter:blur(10px);border-top:1px solid var(--g2);box-shadow:0 -8px 26px rgba(11,26,51,.1)}
   .pps-info{flex:1;min-width:0}
   .pps-price{font-family:var(--disp);font-size:19px;font-weight:800;color:var(--ink);line-height:1.1}
@@ -1103,7 +1104,7 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 .bl-tbtn{padding:9px 16px;border:1px solid var(--g2);border-radius:999px;background:var(--white);color:var(--g5);
   font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;transition:border-color .18s,color .18s,background .18s}
 .bl-tbtn:hover{border-color:var(--blue);color:var(--blue-d)}
-.bl-tbtn.active{background:var(--ink);border-color:var(--ink);color:#fff}
+.bl-tbtn.active{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 
 /* fridge hero card: cold air settling — the counterpart to the station's rising
    sparks and the washer's turning drum */
@@ -1350,3 +1351,45 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
   font-family:var(--disp);font-weight:700;font-size:11.5px;line-height:1.2;letter-spacing:.01em}
 .cedge::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor;flex:0 0 auto}
 @media(max-width:640px){.cedge{font-size:10.5px;padding:3px 8px}}
+
+/* iOS Safari zooms the page in when a field it focuses has type smaller than
+   16px, and leaves the visitor scrolled sideways afterwards. Every input on a
+   phone is 16px for that reason alone; on a pointer device the smaller sizes
+   above still apply. */
+@media(max-width:1024px),(pointer:coarse){
+  .search-input,.sort-select,
+  .field input,.field select,.field textarea,
+  .quiz-lead input,#cb-phone,#cb-name,#cb-product{font-size:16px}
+  .sort-select{padding-right:30px}
+}
+
+/* ---------------------------------------------------------------------------
+   Phone ergonomics. Two things measured badly on a real handset: the footer is
+   a dense stack of 17px-tall links, which is under the 24px WCAG 2.2 asks for
+   a target that is not inline prose, and the card metadata ran to 9.5px, which
+   is small print rather than information. Both are fixed by giving the same
+   elements room rather than by redesigning anything.
+   --------------------------------------------------------------------------- */
+/* Targets first: a tablet is a finger device too, and at 768px it fell outside
+   a 760px breakpoint and kept its 17px links. Keyed on the pointer as well as
+   the width, so a touch laptop is covered without guessing from the viewport. */
+@media(max-width:1024px),(pointer:coarse){
+  /* The footer root is <footer>, not a .foot class — the first attempt at this
+     selector matched nothing and the links stayed 17px tall. */
+  .foot-col a,.fc-all a{display:inline-block;min-width:24px;padding:6px 0;line-height:1.35}
+  .foot-col h2 a,.foot-h a{padding:3px 0}
+  .foot-bottom a{display:inline-block;padding:6px 4px}
+  .foot-col ul{gap:4px}
+  .dm-attr{display:inline-block;padding:5px 3px}
+  .tb-addr{display:inline-flex;padding:3px 0}
+  .card-brand,.pp-brand{display:inline-block;padding:3px 0;min-height:24px}
+  .cv a,.ct-v a{display:inline-block;padding:3px 0;min-height:24px}
+  .pp-back a{display:inline-block;padding:4px 0;min-height:24px}
+}
+@media(max-width:760px){
+  /* card metadata large enough to read at arm's length */
+  .stag{font-size:11px}
+  .cbadge{font-size:11px}
+  .cedge{font-size:11px}
+  .card-brand{font-size:11.5px}
+}

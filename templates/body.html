@@ -157,7 +157,6 @@
   </div>
 </section>
 
-
 <section class="recent-band">
   <div class="wrap">
     <div class="recent" id="recent" hidden><h2 class="recent-h" data-i18n="recent_h">Ви нещодавно дивилися</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" data-i18n="recent_clear" onclick="clearRecent()">Очистити історію</button></div>
@@ -631,38 +630,6 @@
 </div>
 
 <!-- PRODUCT MODAL -->
-<div class="overlay" id="product-modal" onclick="closeProduct(event)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeProductModal()">✕</button>
-    <div class="modal-body">
-      <div class="m-gallery">
-        <div class="m-main"><img id="m-main-img" src="" alt="" width="680" height="510"></div>
-        <div class="m-thumbs" id="m-thumbs"></div>
-      </div>
-      <div class="m-info">
-        <div class="m-brand" id="m-brand"></div>
-        <div class="m-name" id="m-name"></div>
-        <div class="m-price-row"><div class="m-price" id="m-price"></div><div class="m-price-uah" data-i18n="u_uah">грн</div></div>
-        <div class="m-hp" id="m-hp" style="display:none"></div>
-        <div class="m-specs" id="m-specs"></div>
-        <div class="m-desc" id="m-desc"></div>
-        <div class="m-specs-full">
-          <div class="msf-t" id="m-specs-full-title"></div>
-          <table><tbody id="m-specs-full-body"></tbody></table>
-        </div>
-        <div class="m-ctas">
-          <button class="btn-m-order" id="m-order-btn" data-i18n="m_order" onclick="orderFromModal()">Замовити / дізнатися ціну</button>
-          <div class="m-msgs">
-            <a class="btn-m-msg btn-m-wa-s" id="m-wa" href="#" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2z"/></svg> WhatsApp</a>
-            <a class="btn-m-msg btn-m-vb-s" id="m-vb" href="#" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6 2 11c0 2.5 1.2 4.7 3 6.3V22l3.6-2c1 .3 2.2.5 3.4.5 5.5 0 10-4 10-9s-4.5-9.5-10-9.5z"/></svg> Viber</a>
-            <a class="btn-m-msg btn-m-tg-s" id="m-tg" href="#" target="_blank"><svg viewBox="0 0 24 24"><path d="M22 3 2 11l6 2 2 6 3-4 5 4z"/></svg> Telegram</a>
-          </div>
-          <button class="m-fav-btn" id="m-fav-btn" aria-label="В обране" data-i18n-aria="fav_add"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg> <span></span></button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- CALLBACK MODAL -->
 <div class="overlay" id="cb-modal" onclick="closeCb(event)">

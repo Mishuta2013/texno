@@ -223,7 +223,7 @@ function cardHTML(p){
       <span class="cstock"><i></i>${t('c_instock')}</span>
       <button class="card-fav ${favOn}" onclick="event.preventDefault();event.stopPropagation();toggleFav(${idx})" aria-label="fav"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
       <button class="card-cmp ${cmpOn}" title="${t('cmp_add')}" aria-label="${t('cmp_add')}" onclick="event.preventDefault();event.stopPropagation();toggleCmp(${idx})"><svg viewBox="0 0 24 24"><path d="M3 6h7M14 6h7M6.5 6v12M17.5 6v12M3 12l3.5-6 3.5 6a3.5 3.5 0 0 1-7 0zM14 12l3.5-6 3.5 6a3.5 3.5 0 0 1-7 0z"/></svg><span class="cmp-lbl">${t('cmp_add')}</span></button>
-      <img src="${p.thumb||p.photos[0]}" alt="${pnameJS(p)}" loading="lazy" width="400" height="300">
+      <img src="${p.thumb}" alt="${pnameJS(p)}" loading="lazy" width="400" height="300">
     </a>
     <div class="card-body">
       <a class="card-brand" href="${langPfx()}${(catOf(p).urlPrefix||'')}/${brandSlugJS(p.brand)}/">${p.brand}</a>
@@ -370,38 +370,6 @@ function specRows(p){
   r.push([t('sp_heat'), p.heatpump?t('sp_hp'):t('sp_yes')]);
   return r;
 }
-function openProduct(idx){
-  const p=PRODUCTS[idx];currentProduct=p;
-  $('m-brand').textContent=p.brand+' · '+p.series;
-  $('m-name').textContent=p.name;
-  $('m-price').textContent=fmt(p.price);
-  $('m-hp').style.display=p.heatpump?'inline-flex':'none';
-  $('m-hp').textContent=t('m_hp');
-  $('m-desc').textContent=pdesc(p);
-  $('m-main-img').src=p.photos[0];
-  $('m-thumbs').innerHTML=p.photos.map((ph,i)=>`<div class="m-thumb ${i===0?'active':''}" onclick="setThumb(this,${idx},${i})"><img src="${ph}" loading="lazy"></div>`).join('');
-  // compact spec grid (top 6)
-  const grid=[[t('sp_power'),(p.btu/1000).toFixed(0)+'k BTU'],[t('sp_area'),`${LANG==='en'?'up to':'до'} ${p.area} ${LANG==='en'?'m²':'м²'}`],[t('sp_comp'),p.inverter?t('sp_inv'):t('sp_onoff')],[t('sp_freon'),'R32'],[t('sp_wifi'),p.wifi?t('sp_yes'):t('sp_opt')],[t('sp_heat'),p.heatpump?t('sp_hp'):t('sp_yes')]];
-  $('m-specs').innerHTML=grid.map(([l,v])=>`<div class="m-spec"><div class="l">${l}</div><div class="v">${v}</div></div>`).join('');
-  // full spec table
-  $('m-specs-full-body').innerHTML=specRows(p).map(([l,v])=>`<tr><td>${l}</td><td>${v}</td></tr>`).join('');
-  $('m-specs-full-title').textContent=t('sp_more');
-  // fav button
-  const fb=$('m-fav-btn');fb.classList.toggle('on',FAV.includes(idx));
-  fb.querySelector('span').textContent=FAV.includes(idx)?t('fav_rem'):t('fav_add');
-  fb.onclick=()=>{toggleFav(idx);openProduct(idx);};
-  // ctas
-  $('m-order-btn').textContent=t('m_order');
-  const wa=$('m-wa');wa.href=`https://api.whatsapp.com/send?phone=${PHONE}&text=${encodeURIComponent(t('buy_msg')+' '+p.name+' ('+fmt(p.price)+' '+(LANG==='en'?'UAH':'грн')+')')}`;
-  const _msg=encodeURIComponent(t('buy_msg')+' '+p.name+' ('+fmt(p.price)+' '+(LANG==='en'?'UAH':'грн')+')');
-  $('m-vb').href=`viber://chat?number=%2B${PHONE}`;
-  $('m-tg').href=`https://t.me/${TG_USER}?text=${_msg}`;
-  // wa label is static 'WhatsApp'
-  $('product-modal').classList.add('open');document.body.style.overflow='hidden';
-}
-function setThumb(el,idx,i){document.querySelectorAll('.m-thumb').forEach(x=>x.classList.remove('active'));el.classList.add('active');$('m-main-img').src=PRODUCTS[idx].photos[i];}
-function closeProduct(e){if(e.target===e.currentTarget)closeProductModal();}
-function closeProductModal(){$('product-modal').classList.remove('open');document.body.style.overflow='';}
 
 /* ============ FAVORITES ============ */
 function toggleFav(idx){const i=FAV.indexOf(idx);if(i>=0)FAV.splice(i,1);else FAV.push(idx);localStorage.setItem('tp_fav',JSON.stringify(FAV));updateFavCount();renderCatalog();if($('fav-modal').classList.contains('open'))renderFav();}
@@ -425,7 +393,7 @@ function renderCmpBar(){
   const cc=$('cmp-count'); if(cc){cc.textContent=CMP.length;cc.classList.toggle('show',CMP.length>0);} // header compare badge
   const bar=$('cmp-bar'); if(!bar) return;
   bar.classList.toggle('show',CMP.length>0);
-  $('cmp-thumbs').innerHTML=CMP.map(idx=>`<div class="cmp-th"><img src="${PRODUCTS[idx].thumb||PRODUCTS[idx].photos[0]}"><span class="x" onclick="toggleCmp(${idx})">✕</span></div>`).join('');
+  $('cmp-thumbs').innerHTML=CMP.map(idx=>`<div class="cmp-th"><img src="${PRODUCTS[idx].thumb}"><span class="x" onclick="toggleCmp(${idx})">✕</span></div>`).join('');
 }
 /* Which way is "better" for a numeric spec, so the winning cell can be marked.
    A spec not listed here is still compared, just without a winner — that is the
@@ -447,7 +415,7 @@ function openCompare(){
   let html='';
   if(mixed) html+=`<div class="cmp-note">${t('cmp_mixed')}</div>`;
   html+='<table class="cmp-table"><thead><tr><th></th>';
-  prods.forEach(p=>{html+=`<th><div class="cmp-prod-img"><img src="${p.thumb||p.photos[0]}" alt="${pnameJS(p)}"></div>`
+  prods.forEach(p=>{html+=`<th><div class="cmp-prod-img"><img src="${p.thumb}" alt="${pnameJS(p)}"></div>`
     +`<div class="cmp-prod-name"><a href="${productUrl(p)}">${pnameJS(p)}</a></div>`
     +`<div class="cmp-prod-price">${fmt(p.price)} ${t('u_uah')}</div></th>`;});
   html+='</tr></thead><tbody>';
@@ -493,7 +461,6 @@ function closeQbuy(){$('qbuy-pop').classList.remove('show');$('qbuy-backdrop').c
 
 /* ============ CALLBACK + FORMSPREE ============ */
 function openOrder(idx){const p=PRODUCTS[idx];currentProduct=p;openCb(null,p.name);}
-function orderFromModal(){const n=currentProduct?currentProduct.name:'';closeProductModal();openCb(null,n);}
 /* kind 'question' comes from the product page's "Задати питання" — same form,
    but the heading and the Telegram label say it is a question, not a callback. */
 const CB_KINDS={question:['question','pp_ask_sub','cb_p'],cheaper:['cheaper','pp_cheaper_h','pp_cheaper_p']};
@@ -512,24 +479,16 @@ function openCb(kind,product){
   $('cb-form').style.display='block';$('cb-success').style.display='none';
   $('cb-modal').classList.add('open');document.body.style.overflow='hidden';
 }
-/* Theme. The choice is applied in <head> before first paint; this only flips
-   it and remembers. Once a visitor has chosen, the system preference stops
-   overriding them — that is the whole point of an explicit switch. */
+/* Theme. Light is the default — the shop's own look — and the system setting
+   is deliberately not consulted: someone whose phone is in dark mode should
+   still land on the site the owner designed. The switch is how you leave it,
+   and the choice sticks. Applied in <head> before first paint. */
 function toggleTheme(){
   const now=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
   document.documentElement.setAttribute('data-theme',now);
   try{localStorage.setItem('tp_theme',now);}catch(e){}
   track('switch_theme',{theme:now});
 }
-/* follow the system only while the visitor has not chosen for themselves */
-try{
-  const mq=matchMedia('(prefers-color-scheme:dark)');
-  mq.addEventListener('change',e=>{
-    let saved=null;try{saved=localStorage.getItem('tp_theme');}catch(_){}
-    if(saved!=='dark'&&saved!=='light')
-      document.documentElement.setAttribute('data-theme',e.matches?'dark':'light');
-  });
-}catch(e){}
 function closeCb(e){if(e.target===e.currentTarget)forceCloseCb();}
 function forceCloseCb(){$('cb-modal').classList.remove('open');document.body.style.overflow='';}
 function closeOverlay(e,id){if(e.target===e.currentTarget)closeModalById(id);}
@@ -633,7 +592,7 @@ document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>doc
     if (el) goTo(el);
   });
 })();
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeProductModal();forceCloseCb();closeModalById('compare-modal');closeModalById('fav-modal');closeQbuy();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){forceCloseCb();closeModalById('compare-modal');closeModalById('fav-modal');closeQbuy();}});
 window.addEventListener('scroll',closeQbuy,{passive:true});
 /* Sixty-five blocks start at opacity 0 and only the observer brings them back,
    so if it is missing the page is mostly blank. Without IntersectionObserver,
@@ -942,7 +901,7 @@ function quizResult(){
   let over=false,res=within.slice(0,3);
   if(!res.length&&fitting.length){over=true;res=fitting.slice().sort((a,b)=>d.rank(a,b)).slice(0,3);}
   qel('prog').style.width='100%';qel('back').style.visibility='visible';qel('next').style.display='none';
-  const cards=res.map(p=>`<a class="quiz-card" href="${productUrl(p)}"><img src="${p.thumb||p.photos[0]}" alt="${pnameJS(p)}" loading="lazy"><div class="quiz-card-b"><div class="quiz-card-m">${d.meta(p)}</div><div class="quiz-card-n">${pnameJS(p)}</div><div class="quiz-card-p">${fmt(p.price)} ${t('u_uah')}</div></div></a>`).join('');
+  const cards=res.map(p=>`<a class="quiz-card" href="${productUrl(p)}"><img src="${p.thumb}" alt="${pnameJS(p)}" loading="lazy"><div class="quiz-card-b"><div class="quiz-card-m">${d.meta(p)}</div><div class="quiz-card-n">${pnameJS(p)}</div><div class="quiz-card-p">${fmt(p.price)} ${t('u_uah')}</div></div></a>`).join('');
   const warnKey=d.warn?d.warn(res,quizState):null;
   const relaxNote=relaxed?`<div class="quiz-note">${t(d.relaxKey||'quiz_relaxed')}</div>`:'';
   const note=(!res.length?`<div class="quiz-note">${t(d.noneKey||'quiz_over')}</div>`:(over?`<div class="quiz-note">${t(d.overKey)}</div>`:''))
@@ -1048,7 +1007,7 @@ function renderRecent(){
     .map(s=>PRODUCTS.find(p=>p.slug===s)).filter(Boolean);
   if(!items.length){box.hidden=true;return;}
   row.innerHTML=items.map(p=>`<a class="rc-card" href="${productUrl(p)}">
-    <span class="rc-img"><img src="${p.thumb||p.photos[0]}" alt="${pnameJS(p)}" loading="lazy" width="200" height="150"></span>
+    <span class="rc-img"><img src="${p.thumb}" alt="${pnameJS(p)}" loading="lazy" width="200" height="150"></span>
     <span class="rc-n">${pnameJS(p)}</span>
     <span class="rc-p">${fmt(p.price)} ${t('u_uah')}</span></a>`).join('');
   box.hidden=false;

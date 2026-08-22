@@ -262,7 +262,7 @@ ${alts}
 <link rel="manifest" href="/manifest.webmanifest">
 ${FONTS}
 <link rel="stylesheet" href="${av('/assets/css/main.css')}">
-<script>document.documentElement.className+=' js';(function(){var t=null;try{t=localStorage.getItem('tp_theme')}catch(e){}if(t!=='dark'&&t!=='light')t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)})();if('serviceWorker'in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
+<script>document.documentElement.className+=' js';(function(){var t=null;try{t=localStorage.getItem('tp_theme')}catch(e){}document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')})();if('serviceWorker'in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}`;
 }
 
@@ -456,8 +456,15 @@ function faqItems() {
 // ---- catalog dataset injected for client hydration (no heavy desc fields) ----
 const DELIVERY_MAP = fs.existsSync(path.join(ROOT, 'templates/map.svg'))
   ? fs.readFileSync(path.join(ROOT, 'templates/map.svg'), 'utf8') : '';
-const catalogData = products.map(({ desc_ru, desc_en, desc_uk, srcIndex, photoCount, ...keep }) =>
-  ({ ...keep, thumb: av(keep.thumb), photos: (keep.photos || []).map(av) }));
+/* The catalogue the browser gets. The photo arrays used to travel with it —
+   757 URLs, 52KB of the 104KB payload, on every one of the 417 pages — and the
+   only thing that ever read past photos[0] was a quick-view modal nothing could
+   open. The cards, the compare table, the picker results and the recently-seen
+   strip all want the thumbnail, and every product has one. */
+const missingThumb = products.filter(p => !p.thumb);
+if (missingThumb.length) throw new Error('no thumb: ' + missingThumb.map(p => p.slug).join(', '));
+const catalogData = products.map(({ desc_ru, desc_en, desc_uk, srcIndex, photoCount, photos, ...keep }) =>
+  ({ ...keep, thumb: av(keep.thumb) }));
 /* Ship only the strings this page can actually use: its own language plus the
    Ukrainian fallback the client falls back to. Sending all three put ~48KB of
    dead weight on every one of the 369 pages. The switcher needs to know which
