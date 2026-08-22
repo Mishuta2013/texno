@@ -20,6 +20,7 @@ function jFmtVal(p,f){
     case'wh':return raw?raw+' '+t('u_wh'):null;
     case'watt':return raw?raw+' '+t('u_w'):null;
     case'sockets':return raw?raw+' '+t('u_sockets'):null;
+    case'ups':return p.ups?(/\d/.test(String(raw==null?'':raw))?'UPS '+specValJS(raw):'UPS'):null;
     case'first':return raw?String(raw).split(' ')[0]:null;
     case'litres':return raw?raw+' '+t('u_l'):null;
     case'mins':{const n=Number(raw);if(!n)return null;const h=Math.floor(n/60),m=n%60;

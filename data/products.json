@@ -2959,7 +2959,7 @@
     "brand": "Oukitel",
     "series": "P2001E Plus",
     "name": "Зарядна станція Oukitel P2001E Plus 2400W 2048Wh",
-    "price": 41999,
+    "price": 44999,
     "category": "zaryadni-stantsii",
     "ups": true,
     "specs": {
@@ -3638,6 +3638,52 @@
       "/assets/img/products/bosch-wan28281ua/5.webp",
       "/assets/img/products/bosch-wan28281ua/6.webp",
       "/assets/img/products/bosch-wan28281ua/7.webp"
+    ]
+  },
+  {
+    "brand": "ALLPOWERS",
+    "series": "R1500 LITE",
+    "name": "Зарядна станція ALLPOWERS R1500 LITE 1600W 1056Wh",
+    "price": 29999,
+    "category": "zaryadni-stantsii",
+    "ups": true,
+    "specs": {
+      "capacity_wh": 1056,
+      "battery": "LiFePO₄",
+      "cycles": "3500+ циклів",
+      "output_w": 1600,
+      "surge_w": 3200,
+      "waveform": "Чиста синусоїда",
+      "ac_sockets": 4,
+      "ac_hz": "230 В / 50 Гц",
+      "usb_c": "2 × 100 Вт (PD)",
+      "usb_a": "2 × 18 Вт",
+      "car_out": "12 В",
+      "ac_in_w": 1500,
+      "charge_time": "1.5 год від мережі",
+      "dc_in": "MPPT 12–95 В, до 650 Вт",
+      "ups_ms": "≤15 мс",
+      "weight": "15 кг",
+      "dims": "413 × 312 × 265 мм",
+      "protections": "BMS із захистом від перевантаження, КЗ і перегріву",
+      "warranty": "12 місяців",
+      "features": "Wi-Fi, Bluetooth, застосунок ALLPOWERS, дисплей, наскрізне заряджання, рівень шуму 35 дБ"
+    },
+    "desc_uk": "Чотири розетки при вазі 15 кг — станцію реально носити однією рукою, а підключити до неї можна холодильник, роутер, світло й ноутбук одночасно. 1056 Вт·год вистачає холодильнику приблизно на добу відключень. Від мережі заряджається за півтори години, від сонця — за дві з половиною (MPPT приймає до 650 Вт). ДБЖ перемикається швидше ніж за 15 мс, тож комп'ютер не перезавантажиться. Батарея LiFePO₄ витримує понад 3500 циклів — це близько десяти років щоденної роботи. Працює тихо, близько 35 дБ. Сонячні панелі на фото — окремий аксесуар, у комплект не входять.",
+    "desc_ru": "Четыре розетки при весе 15 кг — станцию реально носить одной рукой, а подключить к ней можно холодильник, роутер, свет и ноутбук одновременно. 1056 Вт·ч хватает холодильнику примерно на сутки отключений. От сети заряжается за полтора часа, от солнца — за два с половиной (MPPT принимает до 650 Вт). ИБП переключается быстрее чем за 15 мс, поэтому компьютер не перезагрузится. Батарея LiFePO₄ выдерживает более 3500 циклов — это около десяти лет ежедневной работы. Работает тихо, около 35 дБ. Солнечные панели на фото — отдельный аксессуар, в комплект не входят.",
+    "desc_en": "Four sockets at 15 kg — light enough to carry in one hand, and enough outlets for the fridge, the router, a lamp and a laptop at once. 1056 Wh keeps a fridge going for roughly a day of outages. It refills from the mains in an hour and a half, or in two and a half from the sun (the MPPT takes up to 650 W). The UPS switches over in under 15 ms, so a desktop will not reboot. The LiFePO₄ pack is rated beyond 3500 cycles — about ten years of daily use — and it runs at around 35 dB. The solar panels in the photos are a separate accessory and are not included.",
+    "slug": "allpowers-r1500-lite-1600w-1056wh",
+    "thumb": "/assets/img/products/allpowers-r1500-lite-1600w-1056wh/thumb.webp",
+    "photos": [
+      "/assets/img/products/allpowers-r1500-lite-1600w-1056wh/1.webp",
+      "/assets/img/products/allpowers-r1500-lite-1600w-1056wh/2.webp",
+      "/assets/img/products/allpowers-r1500-lite-1600w-1056wh/3.webp",
+      "/assets/img/products/allpowers-r1500-lite-1600w-1056wh/4.webp",
+      "/assets/img/products/allpowers-r1500-lite-1600w-1056wh/5.webp",
+      "/assets/img/products/allpowers-r1500-lite-1600w-1056wh/6.webp",
+      "/assets/img/products/allpowers-r1500-lite-1600w-1056wh/7.webp",
+      "/assets/img/products/allpowers-r1500-lite-1600w-1056wh/8.webp",
+      "/assets/img/products/allpowers-r1500-lite-1600w-1056wh/9.webp"
     ]
   }
 ]

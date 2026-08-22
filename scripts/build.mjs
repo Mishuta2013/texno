@@ -174,6 +174,11 @@ function fmtVal(p, f) {
     case 'wh': return raw ? `${raw} ${t('u_wh')}` : null;
     case 'watt': return raw ? `${raw} ${t('u_w')}` : null;
     case 'sockets': return raw ? `${raw} ${t('u_sockets')}` : null;
+    /* The UPS chip used to be a flag with "UPS 10 мс" written into it, so two
+       stations that switch in 15 ms advertised 10, and five that only claim
+       "yes" advertised a figure nobody had measured. Read the spec: print the
+       time when there is one, and a plain badge when there is not. */
+    case 'ups': return p.ups ? (/\d/.test(String(raw ?? '')) ? `UPS ${specVal(raw)}` : 'UPS') : null;
     case 'first': return raw ? String(raw).split(' ')[0] : null;
     case 'litres': return raw ? `${raw} ${t('u_l')}` : null;
     /* heat-up time is stored in minutes so it can be compared and sorted;
@@ -509,11 +514,11 @@ const SEASON = ['warm', 'cold', 'mild'].includes(process.env.TP_SEASON) ? proces
   : (m => m >= 4 && m <= 7 ? 'warm' : (m >= 10 || m <= 1 ? 'cold' : 'mild'))(new Date().getMonth());
 //   TP_SEASON=cold node scripts/build.mjs   — to preview another season
 const bestBoiler = products.find(p => p.category === 'boylery');
-const bestWasher = products.find(p => p.slug === 'lg-f2y2ns3we') || products.find(p => p.category === 'pralni-mashyny');
+const bestWasher = products.find(p => p.slug === 'bosch-wan28281ua') || products.find(p => p.category === 'pralni-mashyny');
 /* The Fossibot carries the "Новинка" badge and always leads the hero. */
 const stationCard = bestStation ? heroStationCard(bestStation) : '';
 const seasonCards = {
-  warm: [best && heroCard(best), bestFridge && heroFridgeCard(bestFridge)],
+  warm: [bestWasher && heroWasherCard(bestWasher), bestFridge && heroFridgeCard(bestFridge)],
   cold: [bestBoiler && heroBoilerCard(bestBoiler), bestWasher && heroWasherCard(bestWasher)],
   mild: [bestFridge && heroFridgeCard(bestFridge), bestWasher && heroWasherCard(bestWasher)]
 }[SEASON].filter(Boolean);
@@ -522,7 +527,8 @@ const seasonCards = {
 // cards under it.
 const heroSlots = [stationCard, ...seasonCards].filter(Boolean);
 // never leave the hero short of a card if a category runs empty
-for (const spare of [stationCard, bestFridge && heroFridgeCard(bestFridge), best && heroCard(best)]) {
+for (const spare of [stationCard, bestFridge && heroFridgeCard(bestFridge),
+                     bestWasher && heroWasherCard(bestWasher)]) {
   if (heroSlots.length >= 3) break;
   if (spare && !heroSlots.includes(spare)) heroSlots.push(spare);
 }
@@ -981,7 +987,19 @@ ${head({
     const full = t('brand_seo_t').replace('{name}', NAME);
     return full.length <= 65 ? full : full.replace(/\s*\|\s*[^|]+$/, '');
   })(),
-  desc: fill(t('brand_seo_d')),
+  /* The tail is a fixed list of promises, so a long brand name or a wide price
+     range pushes the whole line past what Google shows. Drop promises from the
+     end until it fits — the brand, the count and the price come first. */
+  desc: (() => {
+    const full = fill(t('brand_seo_d'));
+    if (full.length <= 165) return full;
+    const cut = full.lastIndexOf('. ');
+    if (cut < 0) return full;
+    const lead = full.slice(0, cut + 1);
+    const parts = full.slice(cut + 2).replace(/\.$/, '').split(', ');
+    while (parts.length > 1 && `${lead} ${parts.join(', ')}.`.length > 165) parts.pop();
+    return `${lead} ${parts.join(', ')}.`;
+  })(),
   canonical: abs(burl(cat, brand)), altPath: `${cat.urlPrefix}/${brandSlug(brand)}/`, jsonld
 })}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>

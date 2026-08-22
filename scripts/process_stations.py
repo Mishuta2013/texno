@@ -30,6 +30,19 @@ THUMB = (400, 400)
 KEEP = "keep"          # publish as-is: infographic, not a product shot
 
 PLAN = {
+u"Зарядна станція ALLPOWERS R1500 LITE": ("allpowers-r1500-lite-1600w-1056wh", [
+    "Allpowers_R1500_LITE1.webp",        # straight front, socket panel
+    "Allpowers_R1500_LITE2.webp",        # three-quarter
+    "Allpowers_R1500_LITE3.webp",        # three-quarter, other side
+    "Allpowers_R1500_LITE4.webp",        # angled, handles
+    "Allpowers_R1500_LITE.webp",         # back, ventilation grille
+    "Allpowers_R1500_LITE6.webp",        # top
+    "R1500_039.webp",                    # with a folded solar panel
+    "R1500_SP037.webp",                  # with a deployed panel
+    "ALLPOWERS-R1500-LITE-Portable-Power-Station-1600W-1056Wh-ALLPOWERS-124383672.webp"]),
+    # dropped: ALLPOWERSB1000_3_… (a B1000 by its own filename) and
+    # …-120543728 (carries another shop's "FREE SPARE 21W" promo badge)
+
 "Зарядна станція Aferiy AF-P310-EC-H 3600W 3840Wh (Aferiy AF-P310-EC-H)": ("aferiy-af-p310-3600w-3840wh", [
     "632354950.webp",            # 3/4, wheels and handle
     "632354931.webp",            # front, port panel

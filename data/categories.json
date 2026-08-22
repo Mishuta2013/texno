@@ -543,10 +543,8 @@
         "fmt": "sockets"
       },
       {
-        "flag": "ups",
-        "label": "UPS 10 мс",
-        "label_ru": "UPS 10 мс",
-        "label_en": "UPS 10 ms"
+        "key": "ups_ms",
+        "fmt": "ups"
       }
     ],
     "name_ru": "Зарядные станции",

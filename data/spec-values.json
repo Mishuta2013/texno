@@ -995,5 +995,29 @@
   "AquaStop, VarioDrum, ActiveWater Plus, дозавантаження білизни під час прання, швидке прання за 15 хв, відкладений старт до 24 год, барабан 65 л": {
     "ru": "AquaStop, VarioDrum, ActiveWater Plus, дозагрузка белья во время стирки, быстрая стирка за 15 мин, отложенный старт до 24 ч, барабан 65 л",
     "en": "AquaStop, VarioDrum, ActiveWater Plus, add laundry mid-cycle, 15-minute quick wash, delay start up to 24 h, 65 l drum"
+  },
+  "3500+ циклів": {
+    "ru": "3500+ циклов",
+    "en": "3500+ cycles"
+  },
+  "1.5 год від мережі": {
+    "ru": "1.5 ч от сети",
+    "en": "1.5 h from the mains"
+  },
+  "MPPT 12–95 В, до 650 Вт": {
+    "ru": "MPPT 12–95 В, до 650 Вт",
+    "en": "MPPT 12–95 V, up to 650 W"
+  },
+  "15 кг": {
+    "ru": "15 кг",
+    "en": "15 kg"
+  },
+  "413 × 312 × 265 мм": {
+    "ru": "413 × 312 × 265 мм",
+    "en": "413 × 312 × 265 mm"
+  },
+  "Wi-Fi, Bluetooth, застосунок ALLPOWERS, дисплей, наскрізне заряджання, рівень шуму 35 дБ": {
+    "ru": "Wi-Fi, Bluetooth, приложение ALLPOWERS, дисплей, сквозная зарядка, уровень шума 35 дБ",
+    "en": "Wi-Fi, Bluetooth, ALLPOWERS app, display, pass-through charging, 35 dB"
   }
 }
