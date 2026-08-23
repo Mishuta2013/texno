@@ -16,6 +16,20 @@ const BLOG_LANGS = ['uk', 'ru'];   // languages the articles are actually writte
 const bt = a => lf(a, 'title');
 const bd = a => lf(a, 'desc');
 const bg = a => lf(a, 'tag');
+/* An article headline is written to be read, not to fit a SERP: "Як обрати
+   пральну машину: 6 критеріїв, які справді важливі" is 58 characters before
+   the shop name is even added. The part before the colon is the topic and
+   survives on its own; where there is no colon the article carries a
+   hand-written seo_title. The full headline stays as the h1 and og:title. */
+const btSeo = a => {
+  const full = bt(a);
+  const room = 65 - TITLE_PREFIX.length;
+  if (full.length <= room) return full;
+  const explicit = lf(a, 'seo_title');
+  if (explicit) return explicit;
+  const topic = full.split(/\s*:\s*/)[0];
+  return topic.length <= room ? topic : full;
+};
 const bh = a => linkProducts((L !== 'uk' && a['html_' + L]) || a.html);
 
 /* Articles name real models — "Edler ED-120DT", "Beko RCNA406I30XB" — and until
@@ -68,6 +82,15 @@ let L = 'uk';                                     // current language of the pag
 const pfx = () => (L === 'uk' ? '' : '/' + L);
 // per-language field on a data object: name → name_ru / name_en, falling back to uk
 const lf = (obj, field) => (L !== 'uk' && obj && obj[field + '_' + L]) || (obj ? obj[field] : undefined);
+/* What we promise depends on the category: an air conditioner is installed
+   turnkey, a washing machine is hooked up for 500 UAH, a boiler's fitting is
+   agreed with the manager, and a fridge or a power station is simply
+   delivered. Categories that spell this out carry a `trust` list; the rest
+   fall back to the generic pair. Product pages and brand pages must say the
+   same thing, so both read it from here. */
+const catTrust = cat => lf(cat, 'trust') || (cat.install
+  ? [`${t('trust_install')} — ${fmt(site.installPrice)} ${t('u_uah')}`, t('trust_paylater'), t('trust_warranty5')]
+  : [t('trust_delivery'), t('trust_payget'), t('trust_warranty')]);
 const specVal = v => {
   if (L === 'uk' || typeof v !== 'string') return v;
   const e = SPECV[v];
@@ -224,6 +247,11 @@ function av(u) {
   return out;
 }
 const abs = u => BASE + u.split('?')[0];   // canonical/schema URLs stay clean
+/* Pictures are the exception. vercel.json serves /assets/* as immutable for a
+   year, so redrawing a card that keeps its path leaves Google, Telegram and
+   the CDN edge showing the old one indefinitely. Content-hash the URL instead,
+   the way the page's own assets are handled. */
+const absImg = u => BASE + av(u);
 /* The favicon was an air-conditioner indoor unit, from when that was all the
    shop sold. Same monogram the PWA icons use — see icon() in gen_images.py. */
 const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230B1A33'/%3E%3Crect x='43.5' y='26' width='13' height='48' rx='3' fill='%237CC4FF'/%3E%3Crect x='24' y='26' width='52' height='13' rx='3' fill='%23ffffff'/%3E%3Crect x='32' y='80' width='36' height='6' rx='3' fill='%232E8BFF'/%3E%3C/svg%3E";
@@ -237,8 +265,26 @@ const GTM = `<!-- Google Tag Manager -->
 <!-- End Google Tag Manager -->`;
 const GTM_NS = `<!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W3NLLCQT" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`;
 
+/* Every <title> leads with the shop. A searcher scanning a page of results
+   should see who is selling before what is sold, and Google shows roughly the
+   first sixty characters — so the name goes at the front, not trailing after a
+   pipe where it gets cut. Applied here rather than at the six call sites, so a
+   new kind of page cannot be added without it. Any "| TexnoPlaza" already on
+   the end is removed instead of printed twice. */
+const TITLE_PREFIX = `${site.name} · `;
+const pageTitle = s => {
+  const clean = String(s ?? '').replace(/\s*[|·—–-]\s*TexnoPlaza\s*$/i, '').trim();
+  /* Titles written before this prefix existed already open with the shop name
+     and their own dash. Rewrite that separator too, so the homepage and a
+     product page do not sit side by side in the results with different
+     punctuation. */
+  return clean.startsWith(site.name)
+    ? TITLE_PREFIX + clean.slice(site.name.length).replace(/^\s*[|·—–-]?\s*/, '')
+    : TITLE_PREFIX + clean;
+};
+
 function head({ title, desc, canonical, ogTitle, ogDesc, ogImage, jsonld, altPath, altLangs }) {
-  const og = ogImage || abs('/assets/og/default.jpg');
+  const og = ogImage || absImg(`/assets/og/default${L === 'uk' ? '' : '-' + L}.jpg`);
   // hreflang: altPath is the uk-form path; each language lives under its own prefix
   // altLangs narrows the set for pages that do not exist in every language —
   // the blog is written in Ukrainian and Russian only
@@ -251,13 +297,13 @@ function head({ title, desc, canonical, ogTitle, ogDesc, ogImage, jsonld, altPat
 <meta name="theme-color" content="#0B1A33">
 ${GTM}
 ${GA}
-<title>${esc(title)}</title>
+<title>${esc(pageTitle(title))}</title>
 <meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${esc(canonical)}">
 ${alts}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="${esc(site.name)}">
-<meta property="og:title" content="${esc(ogTitle || title)}">
+<meta property="og:title" content="${esc(ogTitle || pageTitle(title))}">
 <meta property="og:description" content="${esc(ogDesc || desc)}">
 <meta property="og:url" content="${esc(canonical)}">
 <meta property="og:image" content="${esc(og)}">
@@ -362,6 +408,13 @@ function heroFridgeCard(p) {
 
 // render current uk i18n text into static HTML (matches runtime applyI18n → correct for SEO/no-JS)
 function applyI18nStatic(html) {
+  /* An <img> has no closing tag, so the element rule below cannot reach it and
+     the hero's alt stayed Ukrainian on the Russian and English pages. This
+     rewrites the alt in place for anything carrying data-i18n-alt. */
+  html = html.replace(/<[a-zA-Z0-9]+[^>]*\sdata-i18n-alt="([^"]+)"[^>]*>/g, (tag, key) => {
+    const v = i18n[L] && i18n[L][key] !== undefined ? i18n[L][key] : i18n.uk[key];
+    return v === undefined ? tag : tag.replace(/\salt="[^"]*"/, ` alt="${esc(subCounts(v))}"`);
+  });
   return html.replace(/(<([a-zA-Z0-9]+)((?:[^>]*?)\sdata-i18n="([^"]+)"(?:[^>]*?))>)([\s\S]*?)(<\/\2>)/g,
     (m, open, tag, attrs, key, inner, close) => {
       const v = i18n[L] && i18n[L][key] !== undefined ? i18n[L][key] : i18n.uk[key];
@@ -630,7 +683,12 @@ ${head({
   jsonld: {
     '@context': 'https://schema.org', '@type': 'ElectronicsStore',
     '@id': BASE + '/#store', name: site.name, alternateName: BRAND_ALIASES,
-    image: abs('/assets/og/default.jpg'), logo: abs('/assets/img/logo.png'),
+    /* Google picks the picture beside the result from these, and it wants the
+       same shot in several shapes so it can fit whichever layout it renders.
+       All three show the five categories the shop actually stocks. */
+    image: [absImg('/assets/img/site/shop-16x9.jpg'), absImg('/assets/img/site/shop-4x3.jpg'),
+            absImg('/assets/img/site/shop-1x1.jpg')],
+    logo: absImg('/assets/img/logo.png'),
     telephone: site.phone, email: site.email,
     address: { '@type': 'PostalAddress', streetAddress: 'вул. Харківська 2/1', addressLocality: site.city, addressCountry: 'UA' },
     url: BASE, priceRange: '₴₴', areaServed: 'Суми'
@@ -704,9 +762,7 @@ function productPage(p) {
   const thumbs = p.photos.map((src, i) => `<button class="pp-thumb${i === 0 ? ' active' : ''}" onclick="ppShow(${i})"><img src="${esc(av(smallOf(src)))}" alt="${esc(NAME)} ${i + 1}" loading="lazy" width="240" height="180"></button>`).join('');
   const cat = catOf(p);
   const chips = ppChips(p);
-  const trustLines = lf(cat, 'trust') || (cat.install
-    ? [`${t('trust_install')} — ${fmt(site.installPrice)} ${t('u_uah')}`, t('trust_paylater'), t('trust_warranty5')]
-    : [t('trust_delivery'), t('trust_payget'), t('trust_warranty')]);
+  const trustLines = catTrust(cat);
   const jsonld = {
     '@context': 'https://schema.org', '@type': 'Product', name: NAME, sku: p.slug,
     image: p.photos.map(ph => abs(ph)), description: pdesc(p), brand: { '@type': 'Brand', name: p.brand },
@@ -734,12 +790,15 @@ ${(() => {
       const base = t('pp_buy_t').replace('{name}', nm);
       const tail = cat.install ? t('pp_buy_install') : '';
       const short = t('pp_buy_short').replace('{name}', nm);
-      /* Longest form that still fits. Model names like "TAC-09CHSD/XA82I Black
-         Inverter R32 Wi-Fi" spend the whole budget on their own; when the full
-         "— купити в Сумах" would be cut off mid-phrase, the short form keeps the
-         city visible instead of losing it to the ellipsis. */
-      for (const c of [base + tail, base, short]) if (c.length <= 65) return c;
-      return short;
+      /* Longest form that still fits, counting the "TexnoPlaza — " that head()
+         puts in front. Model names like "TAC-09CHSD/XA82I Black Inverter R32
+         Wi-Fi" spend the whole budget on their own; when the full "— купити в
+         Сумах" would be cut off mid-phrase, the short form keeps the city
+         visible instead of losing it to the ellipsis, and the bare name is the
+         last resort. */
+      const room = 65 - TITLE_PREFIX.length;
+      for (const c of [base + tail, base, short, nm]) if (c.length <= room) return c;
+      return nm;
     })(),
     /* The model, the city and the price must survive truncation; the trust
        lines are the tail Google cuts. Drop them one at a time until the whole
@@ -751,7 +810,7 @@ ${(() => {
       return lines.length ? `${lead} ${lines.join('. ')}.` : lead;
     })(),
     canonical: abs(purl(p)), altPath: `${cat.urlPrefix}/${p.slug}/`,
-    ogTitle: NAME, ogImage: abs('/assets/og/' + p.slug + '.jpg'), jsonld
+    ogTitle: NAME, ogImage: absImg('/assets/og/' + p.slug + '.jpg'), jsonld
   });
 })()}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
@@ -983,22 +1042,34 @@ function brandPage(cat, brand) {
     .map(b => `<a class="bl-chip" href="${burl(cat, b)}">${esc(b)}</a>`).join('');
   return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
 ${head({
-  title: (() => {                       // the brand and city matter, the suffix does not
-    const full = t('brand_seo_t').replace('{name}', NAME);
-    return full.length <= 65 ? full : full.replace(/\s*\|\s*[^|]+$/, '');
+  /* head() already puts "TexnoPlaza" in front, so the "| TexnoPlaza" the
+     template ends with goes first — otherwise its 13 characters count against
+     the budget and every brand page overflows. What is left is "<brand> у
+     Сумах — ціни, наявність, доставка"; the promises after the dash are the
+     expendable part, so drop them one at a time until the line fits. */
+  title: (() => {
+    const full = t('brand_seo_t').replace('{name}', NAME)
+      .replace(/\s*[|·—–-]\s*TexnoPlaza\s*$/i, '').trim();
+    const room = 65 - TITLE_PREFIX.length;
+    if (full.length <= room) return full;
+    const m = full.match(/^(.*?)\s+—\s+(.*)$/);
+    if (!m) return full;
+    const promises = m[2].split(/,\s*/);
+    while (promises.length > 1) {
+      promises.pop();
+      const cand = `${m[1]} — ${promises.join(', ')}`;
+      if (cand.length <= room) return cand;
+    }
+    return m[1];                        // just "<brand> у Сумах"
   })(),
   /* The tail is a fixed list of promises, so a long brand name or a wide price
      range pushes the whole line past what Google shows. Drop promises from the
      end until it fits — the brand, the count and the price come first. */
   desc: (() => {
-    const full = fill(t('brand_seo_d'));
-    if (full.length <= 165) return full;
-    const cut = full.lastIndexOf('. ');
-    if (cut < 0) return full;
-    const lead = full.slice(0, cut + 1);
-    const parts = full.slice(cut + 2).replace(/\.$/, '').split(', ');
-    while (parts.length > 1 && `${lead} ${parts.join(', ')}.`.length > 165) parts.pop();
-    return `${lead} ${parts.join(', ')}.`;
+    const lead = fill(t('brand_seo_d'));
+    const lines = catTrust(cat).slice();
+    while (lines.length && `${lead} ${lines.join('. ')}.`.length > 165) lines.pop();
+    return lines.length ? `${lead} ${lines.join('. ')}.` : lead;
   })(),
   canonical: abs(burl(cat, brand)), altPath: `${cat.urlPrefix}/${brandSlug(brand)}/`, jsonld
 })}
@@ -1164,14 +1235,14 @@ function blogPost(a) {
   const others = blog.filter(x => x.slug !== a.slug).slice(0, 3);
   const jsonld = { '@context': 'https://schema.org', '@type': 'Article', headline: bt(a), description: bd(a),
     datePublished: a.date, dateModified: a.date, author: { '@type': 'Organization', name: site.name },
-    publisher: { '@type': 'Organization', name: site.name, logo: { '@type': 'ImageObject', url: abs('/assets/icons/icon-512.png') } },
-    mainEntityOfPage: abs(blogUrl(a)), image: abs('/assets/og/default.jpg') };
+    publisher: { '@type': 'Organization', name: site.name, logo: { '@type': 'ImageObject', url: absImg('/assets/icons/icon-512.png') } },
+    mainEntityOfPage: abs(blogUrl(a)), image: absImg(`/assets/og/default${L === 'uk' ? '' : '-' + L}.jpg`) };
   const crumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
     { '@type': 'ListItem', position: 1, name: t('pp_home'), item: abs(pfx() + '/') },
     { '@type': 'ListItem', position: 2, name: t('nav_blog'), item: abs(pfx() + '/blog/') },
     { '@type': 'ListItem', position: 3, name: bt(a), item: abs(blogUrl(a)) } ] };
   return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
-${head({ title: (bt(a) + ' | ' + site.name).length <= 65 ? bt(a) + ' | ' + site.name : bt(a), desc: bd(a), canonical: abs(blogUrl(a)), ogTitle: bt(a), altPath: `/blog/${a.slug}/`, altLangs: BLOG_LANGS, jsonld })}
+${head({ title: btSeo(a), desc: bd(a), canonical: abs(blogUrl(a)), ogTitle: bt(a), altPath: `/blog/${a.slug}/`, altLangs: BLOG_LANGS, jsonld })}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
 </head><body>${GTM_NS}
 ${HEADER}
@@ -1245,6 +1316,11 @@ copyDir(path.join(ROOT, 'public'), DIST);
   };
   const xe = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]));
   L = 'uk';
+  /* g:shipping is what it costs to DELIVER, and Google prints it beside the shop
+     as "Доставка: N грн". Air conditioners used to declare the 6 000 UAH
+     installation price in this field, so the search result told every shopper
+     that delivery cost six thousand. Installation is a service, not carriage —
+     it belongs on the page, not here. */
   const items = products.map(p => {
     const cat = catOf(p);
     const desc = (p.desc_uk || '').replace(/\s+/g, ' ').trim();
@@ -1263,7 +1339,7 @@ ${p.photos.slice(1, 11).map(ph => `    <g:additional_image_link>${xe(abs(ph))}</
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>${GCAT[p.category] || ''}</g:google_product_category>
     <g:product_type>${xe(cat.name)}</g:product_type>
-    <g:shipping><g:country>UA</g:country><g:service>${xe(cat.install ? 'Монтаж під ключ' : 'Доставка по Сумах')}</g:service><g:price>${cat.install ? site.installPrice : 400} UAH</g:price></g:shipping>
+    <g:shipping><g:country>UA</g:country><g:service>${xe(t('trust_delivery_svc'))}</g:service><g:price>400 UAH</g:price></g:shipping>
   </item>`;
   }).join('\n');
   const feed = `<?xml version="1.0" encoding="UTF-8"?>

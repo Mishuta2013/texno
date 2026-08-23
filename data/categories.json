@@ -143,7 +143,7 @@
     "nameGen_ru": "кондиционеров",
     "nameGen_en": "air conditioners",
     "seoTitle_ru": "Кондиционеры в Сумах — монтаж под ключ за 1 день | TexnoPlaza",
-    "seoTitle_en": "Air conditioners in Sumy — turnkey installation in 1 day | TexnoPlaza",
+    "seoTitle_en": "Air conditioners in Sumy — installation in 1 day | TexnoPlaza",
     "seoDesc_ru": "Кондиционеры в Сумах: более 50 моделей в наличии, инверторные и с обогревом. Доставка, монтаж под ключ, оплата после установки, гарантия до 5 лет.",
     "seoDesc_en": "Air conditioners in Sumy: 50+ models in stock, inverter and heat-pump units. Delivery, turnkey installation, payment after setup, warranty up to 5 years.",
     "intro_ru": "Инверторные и обычные сплит-системы в наличии. Привезём, установим и запустим за 1 день — оплата после монтажа.",
@@ -566,7 +566,22 @@
     "quizCta_ru": "Подобрать зарядную станцию",
     "quizCta_en": "Find a power station",
     "quiz": true,
-    "emoji": "🔋"
+    "emoji": "🔋",
+    "trust": [
+      "Доставка по Сумах — 400 грн",
+      "Оплата після отримання",
+      "Офіційна гарантія"
+    ],
+    "trust_ru": [
+      "Доставка по Сумам — 400 грн",
+      "Оплата после получения",
+      "Официальная гарантия"
+    ],
+    "trust_en": [
+      "Delivery in Sumy — 400 UAH",
+      "Pay on receipt",
+      "Official warranty"
+    ]
   },
   "holodylnyky": {
     "name": "Холодильники",

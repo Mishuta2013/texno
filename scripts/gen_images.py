@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Generate PWA icons + Open Graph images. Run: python scripts/gen_images.py"""
-import os, json
+import os, sys, json
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import make_hero                      # the product line-up on the default card
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ICONS = os.path.join(ROOT, "assets", "icons"); os.makedirs(ICONS, exist_ok=True)
@@ -59,16 +61,37 @@ def fitted(d, text, size, maxw, bold=False):
     return font(14, bold)
 
 
-def default_og():
+# One card per language: the Ukrainian one used to be served on the Russian and
+# English pages too, so a shared link previewed in the wrong language.
+OG_TEXT = {
+    "uk": ("Побутова техніка у Сумах",
+           "Холодильники · пральні машини · кондиціонери · бойлери · зарядні станції",
+           "Доставка та монтаж по Сумах · оплата після встановлення"),
+    "ru": ("Бытовая техника в Сумах",
+           "Холодильники · стиральные машины · кондиционеры · бойлеры · зарядные станции",
+           "Доставка и монтаж по Сумам · оплата после установки"),
+    "en": ("Home appliances in Sumy",
+           "Fridges · washing machines · air conditioners · water heaters · power stations",
+           "Delivery and installation in Sumy · pay after setup"),
+}
+
+def default_og(lang="uk"):
+    """The card link previews show. The words alone said the shop sells five
+    categories; the strip along the bottom shows them, using the same line-up
+    scripts/make_hero.py also builds for search."""
     im = og_bg(); d = ImageDraw.Draw(im)
-    cats = "Холодильники · пральні машини · кондиціонери · бойлери · зарядні станції"
-    serv = "Доставка та монтаж по Сумах · оплата після встановлення"
-    d.text((80, 196), "TEXNO PLAZA", font=font(92), fill=WHITE)
-    d.text((84, 316), "Побутова техніка у Сумах", font=font(54), fill=FROST)
+    tagline, cats, serv = OG_TEXT[lang]
+    d.text((80, 70), "TEXNO PLAZA", font=font(86), fill=WHITE)
+    d.text((84, 178), tagline, font=fitted(d, tagline, 48, 1032), fill=FROST)
     # five categories overrun 1200px at the old fixed 32pt, so the line is fitted
-    d.text((84, 396), cats, font=fitted(d, cats, 32, 1032), fill=(210, 225, 245))
-    d.text((84, 446), serv, font=fitted(d, serv, 30, 1032), fill=(150, 180, 220))
-    im.save(os.path.join(OG, "default.jpg"), quality=86)
+    d.text((84, 250), cats, font=fitted(d, cats, 30, 1032), fill=(210, 225, 245))
+    d.text((84, 296), serv, font=fitted(d, serv, 28, 1032), fill=(150, 180, 220))
+
+    art = make_hero.lineup()
+    h = 268
+    art = art.resize((max(1, round(h * art.width / art.height)), h), Image.LANCZOS)
+    im.paste(art, ((1200 - art.width) // 2, 630 - h - 26), art)
+    im.save(os.path.join(OG, "default.jpg" if lang == "uk" else "default-%s.jpg" % lang), quality=86)
 
 # What the shop actually promises for this kind of product. A washing machine
 # card used to read "монтаж під ключ · гарантія до 5 років", which is the air
@@ -103,7 +126,7 @@ def product_og(p):
     d.text((70, y + 78), TAGLINE.get(p.get("category"), TAGLINE[None]), font=font(28, False), fill=(210, 225, 245))
     im.save(os.path.join(OG, p["slug"] + ".jpg"), quality=84)
 
-default_og()
+for _l in OG_TEXT: default_og(_l)
 products = json.load(open(os.path.join(ROOT, "data", "products.json"), encoding="utf-8"))
 for p in products: product_og(p)
 print(f"icons + default OG + {len(products)} product OG generated")

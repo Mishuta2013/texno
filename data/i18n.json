@@ -435,7 +435,7 @@
     "seo_home_t": "TexnoPlaza — побутова техніка у Сумах: доставка та монтаж",
     "seo_home_d": "Магазин побутової техніки у Сумах: {{ITEMS}} у наявності — холодильники, пральні машини, кондиціонери, бойлери, зарядні станції. Доставка й монтаж.",
     "seo_blog_t": "Блог — поради щодо техніки для дому | TexnoPlaza",
-    "seo_blog_d": "Корисні статті про вибір та обслуговування техніки для дому у Сумах: кондиціонери, монтаж, пральні машини, зарядні станції.",
+    "seo_blog_d": "Корисні статті про вибір та обслуговування техніки для дому у Сумах: кондиціонери, холодильники, пральні машини, зарядні станції.",
     "seo_cat_t": "{name} у Сумах — купити з доставкою | TexnoPlaza",
     "pp_buy_t": "{name} — купити в Сумах",
     "pp_buy_short": "{name} — Суми",
@@ -579,7 +579,7 @@
     "psq_warn_exp": "Серед підібраних моделей немає таких, що нарощуються батареями — для цього дивіться Pecron E1500LFP, E3600LFP або Aferiy AF-P310.",
     "wmq_relaxed": "Машин потрібного завантаження для такої ніші немає — показуємо всі, що фізично вміщуються за глибиною.",
     "brand_seo_t": "{name} у Сумах — ціни, наявність, доставка | TexnoPlaza",
-    "brand_seo_d": "{brand}: {n} {plural} {cat} у наявності {price}. Доставка по Сумах, підключення й монтаж під ключ, оплата після отримання, офіційна гарантія.",
+    "brand_seo_d": "{brand}: {n} {plural} {cat} у наявності {price}.",
     "brand_intro": "У наявності {n} {plural} {cat} {brand} — {price}. Усі моделі є на складі в Сумах: привеземо, підключимо та запустимо, оплата після отримання.",
     "brand_other": "Інші бренди {cat}",
     "cat_reads": "Почитайте перед покупкою",
@@ -667,7 +667,9 @@
     "edge_fast": "Найшвидший нагрів",
     "edge_roomy": "Найбільший об'єм",
     "edge_power": "Найпотужніша",
-    "edge_load": "Найбільше завантаження"
+    "edge_load": "Найбільше завантаження",
+    "trust_delivery_svc": "Доставка по Сумах",
+    "hero_photo_alt": "Холодильник, пральна машина, кондиціонер, бойлер і зарядна станція — техніка TexnoPlaza у Сумах"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1105,7 +1107,7 @@
     "seo_home_t": "TexnoPlaza — бытовая техника в Сумах: доставка и монтаж",
     "seo_home_d": "Магазин бытовой техники в Сумах: {{ITEMS}} в наличии — холодильники, стиральные машины, кондиционеры, бойлеры, зарядные станции. Доставка и монтаж.",
     "seo_blog_t": "Блог — советы по технике для дома | TexnoPlaza",
-    "seo_blog_d": "Полезные статьи о выборе и обслуживании техники для дома в Сумах: кондиционеры, монтаж, стиральные машины, зарядные станции.",
+    "seo_blog_d": "Полезные статьи о выборе и обслуживании техники для дома в Сумах: кондиционеры, холодильники, стиральные машины, зарядные станции.",
     "seo_cat_t": "{name} в Сумах — купить с доставкой | TexnoPlaza",
     "pp_buy_t": "{name} — купить в Сумах",
     "pp_buy_short": "{name} — Сумы",
@@ -1249,7 +1251,7 @@
     "psq_warn_exp": "Среди подобранных моделей нет наращиваемых батареями — для этого смотрите Pecron E1500LFP, E3600LFP или Aferiy AF-P310.",
     "wmq_relaxed": "Машин нужной загрузки для такой ниши нет — показываем все, что физически помещаются по глубине.",
     "brand_seo_t": "{name} в Сумах — цены, наличие, доставка | TexnoPlaza",
-    "brand_seo_d": "{brand}: {n} {plural} {cat} в наличии {price}. Доставка по Сумам, подключение и монтаж под ключ, оплата после получения, официальная гарантия.",
+    "brand_seo_d": "{brand}: {n} {plural} {cat} в наличии {price}.",
     "brand_intro": "В наличии {n} {plural} {cat} {brand} — {price}. Все модели есть на складе в Сумах: привезём, подключим и запустим, оплата после получения.",
     "brand_other": "Другие бренды {cat}",
     "cat_reads": "Почитайте перед покупкой",
@@ -1337,7 +1339,9 @@
     "edge_fast": "Самый быстрый нагрев",
     "edge_roomy": "Самый большой объём",
     "edge_power": "Самая мощная",
-    "edge_load": "Самая большая загрузка"
+    "edge_load": "Самая большая загрузка",
+    "trust_delivery_svc": "Доставка по Сумам",
+    "hero_photo_alt": "Холодильник, стиральная машина, кондиционер, бойлер и зарядная станция — техника TexnoPlaza в Сумах"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -1919,7 +1923,7 @@
     "psq_warn_exp": "None of the matches take expansion batteries — look at the Pecron E1500LFP, E3600LFP or Aferiy AF-P310 for that.",
     "wmq_relaxed": "No machine with that load fits the niche — here is everything that physically fits by depth.",
     "brand_seo_t": "{name} in Sumy — prices, stock, delivery | TexnoPlaza",
-    "brand_seo_d": "{brand}: {n} {plural} of {cat} in stock {price}. Delivery in Sumy, hook-up and turnkey installation, pay on receipt, official warranty.",
+    "brand_seo_d": "{brand}: {n} {plural} of {cat} in stock {price}.",
     "brand_intro": "{n} {plural} of {brand} {cat} in stock — {price}. Everything is on the shelf in Sumy: we deliver, connect and commission it, and you pay on receipt.",
     "brand_other": "Other brands of {cat}",
     "cat_reads": "Worth reading before you buy",
@@ -2007,6 +2011,8 @@
     "edge_fast": "Fastest heat-up",
     "edge_roomy": "Largest capacity",
     "edge_power": "Most powerful",
-    "edge_load": "Largest load"
+    "edge_load": "Largest load",
+    "trust_delivery_svc": "Delivery in Sumy",
+    "hero_photo_alt": "Fridge, washing machine, air conditioner, water heater and power station — TexnoPlaza appliances in Sumy"
   }
 }
