@@ -210,6 +210,15 @@ nav a:hover{color:#fff;background:rgba(124,196,255,.1)}
 input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:6px;background:rgba(124,196,255,.2);outline:none}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--blue);border:4px solid #fff;cursor:pointer;box-shadow:0 4px 12px rgba(46,139,255,.5)}
 input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--blue);border:4px solid #fff;cursor:pointer}
+/* The track is 6px, which is also the whole hit area — fine for a mouse, far
+   too thin for a finger. On touch the box grows to 26px while background-clip
+   keeps the paint inside the 6px content box, so the slider looks identical and
+   the finger gets four times the target. Done with padding rather than the
+   vendor track pseudo-elements: if one of those is not honoured the track
+   simply vanishes, and this cannot. */
+@media(pointer:coarse){
+  input[type=range]{height:26px;padding:10px 0;background-clip:content-box}
+}
 .calc-result{background:rgba(11,26,51,.45);border:1px solid rgba(124,196,255,.18);border-radius:14px;padding:18px 20px;display:flex;align-items:center;gap:18px;margin-bottom:18px}
 .calc-result .cr-big{font-family:var(--disp);font-weight:800;font-size:34px;color:#fff;line-height:1}
 .calc-result .cr-big span{font-size:15px;color:var(--frost);font-weight:600}
@@ -498,7 +507,7 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
 .btn-m-msg svg{width:19px;height:19px;fill:#fff}
 .btn-m-wa-s{background:#25D366}.btn-m-vb-s{background:#7360F2}.btn-m-tg-s{background:#2AABEE}
 .cb-modal{background:var(--white);border-radius:var(--r-lg);max-width:430px;width:100%;padding:32px 30px;position:relative;animation:mIn .3s cubic-bezier(.2,.8,.2,1)}
-.cb-modal h3{font-size:22px;color:var(--ink);margin-bottom:8px}
+.cb-modal h3{font-size:22px;color:var(--ink);margin-bottom:8px;padding-right:46px}  /* clears .cb-close */
 .cb-modal>p{color:var(--g5);font-size:14.5px;margin-bottom:22px}
 .cb-modal .field label{color:var(--g5)}
 .cb-modal .field input{background:var(--paper);border-color:var(--g2);color:var(--ink)}
@@ -684,8 +693,19 @@ a.gauge-card:hover{transform:translateY(-4px)}
   .row2{gap:6px}
   .btn-order,.btn-det{padding:9px 6px;font-size:12px}
   .btn-buy{font-size:11px;padding:9px}
-  .cbadge{font-size:9.5px;padding:3px 7px;top:8px;left:8px}
-  .cstock{font-size:9px;padding:3px 6px;top:8px;right:8px}
+  /* "Тепловий насос" is 14 characters and the heart owns the opposite corner,
+     so on a 140px card the badge grew straight into it. Cap it at whatever is
+     left after the button, and shrink a step at the narrowest sizes so the
+     label still fits whole rather than being cut. */
+  .cbadge{font-size:9.5px;padding:3px 7px;top:8px;left:8px;
+    max-width:calc(100% - 46px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  /* The desktop rule shifts .cstock left by 54px to clear the heart; this
+     block used to reset right:8px and put them back on top of each other, so
+     "В наявності" read as "В наявн". On a 320px phone the card is 140px wide —
+     badge, stock and two round buttons cannot share one row at any offset — so
+     the stock chip moves to the opposite corner instead. 9px was also below
+     what anyone can read at arm's length. */
+  .cstock{font-size:10.5px;padding:3px 7px;top:auto;bottom:8px;left:8px;right:auto}
   .card-fav{width:28px;height:28px;top:8px}
   .card-cmp{width:28px;height:28px;top:42px;right:8px}
   .card-cmp svg{width:15px;height:15px}
@@ -1126,7 +1146,7 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
    a thumb aiming for the product would land on the brand page. Give it its own
    pill so the two targets are visibly and physically separate. */
 @media(max-width:760px){
-  .card-brand{padding:5px 10px;background:var(--ice);border-radius:999px;margin-bottom:8px;line-height:1.3;min-height:24px;display:inline-flex;align-items:center}
+  .card-brand{padding:5px 10px;background:var(--ice);border-radius:999px;margin-bottom:8px;line-height:1.3;min-height:24px;display:inline-flex;align-items:center;align-self:flex-start;width:fit-content}
   .pp-brand{padding:5px 11px;background:var(--ice);border-radius:999px}
 }
 
@@ -1283,6 +1303,10 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 /* theme switch: one button, whichever icon is not the current theme */
 .theme-btn svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
 .th-moon{display:none}
+/* --blue on the dark --ice pill measures 4.44:1, just under the 4.5 small text
+   needs. --blue-d is the lightened blue the dark palette already uses for the
+   badge next to it, and clears the bar at 6.4:1. */
+:root[data-theme="dark"] .card-brand,:root[data-theme="dark"] .pp-brand{color:var(--blue-d)}
 :root[data-theme="dark"] .th-sun{display:none}
 :root[data-theme="dark"] .th-moon{display:block}
 
@@ -1382,14 +1406,26 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
   .foot-col ul{gap:4px}
   .dm-attr{display:inline-block;padding:5px 3px}
   .tb-addr{display:inline-flex;padding:3px 0}
-  .card-brand,.pp-brand{display:inline-block;padding:3px 0;min-height:24px}
   .cv a,.ct-v a{display:inline-block;padding:3px 0;min-height:24px}
   .pp-back a{display:inline-block;padding:4px 0;min-height:24px}
+  /* Inline links inside running prose are exempt from the minimum target size,
+     but a phone number and an email are things people actually tap, and on the
+     legal page they were 19px. They never want to wrap mid-value anyway. */
+  .legal a[href^="tel:"],.legal a[href^="mailto:"]{display:inline-block;padding:4px 0;min-height:24px}
 }
+/* Below 760px the brand link is a pill with its own padding and height. Above
+   that there is no pill, so on a touch screen the bare link still needs a
+   target of its own — but applying it to both was zeroing the pill's side
+   padding, leaving the text pressed against a 999px corner. */
+@media(min-width:761px) and (max-width:1024px),(min-width:761px) and (pointer:coarse){
+  .card-brand,.pp-brand{display:inline-block;padding:3px 0;min-height:24px}
+}
+
 @media(max-width:760px){
   /* card metadata large enough to read at arm's length */
   .stag{font-size:11px}
   .cbadge{font-size:11px}
+  @media(max-width:370px){.cbadge{font-size:10px;padding:3px 6px}}
   .cedge{font-size:11px}
   .card-brand{font-size:11.5px}
 }

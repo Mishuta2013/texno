@@ -212,7 +212,11 @@ function cardHTML(p){
   const url=productUrl(p);
   let badge='';
   if(p.heatpump)badge=`<span class="cbadge heat">${t('sp_hp')}</span>`;
-  else if(p.inverter)badge=`<span class="cbadge inv">${t('f_inv').replace(/і$|ые$|s$/,'')||'Inverter'}</span>`;
+  /* f_inv is the filter label, "Інверторні" — plural. Chopping the last letter
+     to singularise it produced "Інверторн", which is not a word in any of the
+     three languages. c_inverter is the badge's own string, and it is what the
+     server renders into the same badge. */
+  else if(p.inverter)badge=`<span class="cbadge inv">${t('c_inverter')}</span>`;
   /* worked out at build time and shipped on the product, so this cannot
      disagree with the statically rendered cards */
   const edge=p.edge?`<span class="cedge">${t(p.edge)}</span>`:'';

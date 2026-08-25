@@ -257,13 +257,15 @@ const absImg = u => BASE + av(u);
 const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230B1A33'/%3E%3Crect x='43.5' y='26' width='13' height='48' rx='3' fill='%237CC4FF'/%3E%3Crect x='24' y='26' width='52' height='13' rx='3' fill='%23ffffff'/%3E%3Crect x='32' y='80' width='36' height='6' rx='3' fill='%232E8BFF'/%3E%3C/svg%3E";
 const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap"></noscript>`;
 
-const GA = `<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HJC1PWRVE9"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-HJC1PWRVE9');gtag('config','AW-765371108');</script>`;
+/* One container, GTM-KBTGSLKD, supplied by the shop's SEO specialist. GA4
+   (G-HJC1PWRVE9) and Google Ads (AW-765371108) used to load here through their
+   own gtag snippet as well; they were removed on the owner's instruction so
+   everything is configured inside the container instead. Adding them back here
+   while the container also fires them would double-count every visit. */
 const GTM = `<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-W3NLLCQT');</script>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KBTGSLKD');</script>
 <!-- End Google Tag Manager -->`;
-const GTM_NS = `<!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W3NLLCQT" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`;
+const GTM_NS = `<!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBTGSLKD" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`;
 
 /* Every <title> leads with the shop. A searcher scanning a page of results
    should see who is selling before what is sold, and Google shows roughly the
@@ -296,7 +298,6 @@ function head({ title, desc, canonical, ogTitle, ogDesc, ogImage, jsonld, altPat
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0B1A33">
 ${GTM}
-${GA}
 <title>${esc(pageTitle(title))}</title>
 <meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${esc(canonical)}">
@@ -1278,7 +1279,7 @@ if (L === 'uk') {
   const privacyBody = fs.readFileSync(path.join(ROOT, 'templates/privacy.html'), 'utf8');
   const html = `<!doctype html><html lang="uk"><head>
 ${head({ title: 'Політика конфіденційності | TexnoPlaza', desc: 'Політика конфіденційності TexnoPlaza: які персональні дані ми збираємо через форми, дзвінки та месенджери, з якою метою, як зберігаємо й захищаємо їх, та ваші права.', canonical: abs('/polityka-konfidentsiynosti/') })}
-</head><body>
+</head><body>${GTM_NS}
 ${HEADER}
 ${privacyBody}
 ${FOOTER}
@@ -1360,6 +1361,23 @@ ${items}
 const urls = [...new Set(SITEMAP)].map(u => `  <url><loc>${abs(u)}</loc></url>`).join('\n');
 fs.writeFileSync(path.join(DIST, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`, 'utf8');
 fs.writeFileSync(path.join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${abs('/sitemap.xml')}\n`, 'utf8');
+
+{
+  const missing = [];
+  const walk = dir => { for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const f = path.join(dir, e.name);
+    if (e.isDirectory()) walk(f);
+    else if (e.name === 'index.html') {
+      const h = fs.readFileSync(f, 'utf8');
+      if (!h.includes('Google Tag Manager (noscript)') || !h.includes('<!-- Google Tag Manager -->'))
+        missing.push('/' + path.relative(DIST, dir).split(path.sep).join('/'));
+    } } };
+  walk(DIST);
+  if (missing.length) {
+    console.error(`GTM missing on ${missing.length} page(s): ${missing.slice(0, 5).join(', ')}`);
+    process.exit(1);
+  }
+}
 
 console.log(`build OK → dist/  (${LANGS.join('/')} · ${n} product pages · ${[...new Set(SITEMAP)].length} urls)`);
 console.log(`baseUrl: ${site.baseUrl}${site.baseUrl.includes('REPLACE') ? '  (placeholder!)' : ''}`);
