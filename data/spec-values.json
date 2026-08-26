@@ -1019,5 +1019,213 @@
   "Wi-Fi, Bluetooth, застосунок ALLPOWERS, дисплей, наскрізне заряджання, рівень шуму 35 дБ": {
     "ru": "Wi-Fi, Bluetooth, приложение ALLPOWERS, дисплей, сквозная зарядка, уровень шума 35 дБ",
     "en": "Wi-Fi, Bluetooth, ALLPOWERS app, display, pass-through charging, 35 dB"
+  },
+  "1 рік": {
+    "ru": "1 год",
+    "en": "1 year"
+  },
+  "170 кВт·год/рік": {
+    "ru": "170 кВт·ч/год",
+    "en": "170 kWh/year"
+  },
+  "185.3 × 59.5 × 65.8 см": {
+    "ru": "185.3 × 59.5 × 65.8 см",
+    "en": "185.3 × 59.5 × 65.8 cm"
+  },
+  "186 × 59.5 × 68.2 см": {
+    "ru": "186 × 59.5 × 68.2 см",
+    "en": "186 × 59.5 × 68.2 cm"
+  },
+  "186 × 59.7 × 67.4 см": {
+    "ru": "186 × 59.7 × 67.4 см",
+    "en": "186 × 59.7 × 67.4 cm"
+  },
+  "186.5 × 59.5 × 66.3 см": {
+    "ru": "186.5 × 59.5 × 66.3 см",
+    "en": "186.5 × 59.5 × 66.3 cm"
+  },
+  "186.5 × 59.5 × 67.3 см": {
+    "ru": "186.5 × 59.5 × 67.3 см",
+    "en": "186.5 × 59.5 × 67.3 cm"
+  },
+  "192 × 75.9 × 71.1 см": {
+    "ru": "192 × 75.9 × 71.1 см",
+    "en": "192 × 75.9 × 71.1 cm"
+  },
+  "203 × 59.5 × 67.2 см": {
+    "ru": "203 × 59.5 × 67.2 см",
+    "en": "203 × 59.5 × 67.2 cm"
+  },
+  "203 × 59.7 × 67.4 см": {
+    "ru": "203 × 59.7 × 67.4 см",
+    "en": "203 × 59.7 × 67.4 cm"
+  },
+  "203 × 75.9 × 71.1 см": {
+    "ru": "203 × 75.9 × 71.1 см",
+    "en": "203 × 75.9 × 71.1 cm"
+  },
+  "203.5 × 59.5 × 66.3 см": {
+    "ru": "203.5 × 59.5 × 66.3 см",
+    "en": "203.5 × 59.5 × 66.3 cm"
+  },
+  "203.5 × 59.5 × 67.3 см": {
+    "ru": "203.5 × 59.5 × 67.3 см",
+    "en": "203.5 × 59.5 × 67.3 cm"
+  },
+  "205 кВт·год/рік": {
+    "ru": "205 кВт·ч/год",
+    "en": "205 kWh/year"
+  },
+  "210 кВт·год/рік": {
+    "ru": "210 кВт·ч/год",
+    "en": "210 kWh/year"
+  },
+  "247 кВт·год/рік": {
+    "ru": "247 кВт·ч/год",
+    "en": "247 kWh/year"
+  },
+  "253 кВт·год/рік": {
+    "ru": "253 кВт·ч/год",
+    "en": "253 kWh/year"
+  },
+  "254 кВт·год/рік": {
+    "ru": "254 кВт·ч/год",
+    "en": "254 kWh/year"
+  },
+  "263 кВт·год/рік": {
+    "ru": "263 кВт·ч/год",
+    "en": "263 kWh/year"
+  },
+  "265 кВт·год/рік": {
+    "ru": "265 кВт·ч/год",
+    "en": "265 kWh/year"
+  },
+  "300 кВт·год/рік": {
+    "ru": "300 кВт·ч/год",
+    "en": "300 kWh/year"
+  },
+  "309 кВт·год/рік": {
+    "ru": "309 кВт·ч/год",
+    "en": "309 kWh/year"
+  },
+  "37 дБ": {
+    "ru": "37 дБ",
+    "en": "37 dB"
+  },
+  "67 кг": {
+    "ru": "67 кг",
+    "en": "67 kg"
+  },
+  "69 кг": {
+    "ru": "69 кг",
+    "en": "69 kg"
+  },
+  "6th Sense, Dual No Frost, швидке заморожування, режим «Відпустка», сигнал відчинених дверцят": {
+    "ru": "6th Sense, Dual No Frost, быстрая заморозка, режим «Отпуск», сигнал открытой дверцы",
+    "en": "6th Sense, Dual No Frost, fast freeze, Holiday mode, door-open alarm"
+  },
+  "6th Sense, Dual No Frost, швидке заморожування, режим «Відпустка», сигнал відчинених дверцят, ProFresh, MultiFlow": {
+    "ru": "6th Sense, Dual No Frost, быстрая заморозка, режим «Отпуск», сигнал открытой дверцы, ProFresh, MultiFlow",
+    "en": "6th Sense, Dual No Frost, fast freeze, Holiday mode, door-open alarm, ProFresh, MultiFlow"
+  },
+  "6th Sense, Dual No Frost, швидке заморожування, режим «Відпустка», сигнал відчинених дверцят, ProFresh, MultiFlow, полиця для пляшок": {
+    "ru": "6th Sense, Dual No Frost, быстрая заморозка, режим «Отпуск», сигнал открытой дверцы, ProFresh, MultiFlow, полка для бутылок",
+    "en": "6th Sense, Dual No Frost, fast freeze, Holiday mode, door-open alarm, ProFresh, MultiFlow, bottle shelf"
+  },
+  "6th Sense, Dual No Frost, швидке заморожування, режим «Відпустка», сигнал відчинених дверцят, полиця для пляшок": {
+    "ru": "6th Sense, Dual No Frost, быстрая заморозка, режим «Отпуск», сигнал открытой дверцы, полка для бутылок",
+    "en": "6th Sense, Dual No Frost, fast freeze, Holiday mode, door-open alarm, bottle shelf"
+  },
+  "70 кг": {
+    "ru": "70 кг",
+    "en": "70 kg"
+  },
+  "71 кг": {
+    "ru": "71 кг",
+    "en": "71 kg"
+  },
+  "72 кг": {
+    "ru": "72 кг",
+    "en": "72 kg"
+  },
+  "73 кг": {
+    "ru": "73 кг",
+    "en": "73 kg"
+  },
+  "74 кг": {
+    "ru": "74 кг",
+    "en": "74 kg"
+  },
+  "83 кг": {
+    "ru": "83 кг",
+    "en": "83 kg"
+  },
+  "87 кг": {
+    "ru": "87 кг",
+    "en": "87 kg"
+  },
+  "87.5 кг": {
+    "ru": "87.5 кг",
+    "en": "87.5 kg"
+  },
+  "94 кг": {
+    "ru": "94 кг",
+    "en": "94 kg"
+  },
+  "A+ (E за новим маркуванням)": {
+    "ru": "A+ (E по новой маркировке)",
+    "en": "A+ (E on the new label)"
+  },
+  "A++ (E за новим маркуванням)": {
+    "ru": "A++ (E по новой маркировке)",
+    "en": "A++ (E on the new label)"
+  },
+  "D (нове маркування)": {
+    "ru": "D (новая маркировка)",
+    "en": "D (new label)"
+  },
+  "DoorCooling⁺, Multi Air Flow, Fresh Zone, полиці із загартованого скла": {
+    "ru": "DoorCooling⁺, Multi Air Flow, Fresh Zone, полки из закалённого стекла",
+    "en": "DoorCooling⁺, Multi Air Flow, Fresh Zone, tempered-glass shelves"
+  },
+  "DoorCooling⁺, Multi Air Flow, LinearCooling, зона свіжості, Wi-Fi ThinQ": {
+    "ru": "DoorCooling⁺, Multi Air Flow, LinearCooling, зона свежести, Wi-Fi ThinQ",
+    "en": "DoorCooling⁺, Multi Air Flow, LinearCooling, fresh zone, Wi-Fi ThinQ"
+  },
+  "DoorCooling⁺, Multi Air Flow, зона свіжості, Bio Shield, Wi-Fi ThinQ": {
+    "ru": "DoorCooling⁺, Multi Air Flow, зона свежести, Bio Shield, Wi-Fi ThinQ",
+    "en": "DoorCooling⁺, Multi Air Flow, fresh zone, Bio Shield, Wi-Fi ThinQ"
+  },
+  "No Frost, зона свіжості, швидке заморожування, режим «Відпустка», полиці із загартованого скла": {
+    "ru": "No Frost, зона свежести, быстрая заморозка, режим «Отпуск», полки из закалённого стекла",
+    "en": "No Frost, fresh zone, fast freeze, Holiday mode, tempered-glass shelves"
+  },
+  "SpaceMax™, All-around Cooling, Optimal Fresh+, Humidity Fresh+, Power Cool / Power Freeze, SmartThings AI Energy, Wi-Fi, Metal Cooling, льодогенератор": {
+    "ru": "SpaceMax™, All-around Cooling, Optimal Fresh+, Humidity Fresh+, Power Cool / Power Freeze, SmartThings AI Energy, Wi-Fi, Metal Cooling, льдогенератор",
+    "en": "SpaceMax™, All-around Cooling, Optimal Fresh+, Humidity Fresh+, Power Cool / Power Freeze, SmartThings AI Energy, Wi-Fi, Metal Cooling, ice maker"
+  },
+  "SpaceMax™, All-around Cooling, Optimal Fresh+, Humidity Fresh+, Power Cool / Power Freeze, SmartThings AI Energy, Wi-Fi, льодогенератор": {
+    "ru": "SpaceMax™, All-around Cooling, Optimal Fresh+, Humidity Fresh+, Power Cool / Power Freeze, SmartThings AI Energy, Wi-Fi, льдогенератор",
+    "en": "SpaceMax™, All-around Cooling, Optimal Fresh+, Humidity Fresh+, Power Cool / Power Freeze, SmartThings AI Energy, Wi-Fi, ice maker"
+  },
+  "Електронне, внутрішній дисплей": {
+    "ru": "Электронное, внутренний дисплей",
+    "en": "Electronic, internal display"
+  },
+  "Електронне, зовнішній LED-дисплей": {
+    "ru": "Электронное, внешний LED-дисплей",
+    "en": "Electronic, external LED display"
+  },
+  "Сенсорне, внутрішній дисплей": {
+    "ru": "Сенсорное, внутренний дисплей",
+    "en": "Touch controls, internal display"
+  },
+  "Сенсорне, зовнішній дисплей ThinQ": {
+    "ru": "Сенсорное, внешний дисплей ThinQ",
+    "en": "Touch controls, external ThinQ display"
+  },
+  "Стандартний": {
+    "ru": "Стандартный",
+    "en": "Conventional"
   }
 }
