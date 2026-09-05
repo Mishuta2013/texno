@@ -591,7 +591,11 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
   .header.nav-open .burger span:nth-child(2){opacity:0;transform:scaleX(.3)}
   .header.nav-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
-  .nav-backdrop{position:fixed;inset:0;background:rgba(5,12,26,.55);z-index:205;touch-action:none;
+  /* Below the header, not above it. The header carries z-index:200, which makes
+     it a stacking context, so the menu's z-index:210 only orders it *inside* the
+     header — a backdrop at 205 therefore painted over the whole header, blurring
+     and dimming the open menu and swallowing every tap meant for a category. */
+  .nav-backdrop{position:fixed;inset:0;background:rgba(5,12,26,.55);z-index:190;touch-action:none;
     opacity:0;visibility:hidden;transition:opacity .24s ease,visibility .24s;
     -webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
   body.nav-open .nav-backdrop{opacity:1;visibility:visible}
