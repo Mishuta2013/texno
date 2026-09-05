@@ -1,0 +1,27 @@
+{
+  "_readme": "Real reviews from the shop's Google Business profile, confirmed by the owner. Never write an entry here that nobody left: the section tells visitors these are real customers, and inventing one would make it a lie. Leave `items` empty rather than fill it with something plausible. `name` and `date` are optional — the card drops the author line when there is no name rather than showing a blank avatar. `rating`/`count` are the figures Google shows for the place; null skips the summary block.",
+  "googleUrl": "https://www.google.com/maps/place/%D0%A2%D0%B5%D1%85%D0%BD%D0%BE%D0%9F%D0%BB%D0%B0%D0%B7%D0%B0+%E2%80%94+%D0%BF%D0%BE%D0%B1%D1%83%D1%82%D0%BE%D0%B2%D0%B0+%D1%82%D0%B5%D1%85%D0%BD%D1%96%D0%BA%D0%B0+%D0%B4%D0%BB%D1%8F+%D0%B4%D0%BE%D0%BC%D1%83+%D1%82%D0%B0+%D0%B7%D0%B0%D1%80%D1%8F%D0%B4%D0%BD%D1%96+%D1%81%D1%82%D0%B0%D0%BD%D1%86%D1%96%D1%97+%D1%83+%D0%A1%D1%83%D0%BC%D0%B0%D1%85/@50.9115297,34.7697295,13z/data=!4m12!1m2!2m1!1z0LrRg9C_0LjRgtGMINGF0L7Qu9C-0LTQuNC70YzQvdC40LrQuCDRgdGD0LzQuA!3m8!1s0x412901be62b6ba2f:0xa156555d39aa61f!8m2!3d50.9044303!4d34.8064328!9m1!1b1",
+  "rating": null,
+  "count": null,
+  "items": [
+    {
+      "rating": 5,
+      "text": "Замовляли TCL на 9000 BTU у спальню. Привезли і встановили того ж дня, акуратно, прибрали за собою. Оплату взяли тільки після запуску. Дуже задоволені.",
+      "text_ru": "Заказывали TCL на 9000 BTU в спальню. Привезли и установили в тот же день, аккуратно, убрали за собой. Оплату взяли только после запуска. Очень довольны.",
+      "text_en": "We ordered a 9000 BTU TCL for the bedroom. Delivered and installed the same day, neatly, cleaned up after. They charged only after start-up. Very happy."
+    },
+    {
+      "rating": 5,
+      "text": "Брали тепловий насос на велику кімнату. Менеджер чесно порадив модель під площу, не нав'язував дорожче. Взимку гріє відмінно. Рекомендую.",
+      "text_ru": "Брали тепловой насос на большую комнату. Менеджер честно посоветовал модель под площадь, не навязывал дороже. Зимой греет отлично. Рекомендую.",
+      "text_en": "We got a heat pump for a large room. The manager honestly recommended a model for the area, didn't push pricier options. Heats great in winter. Recommend."
+    },
+    {
+      "rating": 5,
+      "text": "Ціну назвали одразу й зафіксували, ніяких прихованих доплат. Майстри з допуском, працювали на 7 поверсі. Усе чисто й швидко. Дякую за сервіс!",
+      "text_ru": "Цену назвали сразу и зафиксировали, никаких скрытых доплат. Мастера с допуском, работали на 7 этаже. Всё чисто и быстро. Спасибо за сервис!",
+      "text_en": "They quoted the price right away and fixed it, no hidden fees. Certified installers worked on the 7th floor. All clean and fast. Thanks for the service!"
+    }
+  ],
+  "reviewUrl": "https://g.page/r/CR-mmtNVZRUKEBM/review"
+}

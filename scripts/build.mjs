@@ -72,6 +72,7 @@ function linkProducts(html) {
   return out;
 }
 const CATS = read('categories.json');
+const REVIEWS = read('reviews.json');
 const catOf = p => CATS[p.category] || CATS['kondicioneri'];
 const catList = Object.entries(CATS).map(([key, c]) => ({ key, ...c })).sort((a, b) => (a.order || 99) - (b.order || 99));
 const catProducts = key => products.filter(p => p.category === key);
@@ -150,12 +151,65 @@ const COUNTS = {
   FR: products.filter(p => p.category === 'holodylnyky').length,
   BL: products.filter(p => p.category === 'boylery').length
 };
+
+/* Brand lists and capacity ranges used to be typed into categories.json by hand,
+   and they went stale the moment stock moved: the fridge line still read "9
+   models from LG, Samsung, Beko, Grunhelm and Edler" after the range had grown
+   to 39 and gained Whirlpool, and the washing machines never mentioned Bosch.
+   Derive both from the catalogue so a search result cannot drift from reality
+   again. */
+const CAT_OF_KEY = { AC: 'kondicioneri', WM: 'pralni-mashyny', PS: 'zaryadni-stantsii',
+                     FR: 'holodylnyky', BL: 'boylery' };
+const inCat = k => products.filter(p => p.category === CAT_OF_KEY[k]);
+
+/* Ordered by the dearest model each brand has, not by how many we stock. By
+   count the washing machines would open "Edler, Grifon, Beko" — true, and no
+   reason to click. By flagship price they open "Bosch, Haier, LG", which is the
+   same shelf described from the end a buyer recognises. */
+function brandList(k, max = 6) {
+  const top = new Map();
+  for (const p of inCat(k)) top.set(p.brand, Math.max(top.get(p.brand) || 0, p.price));
+  const names = [...top].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(x => x[0]);
+  const head = names.slice(0, max);
+  if (head.length < 2) return head.join('');
+  const tail = names.length > max ? '' : ` ${t('u_and')} `;
+  return names.length > max
+    ? head.join(', ')
+    : head.slice(0, -1).join(', ') + tail + head[head.length - 1];
+}
+
+const numOf = v => { const m = /[\d.]+/.exec(String(v ?? '')); return m ? +m[0] : null; };
+function specRange(k, key, unitKey) {
+  const v = inCat(k).map(p => numOf((p.specs || {})[key])).filter(x => x != null);
+  if (!v.length) return '';
+  const lo = Math.min(...v), hi = Math.max(...v);
+  return `${lo}–${hi} ${t(unitKey)}`;
+}
+const btuRange = () => {
+  const v = inCat('AC').map(p => p.btu).filter(Boolean);
+  return v.length ? `${Math.min(...v) / 1000}–${Math.max(...v) / 1000}k BTU` : '';
+};
+const RANGES = {
+  AC: btuRange,
+  WM: () => specRange('WM', 'load_kg', 'u_kg'),
+  PS: () => specRange('PS', 'capacity_wh', 'u_wh'),
+  FR: () => specRange('FR', 'volume_l', 'u_l'),
+  BL: () => specRange('BL', 'volume_l', 'u_l'),
+};
+const NOFROST = () => products.filter(p => p.category === 'holodylnyky' && p.nofrost).length;
 // Slavic plurals: 1 товар / 2-4 товари / 5+ товарів — needed wherever a count
 // is followed by a noun, otherwise the copy reads broken at most numbers.
 const PLURALS = {
   uk: ['товар', 'товари', 'товарів'],
   ru: ['товар', 'товара', 'товаров'],
   en: ['product', 'products', 'products']
+};
+/* "52 моделей" is wrong — Ukrainian wants "52 моделі". The category lines quote
+   a live count, so the noun has to agree with whatever the count happens to be. */
+const MODELS = {
+  uk: ['модель', 'моделі', 'моделей'],
+  ru: ['модель', 'модели', 'моделей'],
+  en: ['model', 'models', 'models']
 };
 function plural(n, forms) {
   if (L === 'en') return n === 1 ? forms[0] : forms[1];
@@ -166,6 +220,11 @@ function plural(n, forms) {
 }
 const subCounts = s => String(s)
   .replace(/\{\{ITEMS\}\}/g, () => `${COUNTS.TOTAL} ${plural(COUNTS.TOTAL, PLURALS[L] || PLURALS.uk)}`)
+  .replace(/\{\{(TOTAL|AC|WM|PS|FR|BL)_MODELS\}\}/g,
+    (m, k) => `${COUNTS[k]} ${plural(COUNTS[k], MODELS[L] || MODELS.uk)}`)
+  .replace(/\{\{(AC|WM|PS|FR|BL)_BRANDS\}\}/g, (m, k) => brandList(k))
+  .replace(/\{\{(AC|WM|PS|FR|BL)_RANGE\}\}/g, (m, k) => RANGES[k]())
+  .replace(/\{\{FR_NOFROST\}\}/g, () => NOFROST())
   .replace(/\{\{(TOTAL|AC|WM|PS|FR|BL)\}\}/g, (m, k) => COUNTS[k]);
 const t = (k) => subCounts((i18n[L] && i18n[L][k]) ?? (i18n.uk && i18n.uk[k]) ?? k);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -662,6 +721,52 @@ if (pfx()) {
 body = body.replace('<!--DELIVERY_MAP-->', DELIVERY_MAP);
 body = body.replace('<!--PICKER-->', pickerSection());
 body = body.replace('<!--QUIZ_INLINE-->', quizInline(true));
+/* The phone menu used to hold nothing but anchors into the homepage. Most
+   visitors come to pick an appliance, so the five categories go in first, each
+   with how many models it holds — one tap from anywhere on the site. */
+function navCats() {
+  return '<div class="nav-cats">' + catList.map(c =>
+    `<a class="nav-cat" href="${curl(c)}"><span>${esc(lf(c, 'name'))}</span><em>${catProducts(c.key).length}</em></a>`
+  ).join('') + '</div>';
+}
+body = body.replace('<!--NAV_CATS-->', navCats());
+/* Reviews were a third-party embed: a 704px-tall iframe from elfsightcdn that
+   loaded on every page, could not be styled and read as somebody else's box
+   dropped into the page. This renders the same reviews as our own markup, from
+   data/reviews.json — and links out to Google so anyone can check them.
+   Nothing here is written on the shop's behalf: an empty items list simply
+   shows the rating and the link. */
+function starRow(n) {
+  return '<div class="rev-stars" aria-label="' + n + '/5">' + Array.from({ length: 5 }, (_, i) =>
+    `<svg viewBox="0 0 24 24"${i < n ? '' : ' class="rev-star-off"'}><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>`
+  ).join('') + '</div>';
+}
+function reviewsSection() {
+  const R = REVIEWS || {};
+  const items = Array.isArray(R.items) ? R.items : [];
+  const url = R.googleUrl || '';
+  const head = (R.rating && R.count)
+    ? `<div class="rev-score">
+         <div class="rev-score-n">${String(R.rating).replace('.', ',')}</div>
+         <div>${starRow(Math.round(R.rating))}
+           <div class="rev-score-c">${R.count} ${esc(t('rev_on_google'))}</div></div>
+       </div>` : '';
+  /* No author line when we have no name: a blank avatar over an empty name reads
+     as a broken card, and inventing one would misattribute a real review. */
+  const cards = items.map(r => `<figure class="rev-card">
+      ${starRow(r.rating || 5)}
+      <blockquote class="rev-text">${esc(lf(r, 'text'))}</blockquote>
+      ${r.name ? `<figcaption class="rev-who">
+        <span class="rev-av" aria-hidden="true">${esc(r.name.trim().charAt(0))}</span>
+        <span><span class="rev-name">${esc(r.name)}</span>${r.date ? `<span class="rev-date">${esc(r.date)}</span>` : ''}</span>
+      </figcaption>` : ''}</figure>`).join('');
+  const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg>';
+  const links = (url ? `<a class="rev-link" href="${esc(url)}" target="_blank" rel="noopener nofollow">${esc(t('rev_all_google'))}${arrow}</a>` : '')
+    + (R.reviewUrl ? `<a class="rev-link rev-link-2" href="${esc(R.reviewUrl)}" target="_blank" rel="noopener nofollow">${esc(t('rev_leave'))}${arrow}</a>` : '');
+  return `<div class="rev-top reveal">${head}<div class="rev-links">${links}</div></div>`
+    + (cards ? `<div class="rev-grid">${cards}</div>` : '');
+}
+body = body.replace('<!--REVIEWS-->', reviewsSection());
 body = body.replace('<!--FAQ_ITEMS-->', faqItems());
 body = applyI18nStatic(body);   // bake the current language into static HTML (SEO)
 body = subCounts(body);         // resolve {{TOTAL}}/{{AC}}/{{WM}}/{{PS}} tokens in raw markup
@@ -1155,7 +1260,19 @@ function categoryPage(cat) {
   return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
 ${head({
   title: lf(cat, 'seoTitle') || t('seo_cat_t').replace('{name}', NAME),
-  desc: subCounts(lf(cat, 'seoDesc') || lf(cat, 'intro') || `${NAME} ${t('cat_in_sumy')}: ${list.length} ${plural} ${t('cat_instock')}.`),
+  /* The brand list and the ranges inside this line grow with the catalogue, so
+     the sentence can outgrow the ~165 characters Google shows. Drop trailing
+     sentences until it fits rather than letting it be cut mid-word. */
+  desc: (() => {
+    let s = subCounts(lf(cat, 'seoDesc') || lf(cat, 'intro')
+      || `${NAME} ${t('cat_in_sumy')}: ${list.length} ${plural} ${t('cat_instock')}.`);
+    while (s.length > 165) {
+      const cut = s.slice(0, -1).lastIndexOf('. ');
+      if (cut < 60) break;
+      s = s.slice(0, cut + 1);
+    }
+    return s;
+  })(),
   canonical: abs(curl(cat)), altPath: cat.urlPrefix + '/', jsonld
 })}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>

@@ -23,6 +23,7 @@
   <div class="header-in">
     <a href="/" class="logo" aria-label="TexnoPlaza — на головну" aria-label="TexnoPlaza"><img src="/assets/img/logo.webp" alt="TexnoPlaza" width="260" height="107"></a>
     <nav>
+      <!--NAV_CATS-->
       <a href="#cats" data-i18n="nav_cats">Категорії</a>
       <a href="#catalog" data-i18n="nav_catalog">Каталог</a>
       <a href="#installation" data-i18n="nav_install">Монтаж</a>
@@ -55,9 +56,10 @@
         </button>
       </div>
     </div>
-    <button class="burger" onclick="toggleNav()" aria-label="Меню"><span></span><span></span><span></span></button>
+    <button class="burger" onclick="toggleNav()" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </header>
+<div class="nav-backdrop" onclick="closeNav()" aria-hidden="true"></div>
 
 <!-- HERO -->
 <section class="hero">
@@ -467,9 +469,7 @@
       <h2 class="sec-title" data-i18n="rev_h">Що кажуть клієнти</h2>
       <p class="sec-sub" data-i18n="rev_sub">Реальні враження мешканців Сум та області після встановлення.</p>
     </div>
-    <!-- Elfsight Google Reviews | Untitled Google Reviews -->
-    <script src="https://elfsightcdn.com/platform.js" async></script>
-    <div class="elfsight-app-f1a3ff9d-c084-46cf-acc3-84bf9303d5bc rev-embed" data-elfsight-app-lazy></div>
+    <!--REVIEWS-->
   </div>
 </section>
 

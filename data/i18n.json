@@ -189,16 +189,13 @@
     "pay4h": "Безготівковий розрахунок",
     "pay4p": "Рахунок з ПДВ, повний пакет документів та закриваючі акти для юридичних осіб.",
     "pay4t": "з ПДВ · документи",
-    "rev1": "Замовляли TCL на 9000 BTU у спальню. Привезли і встановили того ж дня, акуратно, прибрали за собою. Оплату взяли тільки після запуску. Дуже задоволені.",
-    "rev2": "Брали тепловий насос на велику кімнату. Менеджер чесно порадив модель під площу, не нав'язував дорожче. Взимку гріє відмінно. Рекомендую.",
-    "rev3": "Ціну назвали одразу й зафіксували, ніяких прихованих доплат. Майстри з допуском, працювали на 7 поверсі. Усе чисто й швидко. Дякую за сервіс!",
     "faq_eye": "Питання",
     "faq_h": "Часті запитання",
     "faq_sub": "Відповіді на те, що запитують найчастіше.",
     "faq": [
       [
         "Це той самий магазин ТехноПлаза (TexnoPlaza) у Сумах?",
-        "Так. ТехноПлаза, TexnoPlaza, «Техно Плаза» — це одна й та сама компанія, офіційний сайт texnoplaza.sumy.ua. Ми у Сумах, вул. Харківська 2/1: продаємо кондиціонери, пральні машини, холодильники та зарядні станції з доставкою, підключенням і монтажем під ключ."
+        "Так. ТехноПлаза, TexnoPlaza, «Техно Плаза» — це одна й та сама компанія, офіційний сайт texnoplaza.sumy.ua. Ми у Сумах, вул. Харківська 2/1: продаємо кондиціонери, пральні машини, холодильники, бойлери та зарядні станції з доставкою, підключенням і монтажем під ключ."
       ],
       [
         "Дізнаюся остаточну ціну до початку робіт?",
@@ -259,6 +256,18 @@
       [
         "Як швидко заряджається зарядна станція?",
         "Від розетки Fossibot F1800 приймає до 1200 Вт — повний заряд приблизно за годину. Також можна заряджати від сонячних панелей (до 500 Вт) або від автомобіля через XT60."
+      ],
+      [
+        "Скільки літрів холодильника потрібно на сім'ю?",
+        "Орієнтир: 200–250 л на одну-дві людини, 250–350 л на трьох, від 350 л на чотирьох і більше. Якщо закупівля робиться раз на тиждень, беріть із запасом — саме на об'ємі найчастіше шкодують. У нас є моделі від 83 до 538 л, і на сторінці холодильників працює підбір за висотою ніші та об'ємом."
+      ],
+      [
+        "No Frost чи крапельна система — що обрати?",
+        "No Frost гонить повітря вентилятором: іній не наростає, розморожувати не треба ніколи, але повітря сухіше — овочі краще тримати в закритому ящику. Крапельна система дешевша й тихіша, проте раз на півроку холодильник доведеться вимикати й розморожувати."
+      ],
+      [
+        "Чи занесете холодильник на поверх?",
+        "Так. Доставка по Сумах — 400 грн, занесення в квартиру входить у вартість. Двометрова колона важить 70–95 кг, тому підйом без ліфта узгоджуємо заздалегідь. Оплата — після отримання й огляду."
       ]
     ],
     "con_eye": "Контакти",
@@ -670,7 +679,11 @@
     "f_v421": "420+ л",
     "f_h190": "150–190 см",
     "f_h200": "190–200 см",
-    "f_h201": "200+ см"
+    "f_h201": "200+ см",
+    "u_and": "та",
+    "rev_all_google": "Усі відгуки в Google",
+    "rev_on_google": "відгуків у Google",
+    "rev_leave": "Залишити відгук"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -862,16 +875,13 @@
     "pay4h": "Безналичный расчёт",
     "pay4p": "Счёт с НДС, полный пакет документов и закрывающие акты для юридических лиц.",
     "pay4t": "с НДС · документы",
-    "rev1": "Заказывали TCL на 9000 BTU в спальню. Привезли и установили в тот же день, аккуратно, убрали за собой. Оплату взяли только после запуска. Очень довольны.",
-    "rev2": "Брали тепловой насос на большую комнату. Менеджер честно посоветовал модель под площадь, не навязывал дороже. Зимой греет отлично. Рекомендую.",
-    "rev3": "Цену назвали сразу и зафиксировали, никаких скрытых доплат. Мастера с допуском, работали на 7 этаже. Всё чисто и быстро. Спасибо за сервис!",
     "faq_eye": "Вопросы",
     "faq_h": "Частые вопросы",
     "faq_sub": "Ответы на то, что спрашивают чаще всего.",
     "faq": [
       [
         "Это тот самый магазин ТехноПлаза (TexnoPlaza) в Сумах?",
-        "Да. ТехноПлаза, TexnoPlaza, «Техно Плаза» — это одна и та же компания, официальный сайт texnoplaza.sumy.ua. Мы в Сумах, ул. Харьковская 2/1: продаём кондиционеры, стиральные машины, холодильники и зарядные станции с доставкой, подключением и монтажом под ключ."
+        "Да. ТехноПлаза, TexnoPlaza, «Техно Плаза» — это одна и та же компания, официальный сайт texnoplaza.sumy.ua. Мы в Сумах, ул. Харьковская 2/1: продаём кондиционеры, стиральные машины, холодильники, бойлеры и зарядные станции с доставкой, подключением и монтажом под ключ."
       ],
       [
         "Узнаю окончательную цену до начала работ?",
@@ -932,6 +942,18 @@
       [
         "Как быстро заряжается зарядная станция?",
         "От розетки Fossibot F1800 принимает до 1200 Вт — полный заряд примерно за час. Также можно заряжать от солнечных панелей (до 500 Вт) или от автомобиля через XT60."
+      ],
+      [
+        "Сколько литров холодильника нужно на семью?",
+        "Ориентир: 200–250 л на одного-двух человек, 250–350 л на троих, от 350 л на четверых и больше. Если закупка делается раз в неделю, берите с запасом — именно об объёме чаще всего жалеют. У нас есть модели от 83 до 538 л, а на странице холодильников работает подбор по высоте ниши и объёму."
+      ],
+      [
+        "No Frost или капельная система — что выбрать?",
+        "No Frost гонит воздух вентилятором: иней не нарастает, размораживать не нужно никогда, но воздух суше — овощи лучше держать в закрытом ящике. Капельная система дешевле и тише, зато раз в полгода холодильник придётся выключать и размораживать."
+      ],
+      [
+        "Занесёте ли холодильник на этаж?",
+        "Да. Доставка по Сумам — 400 грн, занос в квартиру входит в стоимость. Двухметровая колонна весит 70–95 кг, поэтому подъём без лифта согласуем заранее. Оплата — после получения и осмотра."
       ]
     ],
     "con_eye": "Контакты",
@@ -1343,7 +1365,11 @@
     "f_v421": "420+ л",
     "f_h190": "150–190 см",
     "f_h200": "190–200 см",
-    "f_h201": "200+ см"
+    "f_h201": "200+ см",
+    "u_and": "и",
+    "rev_all_google": "Все отзывы в Google",
+    "rev_on_google": "отзывов в Google",
+    "rev_leave": "Оставить отзыв"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -1535,16 +1561,13 @@
     "pay4h": "Bank transfer",
     "pay4p": "VAT invoice, full document package and closing acts for legal entities.",
     "pay4t": "VAT · documents",
-    "rev1": "We ordered a 9000 BTU TCL for the bedroom. Delivered and installed the same day, neatly, cleaned up after. They charged only after start-up. Very happy.",
-    "rev2": "We got a heat pump for a large room. The manager honestly recommended a model for the area, didn't push pricier options. Heats great in winter. Recommend.",
-    "rev3": "They quoted the price right away and fixed it, no hidden fees. Certified installers worked on the 7th floor. All clean and fast. Thanks for the service!",
     "faq_eye": "FAQ",
     "faq_h": "Frequently asked questions",
     "faq_sub": "Answers to what people ask most often.",
     "faq": [
       [
         "Is this the TexnoPlaza (ТехноПлаза) store in Sumy?",
-        "Yes. TexnoPlaza, ТехноПлаза and “Texno Plaza” are the same company, official site texnoplaza.sumy.ua. We are in Sumy at 2/1 Kharkivska St and sell air conditioners, washing machines, refrigerators and power stations with delivery, hook-up and turnkey installation."
+        "Yes. TexnoPlaza, ТехноПлаза and “Texno Plaza” are the same company, official site texnoplaza.sumy.ua. We are in Sumy at 2/1 Kharkivska St and sell air conditioners, washing machines, refrigerators, water heaters and power stations with delivery, hook-up and turnkey installation."
       ],
       [
         "Will I know the final price before work starts?",
@@ -1605,6 +1628,18 @@
       [
         "How fast does a power station recharge?",
         "From a wall socket the Fossibot F1800 accepts up to 1200 W — a full charge takes about an hour. You can also charge it from solar panels (up to 500 W) or from a car via XT60."
+      ],
+      [
+        "How many litres of fridge does a family need?",
+        "As a guide: 200–250 L for one or two people, 250–350 L for three, 350 L and up for four or more. If you shop once a week, buy larger — capacity is what people regret most. We stock 83 to 538 L, and the fridge page has a picker for niche height and volume."
+      ],
+      [
+        "No Frost or a drip system — which should I choose?",
+        "No Frost circulates air with a fan: no ice builds up and you never defrost it, but the air is drier, so keep vegetables in a closed drawer. A drip system is cheaper and quieter, but twice a year you have to switch the fridge off and defrost it."
+      ],
+      [
+        "Will you carry the fridge up to my flat?",
+        "Yes. Delivery in Sumy is 400 UAH and carrying it in is included. A two-metre column weighs 70–95 kg, so we agree a walk-up in advance. You pay after delivery, once you have looked it over."
       ]
     ],
     "con_eye": "Contacts",
@@ -2016,6 +2051,10 @@
     "f_v421": "420+ L",
     "f_h190": "150–190 cm",
     "f_h200": "190–200 cm",
-    "f_h201": "200+ cm"
+    "f_h201": "200+ cm",
+    "u_and": "and",
+    "rev_all_google": "All reviews on Google",
+    "rev_on_google": "reviews on Google",
+    "rev_leave": "Leave a review"
   }
 }

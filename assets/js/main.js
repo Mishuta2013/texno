@@ -296,7 +296,22 @@ function setupFilters(){
       if(attr==='bvol')activeBvol=v;if(attr==='heat')activeHeat=v;renderCatalog();});
   });
   renderBrandFilters();renderPriceFilters();
+  markScrollEdges();
 }
+/* Which end of a chip row still has something behind it. Re-read on scroll, on
+   resize, and after the brand and price rows are rebuilt for a new category. */
+function markScrollEdges(){
+  document.querySelectorAll('.filter-group').forEach(g=>{
+    const more=g.scrollWidth-g.clientWidth;
+    g.classList.toggle('fg-l',g.scrollLeft>4);
+    g.classList.toggle('fg-r',more>4&&g.scrollLeft<more-4);
+    if(!g.dataset.edgeBound){
+      g.dataset.edgeBound='1';
+      g.addEventListener('scroll',markScrollEdges,{passive:true});
+    }
+  });
+}
+addEventListener('resize',markScrollEdges);
 /* brand buttons follow the active category — every brand actually in stock, nothing stale */
 function renderBrandFilters(){
   const g=$('brand-filters'); if(!g) return;
@@ -326,7 +341,7 @@ function setActive(gid,attr,val){$(gid).querySelectorAll('.fbtn').forEach(b=>b.c
 function resetFilters(){activeBvol=activeHeat=activeCap=activePw=activeBrand=activeArea=activeType=activePrice=activeLoad=activeDepth=activeVol=activeHeight=activeTech='all';
   [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth'],['vol-filters','vol'],['height-filters','height'],['tech-filters','tech'],['cap-filters','cap'],['pw-filters','pw'],['bvol-filters','bvol'],['heat-filters','heat']].forEach(([g,a])=>{if($(g))setActive(g,a,'all');});
   const si2=$('search-input'),ss=$('sort-select');
-  if(si2)si2.value='';if(ss)ss.value='default';renderBrandFilters();renderPriceFilters();renderCatalog();}
+  if(si2)si2.value='';if(ss)ss.value='default';renderBrandFilters();renderPriceFilters();markScrollEdges();renderCatalog();}
 /* homepage catalog category tabs */
 function switchCat(cat){
   if(cat!=='all'&&!window.__CATS__[cat])return;
@@ -546,8 +561,42 @@ function applyCalc(){if(window.__CATALOG_CAT__!=='kondicioneri')switchCat('kondi
 
 /* ============ UI ============ */
 function toggleFaq(el){const it=el.parentElement;const open=it.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!open)it.classList.add('open');}
-function toggleNav(){document.getElementById('header').classList.toggle('nav-open');}
-document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>document.getElementById('header').classList.remove('nav-open')));
+/* The menu now dims the page behind it, so the page must stop scrolling while
+   it is open — otherwise the content slides under a static panel and the whole
+   thing reads as broken. Same body.style.overflow the modals use. */
+function setNav(open){
+  const h=document.getElementById('header'),nav=h.querySelector('nav');
+  /* Measure before locking the page: body{overflow:hidden} makes the body its
+     own scroll container, and the sticky header snaps back to its static offset
+     the moment it does. Read where the header really is first, then lock. */
+  h.classList.toggle('nav-open',open);
+  document.body.classList.toggle('nav-open',open);
+  const b=document.querySelector('.burger');
+  if(b)b.setAttribute('aria-expanded',open?'true':'false');
+  if(nav){
+    if(open){
+      /* How far down the panel starts is not a constant: the contact strip sits
+         above the header until the page scrolls past it. A fixed
+         "100dvh - 70px" left the last item under the fold with no way to reach
+         it, so measure the real position every time it opens. */
+      const top=nav.getBoundingClientRect().top;
+      nav.style.maxHeight=Math.max(220,window.innerHeight-top-10)+'px';
+    }else nav.style.maxHeight='';
+  }
+}
+function toggleNav(){setNav(!document.getElementById('header').classList.contains('nav-open'));}
+function closeNav(){setNav(false);}
+document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',closeNav));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('nav-open'))closeNav();});
+/* Mark where the visitor already is: the menu lists every category from every
+   page, and without this the current one looks like somewhere else to go. */
+(function markCurrent(){
+  const here=location.pathname.replace(/\/+$/,'')||'/';
+  document.querySelectorAll('.nav-cat').forEach(a=>{
+    const p=a.getAttribute('href').replace(/\/+$/,'')||'/';
+    if(p===here)a.setAttribute('aria-current','page');
+  });
+})();
 
 /* Anchor navigation that survives late layout shifts.
 

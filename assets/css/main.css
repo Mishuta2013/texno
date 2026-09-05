@@ -347,7 +347,25 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 /* The Google-reviews widget is loaded lazily by a third party. Reserving its
    real height keeps it from pushing FAQ and contacts ~500px down as it
    appears, which used to make the nav anchors land in the wrong place. */
-.rev-embed{margin-top:34px;min-height:704px}
+/* Our own reviews, replacing a third-party embed that could not be styled. */
+.rev-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:30px}
+.rev-score{display:flex;align-items:center;gap:16px}
+.rev-score-n{font-family:var(--disp);font-weight:800;font-size:46px;line-height:1;color:var(--ink)}
+.rev-score-c{font-size:13.5px;color:var(--g5);margin-top:4px}
+.rev-link{display:inline-flex;align-items:center;gap:9px;padding:12px 20px;border-radius:var(--r-pill);
+  border:1.5px solid var(--g2);background:var(--white);color:var(--ink);font-family:var(--disp);
+  font-weight:700;font-size:14.5px;text-decoration:none;transition:border-color .16s,background .16s,transform .16s}
+.rev-link:hover{border-color:var(--blue);background:var(--ice);transform:translateY(-1px)}
+.rev-link svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.rev-star-off{opacity:.26}
+.rev-date{display:block;font-size:12.5px;color:var(--g4);margin-top:2px}
+.rev-card blockquote{margin:0}
+.rev-links{display:flex;gap:10px;flex-wrap:wrap}
+.rev-link-2{background:var(--ice);border-color:transparent;color:var(--ink)}  /* --blue-d on --ice is 4.26:1, under the 4.5 small text needs */
+.rev-link-2:hover{background:var(--ice);border-color:var(--blue)}
+.rev-card{display:flex;flex-direction:column}
+.rev-card .rev-text{margin-bottom:0}
+.rev-card .rev-who{margin-top:18px}
 
 .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px}
 .rev-card{padding:26px 24px;border:1px solid var(--g2);border-radius:var(--r);background:var(--paper)}
@@ -534,10 +552,65 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
 /* 10 nav items (incl. the long AC-picker link) stop fitting → burger from 1380px;
    with nav collapsed there is room again, so the phone comes back until true mobile */
 @media(max-width:1380px){
-  nav{display:none}
   .header-in .h-phone{display:flex}
   .burger{display:flex}
-  .header.nav-open nav{display:flex;position:absolute;top:70px;left:0;right:0;flex-direction:column;background:var(--navy);padding:14px;gap:4px;border-bottom:1px solid rgba(124,196,255,.14);z-index:210;max-height:calc(100vh - 70px);overflow-y:auto}
+  /* The panel used to appear by flipping display:none to flex, and display is
+     the one property that cannot be animated — the menu simply blinked into
+     existence, which is what made it feel wooden. It is now always laid out
+     (absolutely, so it costs no space) and only its opacity and offset move. */
+  /* Absolute, hanging off the sticky header, so it travels with it. Fixed would
+     not help: the header carries a backdrop-filter, which makes it the
+     containing block for fixed children anyway. The page behind is held still
+     by the backdrop's touch-action rather than by locking body overflow —
+     locking it turns the body into its own scroll container and the sticky
+     header drops to its static offset, taking the menu with it. */
+  nav{display:flex;position:absolute;top:70px;left:0;right:0;flex-direction:column;
+    background:var(--navy);padding:14px;gap:2px;border-bottom:1px solid rgba(124,196,255,.14);
+    z-index:210;max-height:calc(100dvh - 70px);overflow-y:auto;-webkit-overflow-scrolling:touch;
+    opacity:0;visibility:hidden;transform:translateY(-12px);
+    box-shadow:0 18px 40px rgba(4,10,22,.45);
+    transition:opacity .2s ease,transform .26s cubic-bezier(.2,.8,.2,1),visibility .26s}
+  .header.nav-open nav{opacity:1;visibility:visible;transform:none}
+  nav a{padding:11px 12px;border-radius:var(--r-sm);transition:background .16s,color .16s}
+  nav a:active{background:rgba(124,196,255,.16)}
+  nav a[aria-current]{background:rgba(124,196,255,.14);color:#fff}
+
+  /* the five categories, first thing in the menu */
+  .nav-cats{display:flex;flex-direction:column;gap:2px;margin-bottom:10px;
+    padding-bottom:10px;border-bottom:1px solid rgba(124,196,255,.14)}
+  .nav-cat{display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:12px;border-radius:var(--r-sm);color:#fff;font-weight:600;text-decoration:none;
+    transition:background .16s}
+  .nav-cat:active{background:rgba(124,196,255,.16)}
+  .nav-cat[aria-current]{background:rgba(124,196,255,.14)}
+  .nav-cat em{font-style:normal;font-size:12.5px;font-weight:700;color:var(--frost);
+    background:rgba(124,196,255,.14);border-radius:var(--r-pill);padding:2px 9px;min-width:30px;text-align:center}
+
+  /* three bars fold into a cross so the button says what it will do */
+  .header.nav-open .burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .header.nav-open .burger span:nth-child(2){opacity:0;transform:scaleX(.3)}
+  .header.nav-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+  .nav-backdrop{position:fixed;inset:0;background:rgba(5,12,26,.55);z-index:205;touch-action:none;
+    opacity:0;visibility:hidden;transition:opacity .24s ease,visibility .24s;
+    -webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+  body.nav-open .nav-backdrop{opacity:1;visibility:visible}
+}
+@media(min-width:1381px){.nav-backdrop{display:none}}
+
+/* A row of filter chips wider than the screen scrolls sideways, but cut off at
+   the edge it just looks like a row that ends there — people never swipe it.
+   Fade the edge that still has chips behind it. The mask sits on the element
+   box, so it stays put while the content scrolls under it. */
+@media(max-width:1024px),(pointer:coarse){
+  .filter-group{scrollbar-width:none;-ms-overflow-style:none}
+  .filter-group::-webkit-scrollbar{display:none}
+  .filter-group.fg-r{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 30px),transparent);
+    mask-image:linear-gradient(90deg,#000 calc(100% - 30px),transparent)}
+  .filter-group.fg-l{-webkit-mask-image:linear-gradient(90deg,transparent,#000 30px);
+    mask-image:linear-gradient(90deg,transparent,#000 30px)}
+  .filter-group.fg-l.fg-r{-webkit-mask-image:linear-gradient(90deg,transparent,#000 30px,#000 calc(100% - 30px),transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 30px,#000 calc(100% - 30px),transparent)}
 }
 @media(max-width:760px){
   .header-in .h-phone{display:none}
