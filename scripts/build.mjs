@@ -729,6 +729,22 @@ function navCats() {
     `<a class="nav-cat" href="${curl(c)}"><span>${esc(lf(c, 'name'))}</span><em>${catProducts(c.key).length}</em></a>`
   ).join('') + '</div>';
 }
+/* Category cards carry an optional cover. Without one they render exactly as
+   before — an emoji tile beside the name — so the section is never half-dressed
+   while the pictures are still being made. */
+body = (() => {
+  let out = body;
+  for (const c of catList) {
+    if (!c.cover) continue;
+    const href = `href="${curl(c)}"`;
+    const i = out.indexOf(`<a class="cat-card reveal" ${href}>`);
+    if (i < 0) continue;
+    out = out.replace(`<a class="cat-card reveal" ${href}>`,
+      `<a class="cat-card cat-card-cover reveal" ${href}>` +
+      `<img class="cat-cover" src="${esc(av(c.cover))}" alt="" width="800" height="450" loading="lazy" decoding="async">`);
+  }
+  return out;
+})();
 body = body.replace('<!--NAV_CATS-->', navCats());
 /* Reviews were a third-party embed: a 704px-tall iframe from elfsightcdn that
    loaded on every page, could not be styled and read as somebody else's box
@@ -1333,7 +1349,8 @@ for (const cat of catList) {
 
 // ---- blog ----
 function blogCard(a) {
-  return `<a class="bl-card" data-tag="${esc(bg(a))}" href="${blogUrl(a)}">
+  return `<a class="bl-card${a.cover ? ' has-cover' : ''}" data-tag="${esc(bg(a))}" href="${blogUrl(a)}">
+    ${a.cover ? `<img class="bl-cover" src="${esc(av(a.cover))}" alt="" width="800" height="450" loading="lazy" decoding="async">` : ''}
     <div class="bl-tag">${esc(bg(a))}</div>
     <h2 class="bl-card-t">${esc(bt(a))}</h2>
     <p class="bl-card-d">${esc(bd(a))}</p>
@@ -1365,18 +1382,20 @@ function blogPost(a) {
   const jsonld = { '@context': 'https://schema.org', '@type': 'Article', headline: bt(a), description: bd(a),
     datePublished: a.date, dateModified: a.date, author: { '@type': 'Organization', name: site.name },
     publisher: { '@type': 'Organization', name: site.name, logo: { '@type': 'ImageObject', url: absImg('/assets/icons/icon-512.png') } },
-    mainEntityOfPage: abs(blogUrl(a)), image: absImg(`/assets/og/default${L === 'uk' ? '' : '-' + L}.jpg`) };
+    mainEntityOfPage: abs(blogUrl(a)),
+    image: absImg(a.cover ? `/assets/og/blog-${a.slug}.jpg` : `/assets/og/default${L === 'uk' ? '' : '-' + L}.jpg`) };
   const crumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
     { '@type': 'ListItem', position: 1, name: t('pp_home'), item: abs(pfx() + '/') },
     { '@type': 'ListItem', position: 2, name: t('nav_blog'), item: abs(pfx() + '/blog/') },
     { '@type': 'ListItem', position: 3, name: bt(a), item: abs(blogUrl(a)) } ] };
   return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
-${head({ title: btSeo(a), desc: bd(a), canonical: abs(blogUrl(a)), ogTitle: bt(a), altPath: `/blog/${a.slug}/`, altLangs: BLOG_LANGS, jsonld })}
+${head({ title: btSeo(a), desc: bd(a), canonical: abs(blogUrl(a)), ogTitle: bt(a), ogImage: a.cover ? absImg(`/assets/og/blog-${a.slug}.jpg`) : undefined, altPath: `/blog/${a.slug}/`, altLangs: BLOG_LANGS, jsonld })}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
 </head><body>${GTM_NS}
 ${HEADER}
 <article class="pp-wrap bl-article">
   <nav class="pp-bc"><a href="${pfx() + '/'}">${esc(t("pp_home"))}</a> › <a href="${pfx()}/blog/">${esc(t("nav_blog"))}</a> › <span>${esc(bg(a))}</span></nav>
+  ${a.cover ? `<img class="bl-art-cover" src="${esc(av(a.cover))}" alt="" width="800" height="450" fetchpriority="high" decoding="async">` : ''}
   <div class="bl-tag">${esc(bg(a))}</div>
   <h1 class="bl-art-h1">${esc(bt(a))}</h1>
   <div class="bl-meta">${new Date(a.date).toLocaleDateString(L === 'ru' ? 'ru-RU' : 'uk-UA', { day: 'numeric', month: 'long', year: 'numeric' })} · ${a.read} ${esc(t('blog_read'))}</div>
