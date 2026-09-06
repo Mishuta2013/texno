@@ -1095,10 +1095,12 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 /* Covers make each category card ~270px taller. On a phone that turned a 570px
    section into 1900px of scrolling, so once there are covers the cards go 2-up
    and the photo takes over the job the emoji chip was doing. The odd last card
-   spans the row instead of sitting alone at half width. */
+   spans the row instead of sitting alone at half width. The build stamps
+   .has-covers on the grid: selecting this with :has() left every browser
+   without that selector on the tall one-per-row layout. */
 @media(max-width:640px){
-  .cats-grid:has(.cat-card-cover){grid-template-columns:repeat(2,1fr);gap:12px}
-  .cats-grid:has(.cat-card-cover) .cat-card-cover:last-child:nth-child(odd){grid-column:1/-1}
+  .cats-grid.has-covers{grid-template-columns:repeat(2,1fr);gap:12px}
+  .cats-grid.has-covers .cat-card-cover:last-child:nth-child(odd){grid-column:1/-1}
   .cat-card-cover .cat-ic{display:none}
   .cat-card-cover .cat-tx{padding:10px 13px 0}
   .cat-card-cover .cat-go{padding:7px 13px 13px}
@@ -1119,8 +1121,8 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 /* the shelf the article was written about, at the end of the article */
 .bl-prods{margin-top:36px;border-top:1px solid var(--g2);padding-top:28px}
 .bl-prods h2{font-family:var(--disp);font-size:21px;font-weight:800;color:var(--ink);margin-bottom:18px}
-.bl-prods-all{display:inline-block;margin-top:16px;font-family:var(--disp);font-weight:700;font-size:14.5px;
-  color:var(--blue-d);text-decoration:none}
+.bl-prods-all{display:inline-block;margin-top:12px;padding:5px 0;font-family:var(--disp);font-weight:700;
+  font-size:14.5px;color:var(--blue-d);text-decoration:none}
 .bl-prods-all:hover{text-decoration:underline}
 .bl-tag{display:inline-block;align-self:flex-start;font-family:var(--disp);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--blue-d);background:var(--ice);padding:5px 11px;border-radius:var(--r-pill);margin-bottom:13px}
 .bl-card-t{font-family:var(--disp);font-size:18px;font-weight:800;color:var(--ink);line-height:1.3;margin-bottom:9px}
@@ -1210,7 +1212,10 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 .pp-sticky{display:none}
 @media(max-width:760px){
   /* the product page gets its own bottom bar, so the global one steps aside */
-  body:has(.pp-sticky) .mcta{display:none}
+  /* the product page's own bar replaces the global one. A sibling combinator,
+     not :has(): both bars are children of <body> with the sticky one first, and
+     a browser without :has() would otherwise stack the two on top of each other */
+  .pp-sticky ~ .mcta{display:none}
   .pp-sticky{display:flex;align-items:center;gap:12px;position:fixed;left:0;right:0;bottom:0;z-index:130;
     padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:var(--bar-bg);
     backdrop-filter:blur(10px);border-top:1px solid var(--g2);box-shadow:0 -8px 26px rgba(11,26,51,.1)}

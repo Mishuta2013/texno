@@ -734,15 +734,27 @@ function navCats() {
    while the pictures are still being made. */
 body = (() => {
   let out = body;
-  for (const c of catList) {
-    if (!c.cover) continue;
+  const withCover = catList.filter(c => c.cover);
+  for (const c of withCover) {
     const href = `href="${curl(c)}"`;
     const i = out.indexOf(`<a class="cat-card reveal" ${href}>`);
     if (i < 0) continue;
+    /* Two widths. On a phone the grid is 2-up, so a card is about 46vw — a 400px
+       file covers that at 2x, and the odd last card, which spans the row, gets a
+       sizes of its own rather than a soft picture. */
+    const last = withCover.length % 2 === 1 && c === withCover[withCover.length - 1];
+    const sizes = last ? '(max-width:640px) 92vw, (max-width:1000px) 46vw, 380px'
+                       : '(max-width:1000px) 46vw, 380px';
+    const small = c.cover.replace(/\.webp$/, '@400.webp');
     out = out.replace(`<a class="cat-card reveal" ${href}>`,
       `<a class="cat-card cat-card-cover reveal" ${href}>` +
-      `<img class="cat-cover" src="${esc(av(c.cover))}" alt="" width="800" height="450" loading="lazy" decoding="async">`);
+      `<img class="cat-cover" src="${esc(av(c.cover))}" srcset="${esc(av(small))} 400w, ${esc(av(c.cover))} 800w"` +
+      ` sizes="${sizes}" alt="" width="800" height="450" loading="lazy" decoding="async">`);
   }
+  /* The 2-up phone layout used to be selected with :has(). A browser without it
+     silently fell back to one tall card per row — which is exactly the endless
+     scrolling this was meant to fix — so the grid is told here instead. */
+  if (withCover.length) out = out.replace('<div class="cats-grid">', '<div class="cats-grid has-covers">');
   return out;
 })();
 body = body.replace('<!--NAV_CATS-->', navCats());
