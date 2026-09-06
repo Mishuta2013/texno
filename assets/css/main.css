@@ -1088,7 +1088,10 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 /* two classes on purpose: the ≤640px and ≤400px rules below set .cat-card{padding},
    and a single-class rule here would lose to them on source order */
 .cat-card.cat-card-cover{flex-direction:column;align-items:stretch;gap:0;padding:0;overflow:hidden}
-.cat-cover{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--g1)}
+/* 2.35:1, not 16:9: the cover is atmosphere above the label, and at 16:9 it ate
+   more than half the card. The placeholder is the artwork's own edge navy, so a
+   lazily loaded cover does not flash a pale box first. */
+.cat-cover{width:100%;height:auto;aspect-ratio:40/17;object-fit:cover;display:block;background:#08172D}
 .cat-card-cover .cat-ic{margin:16px 0 0 20px}
 .cat-card-cover .cat-tx{padding:10px 20px 0}
 .cat-card-cover .cat-go{padding:8px 20px 18px}

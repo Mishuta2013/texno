@@ -749,7 +749,7 @@ body = (() => {
     out = out.replace(`<a class="cat-card reveal" ${href}>`,
       `<a class="cat-card cat-card-cover reveal" ${href}>` +
       `<img class="cat-cover" src="${esc(av(c.cover))}" srcset="${esc(av(small))} 400w, ${esc(av(c.cover))} 800w"` +
-      ` sizes="${sizes}" alt="" width="800" height="450" loading="lazy" decoding="async">`);
+      ` sizes="${sizes}" alt="" width="800" height="340" loading="lazy" decoding="async">`);
   }
   /* The 2-up phone layout used to be selected with :has(). A browser without it
      silently fell back to one tall card per row — which is exactly the endless
