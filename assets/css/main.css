@@ -1,12 +1,19 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   --navy:#0B1A33;--navy-2:#10254A;--navy-3:#16315E;
-  --blue:#2E8BFF;--blue-d:#1C6FE0;--frost:#7CC4FF;--ice:#E9F3FF;
+  --blue:#2E8BFF;--blue-d:#1560C4;--frost:#7CC4FF;--ice:#E9F3FF;
   --amber:#FF7A29;--amber-d:#E8631A;
+  /* White on #FF7A29 measures 2.6:1 and on #2E8BFF 3.36:1 — both under the 4.5
+     WCAG AA wants, and white on the WhatsApp green only 1.98:1. Those brand
+     colours keep their hue and take dark text instead; the
+     primary button gets a blue deep enough for white. Neither is re-themed:
+     the button colours are the same in light and dark, so one value is right
+     for both. */
+  --on-bright:#0E1726;--cta:#1668D6;
   --paper:#F7FAFD;--white:#fff;--card:#fff;--line:#E1E9F3;--blue-a:#EAF3FF;
   --stripe:rgba(233,243,255,.45);--chip-line:#C9E2FB;--bar-bg:rgba(255,255,255,.97);
-  --g1:#EEF3F9;--g2:#E1E9F3;--g3:#C6D2E2;--g4:#8597AE;--g5:#4D5E76;--ink:#0E1726;
-  --green:#16A34A;--green-bg:#DCFCE7;
+  --g1:#EEF3F9;--g2:#E1E9F3;--g3:#C6D2E2;--g4:#5F708A;--g5:#4D5E76;--ink:#0E1726;
+  --green:#15803D;--green-bg:#DCFCE7;
   --r:14px;--r-sm:10px;--r-lg:22px;--r-pill:999px;
   --sh-sm:0 1px 2px rgba(11,26,51,.06),0 2px 8px rgba(11,26,51,.05);
   --sh:0 4px 14px rgba(11,26,51,.08),0 10px 34px rgba(11,26,51,.07);
@@ -82,7 +89,7 @@ nav a:hover{color:#fff;background:rgba(124,196,255,.1)}
 }
 .h-phone{color:#fff;font-family:var(--disp);font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;white-space:nowrap}
 .h-phone svg{width:16px;height:16px;stroke:var(--frost)}
-.btn-cb{background:var(--amber);color:#fff;padding:10px 18px;border-radius:var(--r-sm);font-size:14px;font-weight:700;font-family:var(--disp);transition:.18s;box-shadow:0 6px 18px rgba(255,122,41,.32)}
+.btn-cb{background:var(--amber);color:var(--on-bright);padding:10px 18px;border-radius:var(--r-sm);font-size:14px;font-weight:700;font-family:var(--disp);transition:.18s;box-shadow:0 6px 18px rgba(255,122,41,.32)}
 .btn-cb:hover{background:var(--amber-d);transform:translateY(-1px)}
 .burger{display:none;background:rgba(124,196,255,.12);border-radius:var(--r-sm);width:42px;height:42px;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px}
 .burger span{display:block;width:20px;height:2px;background:#fff;border-radius:2px;transition:.3s}
@@ -101,7 +108,7 @@ nav a:hover{color:#fff;background:rgba(124,196,255,.1)}
 .hero h1 .grad{background:linear-gradient(100deg,#7CC4FF,#2E8BFF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .hero-sub{color:rgba(233,243,255,.74);font-size:17.5px;max-width:500px;margin-bottom:30px}
 .hero-ctas{display:flex;gap:13px;flex-wrap:wrap;margin-bottom:34px}
-.btn-primary{background:var(--blue);color:#fff;padding:15px 28px;border-radius:12px;font-size:16px;font-weight:700;font-family:var(--disp);transition:.2s;box-shadow:var(--sh-blue);display:inline-flex;align-items:center;gap:9px}
+.btn-primary{background:var(--cta);color:#fff;padding:15px 28px;border-radius:12px;font-size:16px;font-weight:700;font-family:var(--disp);transition:.2s;box-shadow:var(--sh-blue);display:inline-flex;align-items:center;gap:9px}
 .btn-primary:hover{background:var(--blue-d);transform:translateY(-2px);box-shadow:0 14px 36px rgba(46,139,255,.4)}
 .btn-ghost{background:rgba(255,255,255,.06);color:#fff;padding:15px 26px;border-radius:12px;font-size:16px;font-weight:600;font-family:var(--disp);border:1.5px solid rgba(124,196,255,.3);transition:.2s;display:inline-flex;align-items:center;gap:9px}
 .btn-ghost:hover{background:rgba(124,196,255,.14);border-color:rgba(124,196,255,.55)}
@@ -147,11 +154,11 @@ nav a:hover{color:#fff;background:rgba(124,196,255,.1)}
 .gc-r .v{font-family:var(--disp);font-weight:800;font-size:21px;color:#fff}
 .gc-r .v small{font-size:12px;color:var(--frost);font-weight:600}
 .gc-r .k{font-size:11px;color:rgba(233,243,255,.5);margin-top:3px}
-.gc-tag{position:absolute;top:-13px;right:22px;background:var(--blue);color:#fff;font-family:var(--disp);font-size:12px;font-weight:700;padding:6px 14px;border-radius:var(--r-pill);box-shadow:0 8px 20px rgba(46,139,255,.4)}
+.gc-tag{position:absolute;top:-13px;right:22px;background:var(--cta);color:#fff;font-family:var(--disp);font-size:12px;font-weight:700;padding:6px 14px;border-radius:var(--r-pill);box-shadow:0 8px 20px rgba(46,139,255,.4)}
 /* three hero hits: slightly tighter than .two so the column stays reasonable */
 .hero-vis.two.hv3{gap:16px}
 .hero-vis.two.hv3 .gc-img{height:118px}
-.gc-tag-new{background:var(--amber);box-shadow:0 8px 20px rgba(255,122,41,.4)}
+.gc-tag-new{background:var(--amber);color:var(--on-bright);box-shadow:0 8px 20px rgba(255,122,41,.4)}
 /* two hit-cards in hero: compact stack */
 .hero-vis.two{display:flex;flex-direction:column;gap:22px}
 .hero-vis.two .gauge-card{position:relative;padding:18px}
@@ -228,7 +235,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .calc-result .cr-big span{font-size:15px;color:var(--frost);font-weight:600}
 .calc-result .cr-txt{font-size:13.5px;color:rgba(233,243,255,.7);line-height:1.45}
 .calc-result .cr-txt b{color:#fff}
-.btn-calc{width:100%;background:var(--amber);color:#fff;padding:15px;border-radius:12px;font-family:var(--disp);font-weight:700;font-size:16px;transition:.2s;box-shadow:0 8px 22px rgba(255,122,41,.34)}
+.btn-calc{width:100%;background:var(--amber);color:var(--on-bright);padding:15px;border-radius:12px;font-family:var(--disp);font-weight:700;font-size:16px;transition:.2s;box-shadow:0 8px 22px rgba(255,122,41,.34)}
 .btn-calc:hover{background:var(--amber-d);transform:translateY(-2px)}
 
 /* ============ FILTERS / CATALOG ============ */
@@ -286,7 +293,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .cstock{position:absolute;top:12px;right:12px;font-size:11px;font-weight:600;color:var(--green);background:var(--green-bg);padding:5px 10px;border-radius:var(--r-pill);display:flex;align-items:center;gap:5px;z-index:2}
 .cstock i{width:6px;height:6px;border-radius:50%;background:var(--green)}
 .card-body{padding:16px 17px 17px;display:flex;flex-direction:column;flex:1}
-.card-brand{display:inline-block;font-family:var(--disp);font-size:12px;font-weight:700;color:var(--blue);letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px;text-decoration:none}
+.card-brand{display:inline-block;font-family:var(--disp);font-size:12px;font-weight:700;color:var(--blue-d);letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px;text-decoration:none}
 .card-brand:hover{color:var(--blue-d);text-decoration:underline}
 .card-name{font-family:var(--disp);font-size:14.5px;font-weight:600;color:var(--ink);line-height:1.35;margin-bottom:12px;min-height:39px;overflow-wrap:anywhere}
 .card-specs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
@@ -295,7 +302,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .card-price{font-family:var(--disp);font-size:25px;font-weight:800;color:var(--ink);margin-bottom:13px;letter-spacing:-.01em}
 .card-price small{font-size:13px;font-weight:600;color:var(--g4)}
 .card-act{display:flex;gap:8px}
-.btn-order{flex:1;background:var(--blue);color:#fff;padding:11px;border-radius:var(--r-sm);font-family:var(--disp);font-weight:700;font-size:13.5px;transition:.16s}
+.btn-order{flex:1;background:var(--cta);color:#fff;padding:11px;border-radius:var(--r-sm);font-family:var(--disp);font-weight:700;font-size:13.5px;transition:.16s}
 .btn-order:hover{background:var(--blue-d)}
 .btn-det{padding:11px 14px;border-radius:var(--r-sm);background:var(--g1);color:var(--g5);font-family:var(--disp);font-weight:600;font-size:13.5px;transition:.16s}
 .btn-det:hover{background:var(--g2);color:var(--ink)}
@@ -459,7 +466,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);background:rgba(255,255,255,.1)}
 .field select option{background:var(--navy);color:#fff}
 .field textarea{resize:vertical;min-height:74px}
-.btn-submit{width:100%;background:var(--amber);color:#fff;padding:15px;border-radius:var(--r-sm);font-family:var(--disp);font-weight:700;font-size:16px;transition:.2s;box-shadow:0 8px 22px rgba(255,122,41,.32)}
+.btn-submit{width:100%;background:var(--amber);color:var(--on-bright);padding:15px;border-radius:var(--r-sm);font-family:var(--disp);font-weight:700;font-size:16px;transition:.2s;box-shadow:0 8px 22px rgba(255,122,41,.32)}
 .btn-submit:hover{background:var(--amber-d);transform:translateY(-2px)}
 .form-note{font-size:12px;color:rgba(233,243,255,.45);margin-top:12px;text-align:center}
 .success{display:none;text-align:center;padding:30px 10px;position:relative}
@@ -518,7 +525,7 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
 .m-spec .v{font-family:var(--disp);font-weight:700;font-size:14.5px;color:var(--ink)}
 .m-desc{font-size:14px;color:var(--g5);line-height:1.6;margin-bottom:22px;max-height:160px;overflow:auto;padding-right:8px}
 .m-ctas{display:flex;flex-direction:column;gap:10px}
-.btn-m-order{background:var(--blue);color:#fff;padding:14px;border-radius:var(--r-sm);font-family:var(--disp);font-weight:700;font-size:15.5px;transition:.16s}
+.btn-m-order{background:var(--cta);color:#fff;padding:14px;border-radius:var(--r-sm);font-family:var(--disp);font-weight:700;font-size:15.5px;transition:.16s}
 .btn-m-order:hover{background:var(--blue-d)}
 .btn-m-wa{display:flex;align-items:center;justify-content:center;gap:9px;background:#25D366;color:#fff;padding:14px;border-radius:var(--r-sm);font-family:var(--disp);font-weight:700;font-size:15.5px;transition:.16s}
 .btn-m-wa:hover{background:#1eb955}
@@ -644,7 +651,7 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
 .h-tools{display:flex;align-items:center;gap:10px}
 .lang-switch{display:flex;background:rgba(124,196,255,.1);border-radius:var(--r-pill);padding:3px;gap:2px}
 .lang-btn{font-family:var(--disp);font-weight:700;font-size:12px;color:rgba(255,255,255,.6);padding:5px 9px;border-radius:var(--r-pill);transition:.15s;background:none;text-transform:uppercase}
-.lang-btn.active{background:var(--blue);color:#fff}
+.lang-btn.active{background:var(--cta);color:#fff}
 .lang-btn:hover:not(.active){color:#fff}
 /* favorite heart on card */
 .card-fav{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;z-index:4;transition:.16s;box-shadow:var(--sh-sm)}
@@ -684,7 +691,7 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
 .cmp-th img{width:100%;height:100%;object-fit:contain;padding:4px}
 .cmp-th .x{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:#FF3B6B;color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;border:2px solid var(--navy)}
 .cmp-actions{display:flex;gap:10px;flex-shrink:0}
-.btn-cmp-open{background:var(--amber);color:#fff;padding:11px 20px;border-radius:var(--r-sm);font-family:var(--disp);font-weight:700;font-size:14px;transition:.16s}
+.btn-cmp-open{background:var(--amber);color:var(--on-bright);padding:11px 20px;border-radius:var(--r-sm);font-family:var(--disp);font-weight:700;font-size:14px;transition:.16s}
 .btn-cmp-open:hover{background:var(--amber-d)}
 .btn-cmp-clear{background:rgba(255,255,255,.1);color:#fff;padding:11px 16px;border-radius:var(--r-sm);font-family:var(--disp);font-weight:600;font-size:14px;transition:.16s}
 .btn-cmp-clear:hover{background:rgba(255,255,255,.18)}
@@ -722,7 +729,7 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
 .qbuy-backdrop.show{display:block}
 
 /* quick-buy button on card */
-.btn-buy{flex:1;background:var(--amber);color:#fff;padding:11px;border-radius:var(--r-sm);font-family:var(--disp);font-weight:700;font-size:13.5px;transition:.16s;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-buy{flex:1;background:var(--amber);color:var(--on-bright);padding:11px;border-radius:var(--r-sm);font-family:var(--disp);font-weight:700;font-size:13.5px;transition:.16s;display:flex;align-items:center;justify-content:center;gap:6px}
 .btn-buy:hover{background:var(--amber-d)}
 .btn-buy svg{width:15px;height:15px;fill:#fff}
 .card-act{flex-wrap:wrap}
@@ -837,7 +844,7 @@ a.gauge-card:hover{transform:translateY(-4px)}
 .pp-thumb{aspect-ratio:1;border:2px solid var(--g2);border-radius:10px;overflow:hidden;background:linear-gradient(160deg,#F4F8FD,#E4EDF8);cursor:pointer;padding:0}
 .pp-thumb.active{border-color:var(--blue)}
 .pp-thumb img{width:100%;height:100%;object-fit:contain;padding:6px}
-.pp-brand{display:inline-block;font-family:var(--disp);font-weight:700;font-size:13px;color:var(--blue);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;text-decoration:none}
+.pp-brand{display:inline-block;font-family:var(--disp);font-weight:700;font-size:13px;color:var(--blue-d);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;text-decoration:none}
 .pp-brand:hover{color:var(--blue-d);text-decoration:underline}
 .pp-title{font-family:var(--disp);font-size:clamp(22px,3vw,30px);font-weight:800;color:var(--ink);line-height:1.2;margin-bottom:16px}
 .pp-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
@@ -846,7 +853,7 @@ a.gauge-card:hover{transform:translateY(-4px)}
 .pp-price span{font-size:18px;color:var(--g4)}
 .pp-instal{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;color:var(--blue-d);background:var(--ice);border:1px solid var(--chip-line);border-radius:var(--r-pill);padding:7px 14px;margin:12px 0 22px}.pp-instal b{color:var(--ink)}
 .pp-cta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:22px}
-.btn-wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;padding:15px 24px;border-radius:12px;font-family:var(--disp);font-weight:700;font-size:16px;transition:.18s}
+.btn-wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:var(--on-bright);padding:15px 24px;border-radius:12px;font-family:var(--disp);font-weight:700;font-size:16px;transition:.18s}
 .btn-wa:hover{background:#1eb955;transform:translateY(-2px)}
 .btn-ghost2{display:inline-flex;align-items:center;padding:15px 22px;border-radius:12px;border:1.5px solid var(--g3);font-family:var(--disp);font-weight:700;font-size:16px;color:var(--ink);transition:.18s}
 .btn-ghost2:hover{border-color:var(--blue);color:var(--blue-d)}
@@ -1001,10 +1008,13 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
   .mcta-b{display:flex;align-items:center;justify-content:center;gap:5px;height:46px;border-radius:12px;
     font-family:var(--disp);font-weight:700;font-size:12.5px;color:#fff;text-decoration:none;border:none;cursor:pointer;white-space:nowrap;padding:0 4px;overflow:hidden}
   .mcta-b svg{width:16px;height:16px;fill:currentColor;flex:0 0 auto}
-  .mcta-b.call{background:var(--blue)}
-  .mcta-b.wa{background:#25D366}
-  .mcta-b.vb{background:#7360F2}
-  .mcta-b.qz{background:var(--amber)}
+  /* Same story as the buttons above: white on these brand colours measured
+     3.36, 1.98, 4.48 and 2.60. The green and the amber keep their hue and take
+     dark text; the blue and the violet go a shade deeper so white can stay. */
+  .mcta-b.call{background:var(--cta)}
+  .mcta-b.wa{background:#25D366;color:var(--on-bright)}
+  .mcta-b.vb{background:#5340C4}
+  .mcta-b.qz{background:var(--amber);color:var(--on-bright)}
   .mcta-b:active{transform:scale(.97)}
 }
 @media(max-width:430px){
