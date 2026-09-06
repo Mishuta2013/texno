@@ -59,6 +59,10 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:800;line-height:1.12;letter-spac
 .logo{display:flex;align-items:center;flex-shrink:0}
 .logo img{height:34px;width:auto}
 nav{display:flex;gap:2px;flex:1;min-width:0}
+/* The category shortcuts belong to the phone menu only. Left unstyled they
+   spilled into the desktop header bar as nine more inline links and ran over
+   the phone number and the call-back button. */
+.nav-cats{display:none}
 /* the header shares the 1220px content column, so the nav is sized to fit it at
    every viewport width — not only under the breakpoints below */
 nav a{color:rgba(255,255,255,.72);font-size:13.5px;font-weight:500;padding:8px 7px;border-radius:var(--r-sm);transition:.18s;white-space:nowrap;position:relative}
