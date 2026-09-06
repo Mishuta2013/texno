@@ -39,6 +39,10 @@ PLAN = {
  "LG GC-B509EMLM": ("lg-gc-b509emlm", [2,20,12,3,10,14,4,15,11,8,19,7,9,17]),
  "LG GC-B509EMTM": ("lg-gc-b509emtm", [5,1,2,20,6,16,8,7,17,12,10,13,11,4]),
  "LG GC-B509EQTM": ("lg-gc-b509eqtm", [1,10,11,19,2,14,4,3,15,9,7,18,8,16]),
+ # ETSM arrived later than the rest: the folder was still empty on the first pass.
+ # Frames are medium01..15 — closed front, three closed angles, the doors open,
+ # interior details, the back last.
+ "LG GC-B509ETSM": ("lg-gc-b509etsm", [1,10,12,13,3,11,2,4,5,9,6,7,8,15,14]),
  "LG GC-B509FTZW": ("lg-gc-b509ftzw", [2,10,11,3,6,4,17,20,7,14,9,16,18,5]),
  "LG GC-B509SESM": ("lg-gc-b509sesm", [1,2,14,3,7,5,4,6,11,8,9,12,13,10]),
 

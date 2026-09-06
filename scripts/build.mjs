@@ -1244,37 +1244,32 @@ ${injectData(catalogData)}
 </body></html>`;
 }
 
-/* Two articles that answer what someone browsing this category is weighing up.
-   Matched on the tags each category cares about, newest first, so a new article
-   joins the rotation without an edit here. */
-const CAT_TAGS = {
-  kondicioneri: ['Підбір', 'Поради', 'Монтаж', 'Опалення', 'Сервіс'],
-  'pralni-mashyny': ['Підбір', 'Поради'],
-  holodylnyky: ['Підбір', 'Поради'],
-  'zaryadni-stantsii': ['Живлення']
-};
-const CAT_ARTICLE_MATCH = {
-  kondicioneri: /kondicioner|invertor-chy-on-off/i,
-  'pralni-mashyny': /pralnu|pralna|prannia/i,
-  holodylnyky: /kholodylnyk|no-frost/i,
-  'zaryadni-stantsii': /stantsi/i
-};
+/* The articles that answer what someone browsing this category is weighing up.
+   Each one names its category in data/blog.json, so this is a lookup rather
+   than the slug-pattern guessing it replaces: a new article reaches the right
+   category page by filling in one field, and can never land on the wrong one. */
+/* An article always has a shelf behind it. Falls back to air conditioners only
+   so an article added without the field still renders something sensible. */
+const artCat = a => CATS[a.cat] || CATS['kondicioneri'];
+/* A reader who has just worked out what to look for should not have to go
+   hunting for the shelf, so the article ends on products from its own category,
+   in the order the catalogue itself shows them. Three, because that is what
+   .grid-rel lays out in one row and what the product pages already show. */
+function artProducts(a) {
+  const cat = artCat(a);
+  const list = mixedOrder(catProducts(a.cat)).slice(0, 3);
+  if (!list.length) return '';
+  return `<section class="bl-prods">
+    <h2>${esc(t('bl_prods_h'))}</h2>
+    <div class="grid grid-rel">${list.map(card).join('')}</div>
+    <a class="bl-prods-all" href="${curl(cat)}">${esc(t('bl_prods_all'))} ${esc(lf(cat, 'name').toLowerCase())} →</a>
+  </section>`;
+}
 function catArticles(catKey) {
   // English has no articles, and a translated page must not offer headlines
   // in a language the reader did not choose
   if (!BLOG_LANGS.includes(L)) return '';
-  const re = CAT_ARTICLE_MATCH[catKey];
-  let list = re ? blog.filter(a => re.test(a.slug)) : [];
-  if (list.length < 2) {
-    // fall back on tags, but never borrow an article that plainly belongs to
-    // another category — a washing-machine page offering "what an air
-    // conditioner costs to run" reads like a mistake, because it is one
-    const others = Object.entries(CAT_ARTICLE_MATCH).filter(([k]) => k !== catKey).map(([, r]) => r);
-    const tags = CAT_TAGS[catKey] || [];
-    list = list.concat(blog.filter(a =>
-      !list.includes(a) && tags.includes(a.tag) && !others.some(r => r.test(a.slug))));
-  }
-  list = list.slice(0, 2);
+  const list = blog.filter(a => a.cat === catKey).slice(0, 3);
   if (!list.length) return '';
   return `<div class="cat-reads">
     <h2>${esc(t('cat_reads'))}</h2>
@@ -1363,7 +1358,7 @@ for (const cat of catList) {
 function blogCard(a) {
   return `<a class="bl-card${a.cover ? ' has-cover' : ''}" data-tag="${esc(bg(a))}" href="${blogUrl(a)}">
     ${a.cover ? `<img class="bl-cover" src="${esc(av(a.cover))}" alt="" width="800" height="450" loading="lazy" decoding="async">` : ''}
-    <div class="bl-tag">${esc(bg(a))}</div>
+    <div class="bl-chips"><span class="bl-tag">${esc(bg(a))}</span><span class="bl-ccat">${esc(lf(artCat(a), 'name'))}</span></div>
     <h2 class="bl-card-t">${esc(bt(a))}</h2>
     <p class="bl-card-d">${esc(bd(a))}</p>
     <span class="bl-more">${esc(t("blog_more"))}</span></a>`;
@@ -1408,11 +1403,12 @@ ${HEADER}
 <article class="pp-wrap bl-article">
   <nav class="pp-bc"><a href="${pfx() + '/'}">${esc(t("pp_home"))}</a> › <a href="${pfx()}/blog/">${esc(t("nav_blog"))}</a> › <span>${esc(bg(a))}</span></nav>
   ${a.cover ? `<img class="bl-art-cover" src="${esc(av(a.cover))}" alt="" width="800" height="450" fetchpriority="high" decoding="async">` : ''}
-  <div class="bl-tag">${esc(bg(a))}</div>
+  <div class="bl-chips"><span class="bl-tag">${esc(bg(a))}</span><a class="bl-cat" href="${curl(artCat(a))}">${esc(lf(artCat(a), 'name'))}</a></div>
   <h1 class="bl-art-h1">${esc(bt(a))}</h1>
   <div class="bl-meta">${new Date(a.date).toLocaleDateString(L === 'ru' ? 'ru-RU' : 'uk-UA', { day: 'numeric', month: 'long', year: 'numeric' })} · ${a.read} ${esc(t('blog_read'))}</div>
   <div class="bl-body">${bh(a)}</div>
-  <div class="bl-cta"><a class="btn-primary" href="${pfx()}/#catalog">${esc(t('blog_cta1'))}</a> <a class="btn-ghost2" href="${pfx()}/kondicioner/">${esc(lf(CATS['kondicioneri'],'name'))}</a></div>
+  ${artProducts(a)}
+  <div class="bl-cta"><a class="btn-primary" href="${pfx()}/#catalog">${esc(t('blog_cta1'))}</a> <a class="btn-ghost2" href="${curl(artCat(a))}">${esc(lf(artCat(a), 'name'))}</a></div>
   ${others.length ? `<div class="bl-related"><h2>${esc(t("blog_also"))}</h2><div class="bl-grid">${others.map(blogCard).join('')}</div></div>` : ''}
   <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
 </article>
