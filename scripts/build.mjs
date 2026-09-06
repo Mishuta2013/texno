@@ -920,9 +920,21 @@ ${(() => {
        of that, so the ", монтаж під ключ" tail was never visible — it only
        pushed the title to 97 characters. Add it only when there is room. */
     title: (() => {
-      const base = t('pp_buy_t').replace('{name}', nm);
+      /* Even the bare name can outrun those 65 characters: "Кондиціонер TCL
+         TAC-09CHSD/XA82I Black Inverter R32 Wi-Fi" is 57 on its own. What
+         overflows is always the descriptive tail — colour, refrigerant, Wi-Fi,
+         wattage — never the brand or the model code, so drop those words from
+         the end until the name fits and Google shows a whole phrase instead of
+         cutting one mid-word. Anything not on this list stays. */
+      const DROP = /^(wi-?fi|ready|r-?32|r-?410a?|inverter|інверторний|инверторный|heatpump|heat|pump|ai|black|white|silver|grey|gray|чорний|білий|сірий|черный|белый|серый|\d+(w|вт|kw|квт))$/i;
+      const fit = (() => {
+        const w = nm.split(' ');
+        while (w.length > 2 && w.join(' ').length > 65 - TITLE_PREFIX.length && DROP.test(w[w.length - 1])) w.pop();
+        return w.join(' ');
+      })();
+      const base = t('pp_buy_t').replace('{name}', fit);
       const tail = cat.install ? t('pp_buy_install') : '';
-      const short = t('pp_buy_short').replace('{name}', nm);
+      const short = t('pp_buy_short').replace('{name}', fit);
       /* Longest form that still fits, counting the "TexnoPlaza — " that head()
          puts in front. Model names like "TAC-09CHSD/XA82I Black Inverter R32
          Wi-Fi" spend the whole budget on their own; when the full "— купити в
@@ -930,8 +942,8 @@ ${(() => {
          visible instead of losing it to the ellipsis, and the bare name is the
          last resort. */
       const room = 65 - TITLE_PREFIX.length;
-      for (const c of [base + tail, base, short, nm]) if (c.length <= room) return c;
-      return nm;
+      for (const c of [base + tail, base, short, fit]) if (c.length <= room) return c;
+      return fit;
     })(),
     /* The model, the city and the price must survive truncation; the trust
        lines are the tail Google cuts. Drop them one at a time until the whole
