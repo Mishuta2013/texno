@@ -747,7 +747,7 @@ function reviewsSection() {
   const url = R.googleUrl || '';
   const head = (R.rating && R.count)
     ? `<div class="rev-score">
-         <div class="rev-score-n">${String(R.rating).replace('.', ',')}</div>
+         <div class="rev-score-n">${Number(R.rating).toFixed(1).replace('.', ',')}</div>
          <div>${starRow(Math.round(R.rating))}
            <div class="rev-score-c">${R.count} ${esc(t('rev_on_google'))}</div></div>
        </div>` : '';
@@ -766,6 +766,12 @@ function reviewsSection() {
   return `<div class="rev-top reveal">${head}<div class="rev-links">${links}</div></div>`
     + (cards ? `<div class="rev-grid">${cards}</div>` : '');
 }
+/* Every link to the shop on the map went to a place URL built around the old
+   listing name, "КОНДИЦІОНЕРИ - ТЕХНОПЛАЗА". Google no longer resolves it: it
+   dropped the pin on an empty spot near Vinnytsia, 400 km from the shop. The
+   place_id form is the one Google documents as stable, and it lives in
+   site.json so the three copies cannot drift apart again. */
+body = body.split('{{MAP_URL}}').join(esc(site.mapUrl));
 body = body.replace('<!--REVIEWS-->', reviewsSection());
 body = body.replace('<!--FAQ_ITEMS-->', faqItems());
 body = applyI18nStatic(body);   // bake the current language into static HTML (SEO)
@@ -797,7 +803,12 @@ ${head({
     logo: absImg('/assets/img/logo.png'),
     telephone: site.phone, email: site.email,
     address: { '@type': 'PostalAddress', streetAddress: 'вул. Харківська 2/1', addressLocality: site.city, addressCountry: 'UA' },
-    url: BASE, priceRange: '₴₴', areaServed: 'Суми'
+    url: BASE, priceRange: '₴₴', areaServed: 'Суми',
+    /* Ties the site to the Business Profile: the same coordinates and the same
+       place the address links open, so Google is not left matching them by the
+       street line alone. */
+    geo: { '@type': 'GeoCoordinates', latitude: site.coords.lat, longitude: site.coords.lng },
+    hasMap: site.mapUrl
   }
 })}
 <script type="application/ld+json">${JSON.stringify(faqLd)}</script>
