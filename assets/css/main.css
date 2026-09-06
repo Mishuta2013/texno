@@ -1146,7 +1146,25 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 .bl-related{margin-top:40px;border-top:1px solid var(--g2);padding-top:28px}
 .bl-related h2{font-family:var(--disp);font-size:21px;font-weight:800;color:var(--ink);margin-bottom:18px}
 @media(max-width:860px){.bl-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.bl-grid{grid-template-columns:1fr}.bl-cta{flex-direction:column}.bl-cta>*{width:100%;justify-content:center;text-align:center}}
+/* Blog stays 2-up on a phone rather than dropping to one card per row: twelve
+   full-width cards were 5600px of scrolling. At ~168px wide the card has to give
+   up some air — smaller type, the excerpt clamped to three lines, the two chips
+   allowed to wrap — but the cover, the headline and the link all still read. */
+@media(max-width:560px){
+  .bl-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .bl-card{padding:14px}
+  .bl-card.has-cover>:not(.bl-cover){margin-left:13px;margin-right:13px}
+  .bl-card.has-cover .bl-chips{margin-top:12px}
+  .bl-card.has-cover .bl-more{margin-bottom:14px}
+  .bl-chips{gap:5px;margin-bottom:9px}
+  .bl-tag,.bl-ccat{padding:4px 8px}   /* 11px kept: the two chips wrap either way, and 10px reads as fine print */
+  .bl-card-t{font-size:14.5px;line-height:1.28;margin-bottom:6px;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .bl-card-d{font-size:12.5px;line-height:1.5;margin-bottom:10px;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .bl-more{font-size:13px}
+  .bl-cta{flex-direction:column}.bl-cta>*{width:100%;justify-content:center;text-align:center}
+}
 
 /* ===== legal / privacy page ===== */
 .legal{max-width:860px;margin:0 auto;padding:26px 22px 70px}

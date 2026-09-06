@@ -1471,6 +1471,27 @@ function copyDir(src, dst) {
 copyDir(path.join(ROOT, 'assets'), path.join(DIST, 'assets'));
 copyDir(path.join(ROOT, 'public'), DIST);
 
+/* The service worker keeps its cache under one fixed name, and its activate
+   handler only deletes caches whose name differs. With the name never changing,
+   a page it cached once could be served for ever: an owner's desktop kept
+   showing a category cover three deploys old while the same site on a phone was
+   current. Stamp the name with what this build actually produced, so every
+   deploy lands in a new cache and the activate handler drops the last one. */
+{
+  const swFile = path.join(DIST, 'sw.js');
+  if (fs.existsSync(swFile)) {
+    const stamp = crypto.createHash('sha256')
+      .update(fs.readFileSync(path.join(DIST, 'index.html')))
+      .update(fs.readFileSync(path.join(DIST, 'assets/css/main.css')))
+      .update(fs.readFileSync(path.join(DIST, 'assets/js/main.js')))
+      .digest('hex').slice(0, 8);
+    const sw = fs.readFileSync(swFile, 'utf8');
+    const stamped = sw.replace(/const C = 'tp-v1';/, `const C = 'tp-${stamp}';`);
+    if (stamped === sw) throw new Error('sw.js cache name not found — the stamp would silently do nothing');
+    fs.writeFileSync(swFile, stamped, 'utf8');
+  }
+}
+
 // ---- Google Merchant Center product feed (RSS 2.0) ----
 // Upload/point Merchant Center at https://<site>/feed.xml to list products in
 // the Shopping tab. Ukrainian copy, UAH prices, one <item> per product.
