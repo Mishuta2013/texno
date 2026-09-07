@@ -304,13 +304,31 @@ function ppChips(p) {
    every browser and the CDN. Stamp each asset URL with a hash of its bytes:
    unchanged files keep their URL (and their cache), changed ones get a new one. */
 const hashed = new Map();
+/* Where the hash goes matters. A query string is only a cache key, and a CDN
+   entry can be poisoned: a request that arrives mid-deploy gets the new HTML
+   and the old bytes, and stores them under the new ?h= URL — then serves that
+   for the whole immutable year. It happened here, to one category cover, and
+   the owner stared at the old picture for a day while every other copy of the
+   site was current. For the files this project regenerates — the stylesheet,
+   the script, the covers, the site imagery — the hash goes in the file name
+   instead, so new content is a genuinely different path that no stale entry can
+   shadow. Product photos and share cards are written once per product and keep
+   the query form; hashing 43MB of them into duplicate files is not worth it. */
+const HASH_IN_NAME = /^\/assets\/(css|js|img\/covers|img\/site)\//;
+const hashedCopies = new Map();   // source path -> hashed path, emitted after the asset copy
 function av(u) {
   if (!u || !u.startsWith('/assets/')) return u;
   if (hashed.has(u)) return hashed.get(u);
   let out = u;
   try {
     const bytes = fs.readFileSync(path.join(ROOT, u.replace(/^\//, '')));
-    out = `${u}?h=${crypto.createHash('md5').update(bytes).digest('hex').slice(0, 8)}`;
+    const h = crypto.createHash('md5').update(bytes).digest('hex').slice(0, 8);
+    if (HASH_IN_NAME.test(u)) {
+      out = u.replace(/(\.[a-z0-9]+)$/i, `.${h}$1`);
+      hashedCopies.set(u, out);
+    } else {
+      out = `${u}?h=${h}`;
+    }
   } catch { /* missing file — leave the plain path so the audit can flag it */ }
   hashed.set(u, out);
   return out;
@@ -1649,6 +1667,15 @@ function copyDir(src, dst) {
 }
 copyDir(path.join(ROOT, 'assets'), path.join(DIST, 'assets'));
 copyDir(path.join(ROOT, 'public'), DIST);
+
+/* The name-hashed copies. Originals stay where they are: main.css reaches
+   install.webp by its plain path, and the manifest names the icons. */
+for (const [src, dst] of hashedCopies) {
+  const from = path.join(ROOT, src.replace(/^\//, ''));
+  const to = path.join(DIST, dst.replace(/^\//, ''));
+  fs.mkdirSync(path.dirname(to), { recursive: true });
+  fs.copyFileSync(from, to);
+}
 
 /* The service worker keeps its cache under one fixed name, and its activate
    handler only deletes caches whose name differs. With the name never changing,
