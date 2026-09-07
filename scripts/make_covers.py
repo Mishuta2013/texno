@@ -73,6 +73,26 @@ def main():
         kb = f.stat().st_size / 1024
         total += kb
         print(f"  {f.name:34s} 1200x630  {kb:6.1f} KB")
+    # The home page hero. Its left third sits under a dark veil carrying the
+    # headline, so the group has to live in the right two thirds: scale it to fit
+    # there and stretch the backdrop out to the left rather than crop the fridge
+    # off. Same slot and same alt as the photo it replaces.
+    HW, HH = 1600, 1067
+    src = Image.open(SRC / "hero-appliances.webp").convert("RGB")
+    gw = int(HW * 0.72)
+    grp = src.resize((gw, int(src.height * gw / src.width)), Image.LANCZOS)
+    hero = Image.new("RGB", (HW, HH))
+    x, y = HW - gw, (HH - grp.height) // 2
+    hero.paste(grp.crop((0, 0, 1, grp.height)).resize((x + 1, grp.height), Image.LANCZOS), (0, y))
+    hero.paste(grp, (x, y))
+    hero.paste(hero.crop((0, y, HW, y + 1)).resize((HW, y + 1), Image.LANCZOS), (0, 0))
+    bot = y + grp.height
+    hero.paste(hero.crop((0, bot - 1, HW, bot)).resize((HW, HH - bot + 1), Image.LANCZOS), (0, bot - 1))
+    f = ROOT / "assets" / "img" / "site" / "hero.webp"
+    hero.save(f, "WEBP", quality=82, method=6)
+    kb = f.stat().st_size / 1024
+    total += kb
+    print(f"  {'hero.webp (home page)':34s} {HW}x{HH}  {kb:6.1f} KB")
     print(f"  {'TOTAL':34s}            {total:6.1f} KB")
 
 
