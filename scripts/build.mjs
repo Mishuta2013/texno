@@ -77,6 +77,11 @@ const CATS = read('categories.json');
 const REVIEWS = read('reviews.json');
 const catOf = p => CATS[p.category] || CATS['kondicioneri'];
 const catList = Object.entries(CATS).map(([key, c]) => ({ key, ...c })).sort((a, b) => (a.order || 99) - (b.order || 99));
+/* A category with nothing in it is worse than no category at all: a nav link to
+   an empty page. Everything a visitor can see is built from this list, so a
+   category can be defined ahead of its stock and simply stays out of the site
+   until the first product lands. */
+const catLive = () => catList.filter(c => catProducts(c.key).length);
 const catProducts = key => products.filter(p => p.category === key);
 const SPECV = read('spec-values.json');
 const BRANDS = read('brands.json');   // per-brand copy for the brand pages
@@ -145,14 +150,16 @@ const pdesc = p => p['desc_' + L] || p.desc_uk;
   }
 }
 // live product counts — never hardcode a number in copy, write {{TOTAL}}/{{AC}}/{{WM}}/{{PS}}
-const COUNTS = {
-  TOTAL: products.length,
-  AC: products.filter(p => p.category === 'kondicioneri').length,
-  WM: products.filter(p => p.category === 'pralni-mashyny').length,
-  PS: products.filter(p => p.category === 'zaryadni-stantsii').length,
-  FR: products.filter(p => p.category === 'holodylnyky').length,
-  BL: products.filter(p => p.category === 'boylery').length
-};
+/* Each category declares its own short code in categories.json, so the counts,
+   the brand lists and the {{XX_…}} tokens all follow from the data. They used to
+   be three hand-kept lists here, which is fine at five categories and a bug
+   waiting to happen at thirteen. */
+const CAT_OF_KEY = Object.fromEntries(catList.filter(c => c.code).map(c => [c.code, c.key]));
+const CAT_CODES = Object.keys(CAT_OF_KEY);
+const inCat = k => products.filter(p => p.category === CAT_OF_KEY[k]);
+
+const COUNTS = { TOTAL: products.length,
+  ...Object.fromEntries(CAT_CODES.map(k => [k, inCat(k).length])) };
 
 /* Brand lists and capacity ranges used to be typed into categories.json by hand,
    and they went stale the moment stock moved: the fridge line still read "9
@@ -160,9 +167,6 @@ const COUNTS = {
    to 39 and gained Whirlpool, and the washing machines never mentioned Bosch.
    Derive both from the catalogue so a search result cannot drift from reality
    again. */
-const CAT_OF_KEY = { AC: 'kondicioneri', WM: 'pralni-mashyny', PS: 'zaryadni-stantsii',
-                     FR: 'holodylnyky', BL: 'boylery' };
-const inCat = k => products.filter(p => p.category === CAT_OF_KEY[k]);
 
 /* Ordered by the dearest model each brand has, not by how many we stock. By
    count the washing machines would open "Edler, Grifon, Beko" — true, and no
@@ -228,14 +232,14 @@ function plural(n, forms) {
 }
 const subCounts = s => String(s)
   .replace(/\{\{ITEMS\}\}/g, () => `${COUNTS.TOTAL} ${plural(COUNTS.TOTAL, PLURALS[L] || PLURALS.uk)}`)
-  .replace(/\{\{(TOTAL|AC|WM|PS|FR|BL)_MODELS\}\}/g,
+  .replace(new RegExp(`\{\{(TOTAL|${CAT_CODES.join('|')})_MODELS\}\}`, 'g'),
     (m, k) => `${COUNTS[k]} ${plural(COUNTS[k], MODELS[L] || MODELS.uk)}`)
-  .replace(/\{\{(AC|WM|PS|FR|BL)_BRANDS\}\}/g, (m, k) => brandList(k))
-  .replace(/\{\{(AC|WM|PS|FR|BL)_RANGE\}\}/g, (m, k) => RANGES[k]())
+  .replace(new RegExp(`\{\{(${CAT_CODES.join('|')})_BRANDS\}\}`, 'g'), (m, k) => brandList(k))
+  .replace(new RegExp(`\{\{(${CAT_CODES.join('|')})_RANGE\}\}`, 'g'), (m, k) => (RANGES[k] ? RANGES[k]() : ''))
   .replace(/\{\{PRICE\}\}/g, () => fmt(site.installPrice))
-  .replace(/\{\{(AC|WM|PS|FR|BL)_FROM\}\}/g, (m, k) => FROM(k))
+  .replace(new RegExp(`\{\{(${CAT_CODES.join('|')})_FROM\}\}`, 'g'), (m, k) => FROM(k))
   .replace(/\{\{FR_NOFROST\}\}/g, () => NOFROST())
-  .replace(/\{\{(TOTAL|AC|WM|PS|FR|BL)\}\}/g, (m, k) => COUNTS[k]);
+  .replace(new RegExp(`\{\{(TOTAL|${CAT_CODES.join('|')})\}\}`, 'g'), (m, k) => COUNTS[k]);
 const t = (k) => subCounts((i18n[L] && i18n[L][k]) ?? (i18n.uk && i18n.uk[k]) ?? k);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fmt = n => Number(n).toLocaleString('uk-UA').replace(/ /g, ' ').replace(/,/g, ' ');
@@ -753,40 +757,48 @@ body = body.replace('<!--QUIZ_INLINE-->', quizInline(true));
    visitors come to pick an appliance, so the five categories go in first, each
    with how many models it holds — one tap from anywhere on the site. */
 function navCats() {
-  return '<div class="nav-cats">' + catList.map(c =>
+  return '<div class="nav-cats">' + catLive().map(c =>
     `<a class="nav-cat" href="${curl(c)}"><span>${esc(lf(c, 'name'))}</span><em>${catProducts(c.key).length}</em></a>`
   ).join('') + '</div>';
 }
 /* Category cards carry an optional cover. Without one they render exactly as
    before — an emoji tile beside the name — so the section is never half-dressed
    while the pictures are still being made. */
-body = (() => {
-  let out = body;
-  const withCover = catList.filter(c => c.cover);
-  for (const c of withCover) {
-    const href = `href="${curl(c)}"`;
-    const i = out.indexOf(`<a class="cat-card reveal" ${href}>`);
-    if (i < 0) continue;
-    /* Two widths. On a phone the grid is 2-up, so a card is about 46vw — a 400px
-       file covers that at 2x, and the odd last card, which spans the row, gets a
-       sizes of its own rather than a soft picture. */
-    const last = withCover.length % 2 === 1 && c === withCover[withCover.length - 1];
-    const sizes = last ? '(max-width:640px) 92vw, (max-width:1000px) 46vw, 380px'
-                       : '(max-width:1000px) 46vw, 380px';
-    const small = c.cover.replace(/\.webp$/, '@400.webp');
-    out = out.replace(`<a class="cat-card reveal" ${href}>`,
-      `<a class="cat-card cat-card-cover reveal" ${href}>` +
-      `<img class="cat-cover" src="${esc(av(c.cover))}" srcset="${esc(av(small))} 400w, ${esc(av(c.cover))} 800w"` +
-      ` sizes="${sizes}" alt="" width="800" height="340" loading="lazy" decoding="async">`);
-  }
+/* The category grid used to be thirteen — well, five — hand-written cards in the
+   template, each with its own emoji and its own i18n keys for the label. Adding a
+   category meant editing markup in three places. It is generated from
+   categories.json now: order, emoji, name, subtitle and cover all come from the
+   data, so a new category is a data change and nothing else.
+
+   A category without a cover renders exactly as it did before — an emoji tile
+   beside the name — so the section is never half-dressed while artwork is made. */
+{
+  const live = catLive();
+  const withCover = live.filter(c => c.cover);
+  const cards = live.map(c => {
+    const cover = c.cover ? (() => {
+      const w = n => esc(av(c.cover.replace(/\.webp$/, `@${n}.webp`)));
+      /* Two widths. On a phone the grid is 2-up, so a card is about 46vw — a 400px
+         file covers that at 2x, and the odd last card, which spans the row, gets a
+         sizes of its own rather than a soft picture. */
+      const last = withCover.length % 2 === 1 && c === withCover[withCover.length - 1];
+      const sizes = last ? '(max-width:640px) 92vw, (max-width:1000px) 46vw, 380px'
+                         : '(max-width:1000px) 46vw, 380px';
+      return `<img class="cat-cover" src="${esc(av(c.cover))}" srcset="${w(400)} 400w, ${esc(av(c.cover))} 800w"` +
+        ` sizes="${sizes}" alt="" width="800" height="340" loading="lazy" decoding="async">`;
+    })() : '';
+    return `<a class="cat-card${c.cover ? ' cat-card-cover' : ''} reveal" href="${curl(c)}">${cover}` +
+      `<span class="cat-ic" aria-hidden="true">${esc(c.emoji || '')}</span>` +
+      `<span class="cat-tx"><span class="cat-t">${esc(lf(c, 'name'))}</span>` +
+      `<span class="cat-s">${esc(lf(c, 'cardSub') || '')}</span></span>` +
+      `<span class="cat-go">${esc(t('cats_more'))}</span></a>`;
+  }).join('\n      ');
   /* The 2-up phone layout used to be selected with :has(). A browser without it
      silently fell back to one tall card per row — which is exactly the endless
      scrolling this was meant to fix — so the grid is told here instead. */
-  if (withCover.length) out = out.replace('<div class="cats-grid">', '<div class="cats-grid has-covers">');
-  return out;
-})();
-/* the strongest internal link to the installation page comes from the home
-   page's own installation block, where someone is already reading about it */
+  body = body.replace('<!--CAT_CARDS-->',
+    `<div class="cats-grid${withCover.length ? ' has-covers' : ''}">\n      ${cards}\n    </div>`);
+}
 body = body.replace('<!--INSTALL_MORE-->', INSTALL_LANGS.includes(L)
   ? `<a class="pc-more" href="${pfx()}${INSTALL_PATH}">${esc(t('inst_more'))} →</a>` : '');
 body = body.replace('<!--NAV_CATS-->', navCats());
@@ -1628,7 +1640,7 @@ ${HEADER}
   <p class="cat-sub">${esc(t('e404_p'))}</p>
   <div class="e404-links">
     <a class="btn-primary" href="/">${esc(t('e404_home'))}</a>
-    ${catList.map(c => `<a class="e404-cat" href="${c.urlPrefix}/">${esc(lf(c, 'name'))}</a>`).join('')}
+    ${catLive().map(c => `<a class="e404-cat" href="${c.urlPrefix}/">${esc(lf(c, 'name'))}</a>`).join('')}
   </div>
 </div>
 ${FOOTER}

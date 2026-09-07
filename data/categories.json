@@ -1,6 +1,7 @@
 {
   "kondicioneri": {
     "name": "Кондиціонери",
+    "code": "AC",
     "nameGen": "кондиціонерів",
     "urlPrefix": "/kondicioner",
     "icon": "ac",
@@ -142,6 +143,9 @@
     "name_en": "Air conditioners",
     "nameGen_ru": "кондиционеров",
     "nameGen_en": "air conditioners",
+    "cardSub": "Спліт-системи з монтажем під ключ",
+    "cardSub_ru": "Сплит-системы с монтажом под ключ",
+    "cardSub_en": "Split systems with turnkey installation",
     "seoTitle_ru": "Кондиционеры в Сумах от {{AC_FROM}} грн — монтаж",
     "seoTitle_en": "Air conditioners in Sumy from {{AC_FROM}} UAH",
     "seoDesc_ru": "Кондиционеры в Сумах: {{AC_MODELS}} в наличии, {{AC_RANGE}} — инверторные и с обогревом зимой. Монтаж под ключ за 1 день, оплата после установки.",
@@ -164,6 +168,7 @@
   },
   "pralni-mashyny": {
     "name": "Пральні машини",
+    "code": "WM",
     "nameGen": "пральних машин",
     "urlPrefix": "/pralni-mashyny",
     "icon": "washer",
@@ -320,6 +325,9 @@
     "name_en": "Washing machines",
     "nameGen_ru": "стиральных машин",
     "nameGen_en": "washing machines",
+    "cardSub": "З доставкою та підключенням",
+    "cardSub_ru": "С доставкой и подключением",
+    "cardSub_en": "With delivery & installation",
     "seoTitle_ru": "Стиральные машины в Сумах от {{WM_FROM}} грн",
     "seoTitle_en": "Washing machines in Sumy from {{WM_FROM}} UAH",
     "seoDesc_ru": "Стиральные машины в Сумах: {{WM_MODELS}} — {{WM_BRANDS}}. Загрузка {{WM_RANGE}}, узкие от 40 см. Доставка 400 грн, подключение 500 грн.",
@@ -352,6 +360,7 @@
   },
   "zaryadni-stantsii": {
     "name": "Зарядні станції",
+    "code": "PS",
     "nameGen": "зарядних станцій",
     "urlPrefix": "/zaryadni-stantsii",
     "icon": "battery",
@@ -559,6 +568,9 @@
     "name_en": "Power stations",
     "nameGen_ru": "зарядных станций",
     "nameGen_en": "power stations",
+    "cardSub": "Портативні джерела живлення для дому",
+    "cardSub_ru": "Портативные источники питания для дома",
+    "cardSub_en": "Portable power for home & outdoors",
     "seoTitle_ru": "Зарядные станции в Сумах от {{PS_FROM}} грн",
     "seoTitle_en": "Power stations in Sumy from {{PS_FROM}} UAH",
     "seoDesc_ru": "Зарядные станции в Сумах: {{PS_MODELS}} на {{PS_RANGE}} — {{PS_BRANDS}}. LiFePO₄, режим ИБП, зарядка от солнца.",
@@ -597,11 +609,15 @@
   },
   "holodylnyky": {
     "name": "Холодильники",
+    "code": "FR",
     "nameGen": "холодильників",
     "name_ru": "Холодильники",
     "name_en": "Refrigerators",
     "nameGen_ru": "холодильников",
     "nameGen_en": "refrigerators",
+    "cardSub": "Від компактних до No Frost",
+    "cardSub_ru": "От компактных до No Frost",
+    "cardSub_en": "From compact to No Frost",
     "urlPrefix": "/holodylnyky",
     "icon": "fridge",
     "order": 3,
@@ -803,6 +819,7 @@
   },
   "boylery": {
     "name": "Бойлери",
+    "code": "BL",
     "nameGen": "бойлерів",
     "urlPrefix": "/boylery",
     "icon": "boiler",
@@ -988,6 +1005,9 @@
     "name_en": "Water heaters",
     "nameGen_ru": "бойлеров",
     "nameGen_en": "water heaters",
+    "cardSub": "Водонагрівачі Atlantic на 30–100 л",
+    "cardSub_ru": "Водонагреватели Atlantic на 30–100 л",
+    "cardSub_en": "Atlantic water heaters, 30–100 l",
     "seoTitle_ru": "Бойлеры в Сумах от {{BL_FROM}} грн — водонагреватели",
     "seoTitle_en": "Water heaters in Sumy from {{BL_FROM}} UAH",
     "seoDesc_ru": "Бойлеры в Сумах: {{BL_MODELS}} Atlantic на {{BL_RANGE}}. Сухой стеатитовый и мокрый ТЭН, узкие Ø380 мм. Гарантия на бак до 8 лет.",
@@ -1019,5 +1039,1039 @@
     "quiz": true,
     "emoji": "💧",
     "cover": "/assets/img/covers/cat-boylery.webp"
+  },
+  "duhovi-shafy": {
+    "name": "Духові шафи",
+    "name_ru": "Духовые шкафы",
+    "name_en": "Ovens",
+    "code": "OV",
+    "nameGen": "духових шаф",
+    "nameGen_ru": "духовых шкафов",
+    "nameGen_en": "ovens",
+    "cardSub": "Вбудовані, з конвекцією та грилем",
+    "cardSub_ru": "Встраиваемые, с конвекцией и грилем",
+    "cardSub_en": "Built-in, with convection and grill",
+    "urlPrefix": "/duhovi-shafy",
+    "icon": "duhovi-shafy",
+    "order": 6,
+    "install": false,
+    "emoji": "🔥",
+    "productPrefix": {
+      "uk": "Духова шафа",
+      "ru": "Духовой шкаф",
+      "en": "Oven"
+    },
+    "trust": [
+      "Доставка по Сумах — 400 грн",
+      "Оплата після отримання",
+      "Офіційна гарантія"
+    ],
+    "trust_ru": [
+      "Доставка по Сумам — 400 грн",
+      "Оплата после получения",
+      "Официальная гарантия"
+    ],
+    "trust_en": [
+      "Delivery in Sumy — 400 UAH",
+      "Payment on receipt",
+      "Official warranty"
+    ],
+    "seoTitle": "Духові шафи у Сумах від {{OV_FROM}} грн — вбудовані",
+    "seoTitle_ru": "Духовые шкафы в Сумах от {{OV_FROM}} грн — встраиваемые",
+    "seoTitle_en": "Built-in ovens in Sumy from {{OV_FROM}} UAH",
+    "seoDesc": "Вбудовані духові шафи у Сумах: {{OV_MODELS}} Gunter&Hauer — електричні, з конвекцією, грилем і парою. Доставка й занесення, оплата після отримання.",
+    "seoDesc_ru": "Встраиваемые духовые шкафы в Сумах: {{OV_MODELS}} Gunter&Hauer — электрические, с конвекцией, грилем и паром. Доставка и занос, оплата после получения.",
+    "seoDesc_en": "Built-in ovens in Sumy: {{OV_MODELS}} by Gunter&Hauer — electric, with convection, grill and steam. Delivery, payment on receipt.",
+    "intro": "Вбудовані електричні духові шафи Gunter&Hauer: конвекція, гриль, очищення парою. Розміри ніші вказані в характеристиках кожної моделі.",
+    "intro_ru": "Встраиваемые электрические духовые шкафы Gunter&Hauer: конвекция, гриль, очистка паром. Размеры ниши указаны в характеристиках каждой модели.",
+    "intro_en": "Built-in electric ovens by Gunter&Hauer: convection, grill, steam cleaning. The cut-out size is listed for every model.",
+    "coverAlt": "Вбудована електрична духова шафа",
+    "coverAlt_ru": "Встраиваемый электрический духовой шкаф",
+    "coverAlt_en": "Built-in electric oven",
+    "filters": [
+      "brand",
+      "price"
+    ],
+    "chips": [
+      {
+        "icon": "📐",
+        "key": "volume_l",
+        "fmt": "litres"
+      },
+      {
+        "icon": "⚙",
+        "key": "functions"
+      },
+      {
+        "icon": "🎛",
+        "key": "control"
+      }
+    ],
+    "ppChips": [
+      {
+        "icon": "📐",
+        "key": "volume_l",
+        "fmt": "litres"
+      },
+      {
+        "icon": "⚙",
+        "key": "functions"
+      },
+      {
+        "icon": "🎛",
+        "key": "control"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Обʼєм",
+        "key": "volume_l",
+        "fmt": "litres",
+        "label_ru": "Объём",
+        "label_en": "Capacity"
+      },
+      {
+        "label": "Кількість функцій",
+        "key": "functions",
+        "label_ru": "Количество функций",
+        "label_en": "Functions"
+      },
+      {
+        "label": "Керування",
+        "key": "control",
+        "label_ru": "Управление",
+        "label_en": "Controls"
+      },
+      {
+        "label": "Очищення",
+        "key": "cleaning",
+        "label_ru": "Очистка",
+        "label_en": "Cleaning"
+      },
+      {
+        "label": "Клас енергоспоживання",
+        "key": "eclass",
+        "label_ru": "Класс энергопотребления",
+        "label_en": "Energy class"
+      },
+      {
+        "label": "Колір",
+        "key": "color",
+        "label_ru": "Цвет",
+        "label_en": "Colour"
+      },
+      {
+        "label": "Габарити (ШхВхГ)",
+        "key": "dims",
+        "label_ru": "Габариты (ШхВхГ)",
+        "label_en": "Dimensions (WxHxD)"
+      },
+      {
+        "label": "Розміри для вбудовування",
+        "key": "niche",
+        "label_ru": "Размеры для встраивания",
+        "label_en": "Cut-out size"
+      },
+      {
+        "label": "Особливості",
+        "key": "features",
+        "label_ru": "Особенности",
+        "label_en": "Features"
+      }
+    ]
+  },
+  "varylni-poverhni": {
+    "name": "Варильні поверхні",
+    "name_ru": "Варочные поверхности",
+    "name_en": "Hobs",
+    "code": "HB",
+    "nameGen": "варильних поверхонь",
+    "nameGen_ru": "варочных поверхностей",
+    "nameGen_en": "hobs",
+    "cardSub": "Індукційні, електричні та газові",
+    "cardSub_ru": "Индукционные, электрические и газовые",
+    "cardSub_en": "Induction, electric and gas",
+    "urlPrefix": "/varylni-poverhni",
+    "icon": "varylni-poverhni",
+    "order": 7,
+    "install": false,
+    "emoji": "🍳",
+    "productPrefix": {
+      "uk": "Варильна поверхня",
+      "ru": "Варочная поверхность",
+      "en": "Hob"
+    },
+    "trust": [
+      "Доставка по Сумах — 400 грн",
+      "Оплата після отримання",
+      "Офіційна гарантія"
+    ],
+    "trust_ru": [
+      "Доставка по Сумам — 400 грн",
+      "Оплата после получения",
+      "Официальная гарантия"
+    ],
+    "trust_en": [
+      "Delivery in Sumy — 400 UAH",
+      "Payment on receipt",
+      "Official warranty"
+    ],
+    "seoTitle": "Варильні поверхні у Сумах від {{HB_FROM}} грн",
+    "seoTitle_ru": "Варочные поверхности в Сумах от {{HB_FROM}} грн",
+    "seoTitle_en": "Hobs in Sumy from {{HB_FROM}} UAH",
+    "seoDesc": "Варильні поверхні у Сумах: {{HB_MODELS}} Gunter&Hauer — індукційні, електричні та газові. Доставка по Сумах, оплата після отримання.",
+    "seoDesc_ru": "Варочные поверхности в Сумах: {{HB_MODELS}} Gunter&Hauer — индукционные, электрические и газовые. Доставка по Сумам, оплата после получения.",
+    "seoDesc_en": "Hobs in Sumy: {{HB_MODELS}} by Gunter&Hauer — induction, electric and gas. Delivery, payment on receipt.",
+    "intro": "Індукційні, склокерамічні та газові поверхні Gunter&Hauer. Для кожної моделі вказано розмір вирізу в стільниці.",
+    "intro_ru": "Индукционные, стеклокерамические и газовые поверхности Gunter&Hauer. Для каждой модели указан размер выреза в столешнице.",
+    "intro_en": "Induction, ceramic and gas hobs by Gunter&Hauer. The worktop cut-out size is listed for every model.",
+    "coverAlt": "Вбудована варильна поверхня",
+    "coverAlt_ru": "Встраиваемая варочная поверхность",
+    "coverAlt_en": "Built-in hob",
+    "filters": [
+      "brand",
+      "price"
+    ],
+    "chips": [
+      {
+        "icon": "🍳",
+        "key": "burners"
+      },
+      {
+        "icon": "📏",
+        "key": "width_cm",
+        "fmt": "cm"
+      },
+      {
+        "icon": "🎛",
+        "key": "control"
+      }
+    ],
+    "ppChips": [
+      {
+        "icon": "🍳",
+        "key": "burners"
+      },
+      {
+        "icon": "📏",
+        "key": "width_cm",
+        "fmt": "cm"
+      },
+      {
+        "icon": "🎛",
+        "key": "control"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Тип",
+        "key": "hob_type",
+        "label_ru": "Тип",
+        "label_en": "Type"
+      },
+      {
+        "label": "Кількість конфорок",
+        "key": "burners",
+        "label_ru": "Количество конфорок",
+        "label_en": "Zones"
+      },
+      {
+        "label": "Керування",
+        "key": "control",
+        "label_ru": "Управление",
+        "label_en": "Controls"
+      },
+      {
+        "label": "Ширина",
+        "key": "width_cm",
+        "fmt": "cm",
+        "label_ru": "Ширина",
+        "label_en": "Width"
+      },
+      {
+        "label": "Колір",
+        "key": "color",
+        "label_ru": "Цвет",
+        "label_en": "Colour"
+      },
+      {
+        "label": "Габарити (ШхВхГ)",
+        "key": "dims",
+        "label_ru": "Габариты (ШхВхГ)",
+        "label_en": "Dimensions (WxHxD)"
+      },
+      {
+        "label": "Розміри для вбудовування",
+        "key": "niche",
+        "label_ru": "Размеры для встраивания",
+        "label_en": "Cut-out size"
+      },
+      {
+        "label": "Особливості",
+        "key": "features",
+        "label_ru": "Особенности",
+        "label_en": "Features"
+      }
+    ]
+  },
+  "vytyazhky": {
+    "name": "Витяжки",
+    "name_ru": "Вытяжки",
+    "name_en": "Cooker hoods",
+    "code": "HD",
+    "nameGen": "витяжок",
+    "nameGen_ru": "вытяжек",
+    "nameGen_en": "cooker hoods",
+    "cardSub": "Вбудовані, похилі та купольні",
+    "cardSub_ru": "Встраиваемые, наклонные и купольные",
+    "cardSub_en": "Built-in, angled and chimney",
+    "urlPrefix": "/vytyazhky",
+    "icon": "vytyazhky",
+    "order": 8,
+    "install": false,
+    "emoji": "🌀",
+    "productPrefix": {
+      "uk": "Витяжка",
+      "ru": "Вытяжка",
+      "en": "Cooker hood"
+    },
+    "trust": [
+      "Доставка по Сумах — 400 грн",
+      "Оплата після отримання",
+      "Офіційна гарантія"
+    ],
+    "trust_ru": [
+      "Доставка по Сумам — 400 грн",
+      "Оплата после получения",
+      "Официальная гарантия"
+    ],
+    "trust_en": [
+      "Delivery in Sumy — 400 UAH",
+      "Payment on receipt",
+      "Official warranty"
+    ],
+    "seoTitle": "Витяжки у Сумах від {{HD_FROM}} грн — кухонні",
+    "seoTitle_ru": "Вытяжки в Сумах от {{HD_FROM}} грн — кухонные",
+    "seoTitle_en": "Cooker hoods in Sumy from {{HD_FROM}} UAH",
+    "seoDesc": "Кухонні витяжки у Сумах: {{HD_MODELS}} Gunter&Hauer — вбудовані, похилі та купольні. Продуктивність і рівень шуму вказані для кожної.",
+    "seoDesc_ru": "Кухонные вытяжки в Сумах: {{HD_MODELS}} Gunter&Hauer — встраиваемые, наклонные и купольные. Производительность и уровень шума указаны для каждой.",
+    "seoDesc_en": "Kitchen cooker hoods in Sumy: {{HD_MODELS}} by Gunter&Hauer — built-in, angled and chimney. Airflow and noise listed for each.",
+    "intro": "Вбудовані, похилі та купольні витяжки Gunter&Hauer. Дивіться на продуктивність: для звичайної кухні вистачає 400–600 м³/год.",
+    "intro_ru": "Встраиваемые, наклонные и купольные вытяжки Gunter&Hauer. Смотрите на производительность: для обычной кухни хватает 400–600 м³/ч.",
+    "intro_en": "Built-in, angled and chimney hoods by Gunter&Hauer. Airflow is what matters: 400–600 m³/h suits an ordinary kitchen.",
+    "coverAlt": "Кухонна витяжка",
+    "coverAlt_ru": "Кухонная вытяжка",
+    "coverAlt_en": "Kitchen cooker hood",
+    "filters": [
+      "brand",
+      "price"
+    ],
+    "chips": [
+      {
+        "icon": "🌀",
+        "key": "airflow"
+      },
+      {
+        "icon": "🔊",
+        "key": "noise_db"
+      },
+      {
+        "icon": "📏",
+        "key": "width_cm",
+        "fmt": "cm"
+      }
+    ],
+    "ppChips": [
+      {
+        "icon": "🌀",
+        "key": "airflow"
+      },
+      {
+        "icon": "🔊",
+        "key": "noise_db"
+      },
+      {
+        "icon": "📏",
+        "key": "width_cm",
+        "fmt": "cm"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Продуктивність",
+        "key": "airflow",
+        "label_ru": "Производительность",
+        "label_en": "Airflow"
+      },
+      {
+        "label": "Рівень шуму",
+        "key": "noise_db",
+        "label_ru": "Уровень шума",
+        "label_en": "Noise"
+      },
+      {
+        "label": "Потужність двигуна",
+        "key": "motor_w",
+        "label_ru": "Мощность двигателя",
+        "label_en": "Motor power"
+      },
+      {
+        "label": "Ширина",
+        "key": "width_cm",
+        "fmt": "cm",
+        "label_ru": "Ширина",
+        "label_en": "Width"
+      },
+      {
+        "label": "Режим рециркуляції",
+        "key": "recirc",
+        "label_ru": "Режим рециркуляции",
+        "label_en": "Recirculation"
+      },
+      {
+        "label": "Колір",
+        "key": "color",
+        "label_ru": "Цвет",
+        "label_en": "Colour"
+      },
+      {
+        "label": "Габарити (ШхВхГ)",
+        "key": "dims",
+        "label_ru": "Габариты (ШхВхГ)",
+        "label_en": "Dimensions (WxHxD)"
+      },
+      {
+        "label": "Розміри для вбудовування",
+        "key": "niche",
+        "label_ru": "Размеры для встраивания",
+        "label_en": "Cut-out size"
+      },
+      {
+        "label": "Особливості",
+        "key": "features",
+        "label_ru": "Особенности",
+        "label_en": "Features"
+      }
+    ]
+  },
+  "myyky": {
+    "name": "Кухонні мийки",
+    "name_ru": "Кухонные мойки",
+    "name_en": "Kitchen sinks",
+    "code": "SK",
+    "nameGen": "кухонних мийок",
+    "nameGen_ru": "кухонных моек",
+    "nameGen_en": "kitchen sinks",
+    "cardSub": "Врізні та підстільні, на одну й дві чаші",
+    "cardSub_ru": "Врезные и подстольные, на одну и две чаши",
+    "cardSub_en": "Inset and undermount, one or two bowls",
+    "urlPrefix": "/myyky",
+    "icon": "myyky",
+    "order": 9,
+    "install": false,
+    "emoji": "🚰",
+    "productPrefix": {
+      "uk": "Мийка",
+      "ru": "Мойка",
+      "en": "Sink"
+    },
+    "trust": [
+      "Доставка по Сумах — 400 грн",
+      "Оплата після отримання",
+      "Офіційна гарантія"
+    ],
+    "trust_ru": [
+      "Доставка по Сумам — 400 грн",
+      "Оплата после получения",
+      "Официальная гарантия"
+    ],
+    "trust_en": [
+      "Delivery in Sumy — 400 UAH",
+      "Payment on receipt",
+      "Official warranty"
+    ],
+    "seoTitle": "Кухонні мийки у Сумах від {{SK_FROM}} грн",
+    "seoTitle_ru": "Кухонные мойки в Сумах от {{SK_FROM}} грн",
+    "seoTitle_en": "Kitchen sinks in Sumy from {{SK_FROM}} UAH",
+    "seoDesc": "Кухонні мийки у Сумах: {{SK_MODELS}} Gunter&Hauer — врізні та підстільні, на одну й дві чаші. Розміри вирізу вказані для кожної моделі.",
+    "seoDesc_ru": "Кухонные мойки в Сумах: {{SK_MODELS}} Gunter&Hauer — врезные и подстольные, на одну и две чаши. Размеры выреза указаны для каждой модели.",
+    "seoDesc_en": "Kitchen sinks in Sumy: {{SK_MODELS}} by Gunter&Hauer — inset and undermount, one or two bowls. Cut-out sizes listed.",
+    "intro": "Врізні та підстільні мийки Gunter&Hauer на одну й дві чаші. Для кожної вказано розмір вирізу — зручно міряти стільницю заздалегідь.",
+    "intro_ru": "Врезные и подстольные мойки Gunter&Hauer на одну и две чаши. Для каждой указан размер выреза — удобно померить столешницу заранее.",
+    "intro_en": "Inset and undermount sinks by Gunter&Hauer, one or two bowls. Each lists its cut-out size, so you can measure the worktop first.",
+    "coverAlt": "Кухонна мийка з нержавіючої сталі",
+    "coverAlt_ru": "Кухонная мойка из нержавеющей стали",
+    "coverAlt_en": "Stainless steel kitchen sink",
+    "filters": [
+      "brand",
+      "price"
+    ],
+    "chips": [
+      {
+        "icon": "🚰",
+        "key": "bowls"
+      },
+      {
+        "icon": "🧱",
+        "key": "material"
+      }
+    ],
+    "ppChips": [
+      {
+        "icon": "🚰",
+        "key": "bowls"
+      },
+      {
+        "icon": "🧱",
+        "key": "material"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Кількість чаш",
+        "key": "bowls",
+        "label_ru": "Количество чаш",
+        "label_en": "Bowls"
+      },
+      {
+        "label": "Матеріал",
+        "key": "material",
+        "label_ru": "Материал",
+        "label_en": "Material"
+      },
+      {
+        "label": "Тип встановлення",
+        "key": "mount",
+        "label_ru": "Тип установки",
+        "label_en": "Mounting"
+      },
+      {
+        "label": "Діаметр фланця",
+        "key": "flange",
+        "label_ru": "Диаметр фланца",
+        "label_en": "Waste diameter"
+      },
+      {
+        "label": "Колір",
+        "key": "color",
+        "label_ru": "Цвет",
+        "label_en": "Colour"
+      },
+      {
+        "label": "Габарити (ШхВхГ)",
+        "key": "dims",
+        "label_ru": "Габариты (ШхВхГ)",
+        "label_en": "Dimensions (WxHxD)"
+      },
+      {
+        "label": "Розміри для вбудовування",
+        "key": "niche",
+        "label_ru": "Размеры для встраивания",
+        "label_en": "Cut-out size"
+      },
+      {
+        "label": "Особливості",
+        "key": "features",
+        "label_ru": "Особенности",
+        "label_en": "Features"
+      }
+    ]
+  },
+  "zmishuvachi": {
+    "name": "Змішувачі",
+    "name_ru": "Смесители",
+    "name_en": "Kitchen taps",
+    "code": "TP",
+    "nameGen": "змішувачів",
+    "nameGen_ru": "смесителей",
+    "nameGen_en": "kitchen taps",
+    "cardSub": "Під мийку, у колір тієї ж серії",
+    "cardSub_ru": "Под мойку, в цвет той же серии",
+    "cardSub_en": "Matched to the sinks of the same line",
+    "urlPrefix": "/zmishuvachi",
+    "icon": "zmishuvachi",
+    "order": 10,
+    "install": false,
+    "emoji": "🚿",
+    "productPrefix": {
+      "uk": "Змішувач",
+      "ru": "Смеситель",
+      "en": "Tap"
+    },
+    "trust": [
+      "Доставка по Сумах — 400 грн",
+      "Оплата після отримання",
+      "Офіційна гарантія"
+    ],
+    "trust_ru": [
+      "Доставка по Сумам — 400 грн",
+      "Оплата после получения",
+      "Официальная гарантия"
+    ],
+    "trust_en": [
+      "Delivery in Sumy — 400 UAH",
+      "Payment on receipt",
+      "Official warranty"
+    ],
+    "seoTitle": "Змішувачі для кухні у Сумах від {{TP_FROM}} грн",
+    "seoTitle_ru": "Смесители для кухни в Сумах от {{TP_FROM}} грн",
+    "seoTitle_en": "Kitchen taps in Sumy from {{TP_FROM}} UAH",
+    "seoDesc": "Кухонні змішувачі у Сумах: {{TP_MODELS}} Gunter&Hauer — з висувним виливом і поворотні. Доставка по Сумах, оплата після отримання.",
+    "seoDesc_ru": "Кухонные смесители в Сумах: {{TP_MODELS}} Gunter&Hauer — с выдвижным изливом и поворотные. Доставка по Сумам, оплата после получения.",
+    "seoDesc_en": "Kitchen taps in Sumy: {{TP_MODELS}} by Gunter&Hauer — pull-out and swivel spouts. Delivery, payment on receipt.",
+    "intro": "Змішувачі Gunter&Hauer під кухонну мийку: поворотні та з висувним виливом, у кольорах під мийки тієї ж серії.",
+    "intro_ru": "Смесители Gunter&Hauer под кухонную мойку: поворотные и с выдвижным изливом, в цветах под мойки той же серии.",
+    "intro_en": "Gunter&Hauer kitchen taps: swivel and pull-out spouts, in colours matching the sinks of the same line.",
+    "coverAlt": "Кухонний змішувач",
+    "coverAlt_ru": "Кухонный смеситель",
+    "coverAlt_en": "Kitchen tap",
+    "filters": [
+      "brand",
+      "price"
+    ],
+    "chips": [
+      {
+        "icon": "🚿",
+        "key": "spout"
+      },
+      {
+        "icon": "🎨",
+        "key": "color"
+      }
+    ],
+    "ppChips": [
+      {
+        "icon": "🚿",
+        "key": "spout"
+      },
+      {
+        "icon": "🎨",
+        "key": "color"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Тип вилива",
+        "key": "spout",
+        "label_ru": "Тип излива",
+        "label_en": "Spout"
+      },
+      {
+        "label": "Матеріал",
+        "key": "material",
+        "label_ru": "Материал",
+        "label_en": "Material"
+      },
+      {
+        "label": "Висота",
+        "key": "height_cm",
+        "fmt": "cm",
+        "label_ru": "Высота",
+        "label_en": "Height"
+      },
+      {
+        "label": "Колір",
+        "key": "color",
+        "label_ru": "Цвет",
+        "label_en": "Colour"
+      },
+      {
+        "label": "Габарити (ШхВхГ)",
+        "key": "dims",
+        "label_ru": "Габариты (ШхВхГ)",
+        "label_en": "Dimensions (WxHxD)"
+      },
+      {
+        "label": "Розміри для вбудовування",
+        "key": "niche",
+        "label_ru": "Размеры для встраивания",
+        "label_en": "Cut-out size"
+      },
+      {
+        "label": "Особливості",
+        "key": "features",
+        "label_ru": "Особенности",
+        "label_en": "Features"
+      }
+    ]
+  },
+  "dozatory": {
+    "name": "Дозатори",
+    "name_ru": "Дозаторы",
+    "name_en": "Soap dispensers",
+    "code": "DS",
+    "nameGen": "дозаторів",
+    "nameGen_ru": "дозаторов",
+    "nameGen_en": "soap dispensers",
+    "cardSub": "Врізні, для миючого засобу",
+    "cardSub_ru": "Врезные, для моющего средства",
+    "cardSub_en": "Built-in, for washing-up liquid",
+    "urlPrefix": "/dozatory",
+    "icon": "dozatory",
+    "order": 11,
+    "install": false,
+    "emoji": "🧴",
+    "productPrefix": {
+      "uk": "Дозатор",
+      "ru": "Дозатор",
+      "en": "Dispenser"
+    },
+    "trust": [
+      "Доставка по Сумах — 400 грн",
+      "Оплата після отримання",
+      "Офіційна гарантія"
+    ],
+    "trust_ru": [
+      "Доставка по Сумам — 400 грн",
+      "Оплата после получения",
+      "Официальная гарантия"
+    ],
+    "trust_en": [
+      "Delivery in Sumy — 400 UAH",
+      "Payment on receipt",
+      "Official warranty"
+    ],
+    "seoTitle": "Дозатори для мийки у Сумах від {{DS_FROM}} грн",
+    "seoTitle_ru": "Дозаторы для мойки в Сумах от {{DS_FROM}} грн",
+    "seoTitle_en": "Soap dispensers in Sumy from {{DS_FROM}} UAH",
+    "seoDesc": "Врізні дозатори для миючого засобу у Сумах: {{DS_MODELS}} Gunter&Hauer у кольорах під мийку. Доставка по Сумах, оплата після отримання.",
+    "seoDesc_ru": "Врезные дозаторы для моющего средства в Сумах: {{DS_MODELS}} Gunter&Hauer в цветах под мойку. Доставка по Сумам, оплата после получения.",
+    "seoDesc_en": "Built-in soap dispensers in Sumy: {{DS_MODELS}} by Gunter&Hauer, in colours matching the sink. Delivery, payment on receipt.",
+    "intro": "Врізні дозатори Gunter&Hauer під мийку: ставляться в готовий отвір, заповнюються згори.",
+    "intro_ru": "Врезные дозаторы Gunter&Hauer под мойку: ставятся в готовое отверстие, заполняются сверху.",
+    "intro_en": "Built-in Gunter&Hauer dispensers: they drop into a ready hole and fill from the top.",
+    "coverAlt": "Врізний дозатор для миючого засобу",
+    "coverAlt_ru": "Врезной дозатор для моющего средства",
+    "coverAlt_en": "Built-in soap dispenser",
+    "filters": [
+      "brand",
+      "price"
+    ],
+    "chips": [
+      {
+        "icon": "🧴",
+        "key": "volume_ml"
+      },
+      {
+        "icon": "🎨",
+        "key": "color"
+      }
+    ],
+    "ppChips": [
+      {
+        "icon": "🧴",
+        "key": "volume_ml"
+      },
+      {
+        "icon": "🎨",
+        "key": "color"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Обʼєм",
+        "key": "volume_ml",
+        "label_ru": "Объём",
+        "label_en": "Capacity"
+      },
+      {
+        "label": "Матеріал",
+        "key": "material",
+        "label_ru": "Материал",
+        "label_en": "Material"
+      },
+      {
+        "label": "Колір",
+        "key": "color",
+        "label_ru": "Цвет",
+        "label_en": "Colour"
+      },
+      {
+        "label": "Габарити (ШхВхГ)",
+        "key": "dims",
+        "label_ru": "Габариты (ШхВхГ)",
+        "label_en": "Dimensions (WxHxD)"
+      },
+      {
+        "label": "Розміри для вбудовування",
+        "key": "niche",
+        "label_ru": "Размеры для встраивания",
+        "label_en": "Cut-out size"
+      },
+      {
+        "label": "Особливості",
+        "key": "features",
+        "label_ru": "Особенности",
+        "label_en": "Features"
+      }
+    ]
+  },
+  "mikrohvylovi-pechi": {
+    "name": "Мікрохвильові печі",
+    "name_ru": "Микроволновые печи",
+    "name_en": "Microwaves",
+    "code": "MW",
+    "nameGen": "мікрохвильових печей",
+    "nameGen_ru": "микроволновых печей",
+    "nameGen_en": "microwaves",
+    "cardSub": "Вбудовані, з грилем і конвекцією",
+    "cardSub_ru": "Встраиваемые, с грилем и конвекцией",
+    "cardSub_en": "Built-in, with grill and convection",
+    "urlPrefix": "/mikrohvylovi-pechi",
+    "icon": "mikrohvylovi-pechi",
+    "order": 12,
+    "install": false,
+    "emoji": "📻",
+    "productPrefix": {
+      "uk": "Мікрохвильова піч",
+      "ru": "Микроволновая печь",
+      "en": "Microwave"
+    },
+    "trust": [
+      "Доставка по Сумах — 400 грн",
+      "Оплата після отримання",
+      "Офіційна гарантія"
+    ],
+    "trust_ru": [
+      "Доставка по Сумам — 400 грн",
+      "Оплата после получения",
+      "Официальная гарантия"
+    ],
+    "trust_en": [
+      "Delivery in Sumy — 400 UAH",
+      "Payment on receipt",
+      "Official warranty"
+    ],
+    "seoTitle": "Мікрохвильові печі у Сумах від {{MW_FROM}} грн",
+    "seoTitle_ru": "Микроволновые печи в Сумах от {{MW_FROM}} грн",
+    "seoTitle_en": "Microwaves in Sumy from {{MW_FROM}} UAH",
+    "seoDesc": "Вбудовані мікрохвильові печі у Сумах: {{MW_MODELS}} Gunter&Hauer — з грилем і конвекцією. Доставка по Сумах, оплата після отримання.",
+    "seoDesc_ru": "Встраиваемые микроволновые печи в Сумах: {{MW_MODELS}} Gunter&Hauer — с грилем и конвекцией. Доставка по Сумам, оплата после получения.",
+    "seoDesc_en": "Built-in microwaves in Sumy: {{MW_MODELS}} by Gunter&Hauer — with grill and convection. Delivery, payment on receipt.",
+    "intro": "Вбудовані мікрохвильові печі Gunter&Hauer: гриль, конвекція, автоменю. Розмір ніші вказано в характеристиках.",
+    "intro_ru": "Встраиваемые микроволновые печи Gunter&Hauer: гриль, конвекция, автоменю. Размер ниши указан в характеристиках.",
+    "intro_en": "Built-in Gunter&Hauer microwaves: grill, convection, auto menu. The cut-out size is in the specification.",
+    "coverAlt": "Вбудована мікрохвильова піч",
+    "coverAlt_ru": "Встраиваемая микроволновая печь",
+    "coverAlt_en": "Built-in microwave oven",
+    "filters": [
+      "brand",
+      "price"
+    ],
+    "chips": [
+      {
+        "icon": "📐",
+        "key": "volume_l",
+        "fmt": "litres"
+      },
+      {
+        "icon": "⚡",
+        "key": "power_mw",
+        "fmt": "watt"
+      }
+    ],
+    "ppChips": [
+      {
+        "icon": "📐",
+        "key": "volume_l",
+        "fmt": "litres"
+      },
+      {
+        "icon": "⚡",
+        "key": "power_mw",
+        "fmt": "watt"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Обʼєм",
+        "key": "volume_l",
+        "fmt": "litres",
+        "label_ru": "Объём",
+        "label_en": "Capacity"
+      },
+      {
+        "label": "Потужність мікрохвиль",
+        "key": "power_mw",
+        "fmt": "watt",
+        "label_ru": "Мощность микроволн",
+        "label_en": "Microwave power"
+      },
+      {
+        "label": "Потужність гриля",
+        "key": "power_grill",
+        "fmt": "watt",
+        "label_ru": "Мощность гриля",
+        "label_en": "Grill power"
+      },
+      {
+        "label": "Керування",
+        "key": "control",
+        "label_ru": "Управление",
+        "label_en": "Controls"
+      },
+      {
+        "label": "Колір",
+        "key": "color",
+        "label_ru": "Цвет",
+        "label_en": "Colour"
+      },
+      {
+        "label": "Габарити (ШхВхГ)",
+        "key": "dims",
+        "label_ru": "Габариты (ШхВхГ)",
+        "label_en": "Dimensions (WxHxD)"
+      },
+      {
+        "label": "Розміри для вбудовування",
+        "key": "niche",
+        "label_ru": "Размеры для встраивания",
+        "label_en": "Cut-out size"
+      },
+      {
+        "label": "Особливості",
+        "key": "features",
+        "label_ru": "Особенности",
+        "label_en": "Features"
+      }
+    ]
+  },
+  "posudomyyni-mashyny": {
+    "name": "Посудомийні машини",
+    "name_ru": "Посудомоечные машины",
+    "name_en": "Dishwashers",
+    "code": "DW",
+    "nameGen": "посудомийних машин",
+    "nameGen_ru": "посудомоечных машин",
+    "nameGen_en": "dishwashers",
+    "cardSub": "Вбудовані, на 45 і 60 см",
+    "cardSub_ru": "Встраиваемые, на 45 и 60 см",
+    "cardSub_en": "Built-in, 45 and 60 cm",
+    "urlPrefix": "/posudomyyni-mashyny",
+    "icon": "posudomyyni-mashyny",
+    "order": 13,
+    "install": false,
+    "emoji": "🍽",
+    "productPrefix": {
+      "uk": "Посудомийна машина",
+      "ru": "Посудомоечная машина",
+      "en": "Dishwasher"
+    },
+    "trust": [
+      "Доставка по Сумах — 400 грн",
+      "Оплата після отримання",
+      "Офіційна гарантія"
+    ],
+    "trust_ru": [
+      "Доставка по Сумам — 400 грн",
+      "Оплата после получения",
+      "Официальная гарантия"
+    ],
+    "trust_en": [
+      "Delivery in Sumy — 400 UAH",
+      "Payment on receipt",
+      "Official warranty"
+    ],
+    "seoTitle": "Посудомийні машини у Сумах від {{DW_FROM}} грн",
+    "seoTitle_ru": "Посудомоечные машины в Сумах от {{DW_FROM}} грн",
+    "seoTitle_en": "Dishwashers in Sumy from {{DW_FROM}} UAH",
+    "seoDesc": "Вбудовані посудомийні машини у Сумах: {{DW_MODELS}} Gunter&Hauer. Кількість комплектів, програми й клас енергоспоживання — у характеристиках.",
+    "seoDesc_ru": "Встраиваемые посудомоечные машины в Сумах: {{DW_MODELS}} Gunter&Hauer. Количество комплектов, программы и класс энергопотребления — в характеристиках.",
+    "seoDesc_en": "Built-in dishwashers in Sumy: {{DW_MODELS}} by Gunter&Hauer. Place settings, programmes and energy class are listed.",
+    "intro": "Вбудовані посудомийні машини Gunter&Hauer на 45 і 60 см. Кількість комплектів підбирайте за розміром сімʼї: 9–10 вистачає на трьох.",
+    "intro_ru": "Встраиваемые посудомоечные машины Gunter&Hauer на 45 и 60 см. Количество комплектов подбирайте по размеру семьи: 9–10 хватает на троих.",
+    "intro_en": "Built-in Gunter&Hauer dishwashers, 45 and 60 cm. Pick place settings by household size: 9–10 suits three people.",
+    "coverAlt": "Вбудована посудомийна машина",
+    "coverAlt_ru": "Встраиваемая посудомоечная машина",
+    "coverAlt_en": "Built-in dishwasher",
+    "filters": [
+      "brand",
+      "price"
+    ],
+    "chips": [
+      {
+        "icon": "🍽",
+        "key": "sets"
+      },
+      {
+        "icon": "⚙",
+        "key": "programs"
+      },
+      {
+        "icon": "🔊",
+        "key": "noise_db"
+      }
+    ],
+    "ppChips": [
+      {
+        "icon": "🍽",
+        "key": "sets"
+      },
+      {
+        "icon": "⚙",
+        "key": "programs"
+      },
+      {
+        "icon": "🔊",
+        "key": "noise_db"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Кількість комплектів",
+        "key": "sets",
+        "label_ru": "Количество комплектов",
+        "label_en": "Place settings"
+      },
+      {
+        "label": "Кількість програм",
+        "key": "programs",
+        "label_ru": "Количество программ",
+        "label_en": "Programmes"
+      },
+      {
+        "label": "Клас енергоспоживання",
+        "key": "eclass",
+        "label_ru": "Класс энергопотребления",
+        "label_en": "Energy class"
+      },
+      {
+        "label": "Рівень шуму",
+        "key": "noise_db",
+        "label_ru": "Уровень шума",
+        "label_en": "Noise"
+      },
+      {
+        "label": "Ширина",
+        "key": "width_cm",
+        "fmt": "cm",
+        "label_ru": "Ширина",
+        "label_en": "Width"
+      },
+      {
+        "label": "Колір",
+        "key": "color",
+        "label_ru": "Цвет",
+        "label_en": "Colour"
+      },
+      {
+        "label": "Габарити (ШхВхГ)",
+        "key": "dims",
+        "label_ru": "Габариты (ШхВхГ)",
+        "label_en": "Dimensions (WxHxD)"
+      },
+      {
+        "label": "Розміри для вбудовування",
+        "key": "niche",
+        "label_ru": "Размеры для встраивания",
+        "label_en": "Cut-out size"
+      },
+      {
+        "label": "Особливості",
+        "key": "features",
+        "label_ru": "Особенности",
+        "label_en": "Features"
+      }
+    ]
   }
 }
