@@ -1710,3 +1710,17 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
   .faq-tabs::-webkit-scrollbar{display:none}
   .faq-tab{flex:0 0 auto}
 }
+
+/* ===== article illustrations ===== */
+.art-fig{margin:26px 0;display:block}
+.art-fig img{width:100%;height:auto;border-radius:var(--r);display:block;
+  background:var(--g1);aspect-ratio:16/9;object-fit:cover}
+.art-fig figcaption{margin-top:9px;font-size:13px;line-height:1.5;color:var(--g4);
+  text-align:center;font-style:italic}
+@media(max-width:560px){.art-fig{margin:20px 0}.art-fig figcaption{font-size:12.5px;text-align:left}}
+
+/* ===== category illustration ===== */
+.cat-art{margin:34px 0 6px;display:block}
+.cat-art img{width:100%;height:auto;max-height:420px;object-fit:cover;
+  border-radius:var(--r-lg);display:block;background:var(--g1)}
+@media(max-width:560px){.cat-art{margin:24px 0 2px}.cat-art img{max-height:230px}}

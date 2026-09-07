@@ -32,7 +32,15 @@ const btSeo = a => {
   const topic = full.split(/\s*:\s*/)[0];
   return topic.length <= room ? topic : full;
 };
-const bh = a => linkProducts((L !== 'uk' && a['html_' + L]) || a.html);
+/* Illustrations are written into the article body as plain paths, so they never
+   pass through av() the way a template's images do — and /assets/* is served
+   with a one-year immutable cache. That combination is exactly what once left a
+   replaced photograph stuck in the CDN for a day: same URL, new file, nobody
+   asks again. Stamp them here, so a redrawn illustration arrives as a new
+   address. */
+const stampAssets = html => html.replace(
+  /(["\s])(\/assets\/img\/blog\/[A-Za-z0-9@._-]+\.webp)/g, (m, p, u) => p + av(u));
+const bh = a => stampAssets(linkProducts((L !== 'uk' && a['html_' + L]) || a.html));
 
 /* Articles name real models — "Edler ED-120DT", "Beko RCNA406I30XB" — and until
    now they were plain text, so an interested reader had to go hunting in the
@@ -342,7 +350,7 @@ const hashed = new Map();
    instead, so new content is a genuinely different path that no stale entry can
    shadow. Product photos and share cards are written once per product and keep
    the query form; hashing 43MB of them into duplicate files is not worth it. */
-const HASH_IN_NAME = /^\/assets\/(css|js|img\/covers|img\/site)\//;
+const HASH_IN_NAME = /^\/assets\/(css|js|img\/covers|img\/site|img\/blog)\//;
 const hashedCopies = new Map();   // source path -> hashed path, emitted after the asset copy
 function av(u) {
   if (!u || !u.startsWith('/assets/')) return u;
@@ -1522,6 +1530,11 @@ ${HEADER}
     ${filtersFor(cat.key)}
     <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
   </section>
+  ${cat.illustration ? `<figure class="cat-art">` +
+    `<img src="${esc(av(cat.illustration))}" srcset="${esc(av(cat.illustration))} 800w, ` +
+    `${esc(av(cat.illustration.replace(/\.webp$/, '@1200.webp')))} 1200w" ` +
+    `sizes="(max-width:1000px) 94vw, 960px" alt="${esc(lf(cat, 'illustrationAlt') || NAME)}" ` +
+    `width="1200" height="675" loading="lazy" decoding="async"></figure>` : ''}
   ${catArticles(cat.key)}
   <div class="pp-back"><a href="${pfx() || '/'}#catalog">← ${esc(t('pp_back_all'))}</a></div>
 </div>

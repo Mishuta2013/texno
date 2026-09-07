@@ -1212,7 +1212,11 @@
         "label_ru": "Особенности",
         "label_en": "Features"
       }
-    ]
+    ],
+    "illustration": "/assets/img/blog/seo-vbudovana-tehnika.webp",
+    "illustrationAlt": "Вбудована духова шафа й мікрохвильова піч у колоні",
+    "illustrationAlt_ru": "Встраиваемый духовой шкаф и микроволновая печь в колонне",
+    "illustrationAlt_en": "A built-in oven and microwave in a tall cabinet"
   },
   "varylni-poverhni": {
     "name": "Варильні поверхні",
@@ -1435,7 +1439,11 @@
         "label_ru": "Особенности",
         "label_en": "Features"
       }
-    ]
+    ],
+    "illustration": "/assets/img/blog/seo-kuhonna-tehnika.webp",
+    "illustrationAlt": "Кухонна техніка у Сумах: варильна поверхня, витяжка й духова шафа",
+    "illustrationAlt_ru": "Кухонная техника в Сумах: варочная поверхность, вытяжка и духовой шкаф",
+    "illustrationAlt_en": "Kitchen appliances in Sumy: a hob, a hood and an oven"
   },
   "vytyazhky": {
     "name": "Витяжки",
@@ -1880,7 +1888,11 @@
         "label_ru": "Особенности",
         "label_en": "Features"
       }
-    ]
+    ],
+    "illustration": "/assets/img/blog/seo-myyka-zmishuvach.webp",
+    "illustrationAlt": "Кухонна мийка і змішувач у тон — Суми",
+    "illustrationAlt_ru": "Кухонная мойка и смеситель в тон — Сумы",
+    "illustrationAlt_en": "A kitchen sink and a matching tap"
   },
   "zmishuvachi": {
     "name": "Змішувачі",
@@ -2483,6 +2495,10 @@
         "label_ru": "Особенности",
         "label_en": "Features"
       }
-    ]
+    ],
+    "illustration": "/assets/img/blog/seo-posudomyyna.webp",
+    "illustrationAlt": "Вбудована посудомийна машина на кухні",
+    "illustrationAlt_ru": "Встраиваемая посудомоечная машина на кухне",
+    "illustrationAlt_en": "A built-in dishwasher in a kitchen"
   }
 }
