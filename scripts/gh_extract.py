@@ -102,6 +102,8 @@ EXTRA_STOP = ['Особливості', 'Характеристики', 'Тех�
 # "Колір" is the one field the feed writes loosely: several offers follow it with
 # the model code out of a nearby heading. A colour has no digits in it.
 BAD_COLOR = re.compile(r'\d')
+# Класи енергоспоживання у стрічці набрані українською розкладкою: А, В, С.
+HOMOGLYPH = str.maketrans('АВСЕНКМОРТХІ', 'ABCEHKMOPTXI')
 
 
 def text_of(x):
@@ -127,10 +129,14 @@ def stop_for(phrases, others):
     return r'(?=\s+(?:' + alt + r')|\s+[А-ЯЄІЇҐA-Z][^:]{2,44}:|\s{2,}|$)' if alt else GENERIC_STOP
 
 
+MODEL_RUN = r'\s*(?:[A-Z0-9][A-Za-z0-9 \-/\.]{0,24}:)?\s*'
+
+
 def grab(txt, phrases, kind, others=()):
     stop = stop_for(phrases, others)
+    head = MODEL_RUN if kind == 'color' else r'\s*:?\s*'
     for ph in phrases:
-        m = re.search(re.escape(ph) + r'\s*:?\s*(.{1,60}?)' + stop, txt)
+        m = re.search(re.escape(ph) + head + r'(.{1,60}?)' + stop, txt)
         if not m:
             continue
         v = m.group(1).strip(' .,;:')
@@ -148,7 +154,7 @@ def grab(txt, phrases, kind, others=()):
             if w:
                 return w
         elif kind == 'cls':
-            d = re.search(r'([A-G]\+*)', v)
+            d = re.search(r'\b([A-G]\+*)', v.translate(HOMOGLYPH))
             if d:
                 return d.group(1)
         elif kind == 'size':
@@ -168,7 +174,8 @@ def grab(txt, phrases, kind, others=()):
 
 
 def dims_of(txt, name):
-    m = re.search(r'Габаритні розміри[^:]*:\s*ШхВхГ,?\s*мм:?\s*(\d+)\s*[хx×]\s*(\d+)\s*[хx×]\s*(\d+)', txt)
+    m = re.search(r'(?:Габаритні розміри|Габарити|Розміри)[^:]{0,20}:\s*ШхВхГ,?\s*мм:?\s*'
+                  r'(\d+)\s*[хx×]\s*(\d+)\s*[хx×]\s*(\d+)', txt)
     if m:
         return f'{m.group(1)} × {m.group(2)} × {m.group(3)} мм'
     m = re.search(r'Розміри мийки\s*(\d+)\s*[хx×]\s*(\d+)', txt)
@@ -203,6 +210,40 @@ def specs_of(cat, txt, name):
         sp = 'Висувний' if 'висувн' in low else 'Поворотний' if 'обертання виливу' in low or 'поворотн' in low else None
         if sp:
             s['spout'] = sp
+    if cat == 'varylni-poverhni':
+        # "CER 640 – електричну варильну поверхню", "2 конфорки Hi-Light: 1,2
+        # кВт ... 2 конфорки Hi-Light: 1,8 кВт", "Сенсорне управління" — the hob
+        # descriptions carry no key/value pairs at all, so each fact is read out
+        # of the sentence that states it.
+        if 'hob_type' not in s:
+            # Every hob description opens the same way — "GH 631 BE –
+            # комбіновану варильну поверхню Gunter & Hauer" — and that one word
+            # is the only place the type is stated. Scanning the whole text for
+            # "газ" instead would call a combined hob a gas one, because it
+            # burns gas on three of its four zones.
+            m = re.search(r'[–—-]\s*(\w+)у\s+варильну\s+поверхню', txt)
+            head = (m.group(1).lower() if m else '')
+            for word, val in (('індукцій', 'Індукційна'), ('комбінован', 'Комбінована'),
+                              ('газов', 'Газова'), ('склокерамічн', 'Електрична'),
+                              ('електричн', 'Електрична')):
+                if head.startswith(word[:8]):
+                    s['hob_type'] = val
+                    break
+            else:
+                for word, val in (('індукцій', 'Індукційна'), ('комбінован', 'Комбінована'),
+                                  ('склокерамічн', 'Електрична'), ('електричн', 'Електрична'),
+                                  ('газов', 'Газова')):
+                    if word in low:
+                        s['hob_type'] = val
+                        break
+        if 'burners' not in s:
+            n = sum(int(d) for d in re.findall(r'(\d+)\s+(?:[а-яїієґ]+\s+){0,2}конфорк', low))
+            if 1 <= n <= 6:
+                s['burners'] = str(n)
+        if 'control' not in s:
+            m = re.search(r'(Сенсорн\w*|Механічн\w*|Електронн\w*)\s+(?:управління|керування)', txt, re.I)
+            if m:
+                s['control'] = m.group(0)[0].upper() + m.group(0)[1:].lower()
     if cat == 'vytyazhky' and 'рециркуляц' in low:
         s['recirc'] = 'Так'
     if 'dims' in s and 'width_cm' not in s:
@@ -223,6 +264,8 @@ def load(path):
         cat = CAT_MAP.get(o.findtext('categoryId'))
         if not cat:
             continue
+        if re.match(r'\s*(?:Килимок|Дошка|Сушарка|Коландер)\b', o.findtext('name') or '', re.I):
+            continue                            # accessory filed under the range it fits
         txt = text_of(o.findtext('description'))
         out.append(dict(
             slug=slug_of(o), model=model_of(o), cat=cat,

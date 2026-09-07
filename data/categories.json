@@ -743,7 +743,8 @@
         "label": "Рівень шуму",
         "key": "noise_db",
         "label_ru": "Уровень шума",
-        "label_en": "Noise level"
+        "label_en": "Noise level",
+        "fmt": "db"
       },
       {
         "label": "Кліматичний клас",
@@ -793,7 +794,8 @@
       },
       {
         "icon": "🔊",
-        "key": "noise_db"
+        "key": "noise_db",
+        "fmt": "db"
       },
       {
         "flag": "nofrost",
@@ -1369,11 +1371,13 @@
     "chips": [
       {
         "icon": "🌀",
-        "key": "airflow"
+        "key": "airflow",
+        "fmt": "m3h"
       },
       {
         "icon": "🔊",
-        "key": "noise_db"
+        "key": "noise_db",
+        "fmt": "db"
       },
       {
         "icon": "📏",
@@ -1384,11 +1388,13 @@
     "ppChips": [
       {
         "icon": "🌀",
-        "key": "airflow"
+        "key": "airflow",
+        "fmt": "m3h"
       },
       {
         "icon": "🔊",
-        "key": "noise_db"
+        "key": "noise_db",
+        "fmt": "db"
       },
       {
         "icon": "📏",
@@ -1401,19 +1407,22 @@
         "label": "Продуктивність",
         "key": "airflow",
         "label_ru": "Производительность",
-        "label_en": "Airflow"
+        "label_en": "Airflow",
+        "fmt": "m3h"
       },
       {
         "label": "Рівень шуму",
         "key": "noise_db",
         "label_ru": "Уровень шума",
-        "label_en": "Noise"
+        "label_en": "Noise",
+        "fmt": "db"
       },
       {
         "label": "Потужність двигуна",
         "key": "motor_w",
         "label_ru": "Мощность двигателя",
-        "label_en": "Motor power"
+        "label_en": "Motor power",
+        "fmt": "watt"
       },
       {
         "label": "Ширина",
@@ -1750,7 +1759,8 @@
     "chips": [
       {
         "icon": "🧴",
-        "key": "volume_ml"
+        "key": "volume_ml",
+        "fmt": "ml"
       },
       {
         "icon": "🎨",
@@ -1760,7 +1770,8 @@
     "ppChips": [
       {
         "icon": "🧴",
-        "key": "volume_ml"
+        "key": "volume_ml",
+        "fmt": "ml"
       },
       {
         "icon": "🎨",
@@ -1772,7 +1783,8 @@
         "label": "Обʼєм",
         "key": "volume_ml",
         "label_ru": "Объём",
-        "label_en": "Capacity"
+        "label_en": "Capacity",
+        "fmt": "ml"
       },
       {
         "label": "Матеріал",
@@ -1999,7 +2011,8 @@
       },
       {
         "icon": "🔊",
-        "key": "noise_db"
+        "key": "noise_db",
+        "fmt": "db"
       }
     ],
     "ppChips": [
@@ -2013,7 +2026,8 @@
       },
       {
         "icon": "🔊",
-        "key": "noise_db"
+        "key": "noise_db",
+        "fmt": "db"
       }
     ],
     "specs": [
@@ -2039,7 +2053,8 @@
         "label": "Рівень шуму",
         "key": "noise_db",
         "label_ru": "Уровень шума",
-        "label_en": "Noise"
+        "label_en": "Noise",
+        "fmt": "db"
       },
       {
         "label": "Ширина",

@@ -594,16 +594,18 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
   .header nav a:active{background:rgba(124,196,255,.16)}
   .header nav a[aria-current]{background:rgba(124,196,255,.14);color:#fff}
 
-  /* the five categories, first thing in the menu */
-  .nav-cats{display:flex;flex-direction:column;gap:2px;margin-bottom:10px;
+  /* The categories, first thing in the menu. Thirteen of them in one column is
+     a screen and a half of scrolling before the menu's own links come into
+     view, so they sit two to a row and the whole menu fits again. */
+  .nav-cats{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:10px;
     padding-bottom:10px;border-bottom:1px solid rgba(124,196,255,.14)}
-  .nav-cat{display:flex;align-items:center;justify-content:space-between;gap:12px;
-    padding:12px;border-radius:var(--r-sm);color:#fff;font-weight:600;text-decoration:none;
-    transition:background .16s}
+  .nav-cat{display:flex;align-items:center;justify-content:space-between;gap:8px;
+    padding:11px 10px;border-radius:var(--r-sm);color:#fff;font-weight:600;
+    font-size:13.5px;line-height:1.25;text-decoration:none;transition:background .16s}
   .nav-cat:active{background:rgba(124,196,255,.16)}
   .nav-cat[aria-current]{background:rgba(124,196,255,.14)}
-  .nav-cat em{font-style:normal;font-size:12.5px;font-weight:700;color:var(--frost);
-    background:rgba(124,196,255,.14);border-radius:var(--r-pill);padding:2px 9px;min-width:30px;text-align:center}
+  .nav-cat em{flex:0 0 auto;font-style:normal;font-size:11.5px;font-weight:700;color:var(--frost);
+    background:rgba(124,196,255,.14);border-radius:var(--r-pill);padding:2px 7px;min-width:24px;text-align:center}
 
   /* three bars fold into a cross so the button says what it will do */
   .header.nav-open .burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
