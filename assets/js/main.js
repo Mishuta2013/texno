@@ -28,14 +28,32 @@ function jFmtVal(p,f){
     case'kg':return raw?raw+' '+t('u_kg'):null;
     case'rpm':return raw?raw+' '+t('u_rpm'):null;
     case'cm':return raw?raw+' '+t('u_cm'):null;
+    case'mm':return raw?raw+' '+t('u_mm'):null;
+    case'ml':return raw?raw+' '+t('u_ml'):null;
+    case'db':return raw?raw+' '+t('u_db'):null;
+    case'm3h':return raw?raw+' '+t('u_m3h'):null;
+    /* mirrors build.mjs: the number needs its noun, and the noun agrees */
+    case'plural':return raw?raw+' '+plural(Number(raw),t(f.word).split('|')):null;
     default:return specValJS((raw!==undefined&&raw!==null&&raw!=='')?raw:null);
   }
 }
 /* free-text spec values + per-language labels, mirroring build.mjs */
 const SPECV=window.__SPECV__||{};
+/* mirrors specVal in build.mjs: the dictionary first, then the unit on its own
+   for values that are a number and a unit and nothing else */
+const UNIT_TR={ru:[[/ м³\/год$/,' м³/ч'],[/ год$/,' ч']],
+  en:[[/ мм$/,' mm'],[/ см$/,' cm'],[/ л$/,' l'],[/ дБ$/,' dB'],[/ Вт·год$/,' Wh'],
+      [/ Вт$/,' W'],[/ кВт$/,' kW'],[/ кг$/,' kg'],[/ м³\/год$/,' m³/h'],[/ мл$/,' ml']]};
+const NUMERIC_VAL=/^[\d\s.,×xх*\/+()-]+ ?[^\s]*$/;
 function specValJS(v){
   if(LANG==='uk'||typeof v!=='string')return v;
-  const e=SPECV[v];return (e&&e[LANG])||v;
+  const e=SPECV[v];if(e&&e[LANG])return e[LANG];
+  const rules=UNIT_TR[LANG]||[];
+  for(let i=0;i<rules.length;i++){
+    const out=v.replace(rules[i][0],rules[i][1]);
+    if(out!==v&&NUMERIC_VAL.test(v))return out;
+  }
+  return v;
 }
 const lfJS=(o,field)=>(LANG!=='uk'&&o&&o[field+'_'+LANG])||(o?o[field]:undefined);
 function pnameJS(p){
@@ -71,11 +89,15 @@ let CMP = JSON.parse(localStorage.getItem('tp_cmp')||'[]');
 
 const $=id=>document.getElementById(id);
 const fmt=n=>n.toLocaleString(LANG==='en'?'en-US':(LANG==='ru'?'ru-RU':'uk-UA'));
-const COUNTS={TOTAL:PRODUCTS.length,
-  AC:PRODUCTS.filter(p=>p.category==='kondicioneri').length,
-  WM:PRODUCTS.filter(p=>p.category==='pralni-mashyny').length,
-  PS:PRODUCTS.filter(p=>p.category==='zaryadni-stantsii').length,
-  FR:PRODUCTS.filter(p=>p.category==='holodylnyky').length};
+/* {{AC}}, {{WM}} and the rest are model counts a translated string can drop
+   into its own text. The codes used to be four lines of hand-written filters
+   here, which was fine while there were four categories and quietly wrong the
+   day a fifth wanted one. Each category names its own code in categories.json,
+   so the whole map is built from that. */
+const COUNTS=Object.entries(CATS).reduce((a,[key,c])=>{
+  if(c&&c.code)a[c.code]=PRODUCTS.filter(p=>p.category===key).length;
+  return a;},{TOTAL:PRODUCTS.length});
+const CODE_RE=new RegExp('\\{\\{('+Object.keys(COUNTS).join('|')+')\\}\\}','g');
 const PLURALS={uk:['товар','товари','товарів'],ru:['товар','товара','товаров'],en:['product','products','products']};
 function plural(n,f){if(LANG==='en')return n===1?f[0]:f[1];
   const a=n%10,b=n%100;
@@ -84,7 +106,7 @@ function plural(n,f){if(LANG==='en')return n===1?f[0]:f[1];
   return f[2];}
 const subCounts=s=>String(s)
   .replace(/\{\{ITEMS\}\}/g,()=>COUNTS.TOTAL+' '+plural(COUNTS.TOTAL,PLURALS[LANG]||PLURALS.uk))
-  .replace(/\{\{(TOTAL|AC|WM|PS|FR)\}\}/g,(m,k)=>COUNTS[k]);
+  .replace(CODE_RE,(m,k)=>COUNTS[k]);
 const t=k=>subCounts(I18N[LANG][k]!==undefined?I18N[LANG][k]:(I18N.uk[k]||k));
 const pdesc=p=>p['desc_'+LANG]||p.desc_uk;
 

@@ -90,7 +90,7 @@ FIELDS = {
         ('defrost', ['Система розморожування'], 'word'),
         ('compressor', ['Тип компресора'], 'phrase'),
         ('control', ['Управління'], 'word'),
-        ('climate', ['Кліматичний клас'], 'phrase'),
+        ('climate', ['Кліматичний клас'], 'cls_list'),
         ('eclass', ['Клас енергоспоживання', 'Клас енергоефективності'], 'cls'),
     ],
 }
@@ -157,6 +157,12 @@ def grab(txt, phrases, kind, others=()):
             d = re.search(r'\b([A-G]\+*)', v.translate(HOMOGLYPH))
             if d:
                 return d.group(1)
+        elif kind == 'cls_list':
+            # "N,SN,ST Можливість перенавішування дверцят" — the climate classes
+            # and then the next sentence, which has no key of its own to stop at.
+            d = re.match(r'[A-Z]+(?:\s*[,/]\s*[A-Z]+)*', v)
+            if d:
+                return d.group(0).replace(' ', '')
         elif kind == 'size':
             d = re.search(r'(\d+)\s*[хx×]\s*(\d+)', v)
             if d:
@@ -269,6 +275,7 @@ def load(path):
         txt = text_of(o.findtext('description'))
         out.append(dict(
             slug=slug_of(o), model=model_of(o), cat=cat,
+            available=(o.get('available', 'true') != 'false'),
             name=o.findtext('name'), price=int(o.findtext('price') or 0),
             code=o.findtext('vendorCode'),
             pictures=[p.text for p in o.findall('picture')],

@@ -326,6 +326,7 @@ def main(feed):
     have = {p['slug'] for p in products}
     items = gh_extract.load(feed)
     added = updated = skipped = 0
+    gone = []
     for it in items:
         cat = cats.get(it['cat'])
         if not cat:
@@ -344,6 +345,15 @@ def main(feed):
             if old.get('price') != price:
                 old['price'] = price
                 updated += 1
+            # Every page says "in stock", so a product the supplier has stopped
+            # holding has to be taken off by hand. Say so rather than let the
+            # site keep promising it.
+            if not it['available']:
+                gone.append(it['slug'])
+            continue
+        if not it['available']:
+            print(f'  !! {it["slug"]}: постачальник не має в наявності — не додаю')
+            skipped += 1
             continue
         prefix = cat['productPrefix']
         uk, ru, en = describe(it['cat'], it['specs'], it['model'], prefix)
@@ -364,6 +374,10 @@ def main(feed):
         json.dumps(products, ensure_ascii=False, indent=2) + '\n')
     print(f'додано {added}, оновлено цін {updated}, пропущено {skipped}; '
           f'усього товарів {len(products)}')
+    if gone:
+        print('  !! зникли з наявності у постачальника, зніміть із сайту вручну:')
+        for slug in gone:
+            print(f'     {slug}')
 
 
 if __name__ == '__main__':

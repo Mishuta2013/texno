@@ -1058,6 +1058,7 @@
     "order": 6,
     "install": false,
     "emoji": "🔥",
+    "cover": "/assets/img/covers/cat-duhovi-shafy.webp",
     "productPrefix": {
       "uk": "Духова шафа",
       "ru": "Духовой шкаф",
@@ -1102,7 +1103,9 @@
       },
       {
         "icon": "⚙",
-        "key": "functions"
+        "key": "functions",
+        "fmt": "plural",
+        "word": "u_functions"
       },
       {
         "icon": "🎛",
@@ -1117,7 +1120,9 @@
       },
       {
         "icon": "⚙",
-        "key": "functions"
+        "key": "functions",
+        "fmt": "plural",
+        "word": "u_functions"
       },
       {
         "icon": "🎛",
@@ -1198,6 +1203,7 @@
     "order": 7,
     "install": false,
     "emoji": "🍳",
+    "cover": "/assets/img/covers/cat-varylni-poverhni.webp",
     "productPrefix": {
       "uk": "Варильна поверхня",
       "ru": "Варочная поверхность",
@@ -1237,7 +1243,9 @@
     "chips": [
       {
         "icon": "🍳",
-        "key": "burners"
+        "key": "burners",
+        "fmt": "plural",
+        "word": "u_zones"
       },
       {
         "icon": "📏",
@@ -1252,7 +1260,9 @@
     "ppChips": [
       {
         "icon": "🍳",
-        "key": "burners"
+        "key": "burners",
+        "fmt": "plural",
+        "word": "u_zones"
       },
       {
         "icon": "📏",
@@ -1332,6 +1342,7 @@
     "order": 8,
     "install": false,
     "emoji": "🌀",
+    "cover": "/assets/img/covers/cat-vytyazhky.webp",
     "productPrefix": {
       "uk": "Витяжка",
       "ru": "Вытяжка",
@@ -1479,6 +1490,7 @@
     "order": 9,
     "install": false,
     "emoji": "🚰",
+    "cover": "/assets/img/covers/cat-myyky.webp",
     "productPrefix": {
       "uk": "Мийка",
       "ru": "Мойка",
@@ -1518,7 +1530,9 @@
     "chips": [
       {
         "icon": "🚰",
-        "key": "bowls"
+        "key": "bowls",
+        "fmt": "plural",
+        "word": "u_bowls"
       },
       {
         "icon": "🧱",
@@ -1528,7 +1542,9 @@
     "ppChips": [
       {
         "icon": "🚰",
-        "key": "bowls"
+        "key": "bowls",
+        "fmt": "plural",
+        "word": "u_bowls"
       },
       {
         "icon": "🧱",
@@ -1541,6 +1557,12 @@
         "key": "bowls",
         "label_ru": "Количество чаш",
         "label_en": "Bowls"
+      },
+      {
+        "label": "Розміри чаші",
+        "key": "bowl_dims",
+        "label_ru": "Размеры чаши",
+        "label_en": "Bowl size"
       },
       {
         "label": "Матеріал",
@@ -1602,6 +1624,7 @@
     "order": 10,
     "install": false,
     "emoji": "🚿",
+    "cover": "/assets/img/covers/cat-zmishuvachi.webp",
     "productPrefix": {
       "uk": "Змішувач",
       "ru": "Смеситель",
@@ -1720,6 +1743,7 @@
     "order": 11,
     "install": false,
     "emoji": "🧴",
+    "cover": "/assets/img/covers/cat-dozatory.webp",
     "productPrefix": {
       "uk": "Дозатор",
       "ru": "Дозатор",
@@ -1834,6 +1858,7 @@
     "order": 12,
     "install": false,
     "emoji": "📻",
+    "cover": "/assets/img/covers/cat-mikrohvylovi-pechi.webp",
     "productPrefix": {
       "uk": "Мікрохвильова піч",
       "ru": "Микроволновая печь",
@@ -1964,6 +1989,7 @@
     "order": 13,
     "install": false,
     "emoji": "🍽",
+    "cover": "/assets/img/covers/cat-posudomyyni-mashyny.webp",
     "productPrefix": {
       "uk": "Посудомийна машина",
       "ru": "Посудомоечная машина",
@@ -2003,11 +2029,15 @@
     "chips": [
       {
         "icon": "🍽",
-        "key": "sets"
+        "key": "sets",
+        "fmt": "plural",
+        "word": "u_sets"
       },
       {
         "icon": "⚙",
-        "key": "programs"
+        "key": "programs",
+        "fmt": "plural",
+        "word": "u_programs"
       },
       {
         "icon": "🔊",
@@ -2018,11 +2048,15 @@
     "ppChips": [
       {
         "icon": "🍽",
-        "key": "sets"
+        "key": "sets",
+        "fmt": "plural",
+        "word": "u_sets"
       },
       {
         "icon": "⚙",
-        "key": "programs"
+        "key": "programs",
+        "fmt": "plural",
+        "word": "u_programs"
       },
       {
         "icon": "🔊",

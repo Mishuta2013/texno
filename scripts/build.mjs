@@ -99,10 +99,26 @@ const lf = (obj, field) => (L !== 'uk' && obj && obj[field + '_' + L]) || (obj ?
 const catTrust = cat => lf(cat, 'trust') || (cat.install
   ? [`${t('trust_install')} — ${fmt(site.installPrice)} ${t('u_uah')}`, t('trust_paylater'), t('trust_warranty5')]
   : [t('trust_delivery'), t('trust_payget'), t('trust_warranty')]);
+/* Values that are a number and a unit — "550 × 510 мм", "44 л", "58 дБ" — are
+   nearly all distinct, one per product, and translating them by dictionary
+   would mean a hundred near-identical rows shipped to every page. The unit is
+   the only part that changes, so it is translated on its own. Anything with a
+   word in it still goes through the dictionary, where a translator can see it. */
+const UNIT_TR = {
+  ru: [[/ м³\/год$/, ' м³/ч'], [/ год$/, ' ч']],
+  en: [[/ мм$/, ' mm'], [/ см$/, ' cm'], [/ л$/, ' l'], [/ дБ$/, ' dB'], [/ Вт·год$/, ' Wh'],
+       [/ Вт$/, ' W'], [/ кВт$/, ' kW'], [/ кг$/, ' kg'], [/ м³\/год$/, ' m³/h'], [/ мл$/, ' ml']],
+};
+const NUMERIC_VAL = /^[\d\s.,×xх*\/+()-]+ ?[^\s]*$/;
 const specVal = v => {
   if (L === 'uk' || typeof v !== 'string') return v;
   const e = SPECV[v];
-  return (e && e[L]) || v;
+  if (e && e[L]) return e[L];
+  for (const [re, to] of (UNIT_TR[L] || [])) {
+    const out = v.replace(re, to);
+    if (out !== v && NUMERIC_VAL.test(v)) return out;
+  }
+  return v;
 };
 const pname = p => {
   if (L !== 'uk' && p['name_' + L]) return p['name_' + L];        // explicit override wins
@@ -286,6 +302,14 @@ function fmtVal(p, f) {
     case 'kg': return raw ? `${raw} ${t('u_kg')}` : null;
     case 'rpm': return raw ? `${raw} ${t('u_rpm')}` : null;
     case 'cm': return raw ? `${raw} ${t('u_cm')}` : null;
+    /* A bare number under an icon says nothing: "🚰 1" could be one bowl, one
+       tap or one of anything. The field names the noun, and the noun agrees
+       with the number — one чаша, two чаші, five чаш. */
+    case 'plural': return raw ? `${raw} ${plural(Number(raw), t(f.word).split('|'))}` : null;
+    case 'mm': return raw ? `${raw} ${t('u_mm')}` : null;
+    case 'ml': return raw ? `${raw} ${t('u_ml')}` : null;
+    case 'db': return raw ? `${raw} ${t('u_db')}` : null;
+    case 'm3h': return raw ? `${raw} ${t('u_m3h')}` : null;
     default: return specVal((raw !== undefined && raw !== null && raw !== '') ? raw : null);
   }
 }
@@ -615,13 +639,37 @@ const missingThumb = products.filter(p => !p.thumb);
 if (missingThumb.length) throw new Error('no thumb: ' + missingThumb.map(p => p.slug).join(', '));
 const catalogData = products.map(({ desc_ru, desc_en, desc_uk, srcIndex, photoCount, photos, ...keep }) =>
   ({ ...keep, thumb: av(keep.thumb) }));
+/* The browser reads five things out of a category: its code for the {{XX}}
+   counts, its url prefix and product prefix for building links and names, its
+   chips for the cards and its spec list for the compare table. The rest —
+   three languages of SEO title, description, intro, FAQ, card subtitle and
+   cover alt — is written for the page builder and never leaves it. Thirteen
+   categories made that 44KB of dead weight on every page; this is a tenth of
+   it. */
+const CAT_CLIENT_FIELDS = ['code', 'urlPrefix', 'productPrefix', 'chips', 'specs'];
+const catsSlim = Object.fromEntries(Object.entries(CATS).map(([k, c]) =>
+  [k, Object.fromEntries(CAT_CLIENT_FIELDS.filter(f => c[f] !== undefined).map(f => [f, c[f]]))]));
 /* Ship only the strings this page can actually use: its own language plus the
    Ukrainian fallback the client falls back to. Sending all three put ~48KB of
    dead weight on every one of the 369 pages. The switcher needs to know which
    languages exist, so that list travels separately as a few bytes. */
-const injectData = (extraProducts) => {
+/* Same reasoning for the product names. Switching language is a navigation, not
+   a re-render, so a Ukrainian page can only ever show the Ukrainian name and an
+   English page falls back to it. Carrying all three meant a third of the name
+   bytes on every page were for a language that page cannot display. */
+const slimNames = new Map();
+const namesFor = (lang) => {
+  if (!slimNames.has(lang)) {
+    slimNames.set(lang, catalogData.map(({ name_ru, name_en, ...keep }) => {
+      const other = lang === 'ru' ? name_ru : lang === 'en' ? name_en : undefined;
+      return other === undefined ? keep : { ...keep, [`name_${lang}`]: other };
+    }));
+  }
+  return slimNames.get(lang);
+};
+const injectData = () => {
   const i18nSlim = L === 'uk' ? { uk: i18n.uk } : { uk: i18n.uk, [L]: i18n[L] };
-  return `<script>window.__I18N__=${JSON.stringify(i18nSlim)};window.__LANGS__=${JSON.stringify(LANGS)};window.__SITE__=${JSON.stringify(site)};window.__CATS__=${JSON.stringify(CATS)};window.__SPECV__=${JSON.stringify(SPECV)};window.__PRODUCTS__=${JSON.stringify(extraProducts)};</script>`;
+  return `<script>window.__I18N__=${JSON.stringify(i18nSlim)};window.__LANGS__=${JSON.stringify(LANGS)};window.__SITE__=${JSON.stringify(site)};window.__CATS__=${JSON.stringify(catsSlim)};window.__SPECV__=${JSON.stringify(SPECV)};window.__PRODUCTS__=${JSON.stringify(namesFor(L))};</script>`;
 };
 
 // ===================== BUILD =====================
@@ -896,7 +944,7 @@ ${head({
 <script type="application/ld+json">${JSON.stringify(searchLd())}</script>
 </head><body>${GTM_NS}
 ${body}
-${injectData(catalogData)}
+${injectData()}
 <script>window.__CATALOG_CAT__=${JSON.stringify(homeCatalogCat)};</script>
 <script src="${av('/assets/js/main.js')}" defer></script>
 </body></html>`;
@@ -1120,12 +1168,15 @@ ${HEADER}
   <button class="btn-primary pps-btn" onclick="ppLead('${esc(NAME)}')">${esc(t('pp_order'))}</button>
 </div>
 ${FOOTER}
-${injectData(catalogData)}
+${injectData()}
 <script src="${av('/assets/js/main.js')}" defer></script>
 <div class="lbox" id="lbox" onclick="if(event.target.id==='lbox')ppClose()">
   <button class="lbox-x" onclick="ppClose()" aria-label="${esc(t('lb_close'))}">×</button>
   <button class="lbox-nav prev" onclick="ppStep(-1)" aria-label="${esc(t('lb_prev'))}">‹</button>
-  <figure class="lbox-fig"><img id="lbox-img" src="" alt="${esc(NAME)}" width="900" height="900"></figure>
+  <!-- No src until a photo is opened. src="" is not "no picture": the browser
+       resolves it against the document and fetches the whole page again, on
+       every product page, for an image nobody has asked to see yet. -->
+  <figure class="lbox-fig"><img id="lbox-img" alt="${esc(NAME)}" width="900" height="900"></figure>
   <button class="lbox-nav next" onclick="ppStep(1)" aria-label="${esc(t('lb_next'))}">›</button>
   <div class="lbox-count"><span id="lbox-n">1</span> / ${p.photos.length}</div>
 </div>
@@ -1333,7 +1384,7 @@ ${HEADER}
   <div class="pp-back"><a href="${curl(cat)}">← ${esc(CAT)}</a></div>
 </div>
 ${FOOTER}
-${injectData(catalogData)}
+${injectData()}
 <script>window.__CATALOG_CAT__=${JSON.stringify(cat.key)};window.__BRAND__=${JSON.stringify(brand)};</script>
 <script src="${av('/assets/js/main.js')}" defer></script>
 </body></html>`;
@@ -1436,7 +1487,7 @@ ${HEADER}
   <div class="pp-back"><a href="${pfx() || '/'}#catalog">← ${esc(t('pp_back_all'))}</a></div>
 </div>
 ${FOOTER}
-${injectData(catalogData)}
+${injectData()}
 <script>window.__CATALOG_CAT__=${JSON.stringify(cat.key)};</script>
 <script src="${av('/assets/js/main.js')}" defer></script>
 </body></html>`;
@@ -1487,7 +1538,7 @@ ${HEADER}
   <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
 </div>
 ${FOOTER}
-${injectData(catalogData)}
+${injectData()}
 <script src="${av('/assets/js/main.js')}" defer></script>
 </body></html>`;
 }
@@ -1520,7 +1571,7 @@ ${HEADER}
   <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
 </article>
 ${FOOTER}
-${injectData(catalogData)}
+${injectData()}
 <script src="${av('/assets/js/main.js')}" defer></script>
 </body></html>`;
 }
@@ -1620,7 +1671,7 @@ ${HEADER}
   </div>
 </div>
 ${FOOTER}
-${injectData(catalogData)}
+${injectData()}
 <script src="${av('/assets/js/main.js')}" defer></script>
 </body></html>`;
 }
@@ -1655,7 +1706,7 @@ ${HEADER}
   </div>
 </div>
 ${FOOTER}
-${injectData(catalogData)}
+${injectData()}
 <script src="${av('/assets/js/main.js')}" defer></script>
 </body></html>`;
   fs.writeFileSync(path.join(DIST, '404.html'), html, 'utf8');
@@ -1670,7 +1721,7 @@ ${head({ title: 'Політика конфіденційності | TexnoPlaza'
 ${HEADER}
 ${privacyBody}
 ${FOOTER}
-${injectData(catalogData)}
+${injectData()}
 <script src="${av('/assets/js/main.js')}" defer></script>
 </body></html>`;
   fs.mkdirSync(path.join(DIST, 'polityka-konfidentsiynosti'), { recursive: true });
