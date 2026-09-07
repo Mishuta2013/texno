@@ -75,14 +75,22 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:800;line-height:1.12;letter-spac
 .header nav a{color:rgba(255,255,255,.72);font-size:13.5px;font-weight:500;padding:8px 7px;border-radius:var(--r-sm);transition:.18s;white-space:nowrap;position:relative}
 .header nav a:hover{color:#fff;background:rgba(124,196,255,.1)}
 .header-right{display:flex;align-items:center;gap:14px;margin-left:auto;flex-shrink:0}
-/* keep the header on one line on laptops: tighten nav, then drop the phone */
-@media(max-width:1720px){
+/* Keeping the header on one line. The ladder used to run the wrong way — at
+   1661-1720px the links were padded 9px, wider than at 1721px and above — so the
+   widest and most common screen, 1920, was the tightest case of all: the row
+   needed 32px more than the 1220px container gives it, and "Контакты" sat on top
+   of the phone number. The container cannot grow without pulling the header out
+   of line with the page, so the nav gives up the space instead, and the steps now
+   only ever get tighter as the screen narrows. */
+@media(min-width:1381px){
   .header-in{gap:16px}
-  .header nav a{font-size:13.5px;padding:8px 9px}
+  .header-right{gap:8px}
+  .header nav a{font-size:13px;padding:8px 5px;letter-spacing:0}
+  .header .btn-cb{padding:10px 14px}
 }
 @media(max-width:1660px){
   .header-in{gap:12px}
-  .header nav a{font-size:13px;padding:8px 6px}
+  .header nav a{padding:8px 4px}
 }
 @media(max-width:1520px){
   .header-in .h-phone{display:none}
