@@ -312,7 +312,7 @@ function appendPage(){
      was opened in the background, a browser throttling callbacks, anything at
      all that stops the observer firing would otherwise leave the visitor on
      twenty-four cards with an animation and no way forward. */
-  el.innerHTML='<button type="button" class="btn btn-ghost cat-more-btn">'
+  el.innerHTML='<button type="button" class="cat-more-btn">'
     +gEsc(t('cat_more'))+' <b>'+left+'</b></button>';
   if('IntersectionObserver' in window){
     if(!pageIO)pageIO=new IntersectionObserver(es=>{

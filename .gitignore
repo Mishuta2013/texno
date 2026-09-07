@@ -30,3 +30,6 @@ skills-lock.json
 
 # supplier feed working copies (photos are processed into assets/img/products)
 scripts/_feed_*.xml
+
+# research reports from scripts/enrich_specs.mjs (review, then --apply)
+scratch/
