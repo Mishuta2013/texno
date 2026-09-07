@@ -1002,7 +1002,18 @@ ${(() => {
              middle. Never the first word, which names the appliance. */
           let i = -1;
           for (let k = w.length - 1; k >= 1; k--) if (DROP.test(w[k])) { i = k; break; }
-          if (i < 0 || w.length <= 2) return null;
+          if (i < 0) {
+            /* Last resort before giving up on this form: Atlantic writes its
+               packaging variant onto the end of the model code — D400S-2-BC.
+               Nobody searches for the "-2-BC"; the shelf code stays whole in
+               the heading, the specs and the schema, only the tab title
+               loses it. */
+            const v = w[w.length - 1].match(/^(.*\d.*)-\d+-[A-Z]{2,3}$/);
+            if (!v) return null;
+            w = w.slice(0, -1).concat(v[1]);
+            continue;
+          }
+          if (w.length <= 2) return null;
           w = w.slice(0, i).concat(w.slice(i + 1));
         }
       };

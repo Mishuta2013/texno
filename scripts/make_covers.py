@@ -19,6 +19,8 @@ grid.
 
 Run: python scripts/make_covers.py
 """
+import io
+import json
 import pathlib
 import sys
 
@@ -29,7 +31,11 @@ SRC = ROOT / "scripts" / "covers-src"
 OUT = ROOT / "assets" / "img" / "covers"
 OG = ROOT / "assets" / "og"
 
-CATS = ["kondicioneri", "pralni-mashyny", "holodylnyky", "zaryadni-stantsii", "boylery"]
+# The categories, in the order they appear on the site. A key is only listed
+# once its source shot exists, so a category can be described in the data before
+# anyone has drawn a picture for it.
+CATS = [k for k in json.load(io.open(ROOT / "data" / "categories.json", encoding="utf-8"))
+        if (SRC / f"cat-{k}.webp").exists()]
 RATIO = 40 / 17          # 2.35:1 — a 379px card gets a 161px cover instead of 213px
 WIDTHS = (1200, 800, 400)   # 1200 for the category hero on a wide screen
 
