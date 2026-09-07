@@ -2,30 +2,92 @@
 # -*- coding: utf-8 -*-
 """Gunter&Hauer feed photos -> per-slug cut-out WebP, same as the other ranges.
 
-The supplier ships its shots on white, which is what the flood-fill cutout in
-process_fridges2.py expects, so the machinery is imported from there rather than
-copied. Interior and detail frames whose background is not white are kept as
-they are: cutting them would eat the picture.
+The cutout itself is the flood fill from process_fridges2.py, imported rather
+than copied. What is not imported is that file's two accept/reject tests: both
+were written for refrigerators and both get this range wrong. See studio_bg and
+enclosed_holes below.
+
+Frames whose background is a real kitchen are kept as they are — cutting one
+would eat the picture — but they are moved behind the cut-out shots, so the
+frame the catalogue shows is always the product on its own.
 
 Source folders come from the downloader and are named by product slug.
 
 Run: python scripts/process_gh_photos.py <source-dir>
 """
 import importlib.util
-import os
 import pathlib
 import re
 import sys
 
-from PIL import Image
+from PIL import Image, ImageDraw
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUTDIR = ROOT / 'assets' / 'img' / 'products'
 MAX_PHOTOS = 15
+MAX_HOLES = 8.0                  # per cent of the silhouette that may be unreachable
 
 spec = importlib.util.spec_from_file_location('pf2', ROOT / 'scripts' / 'process_fridges2.py')
 pf2 = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(pf2)
+
+
+def ring(im):
+    """Luminance of the one-pixel frame around the image, sorted."""
+    w, h = im.size
+    px = im.load()
+    sx, sy = max(1, w // 80), max(1, h // 80)
+    vals = ([px[x, 1] for x in range(0, w, sx)] + [px[x, h - 2] for x in range(0, w, sx)]
+            + [px[1, y] for y in range(0, h, sy)] + [px[w - 2, y] for y in range(0, h, sy)])
+    return sorted(sum(c[:3]) / 3 for c in vals)
+
+
+def studio_bg(im):
+    """Is this the product on a seamless white backdrop?
+
+    is_white_bg in process_fridges2.py samples eight fixed points and wants
+    seven of them white. A fridge stands in the middle of its frame and passes.
+    A cooker hood is photographed edge to edge and runs off both sides, so two
+    of the eight land on the product and the whole photo is written off as a
+    kitchen scene — which is why most of this range came out as a white box on
+    the card instead of a cut-out. Judge the whole border instead: a backdrop is
+    uniformly light even when the product crosses it.
+    """
+    lum = ring(im)
+    return lum[len(lum) // 2] >= 246 and sum(1 for v in lum if v >= 244) / len(lum) >= 0.60
+
+
+def enclosed_holes(rgba):
+    """Percentage of the silhouette that the flood fill ate out of the product.
+
+    interior_holes in process_fridges2.py samples a 9x9 grid across the bounding
+    box and counts transparent points. For a slab-shaped fridge that measures
+    what it says. For a tap, an L-shaped sink or a thin wide hood, most of the
+    bounding box is honest background, so a perfectly good cutout scored 28% and
+    was thrown away. What actually matters is transparency the outside cannot
+    reach: background is reachable from the border, a hole bitten into the
+    product is not.
+    """
+    a = rgba.split()[3].point(lambda p: 255 if p > 40 else 0)
+    w, h = a.size
+    for s in [(0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1),
+              (w // 2, 0), (w // 2, h - 1), (0, h // 2), (w - 1, h // 2)]:
+        if a.getpixel(s) == 0:
+            ImageDraw.floodfill(a, s, 128)
+    hist = a.histogram()
+    return 100.0 * hist[0] / max(1, hist[255] + hist[0])
+
+
+def prepare(im):
+    """-> (rgba, kind, note). kind is 'cut' or 'scene' and drives the order."""
+    if not studio_bg(im):
+        return im.convert('RGBA'), 'scene', 'сцена'
+    cutout = pf2.cut(im)
+    holes = enclosed_holes(cutout)
+    if holes > MAX_HOLES:
+        b = pf2.content_bbox(im)
+        return (im.crop(b) if b else im).convert('RGBA'), 'scene', f'заливка з\'їла {holes:.0f}%'
+    return cutout, 'cut', 'вирізано'
 
 
 def is_banner(im):
@@ -53,6 +115,11 @@ def is_banner(im):
     return red > 0.012 * n and white > 0.40 * n
 
 
+# Cut-outs first, then kitchen scenes, then the supplier's marketing slides.
+# Within each group the supplier's own order is kept.
+RANK = {'cut': 0, 'scene': 1, 'banner': 2}
+
+
 def main(src_dir):
     src = pathlib.Path(src_dir)
     folders = sorted(p for p in src.iterdir() if p.is_dir())
@@ -62,13 +129,7 @@ def main(src_dir):
         if not files:
             print(f'  !! {d.name}: немає файлів')
             continue
-        out = OUTDIR / d.name
-        out.mkdir(parents=True, exist_ok=True)
-        for old in out.glob('*.webp'):
-            old.unlink()
-        n, hero = 0, None
-        notes = {}
-        loaded = []
+        frames, notes = [], {}
         for f in files:
             try:
                 im = Image.open(f).convert('RGB')
@@ -81,26 +142,27 @@ def main(src_dir):
             # can see.
             if max(im.size) > 1200:
                 im.thumbnail((1200, 1200), Image.LANCZOS)
-            loaded.append((f, im))
-        # Slides go to the back of the gallery so the catalogue thumbnail is
-        # always a photograph. Order is otherwise the supplier's.
-        flags = [is_banner(im) for f, im in loaded]
-        if any(flags):
-            loaded = ([p for p, b in zip(loaded, flags) if not b]
-                      + [p for p, b in zip(loaded, flags) if b])
-            notes['слайд у кінець'] = sum(flags)
-        for f, im in loaded:
-            rgba, how = pf2.prepare(im)
-            notes[how] = notes.get(how, 0) + 1
-            n += 1
-            pf2.normalize(rgba, pf2.FULL).save(out / f'{n}.webp', 'WEBP', quality=88, method=6)
-            if n == 1:
-                hero = rgba
-        if hero is not None:
-            pf2.normalize(hero, pf2.THUMB).save(out / 'thumb.webp', 'WEBP', quality=86, method=6)
+            if is_banner(im):
+                frames.append((RANK['banner'], im.convert('RGBA')))
+                notes['слайд'] = notes.get('слайд', 0) + 1
+                continue
+            rgba, kind, note = prepare(im)
+            frames.append((RANK[kind], rgba))
+            notes[note] = notes.get(note, 0) + 1
+        if not frames:
+            print(f'  !! {d.name}: жодного придатного кадру')
+            continue
+        frames.sort(key=lambda p: p[0])          # stable: keeps the supplier's order inside a group
+        out = OUTDIR / d.name
+        out.mkdir(parents=True, exist_ok=True)
+        for old in out.glob('*.webp'):
+            old.unlink()
+        for i, (_, rgba) in enumerate(frames, 1):
+            pf2.normalize(rgba, pf2.FULL).save(out / f'{i}.webp', 'WEBP', quality=88, method=6)
+        pf2.normalize(frames[0][1], pf2.THUMB).save(out / 'thumb.webp', 'WEBP', quality=86, method=6)
         total += 1
-        kept += n
-        print(f'{d.name}: {n} фото  {notes}', flush=True)
+        kept += len(frames)
+        print(f'{d.name}: {len(frames)} фото  {notes}', flush=True)
     print(f'\nготово: {total} товарів, {kept} зображень')
 
 

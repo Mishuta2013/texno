@@ -216,6 +216,9 @@ function getFiltered(){
   if(activeTech==='inverter')list=list.filter(p=>p.inverter);
   if(activePrice!=='all'){const [lo,hi]=String(activePrice).split('-').map(Number);
     if(!isNaN(lo)&&!isNaN(hi))list=list.filter(p=>p.price>lo&&p.price<=hi);}
+  {const defs=((CATS[window.__CATALOG_CAT__]||{}).filters||[]).filter(f=>f&&f.key);
+   defs.forEach(f=>{const c=activeGen[f.key];
+     if(c&&c!=='all')list=list.filter(p=>genMatch(p,f,c));});}
   const so=$('sort-select');
   const sort=so?so.value:'default';
   if(sort==='price-asc')list.sort((a,b)=>a.price-b.price);
@@ -270,13 +273,67 @@ function cardHTML(p){
     </div>
   </div>`;
 }
+/* The grid used to be written in one go. At 127 products that was already a
+   lot of DOM; at 269 it is nine thousand nodes and a long layout on a phone
+   before anything is on screen, and nobody scrolls past the fortieth card
+   anyway. Cards now arrive a page at a time as the sentinel below the grid
+   comes into view.
+
+   Every card is still in `list` — the result count, the sort and the filters
+   all work on the whole set, only the painting is deferred. Without
+   IntersectionObserver the sentinel becomes an ordinary button, so the rest of
+   the catalogue is always reachable. */
+const PAGE_SIZE = 24;
+let pageList = [], pageShown = 0, pageIO = null;
+function catalogSentinel(){
+  let el=$('catalog-more');
+  if(!el){
+    const grid=$('catalog-grid'); if(!grid) return null;
+    el=document.createElement('div');
+    el.id='catalog-more'; el.className='cat-more';
+    grid.insertAdjacentElement('afterend',el);
+    el.addEventListener('click',e=>{if(e.target.closest('.cat-more-btn'))appendPage();});
+  }
+  return el;
+}
+function appendPage(){
+  const grid=$('catalog-grid'); if(!grid) return;
+  const next=pageList.slice(pageShown,pageShown+PAGE_SIZE);
+  if(next.length){
+    grid.insertAdjacentHTML('beforeend',next.map(cardHTML).join(''));
+    pageShown+=next.length;
+    scanReveals(grid);
+  }
+  const el=catalogSentinel(); if(!el) return;
+  const left=pageList.length-pageShown;
+  if(left<=0){ el.hidden=true; el.innerHTML=''; if(pageIO)pageIO.unobserve(el); return; }
+  el.hidden=false;
+  /* Always a real button, even when the observer is doing the work. A tab that
+     was opened in the background, a browser throttling callbacks, anything at
+     all that stops the observer firing would otherwise leave the visitor on
+     twenty-four cards with an animation and no way forward. */
+  el.innerHTML='<button type="button" class="btn btn-ghost cat-more-btn">'
+    +gEsc(t('cat_more'))+' <b>'+left+'</b></button>';
+  if('IntersectionObserver' in window){
+    if(!pageIO)pageIO=new IntersectionObserver(es=>{
+      if(es.some(e=>e.isIntersecting))appendPage();
+    },{rootMargin:'600px 0px'});
+    pageIO.observe(el);
+  }
+}
 function renderCatalog(){
   const grid=$('catalog-grid'); if(!grid) return;
   const list=getFiltered();
   const base=(window.__CATALOG_CAT__&&window.__CATALOG_CAT__!=='all')?PRODUCTS.filter(p=>p.category===window.__CATALOG_CAT__).length:PRODUCTS.length;
   const rc=$('results-count'); if(rc) setResultCount(rc,list.length,base);
-  if(!list.length){grid.innerHTML=`<div class="no-results"><p>${t('no_res_t')}</p><span>${t('no_res_s')}</span></div>`;return;}
-  grid.innerHTML=list.map(cardHTML).join('');
+  const el=catalogSentinel(); if(el&&pageIO)pageIO.unobserve(el);
+  pageList=list; pageShown=0; grid.innerHTML='';
+  if(!list.length){
+    grid.innerHTML=`<div class="no-results"><p>${t('no_res_t')}</p><span>${t('no_res_s')}</span></div>`;
+    if(el){el.hidden=true;el.innerHTML='';}
+    return;
+  }
+  appendPage();
 }
 /* The result count rewrote itself in place, so a filter that took the grid
    from 52 models to 9 looked like nothing had happened. Count to the new
@@ -307,6 +364,69 @@ function setResultCount(el,to,base){
     if(p<1)requestAnimationFrame(step); else num.textContent=to;
   });
 }
+/* ---- filters declared in categories.json ----------------------------------
+   The five original categories each have a hand-written row of buttons in the
+   template plus a line of its own in getFiltered. That does not scale to
+   thirteen, so the newer categories declare their filters as data — a spec key,
+   a type, and either numeric bands or a list of values — and this renders and
+   applies all of them. A band that nothing in the category falls into is left
+   out: an empty result reads as a broken page, not as an empty band. */
+let activeGen = {};
+const gEsc = v => String(v==null?'':v)
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const genNum = v => { const n = parseFloat(String(v).replace(',', '.')); return isNaN(n) ? null : n; };
+function genMatch(p, f, choice){
+  if(choice==='all') return true;
+  const raw=(p.specs||{})[f.key];
+  if(raw===undefined||raw===null||raw==='') return false;
+  if(f.type==='range'){
+    const n=genNum(raw); if(n===null) return false;
+    const [lo,hi]=choice.split(':').map(Number);
+    return n>lo&&n<=hi;
+  }
+  const v=f.values.find(x=>x.value===choice);
+  if(!v) return true;
+  return v.prefix?String(raw).startsWith(v.value):String(raw)===v.value;
+}
+function renderGenericFilters(cat){
+  const row=$('frow-gen'); if(!row) return;
+  const defs=((CATS[cat]||{}).filters||[]).filter(f=>f&&f.key&&(f.bands||f.values));
+  if(!cat||cat==='all'||!defs.length){ row.style.display='none'; row.innerHTML=''; return; }
+  const pool=PRODUCTS.filter(p=>p.category===cat);
+  let html='', shown=0;
+  defs.forEach((f,fi)=>{
+    const opts=[];
+    if(f.type==='range'){
+      f.bands.forEach(b=>{
+        const key=b.min+':'+b.max;
+        if(pool.some(p=>genMatch(p,f,key))) opts.push([key,lfJS(b,'label')]);
+      });
+    }else{
+      f.values.forEach(v=>{
+        if(pool.some(p=>genMatch(p,f,v.value))) opts.push([v.value,lfJS(v,'label')]);
+      });
+    }
+    if(opts.length<2) return;                       // one option filters nothing
+    const cur=activeGen[f.key]||'all';
+    if(shown) html+='<div class="fdiv"></div>';
+    else html+='<span class="flabel">'+gEsc(lfJS(f,'label'))+'</span>';
+    shown++;
+    html+='<div class="filter-group" data-gen="'+gEsc(f.key)+'" data-genidx="'+fi+'">'
+      +'<button class="fbtn'+(cur==='all'?' active':'')+'" data-gv="all">'+gEsc(t('f_all'))+'</button>'
+      +opts.map(([v,l])=>'<button class="fbtn'+(cur===v?' active':'')+'" data-gv="'+gEsc(v)+'">'
+        +gEsc(l)+'</button>').join('')+'</div>';
+  });
+  row.innerHTML=html;
+  row.style.display=shown?'':'none';
+}
+function onGenericClick(e){
+  const b=e.target.closest('.fbtn'); if(!b) return;
+  const g=b.closest('[data-gen]'); if(!g) return;
+  g.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  activeGen[g.dataset.gen]=b.dataset.gv;
+  renderCatalog();
+}
 function setupFilters(){
   [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth'],['vol-filters','vol'],['height-filters','height'],['tech-filters','tech'],['cap-filters','cap'],['pw-filters','pw'],['bvol-filters','bvol'],['heat-filters','heat']].forEach(([gid,attr])=>{
     const g=$(gid); if(!g) return;
@@ -317,7 +437,8 @@ function setupFilters(){
       if(attr==='vol')activeVol=v;if(attr==='height')activeHeight=v;if(attr==='tech')activeTech=v;if(attr==='cap')activeCap=v;if(attr==='pw')activePw=v;
       if(attr==='bvol')activeBvol=v;if(attr==='heat')activeHeat=v;renderCatalog();});
   });
-  renderBrandFilters();renderPriceFilters();
+  const gen=$('frow-gen'); if(gen) gen.addEventListener('click',onGenericClick);
+  renderBrandFilters();renderPriceFilters();renderGenericFilters(window.__CATALOG_CAT__);
   markScrollEdges();
 }
 /* Which end of a chip row still has something behind it. Re-read on scroll, on
@@ -363,7 +484,9 @@ function setActive(gid,attr,val){$(gid).querySelectorAll('.fbtn').forEach(b=>b.c
 function resetFilters(){activeBvol=activeHeat=activeCap=activePw=activeBrand=activeArea=activeType=activePrice=activeLoad=activeDepth=activeVol=activeHeight=activeTech='all';
   [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth'],['vol-filters','vol'],['height-filters','height'],['tech-filters','tech'],['cap-filters','cap'],['pw-filters','pw'],['bvol-filters','bvol'],['heat-filters','heat']].forEach(([g,a])=>{if($(g))setActive(g,a,'all');});
   const si2=$('search-input'),ss=$('sort-select');
-  if(si2)si2.value='';if(ss)ss.value='default';renderBrandFilters();renderPriceFilters();markScrollEdges();renderCatalog();}
+  if(si2)si2.value='';if(ss)ss.value='default';activeGen={};
+  renderBrandFilters();renderPriceFilters();renderGenericFilters(window.__CATALOG_CAT__);
+  markScrollEdges();renderCatalog();}
 /* homepage catalog category tabs */
 function switchCat(cat){
   if(cat!=='all'&&!window.__CATS__[cat])return;
@@ -379,8 +502,19 @@ function switchCat(cat){
   // full-size quiz appears right above the grid when the category has one
   const qHost=$('quiz-inline');
   if(qHost){ if(QUIZZES[cat]) startInlineQuiz(cat); else qHost.style.display='none'; }
-  const h=$('cat-title');if(h){const key={all:'cat_h_all',kondicioneri:'cat_h','zaryadni-stantsii':'cat_h_ps','pralni-mashyny':'cat_h_wm',holodylnyky:'cat_h_fr',boylery:'cat_h_bl'}[cat]||'cat_h_all';h.textContent=t(key);}
-  resetFilters();   // also re-renders the brand buttons for this category
+  /* The five original categories have a headline of their own with the count
+     written into it. A category without one says its own name and how many
+     models are in it, rather than falling back to "all products", which is
+     what the old map did for anything it had not heard of. */
+  const h=$('cat-title');
+  if(h){
+    const key={all:'cat_h_all',kondicioneri:'cat_h','zaryadni-stantsii':'cat_h_ps',
+      'pralni-mashyny':'cat_h_wm',holodylnyky:'cat_h_fr',boylery:'cat_h_bl'}[cat];
+    if(key)h.textContent=t(key);
+    else{const n=PRODUCTS.filter(p=>p.category===cat).length;
+      h.textContent=lfJS(CATS[cat]||{},'name')+' — '+n+' '+plural(n,PLURALS[LANG]||PLURALS.uk);}
+  }
+  resetFilters();   // also re-renders the brand and the declared filters
 }
 function jumpCat(cat){switchCat(cat);document.getElementById('catalog').scrollIntoView({behavior:'smooth'});}
 (function initCatTabs(){
@@ -1090,3 +1224,28 @@ function renderRecent(){
 }
 if(window.PP_SLUG) recentAdd(window.PP_SLUG);            // product pages record themselves
 renderRecent();
+
+/* ---- FAQ topics ----------------------------------------------------------
+   Thirty questions collapsed still made a very long list. They are grouped by
+   topic and only one group is shown; the tab row is in the markup but hidden,
+   so it appears only once this can actually drive it — without JavaScript the
+   reader gets every question instead of one topic and a dead row of buttons. */
+(function faqTabs(){
+  const tabs=document.getElementById('faq-tabs');
+  const items=[...document.querySelectorAll('.faq-item[data-topic]')];
+  if(!tabs||!items.length)return;
+  const show=topic=>{
+    items.forEach(it=>{
+      const on=it.dataset.topic===topic;
+      it.hidden=!on;
+      if(!on)it.classList.remove('open');
+    });
+    tabs.querySelectorAll('.faq-tab').forEach(b=>b.classList.toggle('active',b.dataset.topic===topic));
+  };
+  tabs.hidden=false;
+  tabs.addEventListener('click',e=>{
+    const b=e.target.closest('.faq-tab');
+    if(b)show(b.dataset.topic);
+  });
+  show(window.__FAQ_TOPIC__||tabs.querySelector('.faq-tab').dataset.topic);
+})();

@@ -149,15 +149,8 @@
     </div>
 
     <div class="cat-tabs reveal" id="cat-tabs">
-      <button class="ctab active" data-cat="all" onclick="switchCat('all')" type="button"><span class="ctab-ic">☰</span><span data-i18n="ctab_all">Всі товари</span><b class="ctab-n"></b></button>
-      <button class="ctab" data-cat="kondicioneri" onclick="switchCat('kondicioneri')" type="button"><span class="ctab-ic">❄</span><span data-i18n="ctab_ac">Кондиціонери</span><b class="ctab-n"></b></button>
-      <button class="ctab" data-cat="pralni-mashyny" onclick="switchCat('pralni-mashyny')" type="button"><span class="ctab-ic">🧺</span><span data-i18n="ctab_wm">Пральні машини</span><b class="ctab-n"></b></button>
-      <button class="ctab" data-cat="holodylnyky" onclick="switchCat('holodylnyky')" type="button"><span class="ctab-ic">🧊</span><span data-i18n="ctab_fr">Холодильники</span><b class="ctab-n"></b></button>
-      <button class="ctab" data-cat="zaryadni-stantsii" onclick="switchCat('zaryadni-stantsii')" type="button"><span class="ctab-ic">🔋</span><span data-i18n="ctab_ps">Зарядні станції</span><b class="ctab-n"></b></button>
-      <button class="ctab" data-cat="boylery" onclick="switchCat('boylery')" type="button"><span class="ctab-ic">💧</span><span data-i18n="ctab_bl">Бойлери</span><b class="ctab-n"></b></button>
-    </div>
-
-    <!--QUIZ_INLINE-->
+      <!--CAT_TABS-->
+    </div>UIZ_INLINE-->
 
     <div class="filters" id="filters">
       <div class="frow" id="frow-brand">
@@ -167,6 +160,10 @@
           <button class="fbtn active" data-brand="all" data-i18n="f_all">Всі</button>
         </div>
       </div>
+      <!-- filters for the newer categories are declared in categories.json
+           and rendered here by main.js; the five above predate that and keep
+           their own markup -->
+      <div class="frow" id="frow-gen" style="display:none"></div>
       <div class="frow" id="frow-fr" style="display:none">
         <span class="flabel" data-i18n="f_volume">Об'єм</span>
         <div class="filter-group" id="vol-filters" style="display:flex;flex-wrap:wrap;gap:8px">

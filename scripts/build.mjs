@@ -622,9 +622,34 @@ function pickerSection() {
 </section>`;
 }
 
+/* Thirty questions, all collapsed, still ran to a screen and a half of
+   headings before the contacts came into view. Each one names its topic and the
+   page shows a single topic at a time, so the block stays five or six rows
+   however many questions there are.
+
+   Everything is still in the markup and in the FAQPage schema — the filter is
+   display only. The tab row is hidden until the script that drives it runs, so
+   a reader without JavaScript gets all thirty questions rather than one topic
+   and no way to reach the rest. */
+const FAQ_TOPIC_ORDER = ['general', 'kitchen', 'sink', 'ac', 'wm', 'fr', 'bl', 'ps'];
+const faqList = () => i18n[L].faq || i18n.uk.faq || [];
+const faqTopicOf = it => it[2] || 'general';
+function faqTopics() {
+  const present = FAQ_TOPIC_ORDER.filter(k => faqList().some(it => faqTopicOf(it) === k));
+  if (present.length < 2) return '';
+  return '<div class="faq-tabs" id="faq-tabs" hidden>' + present.map((k, i) =>
+    `<button type="button" class="faq-tab${i ? '' : ' active'}" data-topic="${k}">` +
+    `${esc(t('faq_t_' + k))}</button>`).join('') + '</div>';
+}
 function faqItems() {
-  return (i18n[L].faq || i18n.uk.faq || []).map(([q, a], i) =>
-    `<div class="faq-item reveal" style="transition-delay:${Math.min(i, 6) * 45}ms"><div class="faq-q" onclick="toggleFaq(this)">${esc(q)}</div><div class="faq-a">${esc(a)}</div></div>`).join('\n      ');
+  const list = faqList();
+  const first = FAQ_TOPIC_ORDER.find(k => list.some(it => faqTopicOf(it) === k));
+  return list.map((it, i) =>
+    `<div class="faq-item reveal" data-topic="${esc(faqTopicOf(it))}"` +
+    ` style="transition-delay:${Math.min(i, 6) * 45}ms">` +
+    `<div class="faq-q" onclick="toggleFaq(this)">${esc(it[0])}</div>` +
+    `<div class="faq-a">${esc(it[1])}</div></div>`).join('\n      ')
+    + `\n      <script>window.__FAQ_TOPIC__=${JSON.stringify(first || 'general')};</script>`;
 }
 
 // ---- catalog dataset injected for client hydration (no heavy desc fields) ----
@@ -646,7 +671,8 @@ const catalogData = products.map(({ desc_ru, desc_en, desc_uk, srcIndex, photoCo
    cover alt — is written for the page builder and never leaves it. Thirteen
    categories made that 44KB of dead weight on every page; this is a tenth of
    it. */
-const CAT_CLIENT_FIELDS = ['code', 'urlPrefix', 'productPrefix', 'chips', 'specs'];
+const CAT_CLIENT_FIELDS = ['code', 'urlPrefix', 'productPrefix', 'chips', 'specs',
+  'filters', 'name', 'name_ru', 'name_en'];
 const catsSlim = Object.fromEntries(Object.entries(CATS).map(([k, c]) =>
   [k, Object.fromEntries(CAT_CLIENT_FIELDS.filter(f => c[f] !== undefined).map(f => [f, c[f]]))]));
 /* Ship only the strings this page can actually use: its own language plus the
@@ -849,6 +875,19 @@ function navCats() {
 }
 body = body.replace('<!--INSTALL_MORE-->', INSTALL_LANGS.includes(L)
   ? `<a class="pc-more" href="${pfx()}${INSTALL_PATH}">${esc(t('inst_more'))} →</a>` : '');
+/* The catalogue tab strip was thirteen — well, six — hand-written buttons in
+   the template, each with its own emoji and i18n key, and the eight new
+   categories were simply missing from it. Same source as the grid and the menu
+   now: a category that has products gets a tab. */
+body = body.replace('<!--CAT_TABS-->',
+  `<button class="ctab active" data-cat="all" onclick="switchCat('all')" type="button">`
+  + `<span class="ctab-ic">☰</span><span data-i18n="ctab_all">${esc(t('ctab_all'))}</span>`
+  + `<b class="ctab-n"></b></button>
+      `
+  + catLive().map(c =>
+    `<button class="ctab" data-cat="${esc(c.key)}" onclick="switchCat('${esc(c.key)}')" type="button">`
+    + `<span class="ctab-ic">${esc(c.emoji || '')}</span><span>${esc(lf(c, 'name'))}</span>`
+    + `<b class="ctab-n"></b></button>`).join('\n      '));
 body = body.replace('<!--NAV_CATS-->', navCats());
 /* Reviews were a third-party embed: a 704px-tall iframe from elfsightcdn that
    loaded on every page, could not be styled and read as somebody else's box
@@ -893,7 +932,7 @@ function reviewsSection() {
    site.json so the three copies cannot drift apart again. */
 body = body.split('{{MAP_URL}}').join(esc(site.mapUrl));
 body = body.replace('<!--REVIEWS-->', reviewsSection());
-body = body.replace('<!--FAQ_ITEMS-->', faqItems());
+body = body.replace('<!--FAQ_ITEMS-->', faqTopics() + faqItems());
 body = applyI18nStatic(body);   // bake the current language into static HTML (SEO)
 body = subCounts(body);         // resolve {{TOTAL}}/{{AC}}/{{WM}}/{{PS}} tokens in raw markup
 body = body.replace(/src="(\/assets\/img\/(?:site|logo)[^"]*)"/g, (m, u) => `src="${av(u)}"`);

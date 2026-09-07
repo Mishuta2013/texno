@@ -325,7 +325,7 @@ def main(feed):
     products = json.load(io.open(path, encoding='utf-8'), object_pairs_hook=collections.OrderedDict)
     have = {p['slug'] for p in products}
     items = gh_extract.load(feed)
-    added = updated = skipped = 0
+    added = updated = skipped = rephoto = 0
     gone = []
     for it in items:
         cat = cats.get(it['cat'])
@@ -339,12 +339,20 @@ def main(feed):
             print(f'  !! {it["slug"]}: немає оброблених фото — пропускаю')
             skipped += 1
             continue
-        if it['slug'] in have:                  # refresh: the price only, the copy is ours
+        if it['slug'] in have:                  # refresh: price and photos; the copy is ours
             old = next(p for p in products if p['slug'] == it['slug'])
             price = int(round(it['price'] * MARKUP))
             if old.get('price') != price:
                 old['price'] = price
                 updated += 1
+            # The photo list is derived from what is on disk, so it has to be
+            # re-read: reprocessing the cutouts changes how many frames a
+            # product keeps, and a stale list points at files that are gone.
+            shots = [f'/assets/img/products/{it["slug"]}/{f.stem}.webp' for f in photos]
+            if old.get('photos') != shots:
+                old['photos'] = shots
+                old['thumb'] = f'/assets/img/products/{it["slug"]}/thumb.webp'
+                rephoto += 1
             # Every page says "in stock", so a product the supplier has stopped
             # holding has to be taken off by hand. Say so rather than let the
             # site keep promising it.
@@ -372,8 +380,8 @@ def main(feed):
         added += 1
     io.open(path, 'w', encoding='utf-8', newline='\n').write(
         json.dumps(products, ensure_ascii=False, indent=2) + '\n')
-    print(f'додано {added}, оновлено цін {updated}, пропущено {skipped}; '
-          f'усього товарів {len(products)}')
+    print(f'додано {added}, оновлено цін {updated}, оновлено фото {rephoto}, '
+          f'пропущено {skipped}; усього товарів {len(products)}')
     if gone:
         print('  !! зникли з наявності у постачальника, зніміть із сайту вручну:')
         for slug in gone:
