@@ -197,6 +197,12 @@ const RANGES = {
   BL: () => specRange('BL', 'volume_l', 'u_l'),
 };
 const NOFROST = () => products.filter(p => p.category === 'holodylnyky' && p.nofrost).length;
+/* Cheapest model in a category, for the "від X грн" that now leads the category
+   titles. Read from the data, so it follows the price list without an edit. */
+const FROM = k => {
+  const prices = inCat(k).map(p => p.price).filter(Number.isFinite);
+  return prices.length ? fmt(Math.min(...prices)) : '';
+};
 // Slavic plurals: 1 товар / 2-4 товари / 5+ товарів — needed wherever a count
 // is followed by a noun, otherwise the copy reads broken at most numbers.
 const PLURALS = {
@@ -224,6 +230,7 @@ const subCounts = s => String(s)
     (m, k) => `${COUNTS[k]} ${plural(COUNTS[k], MODELS[L] || MODELS.uk)}`)
   .replace(/\{\{(AC|WM|PS|FR|BL)_BRANDS\}\}/g, (m, k) => brandList(k))
   .replace(/\{\{(AC|WM|PS|FR|BL)_RANGE\}\}/g, (m, k) => RANGES[k]())
+  .replace(/\{\{(AC|WM|PS|FR|BL)_FROM\}\}/g, (m, k) => FROM(k))
   .replace(/\{\{FR_NOFROST\}\}/g, () => NOFROST())
   .replace(/\{\{(TOTAL|AC|WM|PS|FR|BL)\}\}/g, (m, k) => COUNTS[k]);
 const t = (k) => subCounts((i18n[L] && i18n[L][k]) ?? (i18n.uk && i18n.uk[k]) ?? k);
@@ -927,35 +934,55 @@ ${(() => {
   const keySpec = (cat.ppChips || cat.chips || []).filter(c => !c.flag).map(c => fmtVal(p, c)).filter(Boolean).slice(0, 2).join(', ');
   const trust = trustLines.join('. ') + '.';
   return head({
-    /* Google shows roughly the first 60 characters of a title. A model name
-       like "TCL TAC-09CHSD/XA82I Black Inverter R32 Wi-Fi" already fills most
-       of that, so the ", монтаж під ключ" tail was never visible — it only
-       pushed the title to 97 characters. Add it only when there is room. */
+    /* Google shows roughly the first 60 characters of a title, and Search
+       Console says the shop is losing people exactly there: washing machines
+       sat at position 8.7 for three months — first page — and took one click
+       in 110 impressions. What a buyer scanning that page wants first is the
+       price, so the price leads, and the descriptive tail of the model name
+       gives way to make room for it. Brand and model code are never touched:
+       they are what the query matched on. */
     title: (() => {
-      /* Even the bare name can outrun those 65 characters: "Кондиціонер TCL
-         TAC-09CHSD/XA82I Black Inverter R32 Wi-Fi" is 57 on its own. What
-         overflows is always the descriptive tail — colour, refrigerant, Wi-Fi,
-         wattage — never the brand or the model code, so drop those words from
-         the end until the name fits and Google shows a whole phrase instead of
-         cutting one mid-word. Anything not on this list stays. */
-      const DROP = /^(wi-?fi|ready|r-?32|r-?410a?|inverter|інверторний|инверторный|heatpump|heat|pump|ai|black|white|silver|grey|gray|чорний|білий|сірий|черный|белый|серый|\d+(w|вт|kw|квт))$/i;
-      const fit = (() => {
-        const w = nm.split(' ');
-        while (w.length > 2 && w.join(' ').length > 65 - TITLE_PREFIX.length && DROP.test(w[w.length - 1])) w.pop();
-        return w.join(' ');
-      })();
-      const base = t('pp_buy_t').replace('{name}', fit);
-      const tail = cat.install ? t('pp_buy_install') : '';
-      const short = t('pp_buy_short').replace('{name}', fit);
-      /* Longest form that still fits, counting the "TexnoPlaza — " that head()
-         puts in front. Model names like "TAC-09CHSD/XA82I Black Inverter R32
-         Wi-Fi" spend the whole budget on their own; when the full "— купити в
-         Сумах" would be cut off mid-phrase, the short form keeps the city
-         visible instead of losing it to the ellipsis, and the bare name is the
-         last resort. */
+      /* Only these words may be dropped, and only from the end. Colour,
+         refrigerant, Wi-Fi, wattage — never a model code. */
+      const DROP = /^(wi-?fi|ready|r-?32|r-?410a?|inverter|inv|rotary|інверторний|инверторный|heatpump|heat|pump|ai|black|white|silver|grey|gray|чорний|білий|сірий|черный|белый|серый|\d+(w|вт|kw|квт))$/i;
       const room = 65 - TITLE_PREFIX.length;
-      for (const c of [base + tail, base, short, fit]) if (c.length <= room) return c;
-      return fit;
+      const price = fmt(p.price);
+      const shorten = (form) => {
+        let w = nm.split(' ');
+        for (;;) {
+          const out = form(w.join(' '));
+          if (out.length <= room) return out;
+          /* Drop the right-most droppable word, wherever it sits — "Кондиціонер
+             інверторний Ardesto ARD-ACS09-I" carries its descriptor in the
+             middle. Never the first word, which names the appliance. */
+          let i = -1;
+          for (let k = w.length - 1; k >= 1; k--) if (DROP.test(w[k])) { i = k; break; }
+          if (i < 0 || w.length <= 2) return null;
+          w = w.slice(0, i).concat(w.slice(i + 1));
+        }
+      };
+      /* Best form that fits, richest first: price with the city, price alone,
+         then the older "buy in Sumy" wording, then the bare name. */
+      const forms = [
+        n => t('pp_buy_price').replace('{name}', n).replace('{price}', price),
+        n => t('pp_buy_price_only').replace('{name}', n).replace('{price}', price),
+        n => t('pp_buy_t').replace('{name}', n) + (cat.install ? t('pp_buy_install') : ''),
+        n => t('pp_buy_t').replace('{name}', n),
+        n => t('pp_buy_short').replace('{name}', n),
+        n => n,
+      ];
+      for (const f of forms) { const out = shorten(f); if (out) return out; }
+      /* Nothing fits even as a bare name — a few long English boiler names.
+         Trim what the list allows and let it overrun rather than handing back
+         the untrimmed name, which is longer still. */
+      let w = nm.split(' ');
+      while (w.length > 2 && w.join(' ').length > room) {
+        let i = -1;
+        for (let k = w.length - 1; k >= 1; k--) if (DROP.test(w[k])) { i = k; break; }
+        if (i < 0) break;
+        w = w.slice(0, i).concat(w.slice(i + 1));
+      }
+      return w.join(' ');
     })(),
     /* The model, the city and the price must survive truncation; the trust
        lines are the tail Google cuts. Drop them one at a time until the whole
@@ -1298,6 +1325,7 @@ function categoryPage(cat) {
   const plural = modelsWord(list.length);
   const jsonld = {
     '@context': 'https://schema.org', '@type': 'CollectionPage', name: NAME, url: abs(curl(cat)),
+    image: cat.cover ? absImg(`/assets/og/cat-${cat.key}.jpg`) : undefined,
     mainEntity: { '@type': 'ItemList', numberOfItems: list.length, itemListElement: list.slice(0, 20).map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: abs(purl(p)) })) }
   };
   const crumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
@@ -1305,7 +1333,7 @@ function categoryPage(cat) {
     { '@type': 'ListItem', position: 2, name: NAME, item: abs(curl(cat)) } ] };
   return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
 ${head({
-  title: lf(cat, 'seoTitle') || t('seo_cat_t').replace('{name}', NAME),
+  title: subCounts(lf(cat, 'seoTitle') || t('seo_cat_t').replace('{name}', NAME)),
   /* The brand list and the ranges inside this line grow with the catalogue, so
      the sentence can outgrow the ~165 characters Google shows. Drop trailing
      sentences until it fits rather than letting it be cut mid-word. */
@@ -1319,18 +1347,29 @@ ${head({
     }
     return s;
   })(),
-  canonical: abs(curl(cat)), altPath: cat.urlPrefix + '/', jsonld
+  canonical: abs(curl(cat)), altPath: cat.urlPrefix + '/',
+  /* Every category used to share one generic share card, so a link to
+     "Кондиціонери у Сумах" in Viber showed the same picture as a link to
+     boilers. Each category now has its own. */
+  ogImage: cat.cover ? absImg(`/assets/og/cat-${cat.key}.jpg`) : undefined, jsonld
 })}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
 </head><body>${GTM_NS}
 ${HEADER}
 <div class="cat-wrap">
   <nav class="pp-bc"><a href="${pfx() || '/'}">${esc(t('pp_home'))}</a> › <span>${esc(NAME)}</span></nav>
-  <header class="cat-head">
-    <h1 class="cat-h1">${esc(NAME)} ${esc(t('cat_in_sumy'))}</h1>
-    <p class="cat-sub">${esc(lf(cat, 'intro') || '')}</p>
-    <div class="cat-count">${list.length} ${esc(plural)} ${esc(t('cat_instock'))}</div>
-  </header>
+  <div class="cat-top">
+    <header class="cat-head">
+      <h1 class="cat-h1">${esc(NAME)} ${esc(t('cat_in_sumy'))}</h1>
+      <p class="cat-sub">${esc(lf(cat, 'intro') || '')}</p>
+      <div class="cat-count">${list.length} ${esc(plural)} ${esc(t('cat_instock'))}</div>
+    </header>
+    ${cat.cover ? (() => {
+      const w = n => esc(av(cat.cover.replace(/\.webp$/, `@${n}.webp`)));
+      return `<img class="cat-hero" src="${esc(av(cat.cover))}" srcset="${w(400)} 400w, ${esc(av(cat.cover))} 800w, ${w(1200)} 1200w"` +
+        ` sizes="(max-width:860px) 94vw, 44vw" alt="${esc(lf(cat, 'coverAlt') || NAME)}" width="800" height="340" fetchpriority="high" decoding="async">`;
+    })() : ''}
+  </div>
   ${lf(cat, 'quizCta') ? quizInline(false) : ''}
   <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
   <section class="section catalog cat-catalog" id="catalog">

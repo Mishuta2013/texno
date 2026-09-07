@@ -27,10 +27,11 @@ from PIL import Image
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "scripts" / "covers-src"
 OUT = ROOT / "assets" / "img" / "covers"
+OG = ROOT / "assets" / "og"
 
 CATS = ["kondicioneri", "pralni-mashyny", "holodylnyky", "zaryadni-stantsii", "boylery"]
 RATIO = 40 / 17          # 2.35:1 — a 379px card gets a 161px cover instead of 213px
-WIDTHS = (800, 400)
+WIDTHS = (1200, 800, 400)   # 1200 for the category hero on a wide screen
 
 
 def widen(im, ratio):
@@ -53,16 +54,25 @@ def widen(im, ratio):
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
+    OG.mkdir(parents=True, exist_ok=True)
     total = 0.0
     for cat in CATS:
         full = widen(Image.open(SRC / f"cat-{cat}.webp").convert("RGB"), RATIO)
         for wpx in WIDTHS:
-            name = f"cat-{cat}.webp" if wpx == WIDTHS[0] else f"cat-{cat}@{wpx}.webp"
+            name = f"cat-{cat}.webp" if wpx == 800 else f"cat-{cat}@{wpx}.webp"
             f = OUT / name
             full.resize((wpx, int(round(wpx / RATIO))), Image.LANCZOS).save(f, "WEBP", quality=82, method=6)
             kb = f.stat().st_size / 1024
             total += kb
             print(f"  {name:34s} {wpx}x{int(round(wpx / RATIO))}  {kb:6.1f} KB")
+        # share card: 1200x630 is what Viber, Telegram and Facebook crop to, and
+        # JPEG is the one format all three render
+        og = widen(Image.open(SRC / f"cat-{cat}.webp").convert("RGB"), 1200 / 630)
+        f = OG / f"cat-{cat}.jpg"
+        og.resize((1200, 630), Image.LANCZOS).save(f, "JPEG", quality=84, optimize=True, progressive=True)
+        kb = f.stat().st_size / 1024
+        total += kb
+        print(f"  {f.name:34s} 1200x630  {kb:6.1f} KB")
     print(f"  {'TOTAL':34s}            {total:6.1f} KB")
 
 

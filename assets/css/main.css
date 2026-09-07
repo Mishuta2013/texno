@@ -1092,6 +1092,18 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
    more than half the card. The placeholder is the artwork's own edge navy, so a
    lazily loaded cover does not flash a pale box first. */
 .cat-cover{width:100%;height:auto;aspect-ratio:40/17;object-fit:cover;display:block;background:#08172D}
+/* The same picture opens the category it introduces on the home page. Full
+   width it stood 500px tall and pushed the products off the first screen, so on
+   a wide screen it sits beside the heading instead and only stacks on a phone. */
+.cat-top{display:grid;grid-template-columns:1fr;gap:0}
+.cat-hero{width:100%;height:auto;aspect-ratio:40/17;object-fit:cover;display:block;
+  border-radius:18px;background:#08172D;margin:4px 0 22px}
+@media(min-width:861px){
+  .cat-top{grid-template-columns:1fr minmax(340px,44%);gap:30px;align-items:center}
+  .cat-top .cat-head{margin-bottom:0}
+  .cat-hero{margin:0}
+}
+@media(max-width:560px){.cat-hero{border-radius:12px;margin:2px 0 16px}}
 .cat-card-cover .cat-ic{margin:16px 0 0 20px}
 .cat-card-cover .cat-tx{padding:10px 20px 0}
 .cat-card-cover .cat-go{padding:8px 20px 18px}
