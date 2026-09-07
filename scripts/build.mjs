@@ -1589,6 +1589,37 @@ if (INSTALL_LANGS.includes(L)) {
   SITEMAP.push(pfx() + INSTALL_PATH);
 }
 
+/* ---- 404 ----
+   Vercel serves 404.html from the output root for a static site, and until now
+   there was none: a dead link — an old Google result for a product that was
+   renamed, a mistyped address — landed on a bare "NOT_FOUND" screen with no way
+   back into the shop. One page, Ukrainian, with the categories on it. */
+if (L === 'uk') {
+  const html = `<!doctype html><html lang="uk" data-season="${SEASON}"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0B1A33">
+<meta name="robots" content="noindex, follow">
+<title>${esc(t('e404_t'))}</title>
+<link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="${av('/assets/css/main.css')}">
+</head><body>${GTM_NS}
+${HEADER}
+<div class="cat-wrap e404">
+  <h1 class="cat-h1">${esc(t('e404_h'))}</h1>
+  <p class="cat-sub">${esc(t('e404_p'))}</p>
+  <div class="e404-links">
+    <a class="btn-primary" href="/">${esc(t('e404_home'))}</a>
+    ${catList.map(c => `<a class="e404-cat" href="${c.urlPrefix}/">${esc(lf(c, 'name'))}</a>`).join('')}
+  </div>
+</div>
+${FOOTER}
+${injectData(catalogData)}
+<script src="${av('/assets/js/main.js')}" defer></script>
+</body></html>`;
+  fs.writeFileSync(path.join(DIST, '404.html'), html, 'utf8');
+}
+
 // ---- privacy policy page (Ukrainian legal text, generated once) ----
 if (L === 'uk') {
   const privacyBody = fs.readFileSync(path.join(ROOT, 'templates/privacy.html'), 'utf8');
@@ -1694,7 +1725,17 @@ ${items}
 }
 
 // ---- sitemap + robots ----
-const urls = [...new Set(SITEMAP)].map(u => `  <url><loc>${abs(u)}</loc></url>`).join('\n');
+/* lastmod only where the date is real. Articles carry their own; everything
+   else is regenerated wholesale on each deploy, so stamping today's date on
+   all 518 urls would be a claim the build cannot back — and Google learns to
+   ignore a lastmod that always says "just now". */
+const LASTMOD = new Map();
+for (const a of blog) for (const l of BLOG_LANGS)
+  LASTMOD.set(`${l === 'uk' ? '' : '/' + l}/blog/${a.slug}/`, a.date);
+const urls = [...new Set(SITEMAP)].map(u => {
+  const d = LASTMOD.get(u);
+  return `  <url><loc>${abs(u)}</loc>${d ? `<lastmod>${d}</lastmod>` : ''}</url>`;
+}).join('\n');
 fs.writeFileSync(path.join(DIST, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`, 'utf8');
 fs.writeFileSync(path.join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${abs('/sitemap.xml')}\n`, 'utf8');
 
