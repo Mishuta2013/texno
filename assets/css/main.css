@@ -1186,6 +1186,54 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
   .bl-cta{flex-direction:column}.bl-cta>*{width:100%;justify-content:center;text-align:center}
 }
 
+.pc-more{display:inline-block;margin-top:14px;font-family:var(--disp);font-weight:700;font-size:14px;
+  color:var(--frost);text-decoration:none;border-bottom:1px solid rgba(124,196,255,.4);padding-bottom:2px}
+.pc-more:hover{color:#fff;border-bottom-color:#fff}
+
+/* ===== installation page ===== */
+.mp .cat-hero{aspect-ratio:4/3;object-position:center 38%}
+.mp-price{display:flex;flex-direction:column;gap:2px;margin-top:16px;padding:14px 18px;
+  background:var(--ice);border-radius:var(--r);align-self:flex-start}
+.mp-price-l{font-size:12.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--blue-d)}
+.mp-price b{font-family:var(--disp);font-size:26px;font-weight:800;color:var(--ink)}
+.mp-price b small{font-size:15px;font-weight:700}
+.mp-price-n{font-size:13px;color:var(--g5)}
+.mp-sec{margin-top:38px}
+.mp-sec h2{font-family:var(--disp);font-size:22px;font-weight:800;color:var(--ink);margin-bottom:16px}
+/* .ilist was written for the navy install block on the home page, so its text
+   is near-white — on this light page it came out at 1.07:1, invisible. */
+.mp-inc{columns:2;column-gap:28px}
+.mp-inc li{break-inside:avoid;color:var(--g5)}
+.mp-inc li span{color:var(--g5)}
+.mp-inc svg{stroke:var(--green)}
+.mp-note{margin-top:12px;font-size:14px;color:var(--g5)}
+.mp-steps{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:0;padding:0}
+.mp-steps li{display:flex;gap:14px;padding:18px 20px;background:var(--white);
+  border:1px solid var(--g2);border-radius:var(--r)}
+.mp-n{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:var(--blue-a);color:var(--blue-d);
+  display:grid;place-items:center;font-family:var(--disp);font-weight:800;font-size:15px}
+.mp-steps b{display:block;font-family:var(--disp);font-size:16px;color:var(--ink);margin-bottom:5px}
+.mp-steps p{font-size:14px;line-height:1.6;color:var(--g5)}
+.mp-extras{display:flex;flex-wrap:wrap;gap:10px;list-style:none;margin:0;padding:0}
+.mp-extras li{padding:9px 15px;background:var(--g1);border-radius:var(--r-pill);font-size:14px;color:var(--g5)}
+.mp-who{font-size:16px;line-height:1.7;color:var(--g5);max-width:760px}
+.mp-faq details{border-bottom:1px solid var(--g2);padding:14px 0}
+.mp-faq summary{cursor:pointer;font-family:var(--disp);font-weight:700;font-size:16px;color:var(--ink);
+  list-style:none;padding-right:24px;position:relative}
+.mp-faq summary::-webkit-details-marker{display:none}
+.mp-faq summary::after{content:'+';position:absolute;right:0;top:-2px;font-size:20px;color:var(--blue-d)}
+.mp-faq details[open] summary::after{content:'−'}
+.mp-faq p{margin-top:10px;font-size:15px;line-height:1.7;color:var(--g5)}
+.mp-cta{align-items:center;justify-content:space-between;margin-top:40px}
+.mp-cta b{display:block;font-family:var(--disp);font-size:18px;color:var(--ink)}
+.mp-cta p{font-size:14px;color:var(--g5);margin-top:3px}
+@media(max-width:760px){
+  .mp-inc{columns:1}
+  .mp-steps{grid-template-columns:1fr}
+  .mp-sec{margin-top:28px}
+  .mp-sec h2{font-size:19px}
+}
+
 /* ===== legal / privacy page ===== */
 .legal{max-width:860px;margin:0 auto;padding:26px 22px 70px}
 .legal h1{font-family:var(--disp);font-size:clamp(26px,4vw,36px);font-weight:800;color:var(--ink);margin:8px 0 16px;letter-spacing:-.02em}

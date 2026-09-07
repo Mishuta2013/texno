@@ -13,6 +13,8 @@ const i18n = read('i18n.json');
 const blog = read('blog.json');
 const blogUrl = a => `${pfx()}/blog/${a.slug}/`;
 const BLOG_LANGS = ['uk', 'ru'];   // languages the articles are actually written in
+const INSTALL_LANGS = ['uk', 'ru'];   // the installation page, same two languages
+const INSTALL_PATH = '/montazh-kondicionera/';
 const bt = a => lf(a, 'title');
 const bd = a => lf(a, 'desc');
 const bg = a => lf(a, 'tag');
@@ -230,6 +232,7 @@ const subCounts = s => String(s)
     (m, k) => `${COUNTS[k]} ${plural(COUNTS[k], MODELS[L] || MODELS.uk)}`)
   .replace(/\{\{(AC|WM|PS|FR|BL)_BRANDS\}\}/g, (m, k) => brandList(k))
   .replace(/\{\{(AC|WM|PS|FR|BL)_RANGE\}\}/g, (m, k) => RANGES[k]())
+  .replace(/\{\{PRICE\}\}/g, () => fmt(site.installPrice))
   .replace(/\{\{(AC|WM|PS|FR|BL)_FROM\}\}/g, (m, k) => FROM(k))
   .replace(/\{\{FR_NOFROST\}\}/g, () => NOFROST())
   .replace(/\{\{(TOTAL|AC|WM|PS|FR|BL)\}\}/g, (m, k) => COUNTS[k]);
@@ -764,6 +767,10 @@ body = (() => {
   if (withCover.length) out = out.replace('<div class="cats-grid">', '<div class="cats-grid has-covers">');
   return out;
 })();
+/* the strongest internal link to the installation page comes from the home
+   page's own installation block, where someone is already reading about it */
+body = body.replace('<!--INSTALL_MORE-->', INSTALL_LANGS.includes(L)
+  ? `<a class="pc-more" href="${pfx()}${INSTALL_PATH}">${esc(t('inst_more'))} →</a>` : '');
 body = body.replace('<!--NAV_CATS-->', navCats());
 /* Reviews were a third-party embed: a 704px-tall iframe from elfsightcdn that
    loaded on every page, could not be styled and read as somebody else's box
@@ -816,10 +823,18 @@ body = body.replace(/src="(\/assets\/img\/(?:site|logo)[^"]*)"/g, (m, u) => `src
 // shared chrome (header before hero; footer+modals+floats from <footer> onward) for product pages
 const _heroAt = body.indexOf('<section class="hero"');
 const _footAt = body.indexOf('<footer');
-// on inner pages (product/blog) homepage-section anchors must point to "/#..." not "#..."
-const toHome = h => h.replace(/href="#(?!")/g, 'href="/#');
-HEADER = toHome(body.slice(0, _heroAt));
-FOOTER = toHome(body.slice(_footAt));
+/* On inner pages the homepage-section anchors must point at "/#…" — and at the
+   language's own home page: a Russian visitor clicking "Монтаж" was being sent
+   to the Ukrainian one. */
+const toHome = h => h.replace(/href="#(?!")/g, `href="${pfx()}/#`);
+/* Installation now has a page of its own, so the header and footer links point
+   there rather than scrolling the home page. It is the service people search
+   for by name, and a link from every page is what makes it findable. */
+const toInstall = h => INSTALL_LANGS.includes(L)
+  ? h.split(`href="${pfx()}/#installation"`).join(`href="${pfx()}${INSTALL_PATH}"`)
+  : h;
+HEADER = toInstall(toHome(body.slice(0, _heroAt)));
+FOOTER = toInstall(toHome(body.slice(_footAt)));
 
 const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: ((i18n[L].faq) || i18n.uk.faq || []).map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
 const indexHtml = `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
@@ -1478,6 +1493,100 @@ if (BLOG_LANGS.includes(L)) {
     fs.writeFileSync(path.join(dir, 'index.html'), blogPost(a), 'utf8');
     SITEMAP.push(blogUrl(a));
   }
+}
+
+/* ---- installation page ----
+   Search Console showed people looking for "монтаж кондиціонера суми" with
+   nowhere to land: installation lived only as a block on the home page, which
+   ranks for the shop, not for the service. This is that block's subject given a
+   page of its own — the same facts, told at the length someone deciding on a
+   fitter actually wants: what is included, how the day goes, what can move the
+   price, who turns up. Ukrainian and Russian only, the two languages Sumy
+   searches in. */
+function installPage() {
+  const inc = ['inst_i1','inst_i2','inst_i3','inst_i4','inst_i5','inst_i6','inst_i7','inst_i8','inst_i9'].map(k => t(k));
+  const extras = ['inst_e1','inst_e2','inst_e3','inst_e4'].map(k => t(k));
+  const steps = [1,2,3,4].map(n => [t(`mp_s${n}t`), t(`mp_s${n}p`)]);
+  const faqs = [1,2,3,4].map(n => [t(`mp_q${n}`), t(`mp_a${n}`)]);
+  const url = pfx() + INSTALL_PATH;
+  const jsonld = {
+    '@context': 'https://schema.org', '@type': 'Service',
+    name: t('mp_h1'), serviceType: t('mp_h1'), url: abs(url),
+    description: t('mp_lead'),
+    provider: { '@type': 'LocalBusiness', name: site.name, telephone: site.phone,
+      address: { '@type': 'PostalAddress', streetAddress: site.address, addressLocality: 'Суми', addressCountry: 'UA' } },
+    areaServed: { '@type': 'City', name: 'Суми' },
+    offers: { '@type': 'Offer', price: site.installPrice, priceCurrency: 'UAH',
+      availability: 'https://schema.org/InStock', url: abs(url) }
+  };
+  const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a } })) };
+  const crumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t('pp_home'), item: abs(pfx() + '/') },
+    { '@type': 'ListItem', position: 2, name: t('mp_h1'), item: abs(url) } ] };
+  return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
+${head({ title: t('mp_title'), desc: t('mp_desc'), canonical: abs(url),
+  ogImage: absImg('/assets/og/montazh.jpg'), altPath: INSTALL_PATH, altLangs: INSTALL_LANGS, jsonld })}
+<script type="application/ld+json">${JSON.stringify(faqLd)}</script>
+<script type="application/ld+json">${JSON.stringify(crumbs)}</script>
+</head><body>${GTM_NS}
+${HEADER}
+<div class="cat-wrap mp">
+  <nav class="pp-bc"><a href="${pfx() || '/'}">${esc(t('pp_home'))}</a> › <span>${esc(t('mp_h1'))}</span></nav>
+  <div class="cat-top">
+    <header class="cat-head">
+      <h1 class="cat-h1">${esc(t('mp_h1'))}</h1>
+      <p class="cat-sub">${esc(t('mp_lead'))}</p>
+      <div class="mp-price"><span class="mp-price-l">${esc(t('mp_price_l'))}</span>
+        <b>${esc(t('inst_from'))} ${fmt(site.installPrice)} <small>${esc(t('u_uah'))}</small></b>
+        <span class="mp-price-n">${esc(t('mp_price_n'))}</span></div>
+    </header>
+    <img class="cat-hero" src="${esc(av('/assets/img/site/install.webp'))}" alt="${esc(t('mp_h1'))}" width="1000" height="1500" fetchpriority="high" decoding="async">
+  </div>
+
+  <section class="mp-sec">
+    <h2>${esc(t('mp_inc_h'))}</h2>
+    <ul class="ilist mp-inc">${inc.map(i => `<li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>${esc(i)}</span></li>`).join('')}</ul>
+    <p class="mp-note">${esc(t('mp_inc_n'))}</p>
+  </section>
+
+  <section class="mp-sec">
+    <h2>${esc(t('mp_how_h'))}</h2>
+    <ol class="mp-steps">${steps.map(([h, p], i) => `<li><span class="mp-n">${i + 1}</span><div><b>${esc(h)}</b><p>${esc(p)}</p></div></li>`).join('')}</ol>
+  </section>
+
+  <section class="mp-sec">
+    <h2>${esc(t('mp_ex_h'))}</h2>
+    <ul class="mp-extras">${extras.map(e => `<li>${esc(e)}</li>`).join('')}</ul>
+    <p class="mp-note">${esc(t('mp_ex_n'))}</p>
+  </section>
+
+  <section class="mp-sec">
+    <h2>${esc(t('mp_who_h'))}</h2>
+    <p class="mp-who">${esc(t('mp_who_p'))}</p>
+  </section>
+
+  <section class="mp-sec">
+    <h2>${esc(t('faq_h'))}</h2>
+    <div class="mp-faq">${faqs.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div>
+  </section>
+
+  <div class="bl-cta mp-cta">
+    <div><b>${esc(t('mp_cta_h'))}</b><p>${esc(t('mp_cta_p'))}</p></div>
+    <a class="btn-primary" href="#" onclick="openCb();return false">${esc(t('inst_btn'))}</a>
+    <a class="btn-ghost2" href="${pfx()}/kondicioner/">${esc(lf(CATS['kondicioneri'], 'name'))}</a>
+  </div>
+</div>
+${FOOTER}
+${injectData(catalogData)}
+<script src="${av('/assets/js/main.js')}" defer></script>
+</body></html>`;
+}
+if (INSTALL_LANGS.includes(L)) {
+  const dir = outPath('montazh-kondicionera');
+  fs.writeFileSync(path.join(dir, 'index.html'), installPage(), 'utf8');
+  SITEMAP.push(pfx() + INSTALL_PATH);
 }
 
 // ---- privacy policy page (Ukrainian legal text, generated once) ----
