@@ -13,7 +13,8 @@ frame the catalogue shows is always the product on its own.
 
 Source folders come from the downloader and are named by product slug.
 
-Run: python scripts/process_gh_photos.py <source-dir>
+Run: python scripts/process_gh_photos.py <source-dir> [--after=<slug>]
+     --after resumes an interrupted run at the next folder in sorted order.
 """
 import importlib.util
 import pathlib
@@ -120,9 +121,12 @@ def is_banner(im):
 RANK = {'cut': 0, 'scene': 1, 'banner': 2}
 
 
-def main(src_dir):
+def main(src_dir, after=None):
     src = pathlib.Path(src_dir)
     folders = sorted(p for p in src.iterdir() if p.is_dir())
+    if after:
+        folders = [p for p in folders if p.name > after]
+        print(f'продовжую після {after}: лишилось {len(folders)}')
     total = kept = 0
     for d in folders:
         files = sorted(d.glob('*.*'), key=lambda f: int(re.sub(r'\D', '', f.stem) or 0))[:MAX_PHOTOS]
@@ -157,15 +161,35 @@ def main(src_dir):
         out.mkdir(parents=True, exist_ok=True)
         for old in out.glob('*.webp'):
             old.unlink()
-        for i, (_, rgba) in enumerate(frames, 1):
-            pf2.normalize(rgba, pf2.FULL).save(out / f'{i}.webp', 'WEBP', quality=88, method=6)
-        pf2.normalize(frames[0][1], pf2.THUMB).save(out / 'thumb.webp', 'WEBP', quality=86, method=6)
+        # The encoder can fail on a frame for reasons that have nothing to do
+        # with the frame — a long run once died on "encoding error 1", which is
+        # libwebp running out of memory, and took the forty-seven products after
+        # it with it. Nothing here is worth aborting a three-hour run for: drop
+        # the frame, say so, carry on.
+        written = 0
+        for _, rgba in frames:
+            try:
+                pf2.normalize(rgba, pf2.FULL).save(
+                    out / f'{written + 1}.webp', 'WEBP', quality=88, method=6)
+            except Exception as e:
+                print(f'  !! {d.name}: кадр {written + 1} не закодувався ({type(e).__name__}: {e})')
+                continue
+            if written == 0:
+                pf2.normalize(rgba, pf2.THUMB).save(out / 'thumb.webp', 'WEBP', quality=86, method=6)
+            written += 1
+        if not written:
+            print(f'  !! {d.name}: жоден кадр не записався')
+            continue
         total += 1
-        kept += len(frames)
-        print(f'{d.name}: {len(frames)} фото  {notes}', flush=True)
+        kept += written
+        print(f'{d.name}: {written} фото  {notes}', flush=True)
     print(f'\nготово: {total} товарів, {kept} зображень')
 
 
 if __name__ == '__main__':
     sys.stdout.reconfigure(encoding='utf-8')
-    main(sys.argv[1] if len(sys.argv) > 1 else '.')
+    args = [a for a in sys.argv[1:] if not a.startswith('--')]
+    # --after <slug> resumes an interrupted run: folders are walked in sorted
+    # order, so everything up to and including that name is already done.
+    after = next((a.split('=', 1)[1] for a in sys.argv[1:] if a.startswith('--after=')), None)
+    main(args[0] if args else '.', after)
