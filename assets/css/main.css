@@ -1811,8 +1811,13 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
   margin-left:2px;vertical-align:-.18em;background:var(--frost);animation:hsCaret 1s steps(1) infinite}
 @keyframes hsCaret{0%,50%{opacity:1}50.01%,100%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.hs-ghost.caret::after{animation:none;opacity:.7}}
+/* --cta, not --blue: that is the token the site reserves for a background
+   white text has to sit on, and it is a darker blue than --blue for exactly
+   this reason. Built on --blue the label measured 3.36:1 against its own
+   button — under the 4.5 that 14px text needs — while .btn-primary two
+   centimetres away was fine. */
 .hs-btn{flex:0 0 auto;height:44px;padding:0 22px;border:0;border-radius:var(--r-pill);
-  background:var(--blue);color:#fff;font-family:var(--disp);font-weight:700;font-size:14.5px;
+  background:var(--cta);color:#fff;font-family:var(--disp);font-weight:700;font-size:14.5px;
   cursor:pointer;transition:background .18s,transform .18s}
 .hs-btn:hover{background:var(--blue-d)}
 .hs-btn:active{transform:scale(.98)}

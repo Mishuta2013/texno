@@ -711,9 +711,21 @@ const namesFor = (lang) => {
   }
   return slimNames.get(lang);
 };
+/* Two things used to travel with every page and be read by nobody.
+
+   The thirty questions and their answers: the page renders them itself and the
+   script that switches topics works off the rendered markup, so the copy in
+   this blob was carried a thousand times and opened never.
+
+   And the free-text spec dictionary: specVal returns its argument untouched
+   the moment the language is Ukrainian, so on the pages Google treats as
+   canonical those forty-nine kilobytes answered no question at all. */
 const injectData = () => {
-  const i18nSlim = L === 'uk' ? { uk: i18n.uk } : { uk: i18n.uk, [L]: i18n[L] };
-  return `<script>window.__I18N__=${JSON.stringify(i18nSlim)};window.__LANGS__=${JSON.stringify(LANGS)};window.__SITE__=${JSON.stringify(site)};window.__CATS__=${JSON.stringify(catsSlim)};window.__SPECV__=${JSON.stringify(SPECV)};window.__PRODUCTS__=${JSON.stringify(namesFor(L))};</script>`;
+  const strip = ({ faq, ...rest }) => rest;
+  const i18nSlim = L === 'uk' ? { uk: strip(i18n.uk) }
+                              : { uk: strip(i18n.uk), [L]: strip(i18n[L]) };
+  const specv = L === 'uk' ? {} : SPECV;
+  return `<script>window.__I18N__=${JSON.stringify(i18nSlim)};window.__LANGS__=${JSON.stringify(LANGS)};window.__SITE__=${JSON.stringify(site)};window.__CATS__=${JSON.stringify(catsSlim)};window.__SPECV__=${JSON.stringify(specv)};window.__PRODUCTS__=${JSON.stringify(namesFor(L))};</script>`;
 };
 
 // ===================== BUILD =====================

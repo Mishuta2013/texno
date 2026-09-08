@@ -746,6 +746,12 @@ function openContact(){$('contact-modal').classList.add('open');document.body.st
 async function sendLead(data){
   track('generate_lead',{lead_type:(data&&data.type)||'form'});
   const body={...data,ts:window.__FORM_TS__||0,token:turnstileToken()};
+  /* The server drops anything filled in under two and a half seconds, which a
+     phone offering to autofill the number can beat. Waiting out the remainder
+     costs a real person a moment and costs a script nothing, because a script
+     never runs this. */
+  const spent=body.ts?Date.now()-body.ts:1e9;
+  if(spent<2600)await new Promise(r=>setTimeout(r,2600-spent));
   /* Only a server that failed to receive the lead may hand it to the backup.
      A 4xx means it received it and said no — usually because the request did
      not come from this form at all — and passing that on would send every
@@ -780,14 +786,49 @@ function fieldError(input,msg){
       input.addEventListener('input',function(){fieldError(input,'');},{once:false});}
   }
 }
+/* Exactly the rule api/lead.js applies, so the page never promises something
+   the server will refuse — and a named reason for every way it can fail, with
+   the digits counted, because "неправильний номер" tells nobody anything. */
 function phoneProblem(v){
-  if(!v)return t('err_phone');
-  if(v.replace(/\D/g,'').length<7)return t('err_phone_short');
+  const raw=String(v==null?'':v).trim();
+  if(!raw)return t('err_phone');
+  if(/[a-zа-яїієґ]/i.test(raw))return t('err_phone_letters');
+  const d=raw.replace(/\D/g,'');
+  if(!d)return t('err_phone');
+  let want;
+  if(d.startsWith('380'))want=12;
+  else if(d.startsWith('80'))want=11;
+  else if(d.startsWith('0'))want=10;
+  else return t('err_phone_format');
+  const digits=n=>String(t(d.length<want?'err_phone_short':'err_phone_long'))
+    .replace('{n}',n).replace('{want}',want)
+    .replace('{d}',plural(n,t('u_digits').split('|')));
+  if(d.length!==want)return digits(d.length);
+  const local=want===10?d:d.slice(want-10);
+  if(local[1]==='0')return t('err_phone_code');
   return '';
+}
+/* Re-check as they correct it, but only once they have already been told —
+   nagging somebody who is still typing their first digit is worse than
+   saying nothing. */
+function watchPhone(input){
+  if(!input||input.dataset.phoneWatch)return;
+  input.dataset.phoneWatch='1';
+  const recheck=()=>{
+    if(!input.classList.contains('invalid'))return;
+    const bad=phoneProblem(input.value.trim());
+    if(!bad)fieldError(input,'');
+  };
+  input.addEventListener('input',recheck);
+  input.addEventListener('blur',()=>{
+    const v=input.value.trim();
+    if(v)fieldError(input,phoneProblem(v));
+  });
 }
 async function submitCb(){
   const hp=$('cb-hp');if(hp&&hp.value)return;   // spam bots fill every field they find
   const ph=$('cb-phone').value.trim();
+  watchPhone($('cb-phone'));
   const bad=phoneProblem(ph);
   if(bad){fieldError($('cb-phone'),bad);return;}
   fieldError($('cb-phone'),'');
@@ -797,16 +838,19 @@ async function submitCb(){
     lang:LANG});
   if(ok){$('cb-form').style.display='none';$('cb-success').style.display='block';
     track('generate_lead',{method:'callback'});resetTurnstile();}
-  else alert(t('form_send_err'));
+  /* A browser dialog on a phone covers the form and says nothing useful. Put
+     the reason under the field the visitor was last looking at. */
+  else fieldError($('cb-phone'),t('err_send_retry'));
 }
 async function submitContact(){
   const ph=$('cf-phone').value.trim();
+  watchPhone($('cf-phone'));
   const bad=phoneProblem(ph);
   if(bad){fieldError($('cf-phone'),bad);return;}
   fieldError($('cf-phone'),'');
   const ok=await sendLead({type:'consultation',name:$('cf-name').value.trim(),phone:ph,interest:$('cf-interest').value,comment:$('cf-comment').value.trim(),lang:LANG});
   if(ok){$('contact-form').style.display='none';$('contact-success').style.display='block';track('generate_lead',{method:'consultation'});}
-  else alert(t('form_send_err'));
+  else fieldError($('cf-phone'),t('err_send_retry'));
 }
 
 /* ============ CALC ============ */
@@ -1233,11 +1277,29 @@ function quizResult(){
       <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit" class="btn-primary">${t('quiz_send')}</button></form></div>`;
 }
-function quizSubmit(e){e.preventDefault();const f=e.target;if(f.company.value)return false;
-  sendLead({type:'quiz-'+quizKind,name:f.name.value,phone:f.phone.value,note:quizSummary()});
+/* This used to fire and print "готово" whatever was in the fields, so a typo
+   in the number looked like a sent enquiry and vanished. */
+async function quizSubmit(e){
+  e.preventDefault();
+  const f=e.target;
+  if(f.company.value)return false;
+  const name=f.name.value.trim(),phone=f.phone.value.trim();
+  watchPhone(f.phone);
+  if(!name){fieldError(f.name,t('err_name'));return false;}
+  fieldError(f.name,'');
+  const bad=phoneProblem(phone);
+  if(bad){fieldError(f.phone,bad);return false;}
+  fieldError(f.phone,'');
+  const btn=f.querySelector('button[type=submit]');
+  if(btn)btn.disabled=true;
+  const ok=await sendLead({type:'quiz-'+quizKind,name:name,phone:phone,note:quizSummary()});
+  if(btn)btn.disabled=false;
+  if(!ok){fieldError(f.phone,t('err_send_retry'));return false;}
   track('generate_lead',{method:'quiz',category:quizKind});
+  resetTurnstile();
   qel('body').innerHTML=`<div class="quiz-done"><div class="quiz-done-ic">✓</div><h3>${t('quiz_done_h')}</h3><p>${t('quiz_done_p')}</p></div>`;
-  qel('back').style.visibility='hidden';return false;}
+  qel('back').style.visibility='hidden';
+  return false;}
 /* the inline quiz starts itself on category pages and on the homepage category tabs */
 function startInlineQuiz(cat){
   const host=$('quiz-inline'); if(!host||!QUIZZES[cat])return false;
