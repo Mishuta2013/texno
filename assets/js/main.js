@@ -201,11 +201,28 @@ function mixedOrder(list){
     return {p,i,pin:p.pin||99,k:(n+0.5)/size[p.category]};
   }).sort((a,b)=>a.pin-b.pin||a.k-b.k||a.i-b.i).map(x=>x.p);
 }
+/* mirrors tagMatch in build.mjs — a filter over one spec, declared in
+   categories.json and applied identically on the server and here. */
+function tagMatchJS(p,m){
+  const v=(p.specs||{})[m.key];
+  if(v===undefined||v===null||v==='')return false;
+  if(m.eq!==undefined)return String(v)===m.eq;
+  if(m.has!==undefined)return String(v).toLowerCase().includes(m.has.toLowerCase());
+  const n=parseFloat(String(v).replace(',','.'));
+  if(isNaN(n))return false;
+  if(m.min!==undefined&&n<m.min)return false;
+  if(m.max!==undefined&&n>m.max)return false;
+  return true;
+}
 function getFiltered(){
   let list=[...PRODUCTS];
   if(window.__CATALOG_CAT__&&window.__CATALOG_CAT__!=='all') list=list.filter(p=>p.category===window.__CATALOG_CAT__);
   // a brand page is pinned to its brand, whatever else is on the page
   if(window.__BRAND__) list=list.filter(p=>p.brand===window.__BRAND__);
+  /* A query page is pinned the same way. Without this the heading said "5
+     models" and the grid, re-rendered by renderCatalog on load, showed all
+     twenty-two in the category. */
+  if(window.__TAG__) list=list.filter(p=>tagMatchJS(p,window.__TAG__));
   // brand pages show a grid without the filter bar, so these controls may not
   // exist — reading them blindly threw and left the catalogue unrendered
   const si=$('search-input');

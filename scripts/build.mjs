@@ -1360,6 +1360,111 @@ function catBrands(catKey) {
 }
 const burl = (cat, brand) => `${pfx()}${cat.urlPrefix}/${brandSlug(brand)}/`;
 
+/* ---- query landing pages ------------------------------------------------
+   A brand has an address of its own, so "кондиціонер Ardesto Суми" has
+   something to rank. The way people describe what they want — "чорна мийка",
+   "індукційна поверхня", "витяжка 60 см" — did not: those were filter states
+   with no URL. Each tag in categories.json names a filter over the category's
+   own specs and gets a page.
+
+   Two rules keep these from becoming spam. A tag needs at least three products,
+   because two under a headline reads as a mistake. And a tag that matches
+   almost the whole category is skipped: "мийки з нержавіючої сталі" matched all
+   thirty-two, so its page would have been the category page under a different
+   address, which is the definition of a duplicate. */
+const TAG_MIN = 3, TAG_MAX_SHARE = 0.9;
+function tagMatch(p, m) {
+  const v = (p.specs || {})[m.key];
+  if (v === undefined || v === null || v === '') return false;
+  if (m.eq !== undefined) return String(v) === m.eq;
+  if (m.has !== undefined) return String(v).toLowerCase().includes(m.has.toLowerCase());
+  const n = parseFloat(String(v).replace(',', '.'));
+  if (isNaN(n)) return false;
+  if (m.min !== undefined && n < m.min) return false;
+  if (m.max !== undefined && n > m.max) return false;
+  return true;
+}
+const tagProducts = (catKey, tag) => catProducts(catKey).filter(p => tagMatch(p, tag.match));
+function catTags(catKey) {
+  const cat = CATS[catKey];
+  const total = catProducts(catKey).length;
+  return (cat.tags || []).filter(tg => {
+    const n = tagProducts(catKey, tg).length;
+    return n >= TAG_MIN && n < total * TAG_MAX_SHARE;
+  });
+}
+const turl = (cat, tg) => `${pfx()}${cat.urlPrefix}/${tg.slug}/`;
+
+function tagPage(cat, tg) {
+  const list = tagProducts(cat.key, tg);
+  const CAT = lf(cat, 'name');
+  const NAME = lf(tg, 'h1');
+  const prices = list.map(p => p.price);
+  const lo = Math.min(...prices), hi = Math.max(...prices);
+  const plural = modelsWord(list.length);
+  const priceText = t(lo === hi ? 'brand_price_one' : 'brand_price_range')
+    .replace('{lo}', fmt(lo)).replace('{hi}', fmt(hi));
+  const fill = str => str.replace('{name}', NAME).replace('{n}', list.length)
+    .replace('{plural}', plural).replace('{price}', priceText);
+  const jsonld = {
+    '@context': 'https://schema.org', '@type': 'CollectionPage', name: NAME, url: abs(turl(cat, tg)),
+    mainEntity: {
+      '@type': 'ItemList', numberOfItems: list.length,
+      itemListElement: list.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: abs(purl(p)), name: pname(p) }))
+    }
+  };
+  const crumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t('pp_home'), item: abs(pfx() + '/') },
+    { '@type': 'ListItem', position: 2, name: CAT, item: abs(curl(cat)) },
+    { '@type': 'ListItem', position: 3, name: NAME, item: abs(turl(cat, tg)) } ] };
+  const siblings = catTags(cat.key).filter(x => x.slug !== tg.slug)
+    .map(x => `<a class="bl-chip" href="${turl(cat, x)}">${esc(lf(x, 'label'))}</a>`).join('');
+  return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
+${head({
+  title: (() => {
+    const full = fill(t('tag_seo_t'));
+    const room = 65 - TITLE_PREFIX.length;
+    return full.length <= room ? full : NAME;
+  })(),
+  /* The lead alone is about seventy characters, which is right on the floor of
+     what Google will show. Add as much of the intro as fits — the whole thing,
+     else its first sentence — rather than dropping it and leaving a stub. */
+  desc: (() => {
+    const lead = fill(t('tag_seo_d'));
+    const extra = (lf(tg, 'intro') || '').trim();
+    const first = extra.split(/(?<=\.)\s+/)[0] || '';
+    for (const tail of [extra, first, '']) {
+      const cand = `${lead} ${tail}`.trim();
+      if (cand.length <= 165) return cand;
+    }
+    return lead;
+  })(),
+  canonical: abs(turl(cat, tg)), altPath: `${cat.urlPrefix}/${tg.slug}/`, jsonld
+})}
+<script type="application/ld+json">${JSON.stringify(crumbs)}</script>
+</head><body>${GTM_NS}
+${HEADER}
+<div class="cat-wrap">
+  <nav class="pp-bc"><a href="${pfx() || '/'}">${esc(t('pp_home'))}</a> › <a href="${curl(cat)}">${esc(CAT)}</a> › <span>${esc(NAME)}</span></nav>
+  <header class="cat-head">
+    <h1 class="cat-h1">${esc(NAME)} ${esc(t('cat_in_sumy'))}</h1>
+    <p class="cat-sub">${esc(lf(tg, 'intro') || '')}</p>
+    <div class="cat-count">${list.length} ${esc(plural)} ${esc(t('cat_instock'))}</div>
+  </header>
+  <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
+  <section class="section catalog cat-catalog" id="catalog">
+    <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
+  </section>
+  ${siblings ? `<div class="brand-links"><h2>${esc(t('tag_other'))}</h2><div class="bl-row">${siblings}</div></div>` : ''}
+  <div class="pp-back"><a href="${curl(cat)}">← ${esc(CAT)}</a></div>
+</div>
+${FOOTER}
+${injectData()}
+<script>window.__CATALOG_CAT__=${JSON.stringify(cat.key)};window.__TAG__=${JSON.stringify(tg.match)};</script>
+<script src="${av('/assets/js/main.js')}" defer></script>
+</body></html>`;
+}
+
 function brandPage(cat, brand) {
   const list = catProducts(cat.key).filter(p => p.brand === brand);
   const CAT = lf(cat, 'name');
@@ -1543,6 +1648,10 @@ ${HEADER}
     ${filtersFor(cat.key)}
     <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
   </section>
+  ${catTags(cat.key).length ? `<div class="brand-links cat-tags"><h2>${esc(t('cat_tags_h'))}</h2>` +
+    `<div class="bl-row">` + catTags(cat.key).map(tg =>
+      `<a class="bl-chip" href="${turl(cat, tg)}">${esc(lf(tg, 'label'))}</a>`).join('') +
+    `</div></div>` : ''}
   ${cat.illustration ? `<figure class="cat-art">` +
     `<img src="${esc(av(cat.illustration))}" srcset="${esc(av(cat.illustration))} 800w, ` +
     `${esc(av(cat.illustration.replace(/\.webp$/, '@1200.webp')))} 1200w" ` +
@@ -1573,6 +1682,21 @@ for (const cat of catList) {
     const bdir = outPath(cat.urlPrefix.replace(/^\//, ''), slug);
     fs.writeFileSync(path.join(bdir, 'index.html'), brandPage(cat, brand), 'utf8');
     SITEMAP.push(burl(cat, brand));
+    n++;
+  }
+
+  /* Query pages share the directory with products and brands, so the same
+     collision check applies — a silent overwrite would take a product page
+     off the site. */
+  const taken = new Set([...catProducts(cat.key).map(p => p.slug),
+                         ...catBrands(cat.key).map(brandSlug)]);
+  for (const tg of catTags(cat.key)) {
+    if (taken.has(tg.slug)) {
+      throw new Error(`tag page ${cat.urlPrefix}/${tg.slug}/ collides with an existing page`);
+    }
+    const tdir = outPath(cat.urlPrefix.replace(/^\//, ''), tg.slug);
+    fs.writeFileSync(path.join(tdir, 'index.html'), tagPage(cat, tg), 'utf8');
+    SITEMAP.push(turl(cat, tg));
     n++;
   }
 }

@@ -1281,7 +1281,42 @@
     "illustration": "/assets/img/blog/seo-vbudovana-tehnika.webp",
     "illustrationAlt": "Вбудована духова шафа й мікрохвильова піч у колоні",
     "illustrationAlt_ru": "Встраиваемый духовой шкаф и микроволновая печь в колонне",
-    "illustrationAlt_en": "A built-in oven and microwave in a tall cabinet"
+    "illustrationAlt_en": "A built-in oven and microwave in a tall cabinet",
+    "tags": [
+      {
+        "slug": "60-sm",
+        "match": {
+          "key": "width_cm",
+          "min": 55,
+          "max": 65
+        },
+        "label": "60 см",
+        "label_ru": "60 см",
+        "label_en": "60 cm",
+        "h1": "Духові шафи 60 см",
+        "h1_ru": "Духовые шкафы 60 см",
+        "h1_en": "Built-in ovens 60 cm",
+        "intro": "Стандартна ширина вбудованої духовки. Ніша — 560 мм; глибина стільниці має бути не менше 600 мм.",
+        "intro_ru": "Стандартная ширина встраиваемой духовки. Ниша — 560 мм; глубина столешницы должна быть не меньше 600 мм.",
+        "intro_en": "The standard width. The cut-out is 560 mm."
+      },
+      {
+        "slug": "vid-70-l",
+        "match": {
+          "key": "volume_l",
+          "min": 65
+        },
+        "label": "Від 65 л",
+        "label_ru": "От 65 л",
+        "label_en": "From 65 l",
+        "h1": "Місткі духові шафи від 65 л",
+        "h1_ru": "Вместительные духовые шкафы от 65 л",
+        "h1_en": "Large built-in ovens from 65 l",
+        "intro": "Об’єм вирішує, скільки рівнів працює одночасно. Від 65 літрів у духовці вільно стають два дека й гуска.",
+        "intro_ru": "Объём решает, сколько уровней работает одновременно. От 65 литров в духовке свободно встают два противня и утятница.",
+        "intro_en": "Capacity decides how many shelves you can use at once."
+      }
+    ]
   },
   "varylni-poverhni": {
     "name": "Варильні поверхні",
@@ -1508,7 +1543,90 @@
     "illustration": "/assets/img/blog/seo-kuhonna-tehnika.webp",
     "illustrationAlt": "Кухонна техніка у Сумах: варильна поверхня, витяжка й духова шафа",
     "illustrationAlt_ru": "Кухонная техника в Сумах: варочная поверхность, вытяжка и духовой шкаф",
-    "illustrationAlt_en": "Kitchen appliances in Sumy: a hob, a hood and an oven"
+    "illustrationAlt_en": "Kitchen appliances in Sumy: a hob, a hood and an oven",
+    "tags": [
+      {
+        "slug": "indukcijni",
+        "match": {
+          "key": "hob_type",
+          "eq": "Індукційна"
+        },
+        "label": "Індукційні",
+        "label_ru": "Индукционные",
+        "label_en": "Induction",
+        "h1": "Індукційні варильні поверхні",
+        "h1_ru": "Индукционные варочные поверхности",
+        "h1_en": "Induction hobs",
+        "intro": "Гріють дно посуду напряму: літр води закипає за 3–4 хвилини, а сама поверхня лишається майже холодною. Потрібен посуд, до дна якого прилипає магніт.",
+        "intro_ru": "Греют дно посуды напрямую: литр воды закипает за 3–4 минуты, а сама поверхность остаётся почти холодной. Нужна посуда, ко дну которой прилипает магнит.",
+        "intro_en": "They heat the pan base directly — a litre boils in three or four minutes."
+      },
+      {
+        "slug": "gazovi",
+        "match": {
+          "key": "hob_type",
+          "eq": "Газова"
+        },
+        "label": "Газові",
+        "label_ru": "Газовые",
+        "label_en": "Gas",
+        "h1": "Газові варильні поверхні",
+        "h1_ru": "Газовые варочные поверхности",
+        "h1_en": "Gas hobs",
+        "intro": "Найдешевші у користуванні й працюють при відключенні світла. Дають миттєве регулювання полум’я, але потребують доброї витяжки.",
+        "intro_ru": "Самые дешёвые в пользовании и работают при отключении света. Дают мгновенную регулировку пламени, но требуют хорошей вытяжки.",
+        "intro_en": "The cheapest to run, and they work when the power is out."
+      },
+      {
+        "slug": "elektrychni",
+        "match": {
+          "key": "hob_type",
+          "eq": "Електрична"
+        },
+        "label": "Електричні",
+        "label_ru": "Электрические",
+        "label_en": "Electric",
+        "h1": "Електричні варильні поверхні",
+        "h1_ru": "Электрические варочные поверхности",
+        "h1_en": "Electric hobs",
+        "intro": "Склокераміка працює з будь-яким посудом і коштує дешевше за індукцію. Гріється довше й довше остигає — це зручно для томління.",
+        "intro_ru": "Стеклокерамика работает с любой посудой и стоит дешевле индукции. Греется дольше и дольше остывает — это удобно для томления.",
+        "intro_en": "Glass-ceramic works with any pan and costs less than induction."
+      },
+      {
+        "slug": "60-sm",
+        "match": {
+          "key": "width_cm",
+          "min": 55,
+          "max": 65
+        },
+        "label": "60 см",
+        "label_ru": "60 см",
+        "label_en": "60 cm",
+        "h1": "Варильні поверхні 60 см",
+        "h1_ru": "Варочные поверхности 60 см",
+        "h1_en": "Hobs 60 cm",
+        "intro": "Стандарт на чотири конфорки. Виріз у стільниці — 560×490 мм, однаковий для газу, склокераміки та індукції.",
+        "intro_ru": "Стандарт на четыре конфорки. Вырез в столешнице — 560×490 мм, одинаковый для газа, стеклокерамики и индукции.",
+        "intro_en": "The four-zone standard. The cut-out is 560×490 mm whatever the technology."
+      },
+      {
+        "slug": "domino",
+        "match": {
+          "key": "width_cm",
+          "max": 45
+        },
+        "label": "Домино, до 45 см",
+        "label_ru": "Домино, до 45 см",
+        "label_en": "Domino, up to 45 cm",
+        "h1": "Вузькі варильні поверхні домино",
+        "h1_ru": "Узкие варочные поверхности домино",
+        "h1_en": "Narrow domino hobs",
+        "intro": "Дві конфорки завширшки близько 30 см. Ставлять на маленьку кухню або поруч із другою такою ж, щоб зібрати поверхню під себе.",
+        "intro_ru": "Две конфорки шириной около 30 см. Ставят на маленькую кухню или рядом со второй такой же, чтобы собрать поверхность под себя.",
+        "intro_en": "Two zones about 30 cm wide — for a small kitchen, or paired up."
+      }
+    ]
   },
   "vytyazhky": {
     "name": "Витяжки",
@@ -1765,6 +1883,89 @@
         "key": "features",
         "label_ru": "Особенности",
         "label_en": "Features"
+      }
+    ],
+    "tags": [
+      {
+        "slug": "60-sm",
+        "match": {
+          "key": "width_cm",
+          "min": 55,
+          "max": 65
+        },
+        "label": "60 см",
+        "label_ru": "60 см",
+        "label_en": "60 cm",
+        "h1": "Витяжки 60 см",
+        "h1_ru": "Вытяжки 60 см",
+        "h1_en": "Cooker hoods 60 cm",
+        "intro": "Під стандартну варильну поверхню 60 см. Витяжка має бути не вужчою за плиту, інакше пара з крайніх конфорок іде повз.",
+        "intro_ru": "Под стандартную варочную поверхность 60 см. Вытяжка должна быть не уже плиты, иначе пар с крайних конфорок идёт мимо.",
+        "intro_en": "For a standard 60 cm hob — a hood must never be narrower than the hob."
+      },
+      {
+        "slug": "vbudovani",
+        "match": {
+          "key": "width_cm",
+          "max": 50
+        },
+        "label": "Вбудовані",
+        "label_ru": "Встраиваемые",
+        "label_en": "Built-in",
+        "h1": "Вбудовані витяжки",
+        "h1_ru": "Встраиваемые вытяжки",
+        "h1_en": "Built-in cooker hoods",
+        "intro": "Ховається у шафу над плитою — видно лише панель керування. Найтихіший варіант для маленької кухні.",
+        "intro_ru": "Прячется в шкаф над плитой — видна только панель управления. Самый тихий вариант для маленькой кухни.",
+        "intro_en": "Hidden in the cabinet above the hob, only the control panel shows."
+      },
+      {
+        "slug": "potuzhni",
+        "match": {
+          "key": "airflow",
+          "min": 1000
+        },
+        "label": "Від 1000 м³/год",
+        "label_ru": "От 1000 м³/ч",
+        "label_en": "From 1000 m³/h",
+        "h1": "Потужні витяжки від 1000 м³/год",
+        "h1_ru": "Мощные вытяжки от 1000 м³/ч",
+        "h1_en": "Powerful cooker hoods from 1000 m³/h",
+        "intro": "Для кухні від 12 м² або для кухні-студії. Беріть із запасом: витяжка з запасом працює на середній швидкості й тому тихіша.",
+        "intro_ru": "Для кухни от 12 м² или для кухни-студии. Берите с запасом: вытяжка с запасом работает на средней скорости и потому тише.",
+        "intro_en": "For a kitchen of 12 m² and up, or an open-plan one."
+      },
+      {
+        "slug": "tyhi",
+        "match": {
+          "key": "noise_db",
+          "max": 55
+        },
+        "label": "Тихі, до 55 дБ",
+        "label_ru": "Тихие, до 55 дБ",
+        "label_en": "Quiet, up to 55 dB",
+        "h1": "Тихі витяжки до 55 дБ",
+        "h1_ru": "Тихие вытяжки до 55 дБ",
+        "h1_en": "Quiet cooker hoods",
+        "intro": "До 55 дБ на максимумі — розмову чути, телевізор не треба робити гучнішим. Саме шум вирішує, чи будете ви вмикати витяжку взагалі.",
+        "intro_ru": "До 55 дБ на максимуме — разговор слышно, телевизор не надо делать громче. Именно шум решает, будете ли вы включать вытяжку вообще.",
+        "intro_en": "Up to 55 dB at full speed — you can still hold a conversation."
+      },
+      {
+        "slug": "zi-sklom",
+        "match": {
+          "key": "front",
+          "eq": "Загартоване скло"
+        },
+        "label": "Зі склом",
+        "label_ru": "Со стеклом",
+        "label_en": "With glass",
+        "h1": "Витяжки з фронтальною панеллю зі скла",
+        "h1_ru": "Вытяжки с фронтальной панелью из стекла",
+        "h1_en": "Cooker hoods with a glass front",
+        "intro": "Загартоване скло легко мити й воно добре виглядає у сучасній кухні. Похилі моделі до того ж не заважають головою.",
+        "intro_ru": "Закалённое стекло легко мыть и оно хорошо смотрится в современной кухне. Наклонные модели к тому же не мешают головой.",
+        "intro_en": "Toughened glass wipes clean and suits a modern kitchen."
       }
     ]
   },
@@ -2045,7 +2246,90 @@
     "illustration": "/assets/img/blog/seo-myyka-zmishuvach.webp",
     "illustrationAlt": "Кухонна мийка і змішувач у тон — Суми",
     "illustrationAlt_ru": "Кухонная мойка и смеситель в тон — Сумы",
-    "illustrationAlt_en": "A kitchen sink and a matching tap"
+    "illustrationAlt_en": "A kitchen sink and a matching tap",
+    "tags": [
+      {
+        "slug": "chorni",
+        "match": {
+          "key": "color",
+          "eq": "Чорний"
+        },
+        "label": "Чорні",
+        "label_ru": "Чёрные",
+        "label_en": "Black",
+        "h1": "Чорні кухонні мийки",
+        "h1_ru": "Чёрные кухонные мойки",
+        "h1_en": "Black kitchen sinks",
+        "intro": "Чорна мийка виглядає дорого й ховає подряпини, але на ній помітний вапняний наліт — у Сумах вода жорстка, тож протирати доведеться частіше.",
+        "intro_ru": "Чёрная мойка выглядит дорого и прячет царапины, но на ней заметен известковый налёт — в Сумах вода жёсткая, так что протирать придётся чаще.",
+        "intro_en": "A black sink looks expensive and hides scratches, though limescale shows on it."
+      },
+      {
+        "slug": "z-nerzhaviyuchoyi-stali",
+        "match": {
+          "key": "material",
+          "eq": "Нержавіюча сталь"
+        },
+        "label": "З нержавіючої сталі",
+        "label_ru": "Из нержавеющей стали",
+        "label_en": "Stainless steel",
+        "h1": "Мийки з нержавіючої сталі",
+        "h1_ru": "Мойки из нержавеющей стали",
+        "h1_en": "Stainless steel kitchen sinks",
+        "intro": "Нержавійка не боїться гарячого посуду й не тріскається від перепаду температур. Дрібні подряпини з часом зливаються в рівну матову поверхню.",
+        "intro_ru": "Нержавейка не боится горячей посуды и не трескается от перепада температур. Мелкие царапины со временем сливаются в ровную матовую поверхность.",
+        "intro_en": "Stainless steel takes hot pans and thermal shock without complaint."
+      },
+      {
+        "slug": "na-dvi-chashi",
+        "match": {
+          "key": "bowls",
+          "eq": "2"
+        },
+        "label": "На дві чаші",
+        "label_ru": "На две чаши",
+        "label_en": "Double bowl",
+        "h1": "Мийки на дві чаші",
+        "h1_ru": "Мойки на две чаши",
+        "h1_en": "Double-bowl kitchen sinks",
+        "intro": "Дві чаші мають сенс від 80 см завширшки: на вужчій тумбі в жодну з них не влізе деко з духовки.",
+        "intro_ru": "Две чаши имеют смысл от 80 см шириной: на более узкой тумбе ни в одну из них не влезет противень из духовки.",
+        "intro_en": "Two bowls make sense from 80 cm wide — narrower and neither takes a baking tray."
+      },
+      {
+        "slug": "60-sm",
+        "match": {
+          "key": "width_cm",
+          "min": 50,
+          "max": 70
+        },
+        "label": "50–70 см",
+        "label_ru": "50–70 см",
+        "label_en": "50–70 cm",
+        "h1": "Мийки 50–70 см",
+        "h1_ru": "Мойки 50–70 см",
+        "h1_en": "Kitchen sinks 50–70 cm",
+        "intro": "Найпоширеніший розмір: така мийка стає в тумбу 60 см і лишає місце під сифон та фільтр.",
+        "intro_ru": "Самый ходовой размер: такая мойка встаёт в тумбу 60 см и оставляет место под сифон и фильтр.",
+        "intro_en": "The common size: fits a 60 cm cabinet and leaves room for the trap."
+      },
+      {
+        "slug": "velyki",
+        "match": {
+          "key": "width_cm",
+          "min": 70
+        },
+        "label": "Від 70 см",
+        "label_ru": "От 70 см",
+        "label_en": "From 70 cm",
+        "h1": "Великі кухонні мийки від 70 см",
+        "h1_ru": "Большие кухонные мойки от 70 см",
+        "h1_en": "Large kitchen sinks from 70 cm",
+        "intro": "Під тумбу 80 см і ширше. У таку мийку лягає деко, і лишається місце під крило або дошку.",
+        "intro_ru": "Под тумбу 80 см и шире. В такую мойку ложится противень, и остаётся место под крыло или доску.",
+        "intro_en": "For an 80 cm cabinet and wider — a baking tray lies flat."
+      }
+    ]
   },
   "zmishuvachi": {
     "name": "Змішувачі",
@@ -2287,6 +2571,88 @@
         "key": "features",
         "label_ru": "Особенности",
         "label_en": "Features"
+      }
+    ],
+    "tags": [
+      {
+        "slug": "chorni",
+        "match": {
+          "key": "color",
+          "eq": "Чорний"
+        },
+        "label": "Чорні",
+        "label_ru": "Чёрные",
+        "label_en": "Black",
+        "h1": "Чорні кухонні змішувачі",
+        "h1_ru": "Чёрные кухонные смесители",
+        "h1_en": "Black kitchen taps",
+        "intro": "Беруть у тон чорної мийки. Матове чорне покриття прощає краплі й відбитки значно краще за хром.",
+        "intro_ru": "Берут в тон чёрной мойки. Матовое чёрное покрытие прощает капли и отпечатки значительно лучше хрома.",
+        "intro_en": "Matched to a black sink — and matt black forgives water spots."
+      },
+      {
+        "slug": "z-latuni",
+        "match": {
+          "key": "material",
+          "eq": "Латунь"
+        },
+        "label": "З латуні",
+        "label_ru": "Из латуни",
+        "label_en": "Brass",
+        "h1": "Кухонні змішувачі з латуні",
+        "h1_ru": "Кухонные смесители из латуни",
+        "h1_en": "Brass kitchen taps",
+        "intro": "Латунний корпус важчий і глушить звук води. Вагу видно в характеристиках — це чесний показник того, що всередині не силумін.",
+        "intro_ru": "Латунный корпус тяжелее и глушит звук воды. Вес виден в характеристиках — это честный показатель того, что внутри не силумин.",
+        "intro_en": "A brass body is heavier and quieter than the alternatives."
+      },
+      {
+        "slug": "odnovazhilni",
+        "match": {
+          "key": "tap_type",
+          "eq": "Одноважільний"
+        },
+        "label": "Одноважільні",
+        "label_ru": "Однорычажные",
+        "label_en": "Single-lever",
+        "h1": "Одноважільні кухонні змішувачі",
+        "h1_ru": "Однорычажные кухонные смесители",
+        "h1_en": "Single-lever kitchen taps",
+        "intro": "Одна ручка на воду й температуру — швидше налаштувати мокрими руками. Усередині керамічний картридж, який міняється за десять хвилин.",
+        "intro_ru": "Одна ручка на воду и температуру — быстрее настроить мокрыми руками. Внутри керамический картридж, который меняется за десять минут.",
+        "intro_en": "One handle for flow and temperature, easier with wet hands."
+      },
+      {
+        "slug": "pid-filtr",
+        "match": {
+          "key": "connection",
+          "has": "фільтр"
+        },
+        "label": "Під фільтр",
+        "label_ru": "Под фильтр",
+        "label_en": "With a filter outlet",
+        "h1": "Змішувачі з підключенням фільтра",
+        "h1_ru": "Смесители с подключением фильтра",
+        "h1_en": "Kitchen taps with a filter outlet",
+        "intro": "Окремий канал для питної води: фільтрована йде своїм виливом і не змішується з водопровідною.",
+        "intro_ru": "Отдельный канал для питьевой воды: фильтрованная идёт своим изливом и не смешивается с водопроводной.",
+        "intro_en": "A separate channel for filtered water, with its own spout."
+      },
+      {
+        "slug": "z-vysuvnym-vylyvom",
+        "match": {
+          "key": "spout",
+          "has": "гнучк"
+        },
+        "label": "З гнучким виливом",
+        "label_ru": "С гибким изливом",
+        "label_en": "With a flexible spout",
+        "h1": "Змішувачі з гнучким виливом",
+        "h1_ru": "Смесители с гибким изливом",
+        "h1_en": "Kitchen taps with a flexible spout",
+        "intro": "Вилив тягнеться на шлангу — зручно мити саму чашу й наповнювати каструлі, що стоять на плиті.",
+        "intro_ru": "Излив тянется на шланге — удобно мыть саму чашу и наполнять кастрюли, стоящие на плите.",
+        "intro_en": "The spout pulls out on a hose — handy for rinsing the bowl itself."
       }
     ]
   },
