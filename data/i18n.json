@@ -818,7 +818,9 @@
     "faq_t_ps": "Зарядні станції",
     "faq_t_kitchen": "Кухня",
     "faq_t_sink": "Мийки й змішувачі",
-    "cats_sub": "Тринадцять категорій: техніка для дому, вбудована кухонна техніка, мийки та змішувачі."
+    "cats_sub": "Тринадцять категорій: техніка для дому, вбудована кухонна техніка, мийки та змішувачі.",
+    "err_phone": "Вкажіть номер телефону — без нього ми не зможемо передзвонити.",
+    "err_phone_short": "Схоже, у номері бракує цифр. Перевірте, будь ласка."
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1639,7 +1641,9 @@
     "faq_t_ps": "Зарядные станции",
     "faq_t_kitchen": "Кухня",
     "faq_t_sink": "Мойки и смесители",
-    "cats_sub": "Тринадцать категорий: техника для дома, встраиваемая кухонная техника, мойки и смесители."
+    "cats_sub": "Тринадцать категорий: техника для дома, встраиваемая кухонная техника, мойки и смесители.",
+    "err_phone": "Укажите номер телефона — без него мы не сможем перезвонить.",
+    "err_phone_short": "Похоже, в номере не хватает цифр. Проверьте, пожалуйста."
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -2429,6 +2433,8 @@
     "faq_t_ps": "Power stations",
     "faq_t_kitchen": "Kitchen",
     "faq_t_sink": "Sinks and taps",
-    "cats_sub": "Thirteen categories: home appliances, built-in kitchen appliances, sinks and taps."
+    "cats_sub": "Thirteen categories: home appliances, built-in kitchen appliances, sinks and taps.",
+    "err_phone": "Enter a phone number — we cannot call you back without it.",
+    "err_phone_short": "That number looks too short. Please check it."
   }
 }

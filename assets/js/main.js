@@ -90,8 +90,20 @@ let LANG = LANG_FROM_PATH;
 if(!I18N[LANG]) LANG='uk';
 try{localStorage.setItem('tp_lang',LANG);}catch(e){}
 let activeBvol='all', activeHeat='all', activeCap='all', activePw='all', activeBrand='all', activeArea='all', activeType='all', activePrice='all', activeLoad='all', activeDepth='all', activeVol='all', activeHeight='all', activeTech='all', currentProduct=null;
-let FAV = JSON.parse(localStorage.getItem('tp_fav')||'[]');
-let CMP = JSON.parse(localStorage.getItem('tp_cmp')||'[]');
+/* Both lists hold slugs. They used to hold indices into PRODUCTS, which move
+   whenever the catalogue changes — anything numeric is from that era and no
+   longer identifies what the visitor picked, so it is dropped rather than
+   resolved to whatever now sits at that position. */
+const readPicks=k=>{
+  let v=[];
+  try{v=JSON.parse(localStorage.getItem(k)||'[]');}catch(e){v=[];}
+  if(!Array.isArray(v))return [];
+  const slugs=v.filter(x=>typeof x==='string');
+  if(slugs.length!==v.length){try{localStorage.setItem(k,JSON.stringify(slugs));}catch(e){}}
+  return slugs;
+};
+let FAV = readPicks('tp_fav');
+let CMP = readPicks('tp_cmp');
 
 const $=id=>document.getElementById(id);
 const fmt=n=>n.toLocaleString(LANG==='en'?'en-US':(LANG==='ru'?'ru-RU':'uk-UA'));
@@ -251,14 +263,15 @@ function cardHTML(p){
   /* worked out at build time and shipped on the product, so this cannot
      disagree with the statically rendered cards */
   const edge=p.edge?`<span class="cedge">${t(p.edge)}</span>`:'';
-  const favOn=FAV.includes(idx)?'on':'';
-  const cmpOn=CMP.includes(idx)?'on':'';
+  const favOn=FAV.includes(p.slug)?'on':'';
+  const cmpOn=CMP.includes(p.slug)?'on':'';
+  const sq=JSON.stringify(p.slug).replace(/"/g,'&quot;');
   return`<div class="card">
     <a class="card-img" href="${url}">
       ${badge}
       <span class="cstock"><i></i>${t('c_instock')}</span>
-      <button class="card-fav ${favOn}" onclick="event.preventDefault();event.stopPropagation();toggleFav(${idx})" aria-label="fav"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
-      <button class="card-cmp ${cmpOn}" title="${t('cmp_add')}" aria-label="${t('cmp_add')}" onclick="event.preventDefault();event.stopPropagation();toggleCmp(${idx})"><svg viewBox="0 0 24 24"><path d="M3 6h7M14 6h7M6.5 6v12M17.5 6v12M3 12l3.5-6 3.5 6a3.5 3.5 0 0 1-7 0zM14 12l3.5-6 3.5 6a3.5 3.5 0 0 1-7 0z"/></svg><span class="cmp-lbl">${t('cmp_add')}</span></button>
+      <button class="card-fav ${favOn}" onclick="event.preventDefault();event.stopPropagation();toggleFav(${sq})" aria-label="fav"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+      <button class="card-cmp ${cmpOn}" title="${t('cmp_add')}" aria-label="${t('cmp_add')}" onclick="event.preventDefault();event.stopPropagation();toggleCmp(${sq})"><svg viewBox="0 0 24 24"><path d="M3 6h7M14 6h7M6.5 6v12M17.5 6v12M3 12l3.5-6 3.5 6a3.5 3.5 0 0 1-7 0zM14 12l3.5-6 3.5 6a3.5 3.5 0 0 1-7 0z"/></svg><span class="cmp-lbl">${t('cmp_add')}</span></button>
       <img src="${p.thumb}" alt="${pnameJS(p)}" loading="lazy" width="400" height="300">
     </a>
     <div class="card-body">
@@ -554,28 +567,41 @@ function specRows(p){
 }
 
 /* ============ FAVORITES ============ */
-function toggleFav(idx){const i=FAV.indexOf(idx);if(i>=0)FAV.splice(i,1);else FAV.push(idx);localStorage.setItem('tp_fav',JSON.stringify(FAV));updateFavCount();renderCatalog();if($('fav-modal').classList.contains('open'))renderFav();}
+function toggleFav(slug){const i=FAV.indexOf(slug);if(i>=0)FAV.splice(i,1);else FAV.push(slug);
+  try{localStorage.setItem('tp_fav',JSON.stringify(FAV));}catch(e){}
+  updateFavCount();renderCatalog();if($('fav-modal').classList.contains('open'))renderFav();}
+const bySlug=s=>PRODUCTS.find(p=>p.slug===s);
 function updateFavCount(){const c=$('fav-count');if(!c)return;c.textContent=FAV.length;c.classList.toggle('show',FAV.length>0);}
 function openFav(){renderFav();$('fav-modal').classList.add('open');document.body.style.overflow='hidden';}
 function renderFav(){
   const c=$('fav-content');
   if(!FAV.length){c.innerHTML=`<div class="fav-empty">${t('fav_empty')}</div>`;return;}
-  c.innerHTML=`<div class="fav-grid">${FAV.map(idx=>cardHTML(PRODUCTS[idx])).join('')}</div>`;
+  /* A slug can go missing — a product withdrawn between two visits. Skip it
+     rather than render an empty card. */
+  const list=FAV.map(bySlug).filter(Boolean);
+  if(!list.length){c.innerHTML=`<div class="fav-empty">${t('fav_empty')}</div>`;return;}
+  c.innerHTML=`<div class="fav-grid">${list.map(cardHTML).join('')}</div>`;
 }
 
 /* ============ COMPARE ============ */
-function toggleCmp(idx){
-  const i=CMP.indexOf(idx);
+function toggleCmp(slug){
+  const i=CMP.indexOf(slug);
   if(i>=0)CMP.splice(i,1);
-  else{if(CMP.length>=3){alert(t('cmp_max'));return;}CMP.push(idx);}
-  localStorage.setItem('tp_cmp',JSON.stringify(CMP));renderCmpBar();renderCatalog();
+  else{if(CMP.length>=3){alert(t('cmp_max'));return;}CMP.push(slug);}
+  try{localStorage.setItem('tp_cmp',JSON.stringify(CMP));}catch(e){}
+  renderCmpBar();renderCatalog();
 }
-function clearCompare(){CMP=[];localStorage.setItem('tp_cmp','[]');renderCmpBar();renderCatalog();}
+function clearCompare(){CMP=[];try{localStorage.setItem('tp_cmp','[]');}catch(e){}
+  renderCmpBar();renderCatalog();}
 function renderCmpBar(){
   const cc=$('cmp-count'); if(cc){cc.textContent=CMP.length;cc.classList.toggle('show',CMP.length>0);} // header compare badge
   const bar=$('cmp-bar'); if(!bar) return;
   bar.classList.toggle('show',CMP.length>0);
-  $('cmp-thumbs').innerHTML=CMP.map(idx=>`<div class="cmp-th"><img src="${PRODUCTS[idx].thumb}"><span class="x" onclick="toggleCmp(${idx})">✕</span></div>`).join('');
+  $('cmp-thumbs').innerHTML=CMP.map(bySlug).filter(Boolean).map(p=>{
+    const sq=JSON.stringify(p.slug).replace(/"/g,'&quot;');
+    return `<div class="cmp-th"><img src="${p.thumb}" alt="${pnameJS(p)}">`
+      +`<span class="x" onclick="toggleCmp(${sq})" title="${gEsc(pnameJS(p))}">✕</span></div>`;
+  }).join('');
 }
 /* Which way is "better" for a numeric spec, so the winning cell can be marked.
    A spec not listed here is still compared, just without a winner — that is the
@@ -584,7 +610,7 @@ const CMP_BETTER={capacity_wh:'max',output_w:'max',surge_w:'max',area:'max',btu:
   load_kg:'max',rpm:'max',volume_l:'max',programs:'max',ac_sockets:'max',ac_in_w:'max',
   noise:'min',noise_wm:'min',depth:'min',price:'min'};
 function openCompare(){
-  const prods=CMP.map(i=>PRODUCTS[i]).filter(Boolean);
+  const prods=CMP.map(bySlug).filter(Boolean);
   if(!prods.length){
     $('compare-content').innerHTML=`<div class="cmp-empty">${t('cmp_empty')}</div>`;
     $('compare-modal').classList.add('open');document.body.style.overflow='hidden';return;
@@ -690,15 +716,45 @@ async function sendLead(data){
   }
   return true; // never block the user; lead still reachable via phone/WhatsApp
 }
+/* A missing phone number used to raise alert(t('cb_phone')) — a browser dialog
+   whose whole message was the word "Телефон", which is the field's label and
+   not an explanation. Say what is wrong, next to the field it is wrong in, and
+   clear it as soon as the visitor types. */
+function fieldError(input,msg){
+  if(!input)return;
+  var box=input.parentElement.querySelector('.field-err');
+  if(!box){box=document.createElement('div');box.className='field-err';box.setAttribute('role','alert');
+    input.parentElement.appendChild(box);}
+  box.textContent=msg||'';
+  box.classList.toggle('show',!!msg);
+  input.classList.toggle('invalid',!!msg);
+  input.setAttribute('aria-invalid',msg?'true':'false');
+  if(msg){
+    input.focus({preventScroll:false});
+    if(!input.dataset.errBound){input.dataset.errBound='1';
+      input.addEventListener('input',function(){fieldError(input,'');},{once:false});}
+  }
+}
+function phoneProblem(v){
+  if(!v)return t('err_phone');
+  if(v.replace(/\D/g,'').length<7)return t('err_phone_short');
+  return '';
+}
 async function submitCb(){
   const hp=$('cb-hp');if(hp&&hp.value)return;   // spam bots fill every field they find
-  const ph=$('cb-phone').value.trim();if(!ph){alert(t('cb_phone'));return;}
+  const ph=$('cb-phone').value.trim();
+  const bad=phoneProblem(ph);
+  if(bad){fieldError($('cb-phone'),bad);return;}
+  fieldError($('cb-phone'),'');
   const ok=await sendLead({type:window.__CB_TYPE__||'callback',name:$('cb-name').value.trim(),phone:ph,product:$('cb-product').value||'',lang:LANG});
   if(ok){$('cb-form').style.display='none';$('cb-success').style.display='block';track('generate_lead',{method:'callback'});}
   else alert(t('form_send_err'));
 }
 async function submitContact(){
-  const ph=$('cf-phone').value.trim();if(!ph){alert(t('form_phone'));return;}
+  const ph=$('cf-phone').value.trim();
+  const bad=phoneProblem(ph);
+  if(bad){fieldError($('cf-phone'),bad);return;}
+  fieldError($('cf-phone'),'');
   const ok=await sendLead({type:'consultation',name:$('cf-name').value.trim(),phone:ph,interest:$('cf-interest').value,comment:$('cf-comment').value.trim(),lang:LANG});
   if(ok){$('contact-form').style.display='none';$('contact-success').style.display='block';track('generate_lead',{method:'consultation'});}
   else alert(t('form_send_err'));
@@ -1162,9 +1218,11 @@ if($('fav-count')) updateFavCount();
    Expose them through getters rather than copies — CMP and FAV are reassigned
    on clear, and a snapshot would silently go stale. */
 window.ppState={
-  index:slug=>PRODUCTS.findIndex(p=>p.slug===slug),
-  inCmp:i=>CMP.indexOf(i)>=0,
-  inFav:i=>FAV.indexOf(i)>=0,
+  /* Kept for the inline script on product pages, which passes whatever this
+     returns straight back to toggleFav/toggleCmp. It is the slug now. */
+  index:slug=>slug,
+  inCmp:s=>CMP.indexOf(s)>=0,
+  inFav:s=>FAV.indexOf(s)>=0,
   t:t
 };
 

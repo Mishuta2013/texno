@@ -229,15 +229,17 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:800;line-height:1.12;letter-spac
 input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:6px;background:rgba(124,196,255,.2);outline:none}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--blue);border:4px solid #fff;cursor:pointer;box-shadow:0 4px 12px rgba(46,139,255,.5)}
 input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--blue);border:4px solid #fff;cursor:pointer}
-/* The track is 6px, which is also the whole hit area — fine for a mouse, far
-   too thin for a finger. On touch the box grows to 26px while background-clip
+/* The track is 6px, which was also the whole hit area — fine to drag by the
+   24px thumb, but clicking the track to jump meant hitting a six-pixel strip,
+   and on a finger it was hopeless. The box grows to 26px while background-clip
    keeps the paint inside the 6px content box, so the slider looks identical and
-   the finger gets four times the target. Done with padding rather than the
-   vendor track pseudo-elements: if one of those is not honoured the track
-   simply vanishes, and this cannot. */
-@media(pointer:coarse){
-  input[type=range]{height:26px;padding:10px 0;background-clip:content-box}
-}
+   the target is four times larger. Done with padding rather than the vendor
+   track pseudo-elements: if one of those is not honoured the track simply
+   vanishes, and this cannot.
+
+   This used to apply only to pointer:coarse. A mouse is more precise than a
+   finger, not infinitely precise. */
+input[type=range]{height:26px;padding:10px 0;background-clip:content-box}
 .calc-result{background:rgba(11,26,51,.45);border:1px solid rgba(124,196,255,.18);border-radius:14px;padding:18px 20px;display:flex;align-items:center;gap:18px;margin-bottom:18px}
 .calc-result .cr-big{font-family:var(--disp);font-weight:800;font-size:34px;color:#fff;line-height:1}
 .calc-result .cr-big span{font-size:15px;color:var(--frost);font-weight:600}
@@ -1287,6 +1289,14 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 .pp-share-menu a:hover,.pp-share-menu button:hover{background:var(--ice)}
 
 /* ---- collapsible spec table ---- */
+/* Long spec tables are folded until asked for. This lived inside the 760px
+   media query while the script that shows the button ran at every width, so
+   on a desktop the button appeared over an already-open table and did
+   nothing but change its own label. Tables run to twenty rows now, so the
+   fold earns its place on a wide screen too — just with more room. */
+.pp-table-wrap.clip{max-height:430px;overflow:hidden;position:relative;
+  -webkit-mask-image:linear-gradient(#000 68%,transparent);mask-image:linear-gradient(#000 68%,transparent)}
+.pp-table-wrap.clip.open{max-height:none;-webkit-mask-image:none;mask-image:none}
 .pp-specs-more{margin-top:12px;padding:10px 18px;border:1px solid var(--g2);border-radius:999px;background:var(--white);
   color:var(--blue-d);font-weight:700;font-size:14px;cursor:pointer;width:100%}
 .pp-specs-more:hover{border-color:var(--blue)}
@@ -1330,10 +1340,7 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
   .pps-name{font-size:11.5px;color:var(--g4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .pps-btn{flex:0 0 auto;padding:12px 22px}
   .pp-wrap{padding-bottom:84px}
-  /* long spec tables are folded until asked for */
-  .pp-table-wrap.clip{max-height:322px;overflow:hidden;position:relative;
-    -webkit-mask-image:linear-gradient(#000 68%,transparent);mask-image:linear-gradient(#000 68%,transparent)}
-  .pp-table-wrap.clip.open{max-height:none;-webkit-mask-image:none;mask-image:none}
+  .pp-table-wrap.clip{max-height:322px}
   .pp-acts{gap:6px}
   .pp-act{padding:8px 12px;font-size:12.5px}
   .rt-grid{grid-template-columns:1fr 1fr}
@@ -1739,3 +1746,9 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 .cat-art img{width:100%;height:auto;max-height:420px;object-fit:cover;
   border-radius:var(--r-lg);display:block;background:var(--g1)}
 @media(max-width:560px){.cat-art{margin:24px 0 2px}.cat-art img{max-height:230px}}
+
+/* ===== inline field validation ===== */
+.field-err{display:none;margin-top:6px;font-size:12.5px;line-height:1.45;color:#C42B1C}
+.field-err.show{display:block}
+.field input.invalid,input.invalid{border-color:#C42B1C!important;
+  box-shadow:0 0 0 3px rgba(196,43,28,.12)}

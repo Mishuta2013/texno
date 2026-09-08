@@ -1253,16 +1253,19 @@ function ppLead(name){ if(window.openCb){window.openCb(null,name);} else {locati
 /* ---- compare / favourite / share / ask, driven by main.js state ---- */
 var PP_SLUG=${JSON.stringify(p.slug)},PP_NAME=${JSON.stringify(NAME)};
 function TT(k){return window.ppState?window.ppState.t(k):k;}
-function ppIndex(){return window.ppState?window.ppState.index(PP_SLUG):-1;}
+/* Favourites and comparison are keyed by slug, not by a position in the
+   catalogue array — a position moves every time a product is added ahead of
+   it. This page already knows its slug; ppState just hands it back. */
+function ppKey(){return window.ppState?window.ppState.index(PP_SLUG):null;}
 function ppSyncActs(){
-  var i=ppIndex(); if(i<0||!window.ppState) return;
+  var i=ppKey(); if(!i||!window.ppState) return;
   var S=window.ppState,inC=S.inCmp(i),inF=S.inFav(i);
   var cb=document.getElementById('pp-cmp-btn'),fb=document.getElementById('pp-fav-btn');
   if(cb){cb.classList.toggle('on',inC);document.getElementById('pp-cmp-lbl').textContent=S.t(inC?'pp_cmp_in':'pp_cmp_add');}
   if(fb){fb.classList.toggle('on',inF);document.getElementById('pp-fav-lbl').textContent=S.t(inF?'pp_fav_in':'pp_fav_add');}
 }
-function ppToggleCmp(){var i=ppIndex();if(i<0)return;window.toggleCmp(i);ppSyncActs();}
-function ppToggleFav(){var i=ppIndex();if(i<0)return;window.toggleFav(i);ppSyncActs();}
+function ppToggleCmp(){var i=ppKey();if(!i)return;window.toggleCmp(i);ppSyncActs();}
+function ppToggleFav(){var i=ppKey();if(!i)return;window.toggleFav(i);ppSyncActs();}
 function ppShare(e){
   e.stopPropagation();
   var url=location.href,txt=PP_NAME+' — '+url;
