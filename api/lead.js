@@ -98,8 +98,15 @@ function duplicate(key) {
   return false;
 }
 
+/* Cloudflare's own dashboard calls it "Secret key" and Vercel's UI invites you
+   to type the name yourself, so both spellings exist in the wild. Read either:
+   the failure mode otherwise is the bad kind — the widget appears on the form,
+   the owner believes the site is protected, and the server never checks. */
+const turnstileSecret = () =>
+  process.env.TURNSTILE_SECRET_KEY || process.env.TURNSTILE_SECRET || '';
+
 async function turnstileOk(token, ip) {
-  const secret = process.env.TURNSTILE_SECRET;
+  const secret = turnstileSecret();
   if (!secret) return true;                       // not configured yet
   if (!token) return false;
   try {
@@ -160,7 +167,13 @@ export default async function handler(req, res) {
     b.interest && `Цікавить: ${esc(b.interest)}`,
     b.comment && `📝 ${esc(b.comment)}`,
     b.note && `📝 ${esc(b.note)}`,
-    `🕒 ${new Date().toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv' })}`
+    `🕒 ${new Date().toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv' })}`,
+    /* The page sent a Turnstile answer, so the widget is live in front of
+       visitors — but this side has no key to check it against, which means the
+       protection is off while looking on. Silence here would be the worst
+       outcome, so it says so in the one place the owner definitely reads. */
+    b.token && !turnstileSecret()
+      && '⚠️ Turnstile не перевіряється: у Vercel немає TURNSTILE_SECRET_KEY'
   ].filter(Boolean);
 
   try {
