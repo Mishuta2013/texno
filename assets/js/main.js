@@ -268,7 +268,6 @@ const langPfx=()=>(LANG==='uk'?'':'/'+LANG);
 const brandSlugJS=b=>String(b).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 function productUrl(p){return langPfx()+(catOf(p).urlPrefix||SITE.productUrlPrefix||'/kondicioner')+'/'+p.slug+'/';}
 function cardHTML(p){
-  const idx=PRODUCTS.indexOf(p);
   const url=productUrl(p);
   let badge='';
   if(p.heatpump)badge=`<span class="cbadge heat">${t('sp_hp')}</span>`;
@@ -300,10 +299,10 @@ function cardHTML(p){
         <div class="card-price">${fmt(p.price)} <small>${t('u_uah')}</small></div>
         <div class="card-act">
           <div class="row2">
-            <button class="btn-order" onclick="openOrder(${idx})">${t('c_order')}</button>
+            <button class="btn-order" onclick="openOrder(&quot;${p.slug}&quot;)">${t('c_order')}</button>
             <a class="btn-det" href="${url}">${t('c_det')}</a>
           </div>
-          <button class="btn-buy" onclick="openQbuy(event,${idx})"><svg viewBox="0 0 24 24"><path d="M3 3h2l2 12h10l2-8H6"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg>${t('c_buy')}</button>
+          <button class="btn-buy" onclick="openQbuy(event,&quot;${p.slug}&quot;)"><svg viewBox="0 0 24 24"><path d="M3 3h2l2 12h10l2-8H6"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg>${t('c_buy')}</button>
         </div>
       </div>
     </div>
@@ -669,9 +668,14 @@ function cmpRow(label,prods,fn,dir,metric){
 }
 
 /* ============ QUICK BUY ============ */
-let qbuyIdx=null;
-function openQbuy(e,idx){
-  e.stopPropagation();qbuyIdx=idx;const p=PRODUCTS[idx];
+/* Slug, like everything else that names a product here. qbuyIdx was written
+   and never read, and PRODUCTS happens not to be sorted in place today — but
+   the day it is, an index captured when the card was drawn starts pointing at
+   somebody else's price. */
+function openQbuy(e,slug){
+  e.stopPropagation();
+  const p=PRODUCTS.find(x=>x.slug===slug);
+  if(!p)return;
   const msg=encodeURIComponent(t('buy_msg')+' '+p.name+' ('+fmt(p.price)+' '+(LANG==='en'?'UAH':'грн')+')');
   $('qb-wa').href=`https://api.whatsapp.com/send?phone=${PHONE}&text=${msg}`;
   $('qb-vb').href=`viber://chat?number=%2B${PHONE}`;
@@ -685,16 +689,33 @@ function openQbuy(e,idx){
 function closeQbuy(){$('qbuy-pop').classList.remove('show');$('qbuy-backdrop').classList.remove('show');}
 
 /* ============ CALLBACK + FORMSPREE ============ */
-function openOrder(idx){const p=PRODUCTS[idx];currentProduct=p;openCb(null,p.name);}
+/* Keyed by slug, not by a position in PRODUCTS: the array is sorted and
+   re-sorted by the catalogue, so an index captured when the card was drawn
+   points at a different product after the visitor changes the sort order. */
+function openOrder(slug){
+  const p=PRODUCTS.find(x=>x.slug===slug);
+  if(!p)return;
+  currentProduct=p;
+  openCb(null,pnameJS(p),slug);
+}
 /* kind 'question' comes from the product page's "Задати питання" — same form,
    but the heading and the Telegram label say it is a question, not a callback. */
 const CB_KINDS={question:['question','pp_ask_sub','cb_p'],cheaper:['cheaper','pp_cheaper_h','pp_cheaper_p']};
 /* The product line is owned here, not by the callers: the modal is shared, so a
    name left over from a product button used to ride along on the next plain
    callback opened from the header. */
-function openCb(kind,product){
+function openCb(kind,product,slug){
   const k=CB_KINDS[kind];
   window.__CB_TYPE__=k?k[0]:'callback';
+  /* The price is looked up from the catalogue rather than passed in as text:
+     it is the number the visitor is looking at, and it reaches Telegram
+     without anyone having to keep two copies of it in step. Cleared on every
+     open, so a plain callback from the header never inherits the price of
+     whatever product was asked about before it. */
+  const prod=slug?PRODUCTS.find(x=>x.slug===slug):null;
+  window.__CB_SLUG__=prod?prod.slug:'';
+  window.__CB_PRICE__=prod?prod.price:'';
+  window.__CB_URL__=prod?location.origin+productUrl(prod):'';
   const h=$('cb-title');if(h)h.textContent=t(k?k[1]:'cb_btn');
   const sub=$('cb-sub');if(sub)sub.textContent=t(k?k[2]:'cb_p');
   const f=$('cb-product'),w=$('cb-product-wrap');
@@ -763,7 +784,10 @@ async function submitCb(){
   const bad=phoneProblem(ph);
   if(bad){fieldError($('cb-phone'),bad);return;}
   fieldError($('cb-phone'),'');
-  const ok=await sendLead({type:window.__CB_TYPE__||'callback',name:$('cb-name').value.trim(),phone:ph,product:$('cb-product').value||'',lang:LANG});
+  const ok=await sendLead({type:window.__CB_TYPE__||'callback',name:$('cb-name').value.trim(),
+    phone:ph,product:$('cb-product').value||'',
+    slug:window.__CB_SLUG__||'',price:window.__CB_PRICE__||'',url:window.__CB_URL__||'',
+    lang:LANG});
   if(ok){$('cb-form').style.display='none';$('cb-success').style.display='block';track('generate_lead',{method:'callback'});}
   else alert(t('form_send_err'));
 }

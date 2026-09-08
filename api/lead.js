@@ -4,6 +4,24 @@
 //   TELEGRAM_CHAT_ID    (your chat/channel id; get from @userinfobot or getUpdates)
 const esc = s => String(s ?? '').replace(/[<&>]/g, c => ({ '<': '&lt;', '&': '&amp;', '>': '&gt;' }[c])).slice(0, 600);
 
+const SITE = 'https://texnoplaza.sumy.ua';
+/* The price the visitor was looking at when they asked. It arrives from the
+   page, so it is checked rather than trusted: a plain positive number under a
+   million, formatted the way the site formats it. Anything else is dropped —
+   a lead is still a lead without a price. */
+const price = v => {
+  const n = Number(String(v ?? '').replace(/\s/g, ''));
+  return Number.isFinite(n) && n > 0 && n < 1e6
+    ? n.toLocaleString('uk-UA').replace(/ /g, ' ') : null;
+};
+/* Same for the link. A message that arrives in the owner's Telegram with a
+   tappable link has to point at this shop and nowhere else, whatever the
+   request body says. */
+const link = v => {
+  const s = String(v ?? '');
+  return s.startsWith(SITE + '/') && !/[\s<>"']/.test(s) && s.length < 300 ? s : null;
+};
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') { res.status(405).json({ ok: false, error: 'method' }); return; }
   let b = req.body;
@@ -23,6 +41,8 @@ export default async function handler(req, res) {
     b.name && `👤 ${esc(b.name)}`,
     `📱 <b>${esc(phone)}</b>`,
     b.product && `📦 Модель: ${esc(b.product)}`,
+    b.product && price(b.price) && `💰 Ціна: <b>${price(b.price)} грн</b>`,
+    b.product && link(b.url) && `🔗 ${esc(link(b.url))}`,
     b.interest && `Цікавить: ${esc(b.interest)}`,
     b.comment && `📝 ${esc(b.comment)}`,
     b.note && `📝 ${esc(b.note)}`,

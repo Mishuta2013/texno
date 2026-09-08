@@ -1257,7 +1257,7 @@ document.addEventListener('keydown',function(e){if(!document.getElementById('lbo
 (function(){var sx=0,el=document.getElementById('lbox');
   el.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
   el.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)ppStep(dx<0?1:-1);},{passive:true});})();
-function ppLead(name){ if(window.openCb){window.openCb(null,name);} else {location.href='tel:${esc(site.phone)}';} }
+function ppLead(name){ if(window.openCb){window.openCb(null,name,PP_SLUG);} else {location.href='tel:${esc(site.phone)}';} }
 
 /* ---- compare / favourite / share / ask, driven by main.js state ---- */
 var PP_SLUG=${JSON.stringify(p.slug)},PP_NAME=${JSON.stringify(NAME)};
@@ -1297,8 +1297,8 @@ function ppCopyLink(){
   else{var ta=document.createElement('textarea');ta.value=location.href;document.body.appendChild(ta);ta.select();
        try{document.execCommand('copy');}catch(err){}ta.remove();done();}
 }
-function ppCheaper(){ if(window.openCb)window.openCb('cheaper',PP_NAME); }
-function ppAsk(){ if(window.openCb)window.openCb('question',PP_NAME); }
+function ppCheaper(){ if(window.openCb)window.openCb('cheaper',PP_NAME,PP_SLUG); }
+function ppAsk(){ if(window.openCb)window.openCb('question',PP_NAME,PP_SLUG); }
 
 /* ---- long spec tables collapse on phones ---- */
 function ppSpecsToggle(){
