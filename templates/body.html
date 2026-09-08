@@ -24,8 +24,10 @@
     <a href="/" class="logo" aria-label="TexnoPlaza — на головну" aria-label="TexnoPlaza"><img src="/assets/img/logo.webp" alt="TexnoPlaza" width="260" height="107"></a>
     <nav>
       <!--NAV_CATS-->
+      <a class="nav-cta" href="#catalog" aria-label="Каталог" data-i18n-aria="nav_catalog">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7.4" height="7.4" rx="1.6"/><rect x="13.6" y="3" width="7.4" height="7.4" rx="1.6"/><rect x="3" y="13.6" width="7.4" height="7.4" rx="1.6"/><rect x="13.6" y="13.6" width="7.4" height="7.4" rx="1.6"/></svg>
+        <span data-i18n="nav_catalog">Каталог</span></a>
       <a href="#cats" data-i18n="nav_cats">Категорії</a>
-      <a href="#catalog" data-i18n="nav_catalog">Каталог</a>
       <a href="#installation" data-i18n="nav_install">Монтаж</a>
       <a href="#service" data-i18n="nav_service">Сервіс</a>
       <a href="#payment" data-i18n="nav_payment">Оплата</a>
@@ -74,6 +76,13 @@
       <div class="hero-badge"><span class="dot"></span> <span data-i18n="hero_badge">Акція: −50% на монтаж до кінця сезону</span></div>
       <h1><span data-i18n="hero_h1a">Техніка для дому та</span> <span class="grad" data-i18n="hero_h1b">енергонезалежність у Сумах</span></h1>
       <p class="hero-sub" data-i18n="hero_sub">Кондиціонери для комфорту та зарядні станції для енергонезалежності вашого дому. Доставка по Сумах, монтаж під ключ за 1 день, оплата після встановлення.</p>
+      <form class="hero-search" id="hero-search" role="search" onsubmit="return heroSearch(event)">
+        <svg class="hs-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+        <input id="hero-q" type="search" autocomplete="off" enterkeyhint="search"
+               aria-label="Пошук по каталогу" data-i18n-aria="hs_aria">
+        <span class="hs-ghost" id="hs-ghost" aria-hidden="true"></span>
+        <button type="submit" class="hs-btn"><span data-i18n="hs_btn">Знайти</span></button>
+      </form>
       <div class="hero-ctas">
         <a href="#catalog" class="btn-primary"><span data-i18n="hero_cta1">Перейти до каталогу</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -150,7 +159,9 @@
 
     <div class="cat-tabs reveal" id="cat-tabs">
       <!--CAT_TABS-->
-    </div>UIZ_INLINE-->
+    </div>
+
+    <!--QUIZ_INLINE-->
 
     <div class="filters" id="filters">
       <div class="frow" id="frow-brand">

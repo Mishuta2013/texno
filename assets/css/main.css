@@ -74,6 +74,34 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:800;line-height:1.12;letter-spac
    every viewport width — not only under the breakpoints below */
 .header nav a{color:rgba(255,255,255,.72);font-size:13.5px;font-weight:500;padding:8px 7px;border-radius:var(--r-sm);transition:.18s;white-space:nowrap;position:relative}
 .header nav a:hover{color:#fff;background:rgba(124,196,255,.1)}
+/* The links were text and nothing else. A rule that draws itself out from the
+   centre gives the row somewhere to go on hover without costing a pixel of
+   width — and width is what the header does not have: at 1920 there are 106
+   spare pixels in the whole row. */
+.header nav a:not(.nav-cta)::after{content:'';position:absolute;left:7px;right:7px;bottom:4px;
+  height:2px;border-radius:2px;background:var(--frost);
+  transform:scaleX(0);transform-origin:center;transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+.header nav a:not(.nav-cta):hover::after,
+.header nav a:not(.nav-cta):focus-visible::after{transform:scaleX(1)}
+.header nav a:not(.nav-cta)[aria-current]{color:#fff}
+.header nav a:not(.nav-cta)[aria-current]::after{transform:scaleX(1);background:var(--blue)}
+@media(prefers-reduced-motion:reduce){.header nav a::after{transition:none}}
+
+/* The catalogue is what most visitors came for, so it leads the row and looks
+   like something you press. Blue rather than the orange of "Замовити дзвінок":
+   two primary buttons side by side would compete, and the call is the one that
+   should win. */
+.nav-cta{display:inline-flex;align-items:center;gap:7px;margin-right:6px;
+  padding:8px 14px!important;border-radius:var(--r-pill);
+  color:#fff!important;font-weight:700!important;font-size:13.5px;letter-spacing:.005em;
+  background:rgba(124,196,255,.14);border:1px solid rgba(124,196,255,.34);
+  transition:background .18s,border-color .18s,transform .18s,box-shadow .18s}
+.nav-cta svg{width:15px;height:15px;flex:0 0 auto;fill:currentColor;opacity:.9}
+.nav-cta:hover{background:rgba(124,196,255,.26);border-color:rgba(124,196,255,.6);
+  transform:translateY(-1px);box-shadow:0 6px 16px rgba(46,139,255,.22)}
+.nav-cta:active{transform:translateY(0)}
+.nav-cta[aria-current]{background:var(--blue);border-color:var(--blue)}
+@media(prefers-reduced-motion:reduce){.nav-cta:hover{transform:none}}
 .header-right{display:flex;align-items:center;gap:14px;margin-left:auto;flex-shrink:0}
 /* Keeping the header on one line. The ladder used to run the wrong way — at
    1661-1720px the links were padded 9px, wider than at 1721px and above — so the
@@ -1752,3 +1780,46 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 .field-err.show{display:block}
 .field input.invalid,input.invalid{border-color:#C42B1C!important;
   box-shadow:0 0 0 3px rgba(196,43,28,.12)}
+
+/* ===== hero search =====
+   Sits between the hero paragraph and the two buttons. The ghost line is a real
+   element, not a placeholder, so it can carry a blinking caret; it is pinned to
+   the same left edge and baseline as the input's own text, so when the visitor
+   starts typing nothing appears to move. */
+.hero-search{position:relative;display:flex;align-items:center;gap:8px;
+  max-width:520px;margin:0 0 20px;padding:6px 6px 6px 46px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(124,196,255,.28);
+  border-radius:var(--r-pill);backdrop-filter:blur(6px);
+  transition:border-color .18s,background .18s,box-shadow .18s}
+.hero-search:focus-within{background:rgba(255,255,255,.12);border-color:var(--frost);
+  box-shadow:0 0 0 4px rgba(124,196,255,.14)}
+.hs-ic{position:absolute;left:16px;top:50%;transform:translateY(-50%);
+  width:19px;height:19px;fill:none;stroke:rgba(233,243,255,.65);stroke-width:2;
+  stroke-linecap:round;pointer-events:none}
+.hero-search input{flex:1;min-width:0;height:44px;border:0;background:none;outline:none;
+  color:#fff;font-family:var(--body);font-size:15.5px;font-weight:500}
+.hero-search input::-webkit-search-cancel-button{filter:invert(1) opacity(.5)}
+.hs-ghost{position:absolute;left:46px;right:120px;top:50%;transform:translateY(-50%);
+  color:rgba(233,243,255,.55);font-size:15.5px;font-weight:500;pointer-events:auto;cursor:text;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hs-ghost.caret::after{content:'';display:inline-block;width:1.5px;height:1.05em;
+  margin-left:2px;vertical-align:-.18em;background:var(--frost);animation:hsCaret 1s steps(1) infinite}
+@keyframes hsCaret{0%,50%{opacity:1}50.01%,100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.hs-ghost.caret::after{animation:none;opacity:.7}}
+.hs-btn{flex:0 0 auto;height:44px;padding:0 22px;border:0;border-radius:var(--r-pill);
+  background:var(--blue);color:#fff;font-family:var(--disp);font-weight:700;font-size:14.5px;
+  cursor:pointer;transition:background .18s,transform .18s}
+.hs-btn:hover{background:var(--blue-d)}
+.hs-btn:active{transform:scale(.98)}
+@media(max-width:860px){
+  .hero-search{max-width:none;padding-left:42px}
+  .hs-ghost{left:42px;right:104px}
+  .hs-btn{padding:0 16px;font-size:14px}
+}
+@media(max-width:420px){
+  .hero-search{padding:5px 5px 5px 38px}
+  .hs-ic{left:13px;width:17px;height:17px}
+  .hero-search input,.hs-ghost{font-size:14.5px}
+  .hs-ghost{left:38px;right:92px}
+  .hs-btn{height:42px;padding:0 14px}
+}

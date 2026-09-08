@@ -824,7 +824,10 @@
     "tag_seo_t": "{name} у Сумах",
     "tag_seo_d": "{name} у Сумах: {n} {plural} у наявності, {price}.",
     "tag_other": "Схожі підбірки",
-    "cat_tags_h": "Підібрати за параметром"
+    "cat_tags_h": "Підібрати за параметром",
+    "hs_btn": "Знайти",
+    "hs_aria": "Пошук по каталогу",
+    "hs_lead": "Шукаю: "
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1651,7 +1654,10 @@
     "tag_seo_t": "{name} в Сумах",
     "tag_seo_d": "{name} в Сумах: {n} {plural} в наличии, {price}.",
     "tag_other": "Похожие подборки",
-    "cat_tags_h": "Подобрать по параметру"
+    "cat_tags_h": "Подобрать по параметру",
+    "hs_btn": "Найти",
+    "hs_aria": "Поиск по каталогу",
+    "hs_lead": "Ищу: "
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -2447,6 +2453,9 @@
     "tag_seo_t": "{name} in Sumy",
     "tag_seo_d": "{name} in Sumy: {n} {plural} in stock, {price}.",
     "tag_other": "Related selections",
-    "cat_tags_h": "Browse by feature"
+    "cat_tags_h": "Browse by feature",
+    "hs_btn": "Search",
+    "hs_aria": "Search the catalogue",
+    "hs_lead": "Looking for: "
   }
 }

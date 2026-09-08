@@ -1330,3 +1330,92 @@ renderRecent();
   });
   show(window.__FAQ_TOPIC__||tabs.querySelector('.faq-tab').dataset.topic);
 })();
+
+/* ---- hero search --------------------------------------------------------
+   The field types category names into itself, so a visitor who does not know
+   what this shop sells can read it off the search box. The words are the live
+   category names in the page's language — a category that runs out of stock
+   stops being advertised here without anyone editing a list.
+
+   It is a real element rather than the placeholder attribute, because a
+   placeholder cannot carry a caret. It stops the moment somebody focuses the
+   field or types, when the tab goes to the background, and when the hero
+   scrolls out of view — an animation nobody is looking at is just battery. */
+(function heroSearchTicker(){
+  const form=document.getElementById('hero-search');
+  const input=document.getElementById('hero-q');
+  const ghost=document.getElementById('hs-ghost');
+  if(!form||!input||!ghost)return;
+
+  const words=Object.entries(CATS)
+    .filter(([k])=>PRODUCTS.some(p=>p.category===k))
+    .map(([,c])=>lfJS(c,'name'))
+    .filter(Boolean);
+  if(!words.length)return;
+
+  const lead=t('hs_lead');
+  const still=matchMedia('(prefers-reduced-motion:reduce)');
+  let i=0,j=0,dir=1,timer=null;
+  /* Whether the hero is on screen is measured, not remembered. A cached flag
+     set from the observer got stuck off: the search scrolls the page down to
+     the catalogue, the observer says "gone", and if it then misses the way
+     back — a throttled callback, a background tab — the animation never
+     returns and nothing says why. */
+  const onScreen=()=>{const r=form.getBoundingClientRect();
+    return r.bottom>0&&r.top<(innerHeight||document.documentElement.clientHeight);};
+
+  const running=()=>timer!==null;
+  function stop(){clearTimeout(timer);timer=null;}
+  function step(){
+    const w=words[i];
+    j+=dir;
+    ghost.textContent=lead+w.slice(0,j);
+    ghost.classList.add('caret');
+    let wait=dir>0?70:38;
+    if(j>=w.length){dir=-1;wait=1400;}
+    else if(j<=0){dir=1;i=(i+1)%words.length;wait=320;}
+    timer=setTimeout(step,wait);
+  }
+
+  /* One place decides whether the ticker should be running, and every event
+     just calls it. Driving it from the events themselves left a hole: after a
+     search the focus is on the button, so emptying the field fired no blur and
+     the animation never came back. */
+  function sync(){
+    const idle=!input.value&&document.activeElement!==input&&onScreen()&&!document.hidden;
+    ghost.style.display=idle?'':'none';
+    if(!idle){stop();return;}
+    if(still.matches){stop();ghost.textContent=lead+words[i];ghost.classList.remove('caret');return;}
+    if(!running())step();
+  }
+
+  ['focus','blur','input','change','search'].forEach(ev=>input.addEventListener(ev,sync));
+  ghost.addEventListener('click',()=>input.focus());
+  document.addEventListener('visibilitychange',sync);
+  /* The observer is only a nudge to re-check; the answer comes from the
+     measurement above. Scroll is the fallback where it is unavailable. */
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(sync,{threshold:0}).observe(form);
+  }else{
+    addEventListener('scroll',sync,{passive:true});
+  }
+  window.__heroSync=sync;
+  sync();
+})();
+/* Hand the query to the catalogue that is already on the page: one search box,
+   one set of results, and the address bar stays clean. */
+function heroSearch(e){
+  e.preventDefault();
+  const hq=document.getElementById('hero-q');
+  const q=(hq&&hq.value||'').trim();
+  const si=$('search-input');
+  if(si){
+    if(typeof switchCat==='function'&&window.__CATALOG_CAT__&&window.__CATALOG_CAT__!=='all')switchCat('all');
+    si.value=q;
+    si.dispatchEvent(new Event('input',{bubbles:true}));
+  }
+  if(window.__heroSync)window.__heroSync();
+  const target=document.getElementById('catalog');
+  if(target)target.scrollIntoView({behavior:'smooth',block:'start'});
+  return false;
+}
