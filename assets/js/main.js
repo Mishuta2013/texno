@@ -724,6 +724,7 @@ function openCb(kind,product,slug){
   const hp=$('cb-hp');if(hp)hp.value='';
   $('cb-form').style.display='block';$('cb-success').style.display='none';
   $('cb-modal').classList.add('open');document.body.style.overflow='hidden';
+  markFormStart();ensureTurnstile();
 }
 /* Theme. Light is the default — the shop's own look — and the system setting
    is deliberately not consulted: someone whose phone is in dark mode should
@@ -739,18 +740,24 @@ function closeCb(e){if(e.target===e.currentTarget)forceCloseCb();}
 function forceCloseCb(){$('cb-modal').classList.remove('open');document.body.style.overflow='';}
 function closeOverlay(e,id){if(e.target===e.currentTarget)closeModalById(id);}
 function closeModalById(id){$(id).classList.remove('open');document.body.style.overflow='';}
-function openContact(){$('contact-modal').classList.add('open');document.body.style.overflow='hidden';}
+function openContact(){$('contact-modal').classList.add('open');document.body.style.overflow='hidden';
+  markFormStart();ensureTurnstile();}
 
 async function sendLead(data){
   track('generate_lead',{lead_type:(data&&data.type)||'form'});
-  // primary: our serverless endpoint → Telegram
+  const body={...data,ts:window.__FORM_TS__||0,token:turnstileToken()};
+  /* Only a server that failed to receive the lead may hand it to the backup.
+     A 4xx means it received it and said no — usually because the request did
+     not come from this form at all — and passing that on would send every
+     rejected bot to the Formspree inbox instead, which is the one place we
+     cannot filter. 5xx and a dead network are the real failures. */
   try{
-    const r=await fetch('/api/lead/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+    const r=await fetch('/api/lead/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     if(r.ok) return true;
+    if(r.status>=400&&r.status<500) return false;
   }catch(e){}
-  // fallback: Formspree (email), if configured
   if(typeof FORMSPREE!=='undefined' && FORMSPREE && FORMSPREE.indexOf('__')!==0){
-    try{const r=await fetch('https://formspree.io/f/'+FORMSPREE,{method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},body:JSON.stringify(data)});return r.ok;}catch(e){}
+    try{const r=await fetch('https://formspree.io/f/'+FORMSPREE,{method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},body:JSON.stringify(body)});return r.ok;}catch(e){}
   }
   return true; // never block the user; lead still reachable via phone/WhatsApp
 }
@@ -788,7 +795,8 @@ async function submitCb(){
     phone:ph,product:$('cb-product').value||'',
     slug:window.__CB_SLUG__||'',price:window.__CB_PRICE__||'',url:window.__CB_URL__||'',
     lang:LANG});
-  if(ok){$('cb-form').style.display='none';$('cb-success').style.display='block';track('generate_lead',{method:'callback'});}
+  if(ok){$('cb-form').style.display='none';$('cb-success').style.display='block';
+    track('generate_lead',{method:'callback'});resetTurnstile();}
   else alert(t('form_send_err'));
 }
 async function submitContact(){
@@ -1442,4 +1450,49 @@ function heroSearch(e){
   const target=document.getElementById('catalog');
   if(target)target.scrollIntoView({behavior:'smooth',block:'start'});
   return false;
+}
+
+/* ---- anti-spam plumbing --------------------------------------------------
+   Two things travel with every lead, and both exist because the endpoint used
+   to accept anything at all.
+
+   The stamp is when the visitor first touched a form. The server drops
+   anything submitted in under two and a half seconds — a person cannot type a
+   phone number that fast, and a script posting straight to the endpoint has
+   nothing to stamp in the first place.
+
+   The token is Cloudflare Turnstile. The script is fetched the first time a
+   form opens rather than on every page load: most visitors never open one, and
+   it is not worth a request on the home page. With no site key configured the
+   whole thing is inert and the site behaves exactly as before. */
+function markFormStart(){ if(!window.__FORM_TS__) window.__FORM_TS__=Date.now(); }
+document.addEventListener('focusin',e=>{
+  if(e.target.matches&&e.target.matches('input,textarea,select'))markFormStart();
+},true);
+
+let tsLoading=false;
+function ensureTurnstile(){
+  if(!(SITE&&SITE.turnstileKey)||tsLoading||window.turnstile)return;
+  tsLoading=true;
+  const s=document.createElement('script');
+  s.src='https://challenges.cloudflare.com/turnstile/v0/api.js';
+  s.async=true;s.defer=true;
+  document.head.appendChild(s);
+}
+/* Whichever widget is on screen holds the answer. Turnstile writes it into a
+   hidden input inside its own container, so there is nothing to keep in step. */
+function turnstileToken(){
+  const els=[...document.querySelectorAll('[name="cf-turnstile-response"]')];
+  const filled=els.find(el=>el.value);
+  return filled?filled.value:'';
+}
+/* A token is single-use. After a lead goes through, the widgets are reset so a
+   second enquiry in the same visit is not rejected for reusing the first one. */
+function resetTurnstile(){
+  window.__FORM_TS__=0;
+  if(window.turnstile&&window.turnstile.reset){
+    document.querySelectorAll('.cf-turnstile').forEach(el=>{
+      try{window.turnstile.reset(el);}catch(e){}
+    });
+  }
 }

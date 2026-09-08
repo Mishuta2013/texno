@@ -915,6 +915,13 @@ fill('<!--CAT_TABS-->',
     `<button class="ctab" data-cat="${esc(c.key)}" onclick="switchCat('${esc(c.key)}')" type="button">`
     + `<span class="ctab-ic">${esc(c.emoji || '')}</span><span>${esc(lf(c, 'name'))}</span>`
     + `<b class="ctab-n"></b></button>`).join('\n      '));
+/* Cloudflare Turnstile. Without a site key in site.json the slot is empty and
+   nothing about the form changes — the site keeps working while the owner
+   fetches the keys, and the server-side check stays off to match. */
+fill('<!--TURNSTILE-->', site.turnstileKey
+  ? `<div class="cf-turnstile" data-sitekey="${esc(site.turnstileKey)}"`
+    + ` data-theme="auto" data-size="flexible" data-language="${L}"></div>`
+  : '');
 fill('<!--NAV_CATS-->', navCats());
 /* Reviews were a third-party embed: a 704px-tall iframe from elfsightcdn that
    loaded on every page, could not be styled and read as somebody else's box
