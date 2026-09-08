@@ -751,6 +751,40 @@
         "label_en": "Warranty"
       },
       {
+        "label": "Номінальна потужність",
+        "key": "power_w",
+        "fmt": "watt",
+        "label_ru": "Номинальная мощность",
+        "label_en": "Rated power"
+      },
+      {
+        "label": "Спожив. за добу",
+        "key": "kwh_day",
+        "fmt": "kwh",
+        "label_ru": "Потребление за сутки",
+        "label_en": "Daily consumption"
+      },
+      {
+        "label": "Клас морозильної камери",
+        "key": "freezer_class",
+        "label_ru": "Класс морозильной камеры",
+        "label_en": "Freezer class"
+      },
+      {
+        "label": "Вага",
+        "key": "weight_kg",
+        "fmt": "kg",
+        "label_ru": "Вес",
+        "label_en": "Weight"
+      },
+      {
+        "label": "Ширина",
+        "key": "width_cm",
+        "fmt": "cm",
+        "label_ru": "Ширина",
+        "label_en": "Width"
+      },
+      {
         "label": "Функції",
         "key": "features",
         "label_ru": "Функции",
@@ -1205,6 +1239,37 @@
         "key": "niche",
         "label_ru": "Размеры для встраивания",
         "label_en": "Cut-out size"
+      },
+      {
+        "label": "Регулювання температури",
+        "key": "temp_range",
+        "label_ru": "Регулировка температуры",
+        "label_en": "Temperature range"
+      },
+      {
+        "label": "Стекол у дверцятах",
+        "key": "door_glass",
+        "label_ru": "Стёкол в дверце",
+        "label_en": "Door glass panes"
+      },
+      {
+        "label": "Знімні спрямовувачі",
+        "key": "rails",
+        "label_ru": "Съёмные направляющие",
+        "label_en": "Removable rails"
+      },
+      {
+        "label": "Телескопічні спрямовувачі",
+        "key": "tele_rails",
+        "label_ru": "Телескопические направляющие",
+        "label_en": "Telescopic rails"
+      },
+      {
+        "label": "Ширина",
+        "key": "width_cm",
+        "fmt": "cm",
+        "label_ru": "Ширина",
+        "label_en": "Width"
       },
       {
         "label": "Особливості",
@@ -1671,6 +1736,31 @@
         "label_en": "Cut-out size"
       },
       {
+        "label": "Керування",
+        "key": "control",
+        "label_ru": "Управление",
+        "label_en": "Controls"
+      },
+      {
+        "label": "Діаметр фланця",
+        "key": "flange",
+        "fmt": "mm",
+        "label_ru": "Диаметр фланца",
+        "label_en": "Duct diameter"
+      },
+      {
+        "label": "Фронтальна панель",
+        "key": "front",
+        "label_ru": "Фронтальная панель",
+        "label_en": "Front panel"
+      },
+      {
+        "label": "Клас енергоспоживання",
+        "key": "eclass",
+        "label_ru": "Класс энергопотребления",
+        "label_en": "Energy class"
+      },
+      {
         "label": "Особливості",
         "key": "features",
         "label_ru": "Особенности",
@@ -1883,6 +1973,69 @@
         "label_en": "Cut-out size"
       },
       {
+        "label": "Серія",
+        "key": "series_name",
+        "label_ru": "Серия",
+        "label_en": "Series"
+      },
+      {
+        "label": "Форма чаші",
+        "key": "shape",
+        "label_ru": "Форма чаши",
+        "label_en": "Bowl shape"
+      },
+      {
+        "label": "Глибина чаші",
+        "key": "depth_mm",
+        "fmt": "mm",
+        "label_ru": "Глубина чаши",
+        "label_en": "Bowl depth"
+      },
+      {
+        "label": "Товщина металу",
+        "key": "thickness_mm",
+        "fmt": "mm",
+        "label_ru": "Толщина металла",
+        "label_en": "Steel thickness"
+      },
+      {
+        "label": "Вид поверхні",
+        "key": "finish",
+        "label_ru": "Вид поверхности",
+        "label_en": "Finish"
+      },
+      {
+        "label": "Крило для сушіння",
+        "key": "wing",
+        "label_ru": "Крыло для сушки",
+        "label_en": "Drainer"
+      },
+      {
+        "label": "Отвір під змішувач",
+        "key": "tap_hole",
+        "label_ru": "Отверстие под смеситель",
+        "label_en": "Tap hole"
+      },
+      {
+        "label": "Монтажний отвір",
+        "key": "cutout",
+        "label_ru": "Монтажное отверстие",
+        "label_en": "Cut-out"
+      },
+      {
+        "label": "Ширина",
+        "key": "width_cm",
+        "fmt": "cm",
+        "label_ru": "Ширина",
+        "label_en": "Width"
+      },
+      {
+        "label": "Гарантія",
+        "key": "warranty",
+        "label_ru": "Гарантия",
+        "label_en": "Warranty"
+      },
+      {
         "label": "Особливості",
         "key": "features",
         "label_ru": "Особенности",
@@ -2046,6 +2199,90 @@
         "label_en": "Cut-out size"
       },
       {
+        "label": "Серія",
+        "key": "series_name",
+        "label_ru": "Серия",
+        "label_en": "Series"
+      },
+      {
+        "label": "Вид змішувача",
+        "key": "tap_type",
+        "label_ru": "Вид смесителя",
+        "label_en": "Type"
+      },
+      {
+        "label": "Вид поверхні",
+        "key": "finish",
+        "label_ru": "Вид поверхности",
+        "label_en": "Finish"
+      },
+      {
+        "label": "Висота змішувача",
+        "key": "height_mm",
+        "fmt": "mm",
+        "label_ru": "Высота смесителя",
+        "label_en": "Overall height"
+      },
+      {
+        "label": "Висота виливу",
+        "key": "spout_h_mm",
+        "fmt": "mm",
+        "label_ru": "Высота излива",
+        "label_en": "Spout height"
+      },
+      {
+        "label": "Довжина виливу",
+        "key": "spout_l_mm",
+        "fmt": "mm",
+        "label_ru": "Длина излива",
+        "label_en": "Spout reach"
+      },
+      {
+        "label": "Витрата води",
+        "key": "flow_lmin",
+        "fmt": "lmin",
+        "label_ru": "Расход воды",
+        "label_en": "Water flow"
+      },
+      {
+        "label": "Картридж",
+        "key": "cartridge",
+        "label_ru": "Картридж",
+        "label_en": "Cartridge"
+      },
+      {
+        "label": "Тип підключення",
+        "key": "connection",
+        "label_ru": "Тип подключения",
+        "label_en": "Connection"
+      },
+      {
+        "label": "Різьба шлангів",
+        "key": "hose_thread",
+        "label_ru": "Резьба шлангов",
+        "label_en": "Hose thread"
+      },
+      {
+        "label": "Довжина шлангів",
+        "key": "hose_cm",
+        "fmt": "cm",
+        "label_ru": "Длина шлангов",
+        "label_en": "Hose length"
+      },
+      {
+        "label": "Монтажний отвір",
+        "key": "hole_mm",
+        "fmt": "mm",
+        "label_ru": "Монтажное отверстие",
+        "label_en": "Mounting hole"
+      },
+      {
+        "label": "Гарантія",
+        "key": "warranty",
+        "label_ru": "Гарантия",
+        "label_en": "Warranty"
+      },
+      {
         "label": "Особливості",
         "key": "features",
         "label_ru": "Особенности",
@@ -2192,6 +2429,25 @@
         "label_en": "Cut-out size"
       },
       {
+        "label": "Тип монтажу",
+        "key": "mount",
+        "label_ru": "Тип монтажа",
+        "label_en": "Mounting"
+      },
+      {
+        "label": "Монтажний отвір",
+        "key": "hole_mm",
+        "fmt": "mm",
+        "label_ru": "Монтажное отверстие",
+        "label_en": "Mounting hole"
+      },
+      {
+        "label": "Матеріал колби",
+        "key": "bottle",
+        "label_ru": "Материал колбы",
+        "label_en": "Bottle material"
+      },
+      {
         "label": "Особливості",
         "key": "features",
         "label_ru": "Особенности",
@@ -2317,6 +2573,38 @@
         "key": "niche",
         "label_ru": "Размеры для встраивания",
         "label_en": "Cut-out size"
+      },
+      {
+        "label": "Клас енергоспоживання",
+        "key": "eclass",
+        "label_ru": "Класс энергопотребления",
+        "label_en": "Energy class"
+      },
+      {
+        "label": "Покриття камери",
+        "key": "cavity",
+        "label_ru": "Покрытие камеры",
+        "label_en": "Cavity lining"
+      },
+      {
+        "label": "Діаметр тарілки",
+        "key": "plate_cm",
+        "fmt": "cm",
+        "label_ru": "Диаметр тарелки",
+        "label_en": "Turntable"
+      },
+      {
+        "label": "Фронтальна панель",
+        "key": "front",
+        "label_ru": "Фронтальная панель",
+        "label_en": "Front panel"
+      },
+      {
+        "label": "Ширина",
+        "key": "width_cm",
+        "fmt": "cm",
+        "label_ru": "Ширина",
+        "label_en": "Width"
       },
       {
         "label": "Особливості",
@@ -2488,6 +2776,38 @@
         "key": "niche",
         "label_ru": "Размеры для встраивания",
         "label_en": "Cut-out size"
+      },
+      {
+        "label": "Кошиків",
+        "key": "baskets",
+        "label_ru": "Корзин",
+        "label_en": "Baskets"
+      },
+      {
+        "label": "Клас миття",
+        "key": "wash_class",
+        "label_ru": "Класс мойки",
+        "label_en": "Washing class"
+      },
+      {
+        "label": "Клас сушіння",
+        "key": "dry_class",
+        "label_ru": "Класс сушки",
+        "label_en": "Drying class"
+      },
+      {
+        "label": "Води за цикл",
+        "key": "water_l",
+        "fmt": "litres",
+        "label_ru": "Воды за цикл",
+        "label_en": "Water per cycle"
+      },
+      {
+        "label": "Енергія за цикл",
+        "key": "kwh_cycle",
+        "fmt": "kwh",
+        "label_ru": "Энергия за цикл",
+        "label_en": "Energy per cycle"
       },
       {
         "label": "Особливості",

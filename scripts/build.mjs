@@ -118,6 +118,8 @@ const UNIT_TR = {
        [/ Вт$/, ' W'], [/ кВт$/, ' kW'], [/ кг$/, ' kg'], [/ м³\/год$/, ' m³/h'], [/ мл$/, ' ml']],
 };
 const NUMERIC_VAL = /^[\d\s.,×xх*\/+()-]+ ?[^\s]*$/;
+const lowerTail = v => { const h = String(v).split(' ')[0];
+  return (h.length > 1 && h === h.toUpperCase()) ? v : v.charAt(0).toLowerCase() + v.slice(1); };
 const specVal = v => {
   if (L === 'uk' || typeof v !== 'string') return v;
   const e = SPECV[v];
@@ -315,10 +317,18 @@ function fmtVal(p, f) {
        with the number — one чаша, two чаші, five чаш. */
     case 'plural': return raw ? `${raw} ${plural(Number(raw), t(f.word).split('|'))}` : null;
     case 'mm': return raw ? `${raw} ${t('u_mm')}` : null;
+    case 'lmin': return raw ? `${raw} ${t('u_lmin')}` : null;
+    case 'kwh': return raw ? `${raw} ${t('u_kwh')}` : null;
     case 'ml': return raw ? `${raw} ${t('u_ml')}` : null;
     case 'db': return raw ? `${raw} ${t('u_db')}` : null;
     case 'm3h': return raw ? `${raw} ${t('u_m3h')}` : null;
-    default: return specVal((raw !== undefined && raw !== null && raw !== '') ? raw : null);
+    /* Features are a list, not a value. Joined with a comma they read as a
+       sentence, so only the first keeps its capital — "Сифон, Прихований
+       перелив" reads as three sentences crammed into one row. An acronym
+       keeps its own capitals. */
+    default: return Array.isArray(raw)
+      ? (raw.length ? raw.map(specVal).map((x, i) => i ? lowerTail(x) : x).join(', ') : null)
+      : specVal((raw !== undefined && raw !== null && raw !== '') ? raw : null);
   }
 }
 function catChips(p) {

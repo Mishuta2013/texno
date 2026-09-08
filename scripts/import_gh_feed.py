@@ -25,11 +25,12 @@ import collections
 import io
 import json
 import pathlib
+import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'scripts'))
-import gh_extract                                        # noqa: E402
+import gh_extract2 as gh_extract                         # noqa: E402
 
 MARKUP = 0.90                    # the shop sells ten per cent under the feed price
 BRAND = 'Gunter&Hauer'
@@ -102,6 +103,150 @@ FORMS = {                        # accusative — "на 4 конфорки", "н
 BOWLS = {'1': ('однією чашею', 'одной чашей', 'one bowl'),
          '2': ('двома чашами', 'двумя чашами', 'two bowls'),
          '3': ('трьома чашами', 'тремя чашами', 'three bowls')}
+
+
+# The supplier's own feature list, in three languages. A feature with no
+# wording here is shown only in Ukrainian: better one line short in Russian
+# than a Ukrainian phrase dropped into a Russian sentence.
+FEATURE_TR = {
+    # hoods
+    'алюмінієвий жировий фільтр': ('алюминиевый жировой фильтр', 'an aluminium grease filter'),
+    '2 алюмінієві жирові фільтри': ('2 алюминиевых жировых фильтра', 'two aluminium grease filters'),
+    'led освітлення': ('LED-освещение', 'LED lighting'),
+    '3 швидкості': ('3 скорости', 'three speeds'),
+    'зворотний клапан': ('обратный клапан', 'a backdraught flap'),
+    'таймер з автовідключенням': ('таймер с автоотключением', 'a timer with auto-off'),
+    'пульт дистанційного керування': ('пульт дистанционного управления', 'a remote control'),
+    'периметральне всмоктування': ('периметральное всасывание', 'perimeter extraction'),
+    'більш тихий та надійний безщітковий двигун':
+        ('более тихий и надёжный бесщёточный двигатель', 'a quieter brushless motor'),
+    'дисплей': ('дисплей', 'a display'),
+    'електронне управління': ('электронное управление', 'electronic controls'),
+    # hobs
+    'чавунні решітки': ('чугунные решётки', 'cast-iron pan supports'),
+    'газ-контроль': ('газ-контроль', 'flame failure protection'),
+    'електропідпалювання': ('электроподжиг', 'electric ignition'),
+    'блокування для безпеки дітей': ('блокировка для безопасности детей', 'a child lock'),
+    'індикатор залишкового тепла': ('индикатор остаточного тепла', 'a residual heat indicator'),
+    'автовідключення': ('автоотключение', 'automatic shut-off'),
+    'подвійна система захисту від перегріву':
+        ('двойная система защиты от перегрева', 'double overheating protection'),
+    'індикатор активної зони нагріву':
+        ('индикатор активной зоны нагрева', 'an active-zone indicator'),
+    '9 рівнів регулювання потужності':
+        ('9 уровней регулировки мощности', 'nine power levels'),
+    'таймер': ('таймер', 'a timer'),
+    # ovens and microwaves
+    'охолодження дверцят духовки': ('охлаждение дверцы духовки', 'a cooled door'),
+    'захист від перегріву': ('защита от перегрева', 'overheating protection'),
+    'емаль легкого чищення': ('эмаль лёгкой очистки', 'easy-clean enamel'),
+    'знімні дверцята і внутрішнє скло для легкого чищення':
+        ('съёмная дверца и внутреннее стекло для лёгкой очистки',
+         'a removable door and inner glass'),
+    'відкладений старт': ('отложенный старт', 'a delayed start'),
+    'led-дисплей': ('LED-дисплей', 'an LED display'),
+    'автоменю': ('автоменю', 'an auto-menu'),
+    'гриль': ('гриль', 'a grill'),
+    'решітка для гриля': ('решётка для гриля', 'a grill rack'),
+    'розморожування за вагою і за часом':
+        ('размораживание по весу и по времени', 'defrosting by weight and by time'),
+    'комбінований режим нагріву': ('комбинированный режим нагрева', 'a combined heating mode'),
+    'експрес нагрів': ('экспресс-нагрев', 'express heating'),
+    # dishwashers
+    'аквастоп': ('аквастоп', 'AquaStop'),
+    'індикатор наявності солі': ('индикатор наличия соли', 'a salt indicator'),
+    'індикатор наявності ополіскувача':
+        ('индикатор наличия ополаскивателя', 'a rinse-aid indicator'),
+    'половинне завантаження': ('половинная загрузка', 'a half-load option'),
+    'регулювання положення верхньої корзини "easy lift up"':
+        ('регулировка положения верхней корзины «Easy Lift Up»',
+         'a height-adjustable upper basket'),
+    # sinks
+    'сифон': ('сифон', 'a trap'),
+    'прихований перелив': ('скрытый перелив', 'a concealed overflow'),
+    'розсувна решітка': ('раздвижная решётка', 'a sliding rack'),
+    'кріплення': ('крепление', 'fixings'),
+    'монтажний шаблон': ('монтажный шаблон', 'a cutting template'),
+    'коландер': ('коландер', 'a colander'),
+    'обробна дошка': ('разделочная доска', 'a chopping board'),
+    # taps
+    'керамічний картридж': ('керамический картридж', 'a ceramic cartridge'),
+    'аератор': ('аэратор', 'an aerator'),
+    'цинкові ручки': ('цинковые ручки', 'zinc handles'),
+    'механічне управління': ('механическое управление', 'mechanical controls'),
+    'сенсорне управління': ('сенсорное управление', 'touch controls'),
+    'сенсорне управління slide touch control':
+        ('сенсорное управление Slide Touch Control', 'Slide Touch Control'),
+    '4 швидкості': ('4 скорости', 'four speeds'),
+    '5 рівнів потужності': ('5 уровней мощности', 'five power levels'),
+    'функція "hand waving" (керування жестами)':
+        ('функция «Hand Waving» (управление жестами)', 'gesture control'),
+    'гнучкі шланги, 40 см (2 шт.)': ('гибкие шланги, 40 см (2 шт.)', 'two 40 cm hoses'),
+    'загартоване скло': ('закалённое стекло', 'toughened glass'),
+    'склокерамічна основа ilva (італія)':
+        ('стеклокерамика ILVA (Италия)', 'an ILVA glass-ceramic top'),
+    'аератор із трирівневим обмежувачем потоку':
+        ('аэратор с трёхуровневым ограничителем потока', 'a three-stage flow aerator'),
+    'можливість підключення до балонного газу':
+        ('возможность подключения к баллонному газу', 'bottled-gas conversion'),
+    'режим енергозбереження': ('режим энергосбережения', 'an eco mode'),
+    'автоматичне приготування': ('автоматическое приготовление', 'automatic programmes'),
+    'інформативний дисплей': ('информативный дисплей', 'an informative display'),
+    'функція нагадування': ('функция напоминания', 'a reminder function'),
+    'решітка': ('решётка', 'a wire shelf'),
+    'деко стандартне': ('противень стандартный', 'a standard baking tray'),
+    'деко глибоке': ('противень глубокий', 'a deep baking tray'),
+    'кріплення для верхнього монтажу': ('крепление для верхнего монтажа', 'top-mount fixings'),
+    'кріплення для нижнього монтажу': ('крепление для нижнего монтажа', 'undermount fixings'),
+    'перехідник різьбовий 3/8" на 1/2"':
+        ('переходник резьбовой 3/8\" на 1/2\"', 'a 3/8\" to 1/2\" adapter'),
+    'лоток для яєць': ('лоток для яиц', 'an egg tray'),
+    'можливість перенавішування дверцят':
+        ('возможность перенавешивания дверцы', 'a reversible door'),
+    'контейнер для зберігання овочів та фруктів':
+        ('контейнер для овощей и фруктов', 'a crisper drawer'),
+}
+
+
+def feats(features, lang, limit=4):
+    """The first few features, worded for this language."""
+    out = []
+    for f in features:
+        key = f.strip().rstrip('.').lower()
+        if lang == 'uk':
+            # Lower-case the lead word only when it is an ordinary word. "LED
+            # освітлення" and "PVD" are acronyms; lower-casing the first letter
+            # alone turned them into "lED".
+            head = f.split()[0]
+            out.append(f if (head.isupper() and len(head) > 1) or head[:1].isdigit()
+                       else f[0].lower() + f[1:])
+        else:
+            tr = FEATURE_TR.get(key)
+            if not tr:
+                continue
+            out.append(tr[0] if lang == 'ru' else tr[1])
+        if len(out) >= limit:
+            break
+    return out
+
+
+def listing(items, lang):
+    """a, b and c — with the conjunction the language uses.
+
+    Ukrainian alternates і/й for euphony: "й" after a word that ends in a vowel,
+    "і" after a consonant. "солі і індикатор" is the kind of thing a reader
+    notices without being able to say why.
+    """
+    if not items:
+        return ''
+    if len(items) == 1:
+        return items[0]
+    if lang == 'uk':
+        prev = items[-2].rstrip(')"\u00bb ').lower()
+        tail = ' й ' if prev[-1:] in 'аеєиіїоуюя' else ' і '
+    else:
+        tail = {'ru': ' и ', 'en': ' and '}[lang]
+    return ', '.join(items[:-1]) + tail + items[-1]
 
 
 def plural(n, forms):
@@ -298,16 +443,36 @@ def sentences(cat, s):
                 f'Класс энергопотребления — {g("eclass")}.', f'Energy class {g("eclass")}.')
 
     if g('niche'):
-        add(f'Розміри ніші під встановлення — {size(g("niche"), "uk")}.',
+        add(f'Розміри ніші під встановлення — {size(g("niche"), "uk")}, '
+            f'габарити — {size(g("dims"), "uk")}.' if g('dims') else
+            f'Розміри ніші під встановлення — {size(g("niche"), "uk")}.',
+            f'Размеры ниши под установку — {size(g("niche"), "ru")}, '
+            f'габариты — {size(g("dims"), "ru")}.' if g('dims') else
             f'Размеры ниши под установку — {size(g("niche"), "ru")}.',
+            f'The cut-out measures {size(g("niche"), "en")}, the appliance '
+            f'{size(g("dims"), "en")}.' if g('dims') else
             f'The cut-out measures {size(g("niche"), "en")}.')
     elif g('dims') and cat != 'myyky':
         add(f'Габарити — {size(g("dims"), "uk")}.', f'Габариты — {size(g("dims"), "ru")}.',
             f'It measures {size(g("dims"), "en")}.')
+    if g('warranty'):
+        w = str(g('warranty')).lower()
+        years = re.search(r'(\d+)', w)
+        add(f'Гарантія — {w}.',
+            f'Гарантия — {years.group(1)} ' + plural(int(years.group(1)),
+                ('год', 'года', 'лет')) + '.' if years else None,
+            f'{years.group(1)}-year warranty.' if years else None)
     return uk, ru, en
 
 
-def describe(cat, specs, model, prefix):
+FEATURE_LEAD = {
+    'uk': 'З того, що варто відзначити: {}.',
+    'ru': 'Из того, что стоит отметить: {}.',
+    'en': 'Worth noting: {}.',
+}
+
+
+def describe(cat, specs, model, prefix, features=()):
     uk, ru, en = sentences(cat, specs)
     tail = ('Доставка по Сумах, оплата після отримання.',
             'Доставка по Сумам, оплата после получения.',
@@ -315,17 +480,29 @@ def describe(cat, specs, model, prefix):
     for i, (lst, key) in enumerate(((uk, 'uk'), (ru, 'ru'), (en, 'en'))):
         if not lst:                              # the feed said almost nothing
             lst.append(f'{prefix[key]} {BRAND} {model}.')
+        # The supplier's feature list, in this language, before the delivery
+        # line. Two or more, or it reads as an afterthought.
+        picked = feats(features, key)
+        if len(picked) >= 2:
+            lst.append(FEATURE_LEAD[key].format(listing(picked, key)))
         lst.append(tail[i])
     return ' '.join(uk), ' '.join(ru), ' '.join(en)
 
 
-def main(feed):
+def specs_with_features(it):
+    s = collections.OrderedDict(it['specs'])
+    if it.get('features'):
+        s['features'] = it['features']
+    return s
+
+
+def main(feed, refresh=False):
     cats = json.load(io.open(ROOT / 'data' / 'categories.json', encoding='utf-8'))
     path = ROOT / 'data' / 'products.json'
     products = json.load(io.open(path, encoding='utf-8'), object_pairs_hook=collections.OrderedDict)
     have = {p['slug'] for p in products}
     items = gh_extract.load(feed)
-    added = updated = skipped = rephoto = 0
+    added = updated = skipped = rephoto = respec = 0
     gone = []
     for it in items:
         cat = cats.get(it['cat'])
@@ -358,20 +535,30 @@ def main(feed):
             # site keep promising it.
             if not it['available']:
                 gone.append(it['slug'])
+            if refresh:
+                # The extractor reads more than it used to, so the specs and the
+                # copy derived from them are rebuilt. The price and the photo
+                # list are handled above; nothing a person edited by hand lives
+                # in these fields.
+                old['specs'] = specs_with_features(it)
+                u, r, e = describe(it['cat'], it['specs'], it['model'],
+                                   cat['productPrefix'], it['features'])
+                old['desc_uk'], old['desc_ru'], old['desc_en'] = u, r, e
+                respec += 1
             continue
         if not it['available']:
             print(f'  !! {it["slug"]}: постачальник не має в наявності — не додаю')
             skipped += 1
             continue
         prefix = cat['productPrefix']
-        uk, ru, en = describe(it['cat'], it['specs'], it['model'], prefix)
+        uk, ru, en = describe(it['cat'], it['specs'], it['model'], prefix, it['features'])
         products.append(collections.OrderedDict([
             ('brand', BRAND), ('series', it['model']),
             ('name', f'{prefix["uk"]} {BRAND} {it["model"]}'),
             ('name_ru', f'{prefix["ru"]} {BRAND} {it["model"]}'),
             ('name_en', f'{prefix["en"]} {BRAND} {it["model"]}'),
             ('price', int(round(it['price'] * MARKUP))), ('category', it['cat']),
-            ('specs', collections.OrderedDict(it['specs'])),
+            ('specs', specs_with_features(it)),
             ('desc_uk', uk), ('desc_ru', ru), ('desc_en', en),
             ('slug', it['slug']),
             ('thumb', f'/assets/img/products/{it["slug"]}/thumb.webp'),
@@ -381,7 +568,7 @@ def main(feed):
     io.open(path, 'w', encoding='utf-8', newline='\n').write(
         json.dumps(products, ensure_ascii=False, indent=2) + '\n')
     print(f'додано {added}, оновлено цін {updated}, оновлено фото {rephoto}, '
-          f'пропущено {skipped}; усього товарів {len(products)}')
+          f'переписано карток {respec}, пропущено {skipped}; усього товарів {len(products)}')
     if gone:
         print('  !! зникли з наявності у постачальника, зніміть із сайту вручну:')
         for slug in gone:
@@ -390,4 +577,5 @@ def main(feed):
 
 if __name__ == '__main__':
     sys.stdout.reconfigure(encoding='utf-8')
-    main(sys.argv[1])
+    args = [a for a in sys.argv[1:] if not a.startswith('--')]
+    main(args[0], refresh='--refresh' in sys.argv[1:])

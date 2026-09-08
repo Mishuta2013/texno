@@ -29,12 +29,16 @@ function jFmtVal(p,f){
     case'rpm':return raw?raw+' '+t('u_rpm'):null;
     case'cm':return raw?raw+' '+t('u_cm'):null;
     case'mm':return raw?raw+' '+t('u_mm'):null;
+    case'lmin':return raw?raw+' '+t('u_lmin'):null;
+    case'kwh':return raw?raw+' '+t('u_kwh'):null;
     case'ml':return raw?raw+' '+t('u_ml'):null;
     case'db':return raw?raw+' '+t('u_db'):null;
     case'm3h':return raw?raw+' '+t('u_m3h'):null;
     /* mirrors build.mjs: the number needs its noun, and the noun agrees */
     case'plural':return raw?raw+' '+plural(Number(raw),t(f.word).split('|')):null;
-    default:return specValJS((raw!==undefined&&raw!==null&&raw!=='')?raw:null);
+    default:return Array.isArray(raw)
+      ?(raw.length?raw.map(specValJS).map((x,i)=>i?lowerTail(x):x).join(', '):null)
+      :specValJS((raw!==undefined&&raw!==null&&raw!=='')?raw:null);
   }
 }
 /* free-text spec values + per-language labels, mirroring build.mjs */
@@ -45,6 +49,8 @@ const UNIT_TR={ru:[[/ м³\/год$/,' м³/ч'],[/ год$/,' ч']],
   en:[[/ мм$/,' mm'],[/ см$/,' cm'],[/ л$/,' l'],[/ дБ$/,' dB'],[/ Вт·год$/,' Wh'],
       [/ Вт$/,' W'],[/ кВт$/,' kW'],[/ кг$/,' kg'],[/ м³\/год$/,' m³/h'],[/ мл$/,' ml']]};
 const NUMERIC_VAL=/^[\d\s.,×xх*\/+()-]+ ?[^\s]*$/;
+const lowerTail=v=>{const h=String(v).split(' ')[0];
+  return (h.length>1&&h===h.toUpperCase())?v:v.charAt(0).toLowerCase()+v.slice(1);};
 function specValJS(v){
   if(LANG==='uk'||typeof v!=='string')return v;
   const e=SPECV[v];if(e&&e[LANG])return e[LANG];
