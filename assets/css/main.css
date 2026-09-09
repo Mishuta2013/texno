@@ -1833,3 +1833,7 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
   .hs-ghost{left:38px;right:92px}
   .hs-btn{height:42px;padding:0 14px}
 }
+
+/* ===== matched by colour (sink ↔ tap ↔ dispenser) ===== */
+.pp-match-sub{margin:-6px 0 16px;color:var(--g4);font-size:14px;line-height:1.5;max-width:640px}
+@media(max-width:560px){.pp-match-sub{font-size:13.5px;margin-bottom:14px}}

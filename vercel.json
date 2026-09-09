@@ -53,5 +53,82 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/myyky/gunter-hauer-federbach8022blackhoney/",
+      "destination": "/myyky/gunter-hauer-federbach-8022-black-honey/",
+      "permanent": true
+    },
+    {
+      "source": "/ru/myyky/gunter-hauer-federbach8022blackhoney/",
+      "destination": "/ru/myyky/gunter-hauer-federbach-8022-black-honey/",
+      "permanent": true
+    },
+    {
+      "source": "/en/myyky/gunter-hauer-federbach8022blackhoney/",
+      "destination": "/en/myyky/gunter-hauer-federbach-8022-black-honey/",
+      "permanent": true
+    },
+    {
+      "source": "/dozatory/gunter-hauer-soapdispensersteelgunmetal/",
+      "destination": "/dozatory/gunter-hauer-soap-dispenser-steel-gun-metal/",
+      "permanent": true
+    },
+    {
+      "source": "/ru/dozatory/gunter-hauer-soapdispensersteelgunmetal/",
+      "destination": "/ru/dozatory/gunter-hauer-soap-dispenser-steel-gun-metal/",
+      "permanent": true
+    },
+    {
+      "source": "/en/dozatory/gunter-hauer-soapdispensersteelgunmetal/",
+      "destination": "/en/dozatory/gunter-hauer-soap-dispenser-steel-gun-metal/",
+      "permanent": true
+    },
+    {
+      "source": "/zmishuvachi/gunter-hauer-h-gelblack/",
+      "destination": "/zmishuvachi/gunter-hauer-hugel-black/",
+      "permanent": true
+    },
+    {
+      "source": "/ru/zmishuvachi/gunter-hauer-h-gelblack/",
+      "destination": "/ru/zmishuvachi/gunter-hauer-hugel-black/",
+      "permanent": true
+    },
+    {
+      "source": "/en/zmishuvachi/gunter-hauer-h-gelblack/",
+      "destination": "/en/zmishuvachi/gunter-hauer-hugel-black/",
+      "permanent": true
+    },
+    {
+      "source": "/zmishuvachi/gunter-hauer-h-gelbrush/",
+      "destination": "/zmishuvachi/gunter-hauer-hugel-brush/",
+      "permanent": true
+    },
+    {
+      "source": "/ru/zmishuvachi/gunter-hauer-h-gelbrush/",
+      "destination": "/ru/zmishuvachi/gunter-hauer-hugel-brush/",
+      "permanent": true
+    },
+    {
+      "source": "/en/zmishuvachi/gunter-hauer-h-gelbrush/",
+      "destination": "/en/zmishuvachi/gunter-hauer-hugel-brush/",
+      "permanent": true
+    },
+    {
+      "source": "/dozatory/gunter-hauer-soapdispencersteelblack/",
+      "destination": "/dozatory/gunter-hauer-soap-dispenser-steel-black/",
+      "permanent": true
+    },
+    {
+      "source": "/ru/dozatory/gunter-hauer-soapdispencersteelblack/",
+      "destination": "/ru/dozatory/gunter-hauer-soap-dispenser-steel-black/",
+      "permanent": true
+    },
+    {
+      "source": "/en/dozatory/gunter-hauer-soapdispencersteelblack/",
+      "destination": "/en/dozatory/gunter-hauer-soap-dispenser-steel-black/",
+      "permanent": true
+    }
   ]
 }

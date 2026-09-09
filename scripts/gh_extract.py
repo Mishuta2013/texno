@@ -111,13 +111,28 @@ def text_of(x):
 
 
 def model_of(o):
+    """The model is what stands before the colon in the offer name.
+
+    The old pattern allowed neither accented letters nor names past twenty-four
+    characters, so "HÜGEL Black:" and "SOAP DISPENSER Steel Black:" fell through
+    to vendorCode — which is the same words with the spaces taken out. Five
+    products carried "HÜGELBlack" and "SOAPDISPENCERSteelBlack" on the shop
+    front as a result. The feed had them written properly all along.
+    """
     name = o.findtext('name') or ''
-    m = re.match(r'^\s*([A-Za-zА-Яа-яЄІЇҐ0-9][A-Za-z0-9 \-\./]{1,24}?)\s*:', name)
+    m = re.match(r'^\s*([^\W_][\w0-9 \-\./&+]{1,38}?)\s*:', name, re.UNICODE)
     return (m.group(1).strip() if m else (o.findtext('vendorCode') or '').strip())
 
 
+# Dropping a letter the address cannot spell turns HÜGEL into "h-gel"; folding
+# it to the nearest Latin one keeps the word readable and searchable.
+FOLD = str.maketrans({'ü': 'u', 'ö': 'o', 'ä': 'a', 'é': 'e', 'è': 'e', 'ç': 'c',
+                      'ñ': 'n', 'å': 'a', 'ø': 'o', 'ß': 'ss'})
+
+
 def slug_of(o):
-    return re.sub(r'[^a-z0-9]+', '-', 'gunter-hauer-' + model_of(o).lower()).strip('-')
+    name = model_of(o).lower().translate(FOLD)
+    return re.sub(r'[^a-z0-9]+', '-', 'gunter-hauer-' + name).strip('-')
 
 
 def stop_for(phrases, others):

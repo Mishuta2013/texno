@@ -1043,6 +1043,39 @@ function specTable(p) {
     return (v === null || v === undefined || v === '') ? '' : `<tr><th>${esc(lf(f,'label'))}</th><td>${esc(v)}</td></tr>`;
   }).join('');
 }
+/* A sink, its tap and its dispenser are one purchase in three boxes, and the
+   catalogue kept them in three different aisles. Every sink in stock has a tap
+   in its colour — seven of them on average — and a dispenser too, so this is
+   the one recommendation on the site that is never empty and never a guess.
+
+   Colours are compared by component: a tap described as "Нержавіюча сталь +
+   чорний" belongs beside a black sink and beside a steel one, because it is
+   both. */
+const COLOUR_PARTS = v => new Set(String(v || '').replace(/[()]/g, ' ')
+  .split('+').map(x => x.trim().toLowerCase()).filter(Boolean));
+/* Category, then how many of it. Somebody looking at a sink wants the tap
+   first; sorting the whole pool by price put two dispensers in front of it,
+   because a dispenser costs seven hundred hryvnia and a tap five thousand. */
+const MATCH_TO = { myyky: [['zmishuvachi', 2], ['dozatory', 1]],
+                   zmishuvachi: [['myyky', 3]], dozatory: [['myyky', 3]] };
+function matching(p) {
+  const want = COLOUR_PARTS((p.specs || {}).color);
+  if (!want.size) return [];
+  /* An exact colour first — "Чорний" before "Нержавіюча сталь + чорний" — then
+     the cheaper one, because the pairing is a suggestion, not an upsell. */
+  const byFit = (a, b) => {
+    const exact = x => String((x.specs || {}).color) === String((p.specs || {}).color) ? 0 : 1;
+    return exact(a) - exact(b) || a.price - b.price;
+  };
+  const out = [];
+  for (const [cat, take] of (MATCH_TO[p.category] || [])) {
+    out.push(...products
+      .filter(x => x.category === cat
+        && [...COLOUR_PARTS((x.specs || {}).color)].some(c => want.has(c)))
+      .sort(byFit).slice(0, take));
+  }
+  return out.slice(0, 3);
+}
 function related(p) {
   const same = products.filter(x => x.slug !== p.slug && x.category === p.category);
   const ranked = same.slice().sort((a, b) => {
@@ -1108,7 +1141,22 @@ function productPage(p) {
   const ukPrefix = (cat.productPrefix || {}).uk;
   return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
 ${(() => {
-  const nm = ukPrefix ? NAME.replace(new RegExp('^' + ((cat.productPrefix || {})[L] || ukPrefix) + '\s+', 'i'), '') : NAME;
+  /* The name opens with the category word — "Мийка Gunter&Hauer Mindel 5522".
+     Keep it: that word is half of what the title is found by. Drop it only when
+     the model repeats it, as "Dispenser Gunter&Hauer SOAP DISPENSER Steel Gun
+     Metal" does, where it costs six characters and says nothing twice.
+
+     (This line used to try to strip the prefix always, and never did: the '\s+'
+     sat in a single-quoted string, so the pattern asked for "Dispensers" and
+     matched nothing. The accident was kinder than the intent.) */
+  const nm = (() => {
+    const pre = (cat.productPrefix || {})[L] || ukPrefix;
+    if (!pre) return NAME;
+    const re = new RegExp('^' + pre.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s+', 'i');
+    if (!re.test(NAME)) return NAME;
+    const rest = NAME.replace(re, '');
+    return rest.toLowerCase().includes(pre.toLowerCase()) ? rest : NAME;
+  })();
   const keySpec = (cat.ppChips || cat.chips || []).filter(c => !c.flag).map(c => fmtVal(p, c)).filter(Boolean).slice(0, 2).join(', ');
   const trust = trustLines.join('. ') + '.';
   return head({
@@ -1243,6 +1291,7 @@ ${HEADER}
     <div class="pp-desc"><h2>${esc(t('pp_desc'))}</h2><p>${esc(pdesc(p))}</p></div>
   </div>
   ${runtimeCalc(p)}
+  ${(() => { const m = matching(p); return m.length ? `<div class="pp-related pp-match"><h2>${esc(t('pp_match_' + p.category))}</h2>${p.category === 'myyky' ? `<p class="pp-match-sub">${esc(t('pp_match_sub'))}</p>` : ''}<div class="grid grid-rel">${m.map(card).join('')}</div></div>` : ''; })()}
   ${(() => { const rel = related(p); return rel.length ? `<div class="pp-related"><h2>${esc(t('pp_related'))}</h2><div class="grid grid-rel">${rel.map(card).join('')}</div></div>` : ''; })()}
   <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
   <div class="pp-back"><a href="${curl(cat)}">← ${esc(lf(cat, 'name'))}</a></div>

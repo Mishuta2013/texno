@@ -834,7 +834,11 @@
     "err_phone_code": "Перевірте код оператора: після нуля не може стояти ще один нуль",
     "err_name": "Вкажіть, як до вас звертатися",
     "err_send_retry": "Не вдалося надіслати. Спробуйте ще раз або зателефонуйте нам",
-    "u_digits": "цифра|цифри|цифр"
+    "u_digits": "цифра|цифри|цифр",
+    "pp_match_myyky": "У тон до цієї мийки",
+    "pp_match_zmishuvachi": "Мийка у тон",
+    "pp_match_dozatory": "Мийка у тон",
+    "pp_match_sub": "Отвір у мийці стандартний — 35 мм, тож підійде будь-який змішувач. Лишається колір."
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1671,7 +1675,11 @@
     "err_phone_code": "Проверьте код оператора: после нуля не может стоять ещё один ноль",
     "err_name": "Укажите, как к вам обращаться",
     "err_send_retry": "Не удалось отправить. Попробуйте ещё раз или позвоните нам",
-    "u_digits": "цифра|цифры|цифр"
+    "u_digits": "цифра|цифры|цифр",
+    "pp_match_myyky": "В тон к этой мойке",
+    "pp_match_zmishuvachi": "Мойка в тон",
+    "pp_match_dozatory": "Мойка в тон",
+    "pp_match_sub": "Отверстие в мойке стандартное — 35 мм, так что подойдёт любой смеситель. Остаётся цвет."
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -2477,6 +2485,10 @@
     "err_phone_code": "Check the operator code: a zero cannot follow the leading zero",
     "err_name": "Tell us your name",
     "err_send_retry": "Could not send. Try again or give us a call",
-    "u_digits": "digit|digits|digits"
+    "u_digits": "digit|digits|digits",
+    "pp_match_myyky": "Matched to this sink",
+    "pp_match_zmishuvachi": "A sink to match",
+    "pp_match_dozatory": "A sink to match",
+    "pp_match_sub": "The hole in a sink is a standard 35 mm, so any tap fits. Only the colour is left to choose."
   }
 }
