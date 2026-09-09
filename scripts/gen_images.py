@@ -63,15 +63,24 @@ def fitted(d, text, size, maxw, bold=False):
 
 # One card per language: the Ukrainian one used to be served on the Russian and
 # English pages too, so a shared link previewed in the wrong language.
+#
+# Two category lines, not one. Thirteen categories on a single line get fitted
+# down to something nobody reads at the size Telegram renders a card; split by
+# room, the home line and the kitchen line each stay legible — and the split
+# itself is the message, because the shop was five categories when this card
+# was last written and the preview still said so.
 OG_TEXT = {
-    "uk": ("Побутова техніка у Сумах",
+    "uk": ("Побутова та кухонна техніка у Сумах",
            "Холодильники · пральні машини · кондиціонери · бойлери · зарядні станції",
+           "Мийки · змішувачі · витяжки · варильні поверхні · духові шафи · посудомийні",
            "Доставка та монтаж по Сумах · оплата після встановлення"),
-    "ru": ("Бытовая техника в Сумах",
+    "ru": ("Бытовая и кухонная техника в Сумах",
            "Холодильники · стиральные машины · кондиционеры · бойлеры · зарядные станции",
+           "Мойки · смесители · вытяжки · варочные поверхности · духовые шкафы · посудомоечные",
            "Доставка и монтаж по Сумам · оплата после установки"),
-    "en": ("Home appliances in Sumy",
+    "en": ("Home and kitchen appliances in Sumy",
            "Fridges · washing machines · air conditioners · water heaters · power stations",
+           "Sinks · taps · hoods · hobs · ovens · dishwashers · microwaves",
            "Delivery and installation in Sumy · pay after setup"),
 }
 
@@ -80,17 +89,19 @@ def default_og(lang="uk"):
     categories; the strip along the bottom shows them, using the same line-up
     scripts/make_hero.py also builds for search."""
     im = og_bg(); d = ImageDraw.Draw(im)
-    tagline, cats, serv = OG_TEXT[lang]
-    d.text((80, 70), "TEXNO PLAZA", font=font(86), fill=WHITE)
-    d.text((84, 178), tagline, font=fitted(d, tagline, 48, 1032), fill=FROST)
-    # five categories overrun 1200px at the old fixed 32pt, so the line is fitted
-    d.text((84, 250), cats, font=fitted(d, cats, 30, 1032), fill=(210, 225, 245))
-    d.text((84, 296), serv, font=fitted(d, serv, 28, 1032), fill=(150, 180, 220))
+    tagline, home, kitchen, serv = OG_TEXT[lang]
+    d.text((80, 44), "TEXNO PLAZA", font=font(70), fill=WHITE)
+    d.text((84, 126), tagline, font=fitted(d, tagline, 44, 1032), fill=FROST)
+    # a category line overruns 1200px well before it runs out of categories,
+    # so both are fitted rather than trusted to a fixed size
+    d.text((84, 186), home, font=fitted(d, home, 26, 1032), fill=(210, 225, 245))
+    d.text((84, 220), kitchen, font=fitted(d, kitchen, 26, 1032), fill=(210, 225, 245))
+    d.text((84, 260), serv, font=fitted(d, serv, 24, 1032), fill=(150, 180, 220))
 
     art = make_hero.lineup()
-    h = 268
+    h = 304
     art = art.resize((max(1, round(h * art.width / art.height)), h), Image.LANCZOS)
-    im.paste(art, ((1200 - art.width) // 2, 630 - h - 26), art)
+    im.paste(art, ((1200 - art.width) // 2, 630 - h - 24), art)
     im.save(os.path.join(OG, "default.jpg" if lang == "uk" else "default-%s.jpg" % lang), quality=86)
 
 # What the shop actually promises for this kind of product. A washing machine

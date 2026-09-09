@@ -457,6 +457,12 @@ ${alts}
 <meta property="og:description" content="${esc(ogDesc || desc)}">
 <meta property="og:url" content="${esc(canonical)}">
 <meta property="og:image" content="${esc(og)}">
+<!-- Every card in assets/og is 1200x630. Stating it saves the crawler a
+     second fetch just to measure the file, which is what makes a freshly
+     shared link sometimes preview with no picture at all. -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${esc(ogTitle || pageTitle(title))}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="${FAVICON}">
 <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
@@ -1029,7 +1035,8 @@ ${head({
     '@id': BASE + '/#store', name: site.name, alternateName: BRAND_ALIASES,
     /* Google picks the picture beside the result from these, and it wants the
        same shot in several shapes so it can fit whichever layout it renders.
-       All three show the five categories the shop actually stocks. */
+       All three show what the shop actually stocks — home appliances and the
+       kitchen range, in one row, each shape fitted rather than cropped. */
     image: [absImg('/assets/img/site/shop-16x9.jpg'), absImg('/assets/img/site/shop-4x3.jpg'),
             absImg('/assets/img/site/shop-1x1.jpg')],
     logo: absImg('/assets/img/logo.png'),
