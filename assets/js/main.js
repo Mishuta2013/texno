@@ -1328,6 +1328,69 @@ document.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return
 
 if($('catalog-grid')){ setupFilters(); renderCatalog(); }
 applyI18n();
+
+/* ============ SHOP OPEN / CLOSED ============ */
+/* The hero says where the shop is; this says whether walking there now is
+   worth it. The clock that decides is Kyiv's, not the visitor's — a phone
+   still on holiday time must not tell someone the door is shut when it is
+   open, and the tab may also be left sitting open past closing time, so the
+   line re-checks itself every minute rather than only at load. */
+const HOURS=SITE.openHours||[];                 // [openHHMM, closeHHMM] per day, Sunday first
+const SHOP_TZ=SITE.tz||'Europe/Kyiv';
+const hhmm=s=>{const[h,m]=String(s).split(':').map(Number);return h*60+m;};
+
+/* Intl gives the shop's own wall clock wherever the visitor is. If the runtime
+   has no data for the zone it throws or silently answers in local time; either
+   way the schedule line stays as the template left it, which is the full week
+   and never wrong. */
+function shopNow(){
+  try{
+    const p={};
+    new Intl.DateTimeFormat('en-GB',{timeZone:SHOP_TZ,weekday:'short',hour:'2-digit',
+      minute:'2-digit',hour12:false}).formatToParts(new Date())
+      .forEach(x=>p[x.type]=x.value);
+    const d=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(p.weekday);
+    if(d<0)return null;
+    return {day:d,min:(+p.hour%24)*60+(+p.minute)};
+  }catch(e){return null;}
+}
+
+function shopState(){
+  const now=shopNow();
+  if(!now||HOURS.length!==7)return null;
+  const today=HOURS[now.day];
+  if(today){
+    const o=hhmm(today[0]),c=hhmm(today[1]);
+    // within the last hour the wording changes from "until 18:00" to
+    // "closing at 18:00" — same fact, but it reads as a reason to hurry
+    if(now.min>=o&&now.min<c)
+      return {open:true,soon:c-now.min<=60,note:t(c-now.min<=60?'hp_soon':'hp_until').replace('{t}',today[1])};
+    if(now.min<o)return {open:false,note:t('hp_today').replace('{t}',today[0])};
+  }
+  for(let i=1;i<=7;i++){
+    const d=(now.day+i)%7,h=HOURS[d];
+    if(!h)continue;
+    const when=i===1?t('hp_tomorrow'):t('hp_on').replace('{d}',t('hp_d'+d));
+    return {open:false,note:when.replace('{t}',h[0])};
+  }
+  return null;
+}
+
+function renderShopState(){
+  const el=$('hp-state');if(!el)return;
+  const st=shopState();if(!st)return;                 // leave the week schedule in place
+  el.classList.toggle('is-open',st.open&&!st.soon);
+  el.classList.toggle('is-soon',!!st.soon);
+  /* Built node by node on purpose. el is itself a <span>, so el.querySelector
+     ('span span') matches el's own child through el and overwrites the whole
+     line — the word "Зачинено" vanished that way. */
+  const dot=document.createElement('i');dot.className='hp-dot';
+  const word=document.createElement('b');word.textContent=t(st.open?'hp_open':'hp_closed');
+  el.replaceChildren(dot,word,document.createTextNode(' · '+st.note));
+  el.title=t('top_hours');
+}
+if($('hp-state')){renderShopState();setInterval(renderShopState,60000);}
+
 if($('cmp-bar')) renderCmpBar();
 if($('fav-count')) updateFavCount();
 

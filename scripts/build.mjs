@@ -268,6 +268,22 @@ const subCounts = s => String(s)
   .replace(new RegExp(`\{\{(TOTAL|${CAT_CODES.join('|')})\}\}`, 'g'), (m, k) => COUNTS[k]);
 const t = (k) => subCounts((i18n[L] && i18n[L][k]) ?? (i18n.uk && i18n.uk[k]) ?? k);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+/* site.openHours is indexed by Date.getDay(), Sunday first, so the browser can
+   read today's row without a lookup table; schema.org wants day names. Days
+   that share an interval are merged, because one entry per day is legal but
+   reads as seven near-identical blocks in Google's testing tool. */
+const LD_DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+function openingHoursLd() {
+  const rows = [];
+  (site.openHours || []).forEach((h, d) => {
+    if (!h) return;                                   // null = closed that day
+    const last = rows[rows.length - 1];
+    if (last && last.opens === h[0] && last.closes === h[1]) last.dayOfWeek.push(LD_DAYS[d]);
+    else rows.push({ '@type': 'OpeningHoursSpecification', dayOfWeek: [LD_DAYS[d]], opens: h[0], closes: h[1] });
+  });
+  return rows;
+}
 const fmt = n => Number(n).toLocaleString('uk-UA').replace(/ /g, ' ').replace(/,/g, ' ');
 const BASE = site.baseUrl.replace(/\/$/, '');
 /* Assets are cache-busted by content hash via av(), not by build time: /assets/*
@@ -864,6 +880,9 @@ if (pfx()) {
    extracts — real streets, rivers, districts and landmarks, ~4KB compressed.
    Its labels carry data-i18n, so applyI18nStatic translates them below. */
 fill('<!--DELIVERY_MAP-->', DELIVERY_MAP);
+/* "Маршрут" in the hero opens navigation, not a pin: destination_place_id ties
+   it to the Business Profile, so Maps names the shop instead of a bare point. */
+fill('<!--MAP_DIR-->', esc(`https://www.google.com/maps/dir/?api=1&destination=${site.coords.lat},${site.coords.lng}&destination_place_id=${site.placeId}`));
 fill('<!--PICKER-->', pickerSection());
 fill('<!--QUIZ_INLINE-->', quizInline(true));
 /* The phone menu used to hold nothing but anchors into the homepage. Most
@@ -1021,7 +1040,11 @@ ${head({
        place the address links open, so Google is not left matching them by the
        street line alone. */
     geo: { '@type': 'GeoCoordinates', latitude: site.coords.lat, longitude: site.coords.lng },
-    hasMap: site.mapUrl
+    hasMap: site.mapUrl,
+    /* Same table the hero's "Відчинено / Зачинено" line reads, so the two can
+       never drift apart. It is what lets a local result say "Open · closes
+       18:00" instead of nothing at all. */
+    openingHoursSpecification: openingHoursLd()
   }
 })}
 <script type="application/ld+json">${JSON.stringify(faqLd)}</script>

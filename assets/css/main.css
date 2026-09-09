@@ -137,6 +137,38 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:800;line-height:1.12;letter-spac
 .hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(124,196,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(124,196,255,.05) 1px,transparent 1px);background-size:54px 54px;mask-image:radial-gradient(120% 80% at 70% 10%,#000 30%,transparent 75%)}
 .hero-glow{position:absolute;width:680px;height:680px;right:-160px;top:-220px;background:radial-gradient(circle,rgba(46,139,255,.32) 0%,transparent 65%);pointer-events:none}
 .hero-in{position:relative;max-width:var(--max);margin:0 auto;padding:58px 22px 0;display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center}
+/* Address card above the badge. The hero is always dark — a photo under a veil
+   — so its colours are literal here, like .hero-badge's, not theme tokens. */
+.hero-place{display:inline-flex;align-items:center;gap:13px;max-width:100%;margin-bottom:18px;padding:10px 14px;border-radius:var(--r);background:rgba(9,20,40,.42);border:1px solid rgba(124,196,255,.24);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+.hp-pin{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:rgba(124,196,255,.14);color:var(--frost)}
+.hp-pin svg{width:19px;height:19px}
+.hp-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+/* Padding lifts a 19px line to a 29px tap target; the matching negative margin
+   keeps the card exactly as tall as it looks. The underline is text-decoration
+   rather than a border so it stays against the letters, not below the padding. */
+.hp-addr{color:#fff;font-family:var(--disp);font-weight:700;font-size:14.5px;line-height:1.25;text-decoration:none;text-underline-offset:3px;padding:5px 0;margin:-5px 0;align-self:flex-start}
+.hp-addr:hover,.hp-addr:focus-visible{text-decoration:underline;text-decoration-color:rgba(124,196,255,.75)}
+.hp-state{display:flex;align-items:center;gap:6px;color:rgba(233,243,255,.72);font-size:12.5px;line-height:1.3}
+.hp-state b{font-weight:700}
+/* Green while the door is open, amber in the last hour, grey once it is shut —
+   the same three states the "open now" line in Google's local card uses. */
+.hp-state .hp-dot{flex:none;width:7px;height:7px;border-radius:50%;background:rgba(233,243,255,.45)}
+.hp-state.is-open .hp-dot{background:#4ADE80;box-shadow:0 0 0 3px rgba(74,222,128,.18)}
+.hp-state.is-open b{color:#7DEAA5}
+.hp-state.is-soon .hp-dot{background:#FBBF24;box-shadow:0 0 0 3px rgba(251,191,36,.18)}
+.hp-state.is-soon b{color:#FCD34D}
+.hp-go{flex:none;display:inline-flex;align-items:center;gap:6px;margin-left:2px;padding:8px 13px;border-radius:10px;background:rgba(124,196,255,.13);border:1px solid rgba(124,196,255,.32);color:#DCEDFF;font-family:var(--disp);font-size:13px;font-weight:700;text-decoration:none;transition:.2s}
+.hp-go svg{width:15px;height:15px;transition:transform .2s}
+.hp-go:hover{background:rgba(124,196,255,.22);border-color:rgba(124,196,255,.6);color:#fff}
+.hp-go:hover svg{transform:translateX(3px)}
+@media(prefers-reduced-motion:reduce){.hp-go svg{transition:none}.hp-go:hover svg{transform:none}}
+/* On a phone the button leaves the address ~115px to live in, which wraps the
+   street over two lines and the opening line over three. Below 560 the button
+   drops to its own row and the address gets the width. */
+@media(max-width:560px){
+  .hero-place{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:11px 12px;width:100%;padding:12px}
+  .hp-go{grid-column:1/-1;justify-content:center;margin-left:0;padding:12px 13px}  /* 39px is under the 44px tap target */
+}
 .hero-badge{display:inline-flex;align-items:center;gap:9px;background:rgba(124,196,255,.12);border:1px solid rgba(124,196,255,.35);color:#BFE0FF;font-size:13px;font-weight:600;padding:7px 15px;border-radius:var(--r-pill);margin-bottom:22px}
 .hero-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--frost);box-shadow:0 0 0 0 rgba(124,196,255,.6);animation:pulse 2s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(124,196,255,.55)}70%{box-shadow:0 0 0 9px rgba(124,196,255,0)}100%{box-shadow:0 0 0 0 rgba(124,196,255,0)}}
