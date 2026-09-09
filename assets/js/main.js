@@ -203,8 +203,14 @@ function mixedOrder(list){
 }
 /* mirrors tagMatch in build.mjs — a filter over one spec, declared in
    categories.json and applied identically on the server and here. */
+/* Mirrors tagMatch in build.mjs, and must keep mirroring it: the page arrives
+   with the right products already in it and this decides whether they stay.
+   When only this copy read p.specs, every tag built on a top-level field —
+   area, inverter, heatpump — rendered sixteen cards server-side and then
+   removed all sixteen. */
 function tagMatchJS(p,m){
-  const v=(p.specs||{})[m.key];
+  const v=(p.specs||{})[m.key]??p[m.key];
+  if(m.is!==undefined)return Boolean(v)===m.is;
   if(v===undefined||v===null||v==='')return false;
   if(m.eq!==undefined)return String(v)===m.eq;
   if(m.has!==undefined)return String(v).toLowerCase().includes(m.has.toLowerCase());

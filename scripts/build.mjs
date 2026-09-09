@@ -1402,7 +1402,12 @@ const burl = (cat, brand) => `${pfx()}${cat.urlPrefix}/${brandSlug(brand)}/`;
    address, which is the definition of a duplicate. */
 const TAG_MIN = 3, TAG_MAX_SHARE = 0.9;
 function tagMatch(p, m) {
-  const v = (p.specs || {})[m.key];
+  /* Half of what a shopper filters on is not in specs: area, btu and the
+     inverter/heat-pump/No-Frost flags sit on the product itself, the way
+     fmtVal already reads them. Without this fallback the five original
+     categories could not have a tag page at all. */
+  const v = (p.specs || {})[m.key] ?? p[m.key];
+  if (m.is !== undefined) return Boolean(v) === m.is;
   if (v === undefined || v === null || v === '') return false;
   if (m.eq !== undefined) return String(v) === m.eq;
   if (m.has !== undefined) return String(v).toLowerCase().includes(m.has.toLowerCase());
