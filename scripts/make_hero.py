@@ -152,7 +152,9 @@ def place(bg, art, wide=.96, tall=.70, drop=.58):
     air conditioner in half down the middle. Fitting the group to each shape
     costs a little size and cuts nothing."""
     cw, ch = bg.size
-    sc = min(cw * wide / art.width, ch * tall / art.height)
+    # never above 1: the 16:9 card has room for 103% of the row, and taking it
+    # would resample a composite that is already at its full resolution
+    sc = min(cw * wide / art.width, ch * tall / art.height, 1.)
     a = art.resize((max(1, round(art.width * sc)), max(1, round(art.height * sc))), Image.LANCZOS)
     # Vertically it sits a little below centre — the row is 2.5:1 and the square
     # frame is 1:1, so wherever it goes there is empty ground; below centre it
