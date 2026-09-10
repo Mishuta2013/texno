@@ -50,7 +50,7 @@ def rounded(d, box, r, fill=None, outline=None, width=1):
     d.rounded_rectangle(box, radius=r, fill=fill, outline=outline, width=width)
 
 
-def ground(size):
+def ground(size, grid=True):
     """The same navy the site's own imagery sits on, with the faint lattice the
     hero draws in CSS, so a bundle card does not look imported from elsewhere."""
     w, h = size
@@ -61,12 +61,13 @@ def ground(size):
     ImageDraw.Draw(glow).ellipse([w * 0.45, -h * 0.35, w * 1.35, h * 0.72], fill=120)
     img = Image.composite(Image.new('RGB', size, (46, 139, 255)), img,
                           glow.filter(ImageFilter.GaussianBlur(int(w * 0.16))))
-    d = ImageDraw.Draw(img)
-    step = int(w / 16)
-    for x in range(0, w, step):
-        d.line([(x, 0), (x, h)], fill=(30, 56, 100), width=1)
-    for y in range(0, h, step):
-        d.line([(0, y), (w, y)], fill=(30, 56, 100), width=1)
+    if grid:
+        d = ImageDraw.Draw(img)
+        step = int(w / 16)
+        for x in range(0, w, step):
+            d.line([(x, 0), (x, h)], fill=(30, 56, 100), width=1)
+        for y in range(0, h, step):
+            d.line([(0, y), (w, y)], fill=(30, 56, 100), width=1)
     return img
 
 
@@ -152,6 +153,64 @@ def draw_kit(kw, kwh, size):
     return img.convert('RGB')
 
 
+def draw_cover(size=(1024, 688)):
+    """The category cover, in the same hand as the product illustrations.
+
+    No figures on it: a cover stands for the whole category, and a specific
+    kW on it would claim something about all three configurations. The
+    photographed covers of the other thirteen categories are generated studio
+    shots; this one is a drawing until there is a real photograph to put here.
+    """
+    w, h = size
+    s = w / 900.0
+    img = ground(size, grid=False).convert('RGBA')
+
+    def S(v):
+        return int(round(v * s))
+
+    d = ImageDraw.Draw(img)
+    # inverter, left of centre
+    ix, iy, iw, ih = S(150), S(160), S(300), S(258)
+    shadow(img, [ix + S(8), iy + S(18), ix + iw + S(8), iy + ih + S(22)], S(22))
+    d = ImageDraw.Draw(img)
+    rounded(d, [ix, iy, ix + iw, iy + ih], S(28), fill=PANEL, outline=FROST + (120,), width=max(2, S(3)))
+    rounded(d, [ix + S(30), iy + S(32), ix + iw - S(30), iy + S(140)], S(14),
+            fill=PANEL_D, outline=FROST + (90,), width=max(1, S(2)))
+    for i in range(3):
+        cx, cy, r = ix + S(52) + i * S(46), iy + ih - S(56), S(12)
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(FROST if i == 0 else (58, 96, 152)))
+
+    # battery, right of centre
+    bx, by, bw, bh = S(520), S(140), S(232), S(340)
+    shadow(img, [bx + S(8), by + S(18), bx + bw + S(8), by + bh + S(22)], S(22))
+    d = ImageDraw.Draw(img)
+    rounded(d, [bx + bw / 2 - S(34), by - S(20), bx + bw / 2 + S(34), by + S(8)], S(10),
+            fill=(96, 150, 214))
+    rounded(d, [bx, by, bx + bw, by + bh], S(28), fill=PANEL, outline=FROST + (120,), width=max(2, S(3)))
+    for i in range(4):
+        cy = by + S(34) + i * S(56)
+        rounded(d, [bx + S(34), cy, bx + bw - S(34), cy + S(38)], S(10),
+                fill=(int(124 - i * 16), int(196 - i * 26), int(255 - i * 30)))
+
+    # the cable between them
+    cable = Image.new('RGBA', size, (0, 0, 0, 0))
+    cd = ImageDraw.Draw(cable)
+    x0, y0 = ix + iw, iy + ih - S(90)
+    x1, y1 = bx, by + bh - S(110)
+    pts = []
+    for i in range(41):
+        t = i / 40
+        mx, my = (x0 + x1) / 2, max(y0, y1) + S(110)
+        pts.append(((1 - t) ** 2 * x0 + 2 * (1 - t) * t * mx + t ** 2 * x1,
+                    (1 - t) ** 2 * y0 + 2 * (1 - t) * t * my + t ** 2 * y1))
+    cd.line(pts, fill=AMBER + (255,), width=max(3, S(9)), joint='curve')
+    for pt in (pts[0], pts[-1]):
+        r = S(11)
+        cd.ellipse([pt[0] - r, pt[1] - r, pt[0] + r, pt[1] + r], fill=(255, 170, 110, 255))
+    img.alpha_composite(cable)
+    return img.convert('RGB')
+
+
 def main():
     prods = json.load(io.open(os.path.join(ROOT, 'data', 'products.json'), encoding='utf-8'))
     kits = [p for p in prods if p.get('category') == 'komplekty']
@@ -165,6 +224,9 @@ def main():
         draw_kit(kw, kwh, FULL).save(os.path.join(out, '1.webp'), 'WEBP', quality=90, method=6)
         draw_kit(kw, kwh, THUMB).save(os.path.join(out, 'thumb.webp'), 'WEBP', quality=90, method=6)
         print(f'{p["slug"]}  {kw} кВт / {kwh} кВт·год')
+    src = os.path.join(ROOT, 'scripts', 'covers-src', 'cat-komplekty.webp')
+    draw_cover().save(src, 'WEBP', quality=92, method=6)
+    print('category cover ->', os.path.relpath(src, ROOT))
     print('bundles drawn:', len(kits))
 
 

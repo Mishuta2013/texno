@@ -3600,6 +3600,10 @@
         "label_ru": "Монтаж",
         "label_en": "Fitting"
       }
-    ]
+    ],
+    "cover": "/assets/img/covers/cat-komplekty.webp",
+    "coverAlt": "Інвертор і акумулятор — комплект резервного живлення",
+    "coverAlt_ru": "Инвертор и аккумулятор — комплект резервного питания",
+    "coverAlt_en": "An inverter and a battery — a backup power kit"
   }
 }
