@@ -897,7 +897,9 @@
     "u_kw": "кВт",
     "kits_strip_p": "Інвертор і акумулятор одним рішенням. Конкретні моделі підбираємо під ваш будинок — зателефонуйте, і порахуємо, що саме вам треба.",
     "kits_strip_cta": "Подивитися комплекти",
-    "kits_strip_call": "Порахувати комплект"
+    "kits_strip_call": "Порахувати комплект",
+    "kits_nav_s": "Комплекти",
+    "cat_faq_h": "Часті запитання"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1797,7 +1799,9 @@
     "u_kw": "кВт",
     "kits_strip_p": "Инвертор и аккумулятор одним решением. Конкретные модели подбираем под ваш дом — позвоните, и посчитаем, что именно вам нужно.",
     "kits_strip_cta": "Посмотреть комплекты",
-    "kits_strip_call": "Посчитать комплект"
+    "kits_strip_call": "Посчитать комплект",
+    "kits_nav_s": "Комплекты",
+    "cat_faq_h": "Частые вопросы"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -2642,6 +2646,8 @@
     "kits_h1": "Backup power kits in Sumy",
     "kits_strip_p": "An inverter and a battery as one solution. We pick the exact models for your home — call and we will work out what you need.",
     "kits_strip_cta": "See the kits",
-    "kits_strip_call": "Get a quote"
+    "kits_strip_call": "Get a quote",
+    "kits_nav_s": "Power kits",
+    "cat_faq_h": "Frequently asked questions"
   }
 }

@@ -103,25 +103,24 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:800;line-height:1.12;letter-spac
 .nav-cta[aria-current]{background:var(--blue);border-color:var(--blue)}
 @media(prefers-reduced-motion:reduce){.nav-cta:hover{transform:none}}
 .header-right{display:flex;align-items:center;gap:14px;margin-left:auto;flex-shrink:0}
-/* Keeping the header on one line. The ladder used to run the wrong way — at
-   1661-1720px the links were padded 9px, wider than at 1721px and above — so the
-   widest and most common screen, 1920, was the tightest case of all: the row
-   needed 32px more than the 1220px container gives it, and "Контакты" sat on top
-   of the phone number. The container cannot grow without pulling the header out
-   of line with the page, so the nav gives up the space instead, and the steps now
-   only ever get tighter as the screen narrows. */
+/* Keeping the header on one line. There is no ladder of breakpoints here on
+   purpose: above 1380px .header-in is always exactly --max wide, so 1381 and
+   2560 leave the nav the identical 642px and no viewport rule can hand it one
+   pixel more. The row is budgeted once instead. Eight links come to ~543px,
+   which leaves about 100px of slack — enough for the longer Russian and English
+   labels, and enough to keep the phone number visible on every desktop width
+   rather than only above 1520px. The two homepage anchors marked .nav-sec are
+   what pays for that room; they stay in the burger menu below 1380px and in the
+   footer everywhere, so nothing is actually lost. */
 @media(min-width:1381px){
   .header-in{gap:16px}
   .header-right{gap:8px}
   .header nav a{font-size:13px;padding:8px 5px;letter-spacing:0}
   .header .btn-cb{padding:10px 14px}
+  .header nav a.nav-sec{display:none}
 }
-@media(max-width:1660px){
+@media(max-width:1380px){
   .header-in{gap:12px}
-  .header nav a{padding:8px 4px}
-}
-@media(max-width:1520px){
-  .header-in .h-phone{display:none}
 }
 .h-phone{color:#fff;font-family:var(--disp);font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;white-space:nowrap}
 .h-phone svg{width:16px;height:16px;stroke:var(--frost)}
@@ -1232,6 +1231,16 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 .cat-card-cover .cat-ic{margin:16px 0 0 20px}
 .cat-card-cover .cat-tx{padding:10px 20px 0}
 .cat-card-cover .cat-go{padding:8px 20px 18px}
+/* Fourteen categories three across ran to five rows and 2035px of scrolling on
+   a laptop, and the covers are what makes each card tall. The fix is a narrower
+   card, not a shorter crop: the artwork keeps the 40:17 it was composed at and
+   simply renders 119px tall instead of 160px, where cropping to 3:1 would have
+   shaved a fifth off the top and bottom of every photograph. Four across still
+   holds every uk/ru/en label on one line down to 1181px; below that three is
+   the widest that does. */
+@media(min-width:1181px){
+  .cats-grid.has-covers{grid-template-columns:repeat(4,1fr);gap:16px}
+}
 /* Covers make each category card ~270px taller. On a phone that turned a 570px
    section into 1900px of scrolling, so once there are covers the cards go 2-up
    and the photo takes over the job the emoji chip was doing. The odd last card
@@ -1247,6 +1256,13 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
   .cat-card-cover .cat-t{font-size:15.5px}
   .cat-card-cover .cat-s{font-size:12.5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 }
+/* The category FAQ reuses the accordion, but not the homepage section around
+   it: there is no eyebrow and no centred sub-heading here, just the question
+   list under the products it is about. */
+.cat-faq{padding-top:8px}
+.cat-faq-h{font-family:var(--disp);font-weight:800;font-size:clamp(21px,2.6vw,28px);
+  letter-spacing:-.02em;color:var(--ink);line-height:1.15;margin:0 0 18px}
+@media(max-width:560px){.cat-faq-h{margin-bottom:14px}}
 /* Topic tag and product category side by side: the tag says what the article
    talks about, the second chip says which shelf it sells from. On the article
    page that second chip is a link; in a card it cannot be, because the card is

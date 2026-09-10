@@ -1845,6 +1845,44 @@ function catArticles(catKey) {
   </div>`;
 }
 
+/* Questions that belong to one shelf rather than to the shop. The homepage FAQ
+   answers what everybody asks — delivery, payment, warranty — and none of what
+   someone typing "скільки тримає акумулятор" wants to know, so a category can
+   carry its own list and it renders here, in the same accordion.
+
+   No data-topic on these items on purpose: the topic filter on the homepage
+   hides every .faq-item[data-topic] that is not the active tab, and a category
+   page has no tabs for it to be filtered by.
+
+   subCounts runs over the text so a price inside an answer is written as
+   {{KT_FROM}} and cannot drift from products.json the way a typed number would. */
+const catFaq = cat => {
+  const list = lf(cat, 'faq');
+  return Array.isArray(list) ? list.filter(it => Array.isArray(it) && it.length >= 2) : [];
+};
+function catFaqBlock(cat) {
+  const items = catFaq(cat);
+  if (!items.length) return '';
+  return `<section class="section faq cat-faq" id="cat-faq">
+    <h2 class="cat-faq-h">${esc(t('cat_faq_h'))}</h2>
+    <div class="faq-list">
+      ${items.map((it, i) =>
+        `<div class="faq-item reveal" style="transition-delay:${Math.min(i, 6) * 45}ms">` +
+        `<div class="faq-q" onclick="toggleFaq(this)">${esc(subCounts(it[0]))}</div>` +
+        `<div class="faq-a">${esc(subCounts(it[1]))}</div></div>`).join('\n      ')}
+    </div>
+  </section>`;
+}
+function catFaqLd(cat) {
+  const items = catFaq(cat);
+  if (!items.length) return '';
+  return `
+<script type="application/ld+json">${JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: items.map(it => ({ '@type': 'Question', name: subCounts(it[0]),
+      acceptedAnswer: { '@type': 'Answer', text: subCounts(it[1]) } })),
+  })}</script>`;
+}
 function categoryPage(cat) {
   const list = catProducts(cat.key);
   const NAME = lf(cat, 'name');
@@ -1879,14 +1917,14 @@ ${head({
      boilers. Each category now has its own. */
   ogImage: cat.cover ? absImg(`/assets/og/cat-${cat.key}.jpg`) : undefined, jsonld
 })}
-<script type="application/ld+json">${JSON.stringify(crumbs)}</script>
+<script type="application/ld+json">${JSON.stringify(crumbs)}</script>${catFaqLd(cat)}
 </head><body>${GTM_NS}
 ${HEADER}
 <div class="cat-wrap">
   <nav class="pp-bc"><a href="${pfx() || '/'}">${esc(t('pp_home'))}</a> › <span>${esc(NAME)}</span></nav>
   <div class="cat-top">
     <header class="cat-head">
-      <h1 class="cat-h1">${esc(NAME)} ${esc(t('cat_in_sumy'))}</h1>
+      <h1 class="cat-h1">${esc(lf(cat, 'h1') || `${NAME} ${t('cat_in_sumy')}`)}</h1>
       <p class="cat-sub">${esc(lf(cat, 'intro') || '')}</p>
       <div class="cat-count">${list.length} ${esc(plural)} ${esc(t('cat_instock'))}</div>
     </header>
@@ -1911,6 +1949,7 @@ ${HEADER}
     `${esc(av(cat.illustration.replace(/\.webp$/, '@1200.webp')))} 1200w" ` +
     `sizes="(max-width:1000px) 94vw, 960px" alt="${esc(lf(cat, 'illustrationAlt') || NAME)}" ` +
     `width="1200" height="675" loading="lazy" decoding="async"></figure>` : ''}
+  ${catFaqBlock(cat)}
   ${catArticles(cat.key)}
   <div class="pp-back"><a href="${pfx() || '/'}#catalog">← ${esc(t('pp_back_all'))}</a></div>
 </div>

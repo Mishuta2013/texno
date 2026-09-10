@@ -3537,12 +3537,12 @@
     "cardSub": "Інвертор і акумулятор одним рішенням",
     "cardSub_ru": "Инвертор и аккумулятор одним решением",
     "cardSub_en": "An inverter and a battery as one solution",
-    "seoTitle": "Комплекти живлення у Сумах від {{KT_FROM}} грн",
-    "seoTitle_ru": "Комплекты питания в Сумах от {{KT_FROM}} грн",
-    "seoTitle_en": "Backup power kits in Sumy from {{KT_FROM}} UAH",
-    "seoDesc": "Інвертор і акумулятор одним комплектом: {{KT_MODELS}} на 2,5–8 кВт·год. У ціні інвертор, акумулятор, дисплей і кабелі. Конкретні моделі добираємо під ваш будинок після дзвінка. Доставка по Сумах, оплата після отримання.",
-    "seoDesc_ru": "Инвертор и аккумулятор одним комплектом: {{KT_MODELS}} на 2,5–8 кВт·ч. В цене инвертор, аккумулятор, дисплей и кабели. Конкретные модели подбираем под ваш дом после звонка. Доставка по Сумам, оплата после получения.",
-    "seoDesc_en": "An inverter and a battery in one kit: {{KT_MODELS}} from 2.5 to 8 kWh. The price covers the inverter, the battery, the display and the cables. Exact models are chosen for your home after a call. Delivery in Sumy.",
+    "seoTitle": "Інвертор з акумулятором у Сумах — від {{KT_FROM}} грн",
+    "seoTitle_ru": "Инвертор с аккумулятором в Сумах — от {{KT_FROM}} грн",
+    "seoTitle_en": "Inverter with battery in Sumy — kits from {{KT_FROM}} UAH",
+    "seoDesc": "Комплект інвертор + акумулятор для дому та квартири: {{KT_MODELS}} на 2,5–8 кВт·год, від {{KT_FROM}} грн. У ціні інвертор, акумулятор, дисплей і кабелі. Моделі добираємо після дзвінка. Доставка по Сумах, оплата після отримання.",
+    "seoDesc_ru": "Комплект инвертор + аккумулятор для дома и квартиры: {{KT_MODELS}} на 2,5–8 кВт·ч, от {{KT_FROM}} грн. В цене инвертор, аккумулятор, дисплей и кабели. Модели подбираем после звонка. Доставка по Сумам, оплата после получения.",
+    "seoDesc_en": "Inverter and battery as one kit for a house or a flat: {{KT_MODELS}} from 2.5 to 8 kWh, from {{KT_FROM}} UAH. Price covers inverter, battery, display and cables. Delivery in Sumy, payment on arrival.",
     "intro": "Інвертор тримає світло в домі, акумулятор — запас, на якому воно тримається. Разом вони мають збігатися за напругою, струмом заряду й типом зв'язку: зібрані нарізно, вони або не бачать один одного, або працюють упівсили. Тут три конфігурації за потужністю та запасом енергії — від холодильника з роутером до котла з насосом. Конкретні моделі інвертора й акумулятора добираємо під ваш будинок і бюджет після дзвінка, з того, що є в наявності. У ціну входять інвертор, акумулятор, дисплей стану системи та кабелі від акумулятора до інвертора; монтаж і підключення обговорюємо окремо — залежить від будинку.",
     "intro_ru": "Инвертор держит свет в доме, аккумулятор — запас, на котором он держится. Вместе они должны совпадать по напряжению, току заряда и типу связи: собранные порознь, они либо не видят друг друга, либо работают вполсилы. Здесь три конфигурации по мощности и запасу энергии — от холодильника с роутером до котла с насосом. Конкретные модели инвертора и аккумулятора подбираем под ваш дом и бюджет после звонка, из того, что есть в наличии. В цену входят инвертор, аккумулятор, дисплей состояния системы и кабели от аккумулятора до инвертора; монтаж и подключение обсуждаем отдельно — зависит от дома.",
     "intro_en": "The inverter keeps the lights on; the battery is the reserve they run from. The two have to match in voltage, charge current and the way they talk to each other — bought separately they either ignore one another or work at half strength. Three configurations here, by power and by reserve. The exact models are chosen for your home after a call, from what is in stock. The price covers the inverter, the battery, the status display and the cables between them; fitting is discussed separately.",
@@ -3604,6 +3604,99 @@
     "cover": "/assets/img/covers/cat-komplekty.webp",
     "coverAlt": "Інвертор і акумулятор — комплект резервного живлення",
     "coverAlt_ru": "Инвертор и аккумулятор — комплект резервного питания",
-    "coverAlt_en": "An inverter and a battery — a backup power kit"
+    "coverAlt_en": "An inverter and a battery — a backup power kit",
+    "h1": "Комплекти живлення: інвертор + акумулятор у Сумах",
+    "h1_ru": "Комплекты питания: инвертор + аккумулятор в Сумах",
+    "h1_en": "Backup power kits: inverter + battery in Sumy",
+    "faq": [
+      [
+        "Скільки коштує комплект інвертор + акумулятор?",
+        "Від {{KT_FROM}} грн. Ціна тримається на двох цифрах: потужність інвертора вирішує, скільки техніки можна ввімкнути одночасно, а запас акумулятора — скільки вона протримається. У ціні інвертор, акумулятор, дисплей стану й кабелі між ними."
+      ],
+      [
+        "Скільки техніки потягне інвертор на 4 кВт?",
+        "4 кВт — це стеля одночасного навантаження. Холодильник, роутер, світло, телевізор і насос газового котла разом беруть приблизно 0,5–1 кВт, тож лишається запас на чайник або пральну машину. А от двох потужних нагрівальних приладів одразу такий інвертор не витягне: електроплита разом з бойлером уже виходять за межу."
+      ],
+      [
+        "На скільки годин вистачає акумулятора на 2,5 кВт·год?",
+        "Залежить від того, що саме живиться. Холодильник, роутер і кілька ламп — це 150–250 Вт, тобто приблизно 10–15 годин. Якщо додати телевізор і ноутбук, вийде 5–7 годин. Акумулятор на 8 кВт·год з тим самим базовим набором тримає добу й більше."
+      ],
+      [
+        "Чи потягне комплект газовий котел?",
+        "Так: насос і автоматика котла разом беруть 100–200 Вт, і навіть найменший комплект тримає їх багато годин. Але котли вибагливі до форми напруги та заземлення, тому конкретну модель інвертора добираємо саме під ваш котел — про це й питаємо під час дзвінка."
+      ],
+      [
+        "Чим комплект відрізняється від зарядної станції?",
+        "Зарядна станція переносна: прилади вмикаються в неї саму, і працює те, що ви до неї донесли. Комплект ставиться стаціонарно й живить лінії будинку, тому світло, холодильник і котел лишаються на своїх місцях. Станція зручніша, коли живлення треба возити з собою; комплект — коли світло має бути в усьому домі."
+      ],
+      [
+        "Що входить у ціну комплекту?",
+        "Інвертор, акумулятор, дисплей стану й кабелі між ними. Монтаж і підключення до щитка обговорюються окремо: обсяг робіт залежить від того, скільки ліній ви хочете завести на резерв."
+      ],
+      [
+        "Чому не вказані конкретні моделі інвертора й акумулятора?",
+        "Інвертор і акумулятор мають збігатися за напругою, струмом заряду й типом зв’язку: зібрані нарізно, вони або не бачать один одного, або працюють упівсили. Ми фіксуємо потужність, запас енергії та ціну, а моделі під ці цифри добираємо після дзвінка, коли зрозуміло, що саме треба тримати на резерві."
+      ]
+    ],
+    "faq_ru": [
+      [
+        "Сколько стоит комплект инвертор + аккумулятор?",
+        "От {{KT_FROM}} грн. Цена держится на двух цифрах: мощность инвертора решает, сколько техники можно включить одновременно, а запас аккумулятора — сколько она продержится. В цене инвертор, аккумулятор, дисплей состояния и кабели между ними."
+      ],
+      [
+        "Сколько техники потянет инвертор на 4 кВт?",
+        "4 кВт — это потолок одновременной нагрузки. Холодильник, роутер, свет, телевизор и насос газового котла вместе берут примерно 0,5–1 кВт, так что остаётся запас на чайник или стиральную машину. А вот два мощных нагревательных прибора сразу такой инвертор не вытянет: электроплита вместе с бойлером уже выходят за предел."
+      ],
+      [
+        "На сколько часов хватает аккумулятора на 2,5 кВт·ч?",
+        "Зависит от того, что именно питается. Холодильник, роутер и несколько ламп — это 150–250 Вт, то есть примерно 10–15 часов. Если добавить телевизор и ноутбук, выйдет 5–7 часов. Аккумулятор на 8 кВт·ч с тем же базовым набором держит сутки и больше."
+      ],
+      [
+        "Потянет ли комплект газовый котёл?",
+        "Да: насос и автоматика котла вместе берут 100–200 Вт, и даже самый маленький комплект держит их много часов. Но котлы требовательны к форме напряжения и заземлению, поэтому конкретную модель инвертора подбираем именно под ваш котёл — об этом и спрашиваем во время звонка."
+      ],
+      [
+        "Чем комплект отличается от зарядной станции?",
+        "Зарядная станция переносная: приборы включаются в неё саму, и работает то, что вы к ней поднесли. Комплект ставится стационарно и питает линии дома, поэтому свет, холодильник и котёл остаются на своих местах. Станция удобнее, когда питание нужно возить с собой; комплект — когда свет должен быть во всём доме."
+      ],
+      [
+        "Что входит в цену комплекта?",
+        "Инвертор, аккумулятор, дисплей состояния и кабели между ними. Монтаж и подключение к щитку обсуждаются отдельно: объём работ зависит от того, сколько линий вы хотите завести на резерв."
+      ],
+      [
+        "Почему не указаны конкретные модели инвертора и аккумулятора?",
+        "Инвертор и аккумулятор должны совпадать по напряжению, току заряда и типу связи: собранные порознь, они либо не видят друг друга, либо работают вполсилы. Мы фиксируем мощность, запас энергии и цену, а модели под эти цифры подбираем после звонка, когда понятно, что именно нужно держать на резерве."
+      ]
+    ],
+    "faq_en": [
+      [
+        "How much does an inverter and battery kit cost?",
+        "From {{KT_FROM}} UAH. Two numbers set the price: the inverter power decides how much can run at once, the battery reserve decides how long it runs. The price covers the inverter, the battery, the status display and the cables between them."
+      ],
+      [
+        "What will a 4 kW inverter run?",
+        "4 kW is the ceiling on everything running at the same moment. A fridge, a router, the lights, a TV and a gas boiler pump come to roughly 0.5–1 kW together, which leaves room for a kettle or a washing machine. Two heating appliances at once is past the limit: an electric hob together with a water heater already exceeds it."
+      ],
+      [
+        "How long does a 2.5 kWh battery last?",
+        "It depends on what is drawing from it. A fridge, a router and a few lights come to 150–250 W, so roughly 10–15 hours. Add a TV and a laptop and it becomes 5–7 hours. An 8 kWh battery carrying the same basics lasts a day and more."
+      ],
+      [
+        "Will a kit run a gas boiler?",
+        "Yes: a boiler pump and its controls draw 100–200 W together, and even the smallest kit holds them for many hours. Boilers are particular about waveform and earthing, though, so we match the inverter model to your boiler — that is one of the things we ask about on the call."
+      ],
+      [
+        "How is a kit different from a portable power station?",
+        "A power station is portable: appliances plug into the station itself, and whatever you carry to it works. A kit is installed in place and feeds the house circuits, so the lights, the fridge and the boiler stay where they are. A station suits power you need to carry around; a kit suits light that has to be on throughout the house."
+      ],
+      [
+        "What does the price include?",
+        "The inverter, the battery, the status display and the cables between them. Fitting and wiring into the consumer unit are agreed separately: the work depends on how many circuits you want on backup."
+      ],
+      [
+        "Why are no specific inverter and battery models listed?",
+        "An inverter and a battery have to agree on voltage, charge current and the way they talk to each other; picked apart from one another they either do not communicate or run at half strength. We fix the power, the reserve and the price, then choose models to match those figures after a call, once it is clear what needs to stay on."
+      ]
+    ]
   }
 }
