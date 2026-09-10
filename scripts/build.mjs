@@ -15,8 +15,6 @@ const blogUrl = a => `${pfx()}/blog/${a.slug}/`;
 const BLOG_LANGS = ['uk', 'ru'];   // languages the articles are actually written in
 const INSTALL_LANGS = ['uk', 'ru'];   // the installation page, same two languages
 const INSTALL_PATH = '/montazh-kondicionera/';
-const KITS_LANGS = ['uk', 'ru'];      // a service for Sumy, sold by phone — same two
-const KITS_PATH = '/komplekty/';
 const bt = a => lf(a, 'title');
 const bd = a => lf(a, 'desc');
 const bg = a => lf(a, 'tag');
@@ -85,7 +83,6 @@ function linkProducts(html) {
 }
 const CATS = read('categories.json');
 const REVIEWS = read('reviews.json');
-const KITS = (read('kits.json').items || []).slice().sort((a, b) => a.price - b.price);
 const catOf = p => CATS[p.category] || CATS['kondicioneri'];
 const catList = Object.entries(CATS).map(([key, c]) => ({ key, ...c })).sort((a, b) => (a.order || 99) - (b.order || 99));
 /* A category with nothing in it is worse than no category at all: a nav link to
@@ -954,7 +951,14 @@ body = body.replace('<div class="grid" id="catalog-grid"></div>',
 // brand strip: every brand actually in stock, ordered by how many products it has
 {
   const counts = {};
-  for (const p of products) counts[p.brand] = (counts[p.brand] || 0) + 1;
+  /* The strip is headed "Бренди:" and lists manufacturers. The made-to-order
+     bundles carry the shop's own name because the shop is who assembles and
+     warrants them — true on their page, out of place in a row of TCL, LG and
+     Bosch. */
+  for (const p of products) {
+    if (p.brand === site.name) continue;
+    counts[p.brand] = (counts[p.brand] || 0) + 1;
+  }
   const chips = Object.keys(counts)
     .sort((a, b) => counts[b] - counts[a] || a.localeCompare(b, 'uk'))
     .map(b => `<span class="bs-chip" onclick="jumpBrand('${esc(b)}')">${esc(b)}</span>`).join('\n    ');
@@ -1136,21 +1140,6 @@ function reviewsSection() {
    place_id form is the one Google documents as stable, and it lives in
    site.json so the three copies cannot drift apart again. */
 body = body.split('{{MAP_URL}}').join(esc(site.mapUrl));
-/* The home page strip. Three prices and a way through — to the page where the
-   configurations live, or, in a language that has no such page, straight to the
-   form, because the point of all of this is that somebody rings. */
-{
-  const from = KITS.length ? Math.min(...KITS.map(k => k.price)) : 0;
-  const mini = KITS.map(k => `<a class="ks-card" href="${KITS_LANGS.includes(L) ? pfx() + KITS_PATH + '#' + k.slug : '#kits'}">
-      <b>${esc(String(k.inverterKw).replace('.', ','))} ${esc(t('u_kw'))}</b>
-      <span>+ ${esc(String(k.batteryKwh).replace('.', ','))} ${esc(t('u_kwh'))}</span>
-      <em>${fmt(k.price)} ${esc(t('u_uah'))}</em>
-    </a>`).join('');
-  fill('<!--KITS_STRIP-->', `<div class="ks-cards">${mini}</div>`);
-  fill('<!--KITS_CTA-->', KITS_LANGS.includes(L)
-    ? `<a class="btn-primary" href="${pfx()}${KITS_PATH}">${esc(t('kits_strip_cta'))}</a>`
-    : `<button type="button" class="btn-primary" onclick="openCb()">${esc(t('kits_strip_call'))}</button>`);
-}
 fill('<!--HERO_RATING-->', heroRating());
 fill('<!--REVIEWS-->', reviewsSection());
 fill('<!--FAQ_ITEMS-->', faqTopics() + faqItems());
@@ -1171,18 +1160,11 @@ const toHome = h => h.replace(/href="#(?!")/g, `href="${pfx()}/#`);
 /* Installation now has a page of its own, so the header and footer links point
    there rather than scrolling the home page. It is the service people search
    for by name, and a link from every page is what makes it findable. */
-/* Same trick for the bundles. On the home page the nav link scrolls to the
-   block; from anywhere else it goes to the page. In English there is no page,
-   so the link keeps scrolling to the block and nobody lands on a language they
-   did not ask for. */
-const toKits = h => KITS_LANGS.includes(L)
-  ? h.split(`href="${pfx()}/#kits"`).join(`href="${pfx()}${KITS_PATH}"`)
-  : h;
 const toInstall = h => INSTALL_LANGS.includes(L)
   ? h.split(`href="${pfx()}/#installation"`).join(`href="${pfx()}${INSTALL_PATH}"`)
   : h;
-HEADER = toKits(toInstall(toHome(body.slice(0, _heroAt))));
-FOOTER = toKits(toInstall(toHome(body.slice(_footAt))));
+HEADER = toInstall(toHome(body.slice(0, _heroAt)));
+FOOTER = toInstall(toHome(body.slice(_footAt)));
 
 const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: ((i18n[L].faq) || i18n.uk.faq || []).map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
 const indexHtml = `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
@@ -2056,127 +2038,6 @@ if (BLOG_LANGS.includes(L)) {
    fitter actually wants: what is included, how the day goes, what can move the
    price, who turns up. Ukrainian and Russian only, the two languages Sumy
    searches in. */
-/* A diagram, not a photograph. There is no assembled unit to shoot — the
-   bundle is put together after the call — and a rendered "product photo" of
-   something nobody has built yet would be a lie told in pictures. So this
-   draws what the customer is buying, in the site's own palette, and reads as
-   a schematic on purpose: an inverter with its display, a battery under it,
-   and the cable between them that the price includes. */
-function kitDiagram(kit) {
-  const kw = String(kit.inverterKw).replace('.', ',');
-  const kwh = String(kit.batteryKwh).replace('.', ',');
-  const grid = [40, 80, 120, 160].map(y => `<line x1="0" y1="${y}" x2="320" y2="${y}"/>`).join('')
-    + [40, 80, 120, 160, 200, 240, 280].map(x => `<line x1="${x}" y1="0" x2="${x}" y2="200"/>`).join('');
-  const leds = [0, 1, 2].map(i =>
-    `<circle cx="${62 + i * 24}" cy="92" r="5" fill="#7CC4FF" fill-opacity="${i === 0 ? 0.9 : 0.3}"/>`).join('');
-  const cells = [0, 1, 2, 3].map(i =>
-    `<rect x="200" y="${76 + i * 20}" width="72" height="13" rx="4" fill="#7CC4FF" fill-opacity="${(0.75 - i * 0.15).toFixed(2)}"/>`).join('');
-  return `<svg class="kit-illu" viewBox="0 0 320 200" role="img" aria-label="${esc(t('kit_illu_alt'))}">
-  <rect width="320" height="200" rx="16" fill="#0E1B33"/>
-  <g stroke="#7CC4FF" stroke-opacity=".07" stroke-width="1">${grid}</g>
-  <rect x="34" y="26" width="118" height="86" rx="12" fill="#16305C" stroke="#7CC4FF" stroke-opacity=".45" stroke-width="2"/>
-  <rect x="48" y="40" width="90" height="34" rx="7" fill="#0B1A33" stroke="#7CC4FF" stroke-opacity=".3"/>
-  <text x="93" y="63" text-anchor="middle" font-family="Manrope,sans-serif" font-size="17" font-weight="800" fill="#7CC4FF">${esc(kw)} кВт</text>
-  ${leds}
-  <rect x="222" y="52" width="28" height="10" rx="4" fill="#7CC4FF" fill-opacity=".55"/>
-  <rect x="186" y="60" width="100" height="112" rx="12" fill="#16305C" stroke="#7CC4FF" stroke-opacity=".45" stroke-width="2"/>
-  ${cells}
-  <text x="236" y="164" text-anchor="middle" font-family="Manrope,sans-serif" font-size="14" font-weight="800" fill="#FFFFFF">${esc(kwh)} кВт·год</text>
-  <path d="M152 92 C 172 92, 172 104, 186 104" fill="none" stroke="#FF7A29" stroke-width="4" stroke-linecap="round"/>
-</svg>`;
-}
-
-function kitsPage() {
-  const url = pfx() + KITS_PATH;
-  const from = Math.min(...KITS.map(k => k.price));
-  const nm = kit => t('kit_name').replace('{kw}', String(kit.inverterKw).replace('.', ','))
-                                 .replace('{kwh}', String(kit.batteryKwh).replace('.', ','));
-  const inc = kit => ['kit_i1', 'kit_i2', 'kit_i3', 'kit_i4'].map(k =>
-    t(k).replace('{kw}', String(kit.inverterKw).replace('.', ','))
-        .replace('{kwh}', String(kit.batteryKwh).replace('.', ',')));
-
-  const cards = KITS.map(kit => `<article class="kit" id="${esc(kit.slug)}">
-      ${kitDiagram(kit)}
-      <div class="kit-body">
-        <h2 class="kit-name">${esc(nm(kit))} <span class="kit-disp">(${esc(t('kit_display'))})</span></h2>
-        <div class="kit-figs">
-          <div class="kit-fig"><b>${esc(String(kit.inverterKw).replace('.', ','))}<small> ${esc(t('u_kw'))}</small></b><span>${esc(t('kit_inv'))}</span></div>
-          <div class="kit-fig"><b>${esc(String(kit.batteryKwh).replace('.', ','))}<small> ${esc(t('u_kwh'))}</small></b><span>${esc(t('kit_bat'))}</span></div>
-        </div>
-        <div class="kit-incl">
-          <div class="kit-incl-h">${esc(t('kit_incl_h'))}</div>
-          <ul>${inc(kit).map(x => `<li>${esc(x)}</li>`).join('')}</ul>
-        </div>
-        <div class="kit-foot">
-          <div class="kit-price">${fmt(kit.price)} <small>${esc(t('u_uah'))}</small></div>
-          <!-- The name travels in a data attribute, not inside the handler.
-               A JSON string literal there carries double quotes, which close
-               the attribute early and leave the browser with "openKit(" — the
-               button then does nothing at all, silently. esc() escapes quotes
-               correctly for an attribute value; a JS literal it does not. -->
-          <button type="button" class="btn-primary kit-btn"
-            data-kit="${esc(nm(kit))}" data-price="${kit.price}"
-            onclick="openKit(this)">${esc(t('kit_cta'))}</button>
-        </div>
-        <p class="kit-note">${esc(t('kit_note'))}</p>
-      </div>
-    </article>`).join('');
-
-  const steps = [1, 2, 3].map(n => `<li><b>${esc(t(`kits_s${n}t`))}</b><span>${esc(t(`kits_s${n}p`))}</span></li>`).join('');
-
-  /* Each bundle is a real offer at a real price, so each gets its own Offer.
-     No brand and no model: there is none until the call, and inventing one to
-     satisfy a schema validator would put a lie in the markup. */
-  const jsonld = {
-    '@context': 'https://schema.org', '@type': 'ItemList', name: t('kits_h1'), url: abs(url),
-    numberOfItems: KITS.length,
-    itemListElement: KITS.map((kit, i) => ({
-      '@type': 'ListItem', position: i + 1,
-      item: {
-        '@type': 'Product', name: nm(kit), url: abs(url) + '#' + kit.slug,
-        description: inc(kit).join(', '),
-        offers: {
-          '@type': 'Offer', price: kit.price, priceCurrency: 'UAH',
-          availability: 'https://schema.org/InStock',
-          seller: { '@type': 'Organization', name: site.name }, url: abs(url) + '#' + kit.slug
-        }
-      }
-    }))
-  };
-  const crumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
-    { '@type': 'ListItem', position: 1, name: t('pp_home'), item: abs(pfx() + '/') },
-    { '@type': 'ListItem', position: 2, name: t('kits_h1'), item: abs(url) } ] };
-
-  return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
-${head({
-  title: t('kits_title').replace('{from}', fmt(from)),
-  desc: t('kits_desc').replace('{from}', fmt(from)).replace('{n}', KITS.length),
-  canonical: abs(url), altPath: KITS_PATH, altLangs: KITS_LANGS, jsonld })}
-<script type="application/ld+json">${JSON.stringify(crumbs)}</script>
-</head><body>${GTM_NS}
-${HEADER}
-<div class="cat-wrap kits-wrap">
-  <nav class="pp-bc"><a href="${pfx() || '/'}">${esc(t('pp_home'))}</a> › <span>${esc(t('kits_h1'))}</span></nav>
-  <header class="cat-head">
-    <h1 class="cat-h1">${esc(t('kits_h1'))}</h1>
-    <p class="cat-sub">${esc(t('kits_lead'))}</p>
-  </header>
-  <div class="kits-grid">${cards}</div>
-  <section class="kits-how">
-    <h2>${esc(t('kits_how_h'))}</h2>
-    <ol class="kits-steps">${steps}</ol>
-  </section>
-  <section class="kits-why">
-    <h2>${esc(t('kits_why_h'))}</h2>
-    <p>${esc(t('kits_why_p'))}</p>
-  </section>
-</div>
-${FOOTER}
-${injectData()}
-<script src="${av('/assets/js/main.js')}" defer></script>
-</body></html>`;
-}
-
 function installPage() {
   const inc = ['inst_i1','inst_i2','inst_i3','inst_i4','inst_i5','inst_i6','inst_i7','inst_i8','inst_i9'].map(k => t(k));
   const extras = ['inst_e1','inst_e2','inst_e3','inst_e4'].map(k => t(k));
@@ -2261,21 +2122,6 @@ if (INSTALL_LANGS.includes(L)) {
   const dir = outPath('montazh-kondicionera');
   writePage(path.join(dir), installPage());
   SITEMAP.push(pfx() + INSTALL_PATH);
-}
-
-/* ---- backup-power bundles ----
-   Not products. There is no model on a shelf to photograph: the shop assembles
-   one from whatever inverter and battery suit the customer, after a phone call.
-   So they live on their own page rather than in the catalogue, where every
-   card promises a specific thing with a specific spec table — and where these
-   three would sit among 270 real models looking like the data had gone
-   missing. What is fixed is fixed: the power, the capacity, the price, and
-   what the price covers. Everything else is settled on the phone, which the
-   page says out loud. */
-if (KITS_LANGS.includes(L)) {
-  const dir = outPath(KITS_PATH.replace(/\//g, ''));
-  writePage(path.join(dir), kitsPage());
-  SITEMAP.push(pfx() + KITS_PATH);
 }
 
 /* ---- 404 ----

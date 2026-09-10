@@ -11780,5 +11780,83 @@
       "/assets/img/products/gunter-hauer-margarette-wall-wh/11.webp",
       "/assets/img/products/gunter-hauer-margarette-wall-wh/12.webp"
     ]
+  },
+  {
+    "brand": "TexnoPlaza",
+    "series": "4 кВт / 2,5 кВт·год",
+    "name": "Комплект: інвертор 4 кВт + акумулятор 2,5 кВт·год",
+    "name_ru": "Комплект: инвертор 4 кВт + аккумулятор 2,5 кВт·ч",
+    "name_en": "Kit: inverter 4 kW + battery 2.5 kWh",
+    "price": 44999,
+    "category": "komplekty",
+    "display": true,
+    "specs": {
+      "inverter_kw": "4 кВт",
+      "battery_kwh": "2,5 кВт·год",
+      "display": "Так",
+      "included": "Інвертор, акумулятор, дисплей, кабелі між ними",
+      "assembly": "Під замовлення — моделі добираємо після дзвінка",
+      "fitting": "Обговорюється окремо"
+    },
+    "desc_uk": "Інвертор на 4 кВт і акумулятор на 2,5 кВт·год одним рішенням, з дисплеєм стану системи. Інвертор вирішує, що взагалі можна ввімкнути одночасно; акумулятор — скільки воно протримається. У ціну входять інвертор, акумулятор, дисплей і кабелі від акумулятора до інвертора. Конкретні моделі добираємо під ваш будинок після дзвінка — з того, що є в наявності, і під ваше навантаження. Монтаж і підключення обговорюємо окремо: залежить від того, куди вішати й до чого підключати.",
+    "desc_ru": "Инвертор на 4 кВт и аккумулятор на 2,5 кВт·ч одним решением, с дисплеем состояния системы. Инвертор решает, что вообще можно включить одновременно; аккумулятор — сколько оно продержится. В цену входят инвертор, аккумулятор, дисплей и кабели от аккумулятора до инвертора. Конкретные модели подбираем под ваш дом после звонка — из того, что есть в наличии, и под вашу нагрузку. Монтаж и подключение обсуждаем отдельно: зависит от того, куда вешать и к чему подключать.",
+    "desc_en": "A 4 kW inverter and a 2.5 kWh battery as one solution, with a status display. The inverter decides what can run at once; the battery decides how long it lasts. The price covers the inverter, the battery, the display and the cables between battery and inverter. The exact models are chosen for your home after a call, from what is in stock. Fitting is discussed separately.",
+    "slug": "komplekt-invertor-4-kvt-akumulyator-2-5-kvt-god",
+    "thumb": "/assets/img/products/komplekt-invertor-4-kvt-akumulyator-2-5-kvt-god/thumb.webp",
+    "photos": [
+      "/assets/img/products/komplekt-invertor-4-kvt-akumulyator-2-5-kvt-god/1.webp"
+    ]
+  },
+  {
+    "brand": "TexnoPlaza",
+    "series": "4 кВт / 8 кВт·год",
+    "name": "Комплект: інвертор 4 кВт + акумулятор 8 кВт·год",
+    "name_ru": "Комплект: инвертор 4 кВт + аккумулятор 8 кВт·ч",
+    "name_en": "Kit: inverter 4 kW + battery 8 kWh",
+    "price": 61999,
+    "category": "komplekty",
+    "display": true,
+    "specs": {
+      "inverter_kw": "4 кВт",
+      "battery_kwh": "8 кВт·год",
+      "display": "Так",
+      "included": "Інвертор, акумулятор, дисплей, кабелі між ними",
+      "assembly": "Під замовлення — моделі добираємо після дзвінка",
+      "fitting": "Обговорюється окремо"
+    },
+    "desc_uk": "Інвертор на 4 кВт і акумулятор на 8 кВт·год одним рішенням, з дисплеєм стану системи. Інвертор вирішує, що взагалі можна ввімкнути одночасно; акумулятор — скільки воно протримається. У ціну входять інвертор, акумулятор, дисплей і кабелі від акумулятора до інвертора. Конкретні моделі добираємо під ваш будинок після дзвінка — з того, що є в наявності, і під ваше навантаження. Монтаж і підключення обговорюємо окремо: залежить від того, куди вішати й до чого підключати.",
+    "desc_ru": "Инвертор на 4 кВт и аккумулятор на 8 кВт·ч одним решением, с дисплеем состояния системы. Инвертор решает, что вообще можно включить одновременно; аккумулятор — сколько оно продержится. В цену входят инвертор, аккумулятор, дисплей и кабели от аккумулятора до инвертора. Конкретные модели подбираем под ваш дом после звонка — из того, что есть в наличии, и под вашу нагрузку. Монтаж и подключение обсуждаем отдельно: зависит от того, куда вешать и к чему подключать.",
+    "desc_en": "A 4 kW inverter and a 8 kWh battery as one solution, with a status display. The inverter decides what can run at once; the battery decides how long it lasts. The price covers the inverter, the battery, the display and the cables between battery and inverter. The exact models are chosen for your home after a call, from what is in stock. Fitting is discussed separately.",
+    "slug": "komplekt-invertor-4-kvt-akumulyator-8-kvt-god",
+    "thumb": "/assets/img/products/komplekt-invertor-4-kvt-akumulyator-8-kvt-god/thumb.webp",
+    "photos": [
+      "/assets/img/products/komplekt-invertor-4-kvt-akumulyator-8-kvt-god/1.webp"
+    ]
+  },
+  {
+    "brand": "TexnoPlaza",
+    "series": "6 кВт / 5 кВт·год",
+    "name": "Комплект: інвертор 6 кВт + акумулятор 5 кВт·год",
+    "name_ru": "Комплект: инвертор 6 кВт + аккумулятор 5 кВт·ч",
+    "name_en": "Kit: inverter 6 kW + battery 5 kWh",
+    "price": 64999,
+    "category": "komplekty",
+    "display": true,
+    "specs": {
+      "inverter_kw": "6 кВт",
+      "battery_kwh": "5 кВт·год",
+      "display": "Так",
+      "included": "Інвертор, акумулятор, дисплей, кабелі між ними",
+      "assembly": "Під замовлення — моделі добираємо після дзвінка",
+      "fitting": "Обговорюється окремо"
+    },
+    "desc_uk": "Інвертор на 6 кВт і акумулятор на 5 кВт·год одним рішенням, з дисплеєм стану системи. Інвертор вирішує, що взагалі можна ввімкнути одночасно; акумулятор — скільки воно протримається. У ціну входять інвертор, акумулятор, дисплей і кабелі від акумулятора до інвертора. Конкретні моделі добираємо під ваш будинок після дзвінка — з того, що є в наявності, і під ваше навантаження. Монтаж і підключення обговорюємо окремо: залежить від того, куди вішати й до чого підключати.",
+    "desc_ru": "Инвертор на 6 кВт и аккумулятор на 5 кВт·ч одним решением, с дисплеем состояния системы. Инвертор решает, что вообще можно включить одновременно; аккумулятор — сколько оно продержится. В цену входят инвертор, аккумулятор, дисплей и кабели от аккумулятора до инвертора. Конкретные модели подбираем под ваш дом после звонка — из того, что есть в наличии, и под вашу нагрузку. Монтаж и подключение обсуждаем отдельно: зависит от того, куда вешать и к чему подключать.",
+    "desc_en": "A 6 kW inverter and a 5 kWh battery as one solution, with a status display. The inverter decides what can run at once; the battery decides how long it lasts. The price covers the inverter, the battery, the display and the cables between battery and inverter. The exact models are chosen for your home after a call, from what is in stock. Fitting is discussed separately.",
+    "slug": "komplekt-invertor-6-kvt-akumulyator-5-kvt-god",
+    "thumb": "/assets/img/products/komplekt-invertor-6-kvt-akumulyator-5-kvt-god/thumb.webp",
+    "photos": [
+      "/assets/img/products/komplekt-invertor-6-kvt-akumulyator-5-kvt-god/1.webp"
+    ]
   }
 ]

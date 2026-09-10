@@ -1099,7 +1099,7 @@
     "nameGen": "бойлерів",
     "urlPrefix": "/boylery",
     "icon": "boiler",
-    "order": 5,
+    "order": 6,
     "install": false,
     "trust": [
       "Доставка по Сумах — 400 грн",
@@ -1395,7 +1395,7 @@
     "cardSub_en": "Built-in, with convection and grill",
     "urlPrefix": "/duhovi-shafy",
     "icon": "duhovi-shafy",
-    "order": 6,
+    "order": 7,
     "install": false,
     "emoji": "🔥",
     "cover": "/assets/img/covers/cat-duhovi-shafy.webp",
@@ -1661,7 +1661,7 @@
     "cardSub_en": "Induction, electric and gas",
     "urlPrefix": "/varylni-poverhni",
     "icon": "varylni-poverhni",
-    "order": 7,
+    "order": 8,
     "install": false,
     "emoji": "🍳",
     "cover": "/assets/img/covers/cat-varylni-poverhni.webp",
@@ -1971,7 +1971,7 @@
     "cardSub_en": "Built-in, angled and chimney",
     "urlPrefix": "/vytyazhky",
     "icon": "vytyazhky",
-    "order": 8,
+    "order": 9,
     "install": false,
     "emoji": "🌀",
     "cover": "/assets/img/covers/cat-vytyazhky.webp",
@@ -2312,7 +2312,7 @@
     "cardSub_en": "Inset and undermount, one or two bowls",
     "urlPrefix": "/myyky",
     "icon": "myyky",
-    "order": 9,
+    "order": 10,
     "install": false,
     "emoji": "🚰",
     "cover": "/assets/img/covers/cat-myyky.webp",
@@ -2674,7 +2674,7 @@
     "cardSub_en": "Matched to the sinks of the same line",
     "urlPrefix": "/zmishuvachi",
     "icon": "zmishuvachi",
-    "order": 10,
+    "order": 11,
     "install": false,
     "emoji": "🚿",
     "cover": "/assets/img/covers/cat-zmishuvachi.webp",
@@ -2999,7 +2999,7 @@
     "cardSub_en": "Built-in, for washing-up liquid",
     "urlPrefix": "/dozatory",
     "icon": "dozatory",
-    "order": 11,
+    "order": 12,
     "install": false,
     "emoji": "🧴",
     "cover": "/assets/img/covers/cat-dozatory.webp",
@@ -3164,7 +3164,7 @@
     "cardSub_en": "Built-in, with grill and convection",
     "urlPrefix": "/mikrohvylovi-pechi",
     "icon": "mikrohvylovi-pechi",
-    "order": 12,
+    "order": 13,
     "install": false,
     "emoji": "📻",
     "cover": "/assets/img/covers/cat-mikrohvylovi-pechi.webp",
@@ -3323,7 +3323,7 @@
     "cardSub_en": "Built-in, 45 and 60 cm",
     "urlPrefix": "/posudomyyni-mashyny",
     "icon": "posudomyyni-mashyny",
-    "order": 13,
+    "order": 14,
     "install": false,
     "emoji": "🍽",
     "cover": "/assets/img/covers/cat-posudomyyni-mashyny.webp",
@@ -3516,5 +3516,90 @@
     "illustrationAlt": "Вбудована посудомийна машина на кухні",
     "illustrationAlt_ru": "Встраиваемая посудомоечная машина на кухне",
     "illustrationAlt_en": "A built-in dishwasher in a kitchen"
+  },
+  "komplekty": {
+    "name": "Комплекти живлення",
+    "name_ru": "Комплекты питания",
+    "name_en": "Backup power kits",
+    "code": "KT",
+    "nameGen": "комплектів живлення",
+    "nameGen_ru": "комплектов питания",
+    "nameGen_en": "backup power kits",
+    "urlPrefix": "/komplekty",
+    "icon": "battery",
+    "order": 5,
+    "emoji": "🔌",
+    "productPrefix": {
+      "uk": "Комплект",
+      "ru": "Комплект",
+      "en": "Kit"
+    },
+    "cardSub": "Інвертор і акумулятор одним рішенням",
+    "cardSub_ru": "Инвертор и аккумулятор одним решением",
+    "cardSub_en": "An inverter and a battery as one solution",
+    "seoTitle": "Комплекти живлення у Сумах від {{KT_FROM}} грн",
+    "seoTitle_ru": "Комплекты питания в Сумах от {{KT_FROM}} грн",
+    "seoTitle_en": "Backup power kits in Sumy from {{KT_FROM}} UAH",
+    "seoDesc": "Інвертор і акумулятор одним комплектом: {{KT_MODELS}} на 2,5–8 кВт·год. У ціні інвертор, акумулятор, дисплей і кабелі. Конкретні моделі добираємо під ваш будинок після дзвінка. Доставка по Сумах, оплата після отримання.",
+    "seoDesc_ru": "Инвертор и аккумулятор одним комплектом: {{KT_MODELS}} на 2,5–8 кВт·ч. В цене инвертор, аккумулятор, дисплей и кабели. Конкретные модели подбираем под ваш дом после звонка. Доставка по Сумам, оплата после получения.",
+    "seoDesc_en": "An inverter and a battery in one kit: {{KT_MODELS}} from 2.5 to 8 kWh. The price covers the inverter, the battery, the display and the cables. Exact models are chosen for your home after a call. Delivery in Sumy.",
+    "intro": "Інвертор тримає світло в домі, акумулятор — запас, на якому воно тримається. Разом вони мають збігатися за напругою, струмом заряду й типом зв'язку: зібрані нарізно, вони або не бачать один одного, або працюють упівсили. Тут три конфігурації за потужністю та запасом енергії — від холодильника з роутером до котла з насосом. Конкретні моделі інвертора й акумулятора добираємо під ваш будинок і бюджет після дзвінка, з того, що є в наявності. У ціну входять інвертор, акумулятор, дисплей стану системи та кабелі від акумулятора до інвертора; монтаж і підключення обговорюємо окремо — залежить від будинку.",
+    "intro_ru": "Инвертор держит свет в доме, аккумулятор — запас, на котором он держится. Вместе они должны совпадать по напряжению, току заряда и типу связи: собранные порознь, они либо не видят друг друга, либо работают вполсилы. Здесь три конфигурации по мощности и запасу энергии — от холодильника с роутером до котла с насосом. Конкретные модели инвертора и аккумулятора подбираем под ваш дом и бюджет после звонка, из того, что есть в наличии. В цену входят инвертор, аккумулятор, дисплей состояния системы и кабели от аккумулятора до инвертора; монтаж и подключение обсуждаем отдельно — зависит от дома.",
+    "intro_en": "The inverter keeps the lights on; the battery is the reserve they run from. The two have to match in voltage, charge current and the way they talk to each other — bought separately they either ignore one another or work at half strength. Three configurations here, by power and by reserve. The exact models are chosen for your home after a call, from what is in stock. The price covers the inverter, the battery, the status display and the cables between them; fitting is discussed separately.",
+    "chips": [
+      {
+        "icon": "⚡",
+        "key": "inverter_kw"
+      },
+      {
+        "icon": "🔋",
+        "key": "battery_kwh"
+      },
+      {
+        "icon": "🖥",
+        "flag": "display",
+        "label": "Дисплей",
+        "label_ru": "Дисплей",
+        "label_en": "Display"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Потужність інвертора",
+        "key": "inverter_kw",
+        "label_ru": "Мощность инвертора",
+        "label_en": "Inverter power"
+      },
+      {
+        "label": "Запас енергії",
+        "key": "battery_kwh",
+        "label_ru": "Запас энергии",
+        "label_en": "Energy reserve"
+      },
+      {
+        "label": "Дисплей стану",
+        "key": "display",
+        "label_ru": "Дисплей состояния",
+        "label_en": "Status display"
+      },
+      {
+        "label": "Що входить у ціну",
+        "key": "included",
+        "label_ru": "Что входит в цену",
+        "label_en": "What the price covers"
+      },
+      {
+        "label": "Збірка",
+        "key": "assembly",
+        "label_ru": "Сборка",
+        "label_en": "Assembly"
+      },
+      {
+        "label": "Монтаж",
+        "key": "fitting",
+        "label_ru": "Монтаж",
+        "label_en": "Fitting"
+      }
+    ]
   }
 }
