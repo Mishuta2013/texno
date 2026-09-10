@@ -1086,7 +1086,7 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
   /* hide floating WA (replaced by sticky bar) */
   .wa-float,.vb-float{display:none}
   /* room for the sticky CTA bar */
-  body{padding-bottom:calc(94px + env(safe-area-inset-bottom))}  /* clears .mcta, measured at 87px */
+  body{padding-bottom:calc(90px + env(safe-area-inset-bottom))}  /* clears .mcta, measured at 80px */
 }
 @media(max-width:480px){
   /* de-crowd header (sticky CTA covers call/order on mobile) */
@@ -1110,8 +1110,8 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
    colours survive in the icons where they are still recognisable without
    taking a quarter of the screen each. */
 @media(max-width:760px){
-  .mcta{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;position:fixed;left:0;right:0;bottom:0;z-index:130;
-    padding:8px 6px calc(7px + env(safe-area-inset-bottom,0px));
+  .mcta{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;position:fixed;left:0;right:0;bottom:0;z-index:130;
+    padding:8px 8px calc(7px + env(safe-area-inset-bottom,0px));
     background:linear-gradient(180deg,rgba(16,32,62,.93),rgba(9,20,40,.98));
     backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);
     border-top:1px solid rgba(124,196,255,.16);
@@ -1121,27 +1121,32 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
     box-shadow:0 -14px 34px rgba(4,10,22,.5),inset 0 1px 0 rgba(255,255,255,.07)}
   /* icon over label: four labels side by side in pills had to shrink to 11px
      and still nearly touched; stacked, each tab gets its full width back */
-  .mcta-b{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
-    min-height:64px;padding:6px 2px;border-radius:16px;background:none;border:none;cursor:pointer;
+  .mcta-b{display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:5px;
+    min-height:64px;padding:0;border-radius:16px;text-align:center;background:none;border:none;cursor:pointer;
     font-family:var(--disp);font-weight:700;font-size:12px;line-height:1;letter-spacing:-.005em;
     color:rgba(233,243,255,.82);text-decoration:none;white-space:nowrap;
     -webkit-tap-highlight-color:transparent;transition:color .18s ease}
   /* the icon sits in its own disc — that disc is what carries the colour */
-  .mcta-i{display:grid;place-items:center;width:44px;height:44px;border-radius:15px;
+  .mcta-i{display:grid;place-items:center;width:100%;height:44px;border-radius:15px;
     background:rgba(255,255,255,.09);transition:transform .22s cubic-bezier(.2,.8,.2,1),background .18s ease}
   .mcta-b svg{width:23px;height:23px;fill:currentColor;flex:0 0 auto}
-  .mcta-b.call .mcta-i{background:var(--cta);color:#fff;box-shadow:0 8px 20px rgba(22,104,214,.5)}
-  .mcta-b.wa   .mcta-i{background:rgba(37,211,102,.24);color:#5BE79A}
-  .mcta-b.vb   .mcta-i{background:rgba(124,106,255,.26);color:#BDB2FF}
-  .mcta-b.qz   .mcta-i{background:rgba(255,122,41,.24);color:#FFB07A}
+  /* At 44px square a flat tint read fine; stretched across the column it went
+     muddy, so each surface takes a hairline of its own colour to define the
+     shape and a little gradient to stop it looking like a dead slab. */
+  .mcta-i{border:1px solid rgba(255,255,255,.10)}
+  .mcta-b.call .mcta-i{background:linear-gradient(180deg,#2C7BE5,var(--cta));border-color:rgba(255,255,255,.22);color:#fff;box-shadow:0 8px 20px rgba(22,104,214,.5)}
+  .mcta-b.wa   .mcta-i{background:linear-gradient(180deg,rgba(37,211,102,.26),rgba(37,211,102,.15));border-color:rgba(61,220,127,.42);color:#68EDA4}
+  .mcta-b.vb   .mcta-i{background:linear-gradient(180deg,rgba(124,106,255,.30),rgba(124,106,255,.17));border-color:rgba(167,155,255,.45);color:#C6BDFF}
+  .mcta-b.qz   .mcta-i{background:linear-gradient(180deg,rgba(255,122,41,.26),rgba(255,122,41,.15));border-color:rgba(255,161,99,.45);color:#FFBC8E}
   .mcta-b.call{color:#fff}
   .mcta-b:active{color:#fff}
   .mcta-b:active .mcta-i{transform:scale(.9)}
   @media(prefers-reduced-motion:reduce){.mcta-i{transition:none}.mcta-b:active .mcta-i{transform:none}}
 }
 @media(max-width:360px){
+  .mcta{gap:5px;padding-left:7px;padding-right:7px}
   .mcta-b{font-size:11px}
-  .mcta-i{width:40px;height:40px;border-radius:14px}
+  .mcta-i{height:42px;border-radius:14px}
   .mcta-b svg{width:21px;height:21px}
 }
 
