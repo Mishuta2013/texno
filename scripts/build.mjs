@@ -373,6 +373,29 @@ function ppChips(p) {
     return v ? `<span class="pp-chip">${c.icon ? c.icon + ' ' : ''}${esc(v)}</span>` : '';
   }).join('');
 }
+/* How many cards a grid is worth rendering into the HTML.
+
+   The home page shipped all 270 and the browser threw 246 of them away before
+   anyone saw a thing: renderCatalog() runs on load, empties the grid and draws
+   one page. Measured — 270 cards in the response, 24 in the DOM a moment
+   later, ~350KB downloaded to be discarded, on the site's most visited page,
+   on phones that are 80% of its traffic.
+
+   Read out of main.js rather than typed here. Two copies of a number that must
+   agree is exactly how tagMatch and tagMatchJS drifted apart and left a
+   landing page promising sixteen models above an empty grid. */
+const PAGE_SIZE = (() => {
+  const src = fs.readFileSync(path.join(ROOT, 'assets/js/main.js'), 'utf8');
+  const n = Number(/\bconst PAGE_SIZE\s*=\s*(\d+)/.exec(src)?.[1]);
+  if (!Number.isInteger(n) || n < 1) throw new Error('cannot read PAGE_SIZE from assets/js/main.js');
+  return n;
+})();
+/* Everything past the first page is left to the sentinel that was already
+   there. Category pages keep their whole list: the largest is 52 cards, the
+   saving is small, and their raw HTML is where a crawler that does not run
+   scripts finds every product. */
+const firstPage = list => list.slice(0, PAGE_SIZE);
+
 /* The Google Customer Reviews badge. Google's own snippet reaches the script
    through the bare global its id creates; this asks the DOM for it, which is
    the same thing said out loud.
@@ -924,7 +947,7 @@ function mixedOrder(list) {
 }
 const defaultOrder = mixedOrder(products);
 body = body.replace('<div class="grid" id="catalog-grid"></div>',
-  `<div class="grid" id="catalog-grid">${defaultOrder.map(card).join('')}</div>`);
+  `<div class="grid" id="catalog-grid">${firstPage(defaultOrder).map(card).join('')}</div>`);
 // brand strip: every brand actually in stock, ordered by how many products it has
 {
   const counts = {};
