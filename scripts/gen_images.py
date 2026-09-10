@@ -19,23 +19,36 @@ def font(sz, bold=True):
 def rrect(d, box, r, **kw): d.rounded_rectangle(box, radius=r, **kw)
 
 def icon(size, maskable=False):
-    """Brand mark, not a product.
+    """The shop's mark: an air-conditioner indoor unit over three airflow lines.
 
-    This used to draw an air-conditioner indoor unit with airflow lines, from
-    when the shop sold only air conditioners. It is a five-category store now,
-    so the icon is the monogram: a white crossbar over a frost stem, with the
-    blue rule that runs through the rest of the branding. Kept geometric so the
-    inline SVG favicon in build.mjs can be an exact match.
+    It spent a while as a "T" monogram, on the reasoning that a fourteen-category
+    store should not advertise one shelf. The owner asked for the original back,
+    which is theirs to decide — a mark identifies a shop, it does not have to
+    inventory it.
+
+    The geometry is the 0-100 viewBox of the inline SVG favicon in build.mjs,
+    scaled, so the tab icon and the installed-app icon are the same drawing.
+    PIL strokes inward from the box while SVG centres the stroke on the path,
+    so the box is widened by half the stroke to put the outer edges in the
+    same place.
     """
     im = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
     pad = int(size * 0.10) if maskable else 0
     rrect(d, [pad, pad, size - pad, size - pad], int(size * 0.22), fill=NAVY)
-    s = float(size)
-    r = max(2, int(s * 0.03))
-    rrect(d, [s*0.435, s*0.26, s*0.565, s*0.74], r, fill=FROST)   # stem
-    rrect(d, [s*0.24, s*0.26, s*0.76, s*0.39], r, fill=WHITE)     # crossbar, over the stem
-    rrect(d, [s*0.32, s*0.80, s*0.68, s*0.86], r, fill=BLUE)      # baseline rule
+    s = size / 100.0                       # authored against the SVG viewBox
+
+    def u(v):
+        return v * s
+
+    w = max(2, int(round(5 * s)))          # the unit's casing
+    rrect(d, [u(13.5), u(37.5), u(86.5), u(60.5)], u(8.5), outline=BLUE, width=w)
+    lw = max(2, int(round(4 * s)))         # airflow, round-capped like the SVG
+    for x, y1 in ((30, 70), (50, 72), (70, 70)):
+        d.line([(u(x), u(64)), (u(x), u(y1))], fill=FROST, width=lw)
+        for yy in (64, y1):                # PIL has no line caps; draw them
+            r = lw / 2.0
+            d.ellipse([u(x) - r, u(yy) - r, u(x) + r, u(yy) + r], fill=FROST)
     return im
 
 for sz in (192, 512):

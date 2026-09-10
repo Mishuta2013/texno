@@ -463,9 +463,12 @@ const abs = u => BASE + u.split('?')[0];   // canonical/schema URLs stay clean
    the CDN edge showing the old one indefinitely. Content-hash the URL instead,
    the way the page's own assets are handled. */
 const absImg = u => BASE + av(u);
-/* The favicon was an air-conditioner indoor unit, from when that was all the
-   shop sold. Same monogram the PWA icons use — see icon() in gen_images.py. */
-const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230B1A33'/%3E%3Crect x='43.5' y='26' width='13' height='48' rx='3' fill='%237CC4FF'/%3E%3Crect x='24' y='26' width='52' height='13' rx='3' fill='%23ffffff'/%3E%3Crect x='32' y='80' width='36' height='6' rx='3' fill='%232E8BFF'/%3E%3C/svg%3E";
+/* An air-conditioner indoor unit with airflow lines — the shop's original mark,
+   brought back at the owner's request after a spell as a "T" monogram. The
+   catalogue has grown well past air conditioners, so the icon now stands for the
+   shop rather than describing the shelves; that is the owner's call to make.
+   Same drawing the PWA icons use — see icon() in gen_images.py. */
+const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230B1A33'/%3E%3Cpath d='M22 40h56a6 6 0 0 1 6 6v6a6 6 0 0 1-6 6H22a6 6 0 0 1-6-6v-6a6 6 0 0 1 6-6z' fill='none' stroke='%232E8BFF' stroke-width='5'/%3E%3Cpath d='M30 64v6M50 64v8M70 64v6' stroke='%237CC4FF' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E";
 const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap"></noscript>`;
 
 /* One container, GTM-KBTGSLKD, supplied by the shop's SEO specialist. GA4
@@ -2175,7 +2178,7 @@ if (L === 'uk') {
 <meta name="theme-color" content="#0B1A33">
 <meta name="robots" content="noindex, follow">
 <title>${esc(t('e404_t'))}</title>
-<link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="${FAVICON}">
 <link rel="stylesheet" href="${av('/assets/css/main.css')}">
 </head><body>${GTM_NS}
 ${HEADER}
