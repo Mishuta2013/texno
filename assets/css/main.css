@@ -1884,3 +1884,29 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 /* ===== matched by colour (sink ↔ tap ↔ dispenser) ===== */
 .pp-match-sub{margin:-6px 0 16px;color:var(--g4);font-size:14px;line-height:1.5;max-width:640px}
 @media(max-width:560px){.pp-match-sub{font-size:13.5px;margin-bottom:14px}}
+
+/* ===== keyboard focus =====
+   button{outline:none} and the same on inputs, selects and .search-input took
+   the focus ring off every control on the site: tabbing through it showed
+   nothing at all, which is WCAG 2.4.7 failed everywhere at once. Restored with
+   :focus-visible, so a mouse click still leaves no ring behind.
+
+   Two colours, because the site is two grounds. --cta reads on the light body;
+   over the navy hero, the footer and the dark form card it nearly disappears,
+   so those take --frost. Specificity here is deliberately high enough to beat
+   the .field input / .search-input rules that set outline:none. */
+:focus-visible{outline:2px solid var(--cta);outline-offset:2px}
+.hero :focus-visible,
+.topbar :focus-visible,
+.footer :focus-visible,
+.form-card :focus-visible,
+.modal :focus-visible,
+.gauge-card:focus-visible,
+.hero-place :focus-visible{outline-color:var(--frost)}
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible{outline:2px solid var(--frost);outline-offset:2px}
+.search-input:focus-visible,
+.sort-select:focus-visible,
+.quiz-lead input:focus-visible{outline:2px solid var(--cta);outline-offset:2px}
+input[type=range]:focus-visible{outline:2px solid var(--frost);outline-offset:3px}

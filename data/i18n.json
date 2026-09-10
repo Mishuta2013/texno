@@ -289,6 +289,16 @@
         "general"
       ],
       [
+        "Ви ремонтуєте техніку?",
+        "Власної майстерні в нас немає — ми продаємо нову техніку з офіційною гарантією виробника. Якщо протягом гарантійного строку щось не так, зверніться до нас: підкажемо найближчий авторизований сервісний центр, допоможемо оформити гарантійний випадок і за потреби зв'яжемося з виробником замість вас. Позагарантійним ремонтом ми не займаємося.",
+        "general"
+      ],
+      [
+        "Техніка нова чи вживана?",
+        "Уся техніка нова, у заводській упаковці, з офіційною гарантією виробника та документами. Вживаною технікою чи технікою «з Європи» ми не торгуємо — тому й гарантія працює звичайним шляхом, через сервісні центри виробника.",
+        "general"
+      ],
+      [
         "Мийку якого розміру брати під мою стільницю?",
         "Головне — не ширина мийки, а розмір вирізу: він менший за корпус на 8–12 мм з кожного боку. У картці кожної моделі вказані і габарити, і розміри чаші. Заміряйте вільний простір у тумбі між боковинами й відніміть 3–4 см на кріплення.",
         "sink"
@@ -1146,6 +1156,16 @@
         "general"
       ],
       [
+        "Вы ремонтируете технику?",
+        "Своей мастерской у нас нет — мы продаём новую технику с официальной гарантией производителя. Если в течение гарантийного срока что-то не так, обратитесь к нам: подскажем ближайший авторизованный сервисный центр, поможем оформить гарантийный случай и при необходимости свяжемся с производителем вместо вас. Внегарантийным ремонтом мы не занимаемся.",
+        "general"
+      ],
+      [
+        "Техника новая или бывшая в употреблении?",
+        "Вся техника новая, в заводской упаковке, с официальной гарантией производителя и документами. Б/у техникой или техникой «из Европы» мы не торгуем — поэтому и гарантия работает обычным путём, через сервисные центры производителя.",
+        "general"
+      ],
+      [
         "Мойку какого размера брать под мою столешницу?",
         "Главное — не ширина мойки, а размер выреза: он меньше корпуса на 8–12 мм с каждой стороны. В карточке каждой модели указаны и габариты, и размеры чаши. Замерьте свободное место в тумбе между боковинами и отнимите 3–4 см на крепление.",
         "sink"
@@ -2000,6 +2020,16 @@
       [
         "Will you carry the fridge up to my flat?",
         "Yes. Delivery in Sumy is 400 UAH and carrying it in is included. A two-metre column weighs 70–95 kg, so we agree a walk-up in advance. You pay after delivery, once you have looked it over.",
+        "general"
+      ],
+      [
+        "Do you repair appliances?",
+        "We have no workshop of our own — we sell new appliances with the manufacturer's official warranty. If something goes wrong within the warranty period, come to us: we will point you to the nearest authorised service centre, help file the claim and, if needed, deal with the manufacturer on your behalf. Out-of-warranty repairs are not something we do.",
+        "general"
+      ],
+      [
+        "Are the appliances new or second-hand?",
+        "Everything is new, in the factory box, with the manufacturer's official warranty and papers. We do not deal in used appliances or in “imported from Europe” stock — which is why the warranty works the ordinary way, through the manufacturer's service centres.",
         "general"
       ],
       [
