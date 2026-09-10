@@ -1311,10 +1311,26 @@ function quizRender(){
     const unit=isBudget?t('u_uah'):st.unit();
     const show=isBudget?fmt(val):val;
     const scale=`<div class="quiz-scale"><span>${isBudget?fmt(mn):mn} ${unit}</span><span>${isBudget?fmt(mx):mx} ${unit}</span></div>`;
-    body.innerHTML=`<div class="quiz-step">${stepNo}<div class="quiz-q">${t(st.qKey)}</div>
-      <div class="quiz-big"><span id="qv-${st.key}">${show}</span> <span class="quiz-unit">${unit}</span></div>
+    /* The slider is the whole question, so the question is its label. Without
+       this a screen reader announced "slider, 12000" with no hint of what was
+       being chosen. aria-valuetext carries the formatted figure with its unit,
+       because "12 000 грн" is the thing a person is actually setting. */
+    /* Ids carry the host. The quiz can be rendered inline on a category page
+       AND in the modal at the same time, and both used the same id="qv-…";
+       getElementById hands back the first, so the modal's figure sat frozen
+       while its slider moved.
+
+       The unit is read from its own span rather than written into the handler:
+       a JSON string literal there carries double quotes, which close the
+       attribute early and leave the browser compiling nothing at all. The
+       slider then moved in silence — no error, just a number that never
+       changed. Everything inside this attribute stays single-quoted. */
+    const hp=quizHost==='inline'?'qi':'qm';
+    body.innerHTML=`<div class="quiz-step">${stepNo}<div class="quiz-q" id="${hp}-qq-${st.key}">${t(st.qKey)}</div>
+      <div class="quiz-big"><span id="${hp}-qv-${st.key}">${show}</span> <span class="quiz-unit" id="${hp}-qu-${st.key}">${unit}</span></div>
       <input type="range" min="${mn}" max="${mx}" step="${isBudget?1000:(st.step||1)}" value="${val}"
-        oninput="quizState['${st.key}']=+this.value;$('qv-${st.key}').textContent=${isBudget?'fmt(+this.value)':'this.value'}">
+        aria-labelledby="${hp}-qq-${st.key}" aria-valuetext="${show} ${unit}"
+        oninput="quizState['${st.key}']=+this.value;$('${hp}-qv-${st.key}').textContent=${isBudget?'fmt(+this.value)':'this.value'};this.setAttribute('aria-valuetext',$('${hp}-qv-${st.key}').textContent+' '+$('${hp}-qu-${st.key}').textContent)">
       ${scale}${hint}</div>`;
   }else{
     body.innerHTML=`<div class="quiz-step">${stepNo}<div class="quiz-q">${t(st.qKey)}</div>

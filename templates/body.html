@@ -64,6 +64,7 @@
 <div class="nav-backdrop" onclick="closeNav()" aria-hidden="true"></div>
 
 <!-- HERO -->
+<main id="main">
 <section class="hero">
   <img class="hero-photo" fetchpriority="high" src="/assets/img/site/hero.webp" data-i18n-alt="hero_photo_alt" alt="Холодильник, пральна машина, кондиціонер, бойлер і зарядна станція — техніка TexnoPlaza у Сумах" width="1600" height="1067">
   <div class="hero-photo-veil"></div>
@@ -304,7 +305,7 @@
             <option value="price-desc" data-i18n="sort_exp">Спочатку дорогі</option>
             <option value="area-asc" data-i18n="sort_area">За площею ↑</option>
           </select>
-          <input type="search" class="search-input" id="search-input" placeholder="Пошук моделі..." data-i18n-ph="search_ph" oninput="renderCatalog()">
+          <input type="search" class="search-input" id="search-input" placeholder="Пошук моделі..." data-i18n-ph="search_ph" aria-label="Пошук моделі" data-i18n-aria="search_ph" oninput="renderCatalog()">
         </div>
       </div>
     </div>
@@ -543,13 +544,13 @@
         <p data-i18n="form_p">Менеджер передзвонить протягом 15 хвилин і допоможе з підбором.</p>
         <div id="contact-form">
           <div class="fgrid">
-            <div class="field"><label data-i18n="form_name">Ваше ім'я</label><input type="text" id="cf-name" placeholder="Олександр"></div>
-            <div class="field"><label data-i18n="form_phone">Телефон</label><input type="tel" id="cf-phone" placeholder="+38 (___) ___-__-__"></div>
+            <div class="field"><label for="cf-name" data-i18n="form_name">Ваше ім'я</label><input type="text" id="cf-name" placeholder="Олександр"></div>
+            <div class="field"><label for="cf-phone" data-i18n="form_phone">Телефон</label><input type="tel" id="cf-phone" placeholder="+38 (___) ___-__-__"></div>
           </div>
-          <div class="field"><label data-i18n="form_int">Що вас цікавить?</label>
+          <div class="field"><label for="cf-interest" data-i18n="form_int">Що вас цікавить?</label>
             <select id="cf-interest" aria-label="Що вас цікавить?" data-i18n-aria="form_int"><option data-i18n="form_i1">Підбір техніки</option><option data-i18n="form_i5">Зарядні станції</option><option data-i18n="form_i2">Вартість монтажу</option><option data-i18n="form_i3">Сервісне обслуговування</option><option data-i18n="form_i4">Інше питання</option></select>
           </div>
-          <div class="field"><label data-i18n="form_com">Коментар (необов'язково)</label><textarea id="cf-comment" placeholder="Наприклад: кімната 20 м², 5 поверх..." data-i18n-ph="form_com_ph"></textarea></div>
+          <div class="field"><label for="cf-comment" data-i18n="form_com">Коментар (необов'язково)</label><textarea id="cf-comment" placeholder="Наприклад: кімната 20 м², 5 поверх..." data-i18n-ph="form_com_ph"></textarea></div>
           <button class="btn-submit" onclick="submitContact()" data-i18n="form_btn">Отримати консультацію</button>
           <p class="form-note" data-i18n="form_note">Надсилаючи форму, ви погоджуєтесь на обробку персональних даних</p>
         </div>
@@ -564,6 +565,7 @@
 </section>
 
 <!-- FOOTER -->
+</main>
 <footer>
   <div class="foot-in">
     <div class="foot-brand">
@@ -644,8 +646,8 @@
     <h3 id="cb-title" data-i18n="cb_btn">Замовити дзвінок</h3>
     <p id="cb-sub" data-i18n="cb_p">Менеджер передзвонить вам протягом 15 хвилин.</p>
     <div id="cb-form">
-      <div class="field"><label data-i18n="cb_name">Ваше ім'я</label><input type="text" id="cb-name" placeholder="Ім'я"></div>
-      <div class="field"><label data-i18n="cb_phone">Телефон</label><input type="tel" id="cb-phone" placeholder="+38 (___) ___-__-__"></div>
+      <div class="field"><label for="cb-name" data-i18n="cb_name">Ваше ім'я</label><input type="text" id="cb-name" placeholder="Ім'я"></div>
+      <div class="field"><label for="cb-phone" data-i18n="cb_phone">Телефон</label><input type="tel" id="cb-phone" placeholder="+38 (___) ___-__-__"></div>
       <div class="field" id="cb-product-wrap" style="display:none"><label for="cb-product" data-i18n="cb_product">Товар</label><input type="text" id="cb-product" readonly></div>
       <!-- Optional on purpose. Google Customer Reviews needs an address to send
            its survey to, and that survey is the only route to the seller rating

@@ -1142,7 +1142,10 @@ body = body.replace(/src="(\/assets\/img\/(?:site|logo)[^"]*)"/g, (m, u) => `src
 
 // shared chrome (header before hero; footer+modals+floats from <footer> onward) for product pages
 const _heroAt = body.indexOf('<section class="hero"');
-const _footAt = body.indexOf('<footer');
+/* Cut at </main>, not at <footer>: the main landmark opens inside HEADER, so
+   the slice that becomes FOOTER has to carry the tag that closes it. Cutting a
+   line later left every inner page with an unclosed <main>. */
+const _footAt = body.indexOf('</main>');
 /* On inner pages the homepage-section anchors must point at "/#…" — and at the
    language's own home page: a Russian visitor clicking "Монтаж" was being sent
    to the Ukrainian one. */
