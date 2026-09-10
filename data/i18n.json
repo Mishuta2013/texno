@@ -864,7 +864,10 @@
     "hp_d3": "у середу",
     "hp_d4": "у четвер",
     "hp_d5": "у пʼятницю",
-    "hp_d6": "у суботу"
+    "hp_d6": "у суботу",
+    "cb_email": "E-mail — необов'язково",
+    "cb_email_hint": "Надішлемо чек і гарантійний талон",
+    "err_email": "Схоже на помилку в адресі. Приклад: ім’я@пошта.com"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1731,7 +1734,10 @@
     "hp_d3": "в среду",
     "hp_d4": "в четверг",
     "hp_d5": "в пятницу",
-    "hp_d6": "в субботу"
+    "hp_d6": "в субботу",
+    "cb_email": "E-mail — необязательно",
+    "cb_email_hint": "Пришлём чек и гарантийный талон",
+    "err_email": "Похоже на ошибку в адресе. Пример: имя@почта.com"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -2567,6 +2573,9 @@
     "hp_d3": "Wednesday",
     "hp_d4": "Thursday",
     "hp_d5": "Friday",
-    "hp_d6": "Saturday"
+    "hp_d6": "Saturday",
+    "cb_email": "E-mail — optional",
+    "cb_email_hint": "We will send the receipt and warranty card",
+    "err_email": "That address looks wrong. Example: name@mail.com"
   }
 }

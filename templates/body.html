@@ -647,6 +647,13 @@
       <div class="field"><label data-i18n="cb_name">Ваше ім'я</label><input type="text" id="cb-name" placeholder="Ім'я"></div>
       <div class="field"><label data-i18n="cb_phone">Телефон</label><input type="tel" id="cb-phone" placeholder="+38 (___) ___-__-__"></div>
       <div class="field" id="cb-product-wrap" style="display:none"><label for="cb-product" data-i18n="cb_product">Товар</label><input type="text" id="cb-product" readonly></div>
+      <!-- Optional on purpose. Google Customer Reviews needs an address to send
+           its survey to, and that survey is the only route to the seller rating
+           in search — but a required field on an order form costs orders, and
+           orders are the point. Left blank, everything works exactly as before. -->
+      <div class="field"><label for="cb-email" data-i18n="cb_email">E-mail — необов'язково</label>
+        <input type="email" id="cb-email" inputmode="email" autocomplete="email" placeholder="you@example.com">
+        <span class="field-hint" data-i18n="cb_email_hint">Надішлемо чек і гарантійний талон</span></div>
       <input type="text" id="cb-hp" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <!--TURNSTILE-->
       <button class="btn-submit" onclick="submitCb()" style="margin-top:6px" data-i18n="cb_btn2">Передзвоніть мені</button>

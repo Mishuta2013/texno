@@ -24,6 +24,14 @@ const price = v => {
   return Number.isFinite(n) && n > 0 && n < 1e6
     ? n.toLocaleString('uk-UA').replace(/ /g, ' ') : null;
 };
+/* One address, no spaces, sane length — enough to keep a bot from stuffing a
+   payload through a field the form leaves optional. Anything else is dropped
+   silently: the phone is what the manager calls, and a bad address must not
+   cost the shop the order. */
+const email = v => {
+  const s = String(v ?? '').trim();
+  return s.length <= 254 && /^[^\s@<>"']+@[^\s@<>"']+\.[^\s@<>"']{2,}$/.test(s) ? s : null;
+};
 /* A message arriving in the owner's Telegram with a tappable link has to point
    at this shop and nowhere else, whatever the request body says. */
 const link = v => {
@@ -161,6 +169,10 @@ export default async function handler(req, res) {
     `<b>${typeMap[b.type] || typeMap['']}</b> — TexnoPlaza`,
     b.name && `👤 ${esc(b.name)}`,
     `📱 <b>${esc(phone)}</b>`,
+    /* Optional on the form, so usually absent. Shape-checked rather than
+       trusted: it is echoed into an HTML message, and it is the address a
+       Google Customer Reviews survey would later be sent to. */
+    email(b.email) && `✉️ ${esc(email(b.email))}`,
     b.product && `📦 Модель: ${esc(b.product)}`,
     b.product && price(b.price) && `💰 Ціна: <b>${price(b.price)} грн</b>`,
     b.product && link(b.url) && `🔗 ${esc(link(b.url))}`,

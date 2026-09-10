@@ -831,6 +831,12 @@ function watchPhone(input){
     if(v)fieldError(input,phoneProblem(v));
   });
 }
+/* Optional, so it is checked only when it holds something. A typo here must
+   never cost the order — the phone is what the manager actually calls. */
+function emailProblem(v){
+  if(!v)return '';
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? '' : t('err_email');
+}
 async function submitCb(){
   const hp=$('cb-hp');if(hp&&hp.value)return;   // spam bots fill every field they find
   const ph=$('cb-phone').value.trim();
@@ -838,8 +844,12 @@ async function submitCb(){
   const bad=phoneProblem(ph);
   if(bad){fieldError($('cb-phone'),bad);return;}
   fieldError($('cb-phone'),'');
+  const em=($('cb-email')&&$('cb-email').value.trim())||'';
+  const emBad=emailProblem(em);
+  if(emBad){fieldError($('cb-email'),emBad);return;}
+  if($('cb-email'))fieldError($('cb-email'),'');
   const ok=await sendLead({type:window.__CB_TYPE__||'callback',name:$('cb-name').value.trim(),
-    phone:ph,product:$('cb-product').value||'',
+    phone:ph,email:em,product:$('cb-product').value||'',
     slug:window.__CB_SLUG__||'',price:window.__CB_PRICE__||'',url:window.__CB_URL__||'',
     lang:LANG});
   if(ok){$('cb-form').style.display='none';$('cb-success').style.display='block';

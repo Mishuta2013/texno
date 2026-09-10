@@ -545,6 +545,9 @@ input[type=range]{height:26px;padding:10px 0;background-clip:content-box}
 .form-card>p{color:rgba(233,243,255,.65);font-size:14.5px;margin-bottom:22px;position:relative}
 .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .field{margin-bottom:14px;position:relative}
+/* Why an optional field is worth filling in — said under it, not in the
+   placeholder, which disappears the moment someone starts typing. */
+.field-hint{display:block;margin-top:6px;font-size:12px;line-height:1.4;color:rgba(233,243,255,.6)}
 .field label{display:block;font-size:13px;font-weight:600;color:rgba(233,243,255,.8);margin-bottom:7px;font-family:var(--disp)}
 .field input,.field select,.field textarea{width:100%;background:rgba(255,255,255,.07);border:1.5px solid rgba(124,196,255,.2);border-radius:var(--r-sm);padding:12px 14px;font-size:14.5px;font-family:var(--body);color:#fff;outline:none;transition:.16s}
 .field input::placeholder,.field textarea::placeholder{color:rgba(233,243,255,.4)}
