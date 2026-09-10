@@ -1086,7 +1086,7 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
   /* hide floating WA (replaced by sticky bar) */
   .wa-float,.vb-float{display:none}
   /* room for the sticky CTA bar */
-  body{padding-bottom:calc(82px + env(safe-area-inset-bottom))}  /* clears .mcta, measured at 73px */
+  body{padding-bottom:calc(94px + env(safe-area-inset-bottom))}  /* clears .mcta, measured at 87px */
 }
 @media(max-width:480px){
   /* de-crowd header (sticky CTA covers call/order on mobile) */
@@ -1111,7 +1111,7 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
    taking a quarter of the screen each. */
 @media(max-width:760px){
   .mcta{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;position:fixed;left:0;right:0;bottom:0;z-index:130;
-    padding:7px 6px calc(6px + env(safe-area-inset-bottom,0px));
+    padding:8px 6px calc(7px + env(safe-area-inset-bottom,0px));
     background:linear-gradient(180deg,rgba(16,32,62,.93),rgba(9,20,40,.98));
     backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);
     border-top:1px solid rgba(124,196,255,.16);
@@ -1122,26 +1122,27 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
   /* icon over label: four labels side by side in pills had to shrink to 11px
      and still nearly touched; stacked, each tab gets its full width back */
   .mcta-b{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
-    min-height:52px;padding:5px 2px;border-radius:14px;background:none;border:none;cursor:pointer;
-    font-family:var(--disp);font-weight:600;font-size:10.5px;line-height:1;letter-spacing:-.005em;
+    min-height:64px;padding:6px 2px;border-radius:16px;background:none;border:none;cursor:pointer;
+    font-family:var(--disp);font-weight:700;font-size:12px;line-height:1;letter-spacing:-.005em;
     color:rgba(233,243,255,.82);text-decoration:none;white-space:nowrap;
     -webkit-tap-highlight-color:transparent;transition:color .18s ease}
   /* the icon sits in its own disc — that disc is what carries the colour */
-  .mcta-i{display:grid;place-items:center;width:34px;height:34px;border-radius:12px;
-    background:rgba(255,255,255,.07);transition:transform .22s cubic-bezier(.2,.8,.2,1),background .18s ease}
-  .mcta-b svg{width:18px;height:18px;fill:currentColor;flex:0 0 auto}
-  .mcta-b.call .mcta-i{background:var(--cta);color:#fff;box-shadow:0 6px 16px rgba(22,104,214,.45)}
-  .mcta-b.wa   .mcta-i{background:rgba(37,211,102,.16);color:#3DDC7F}
-  .mcta-b.vb   .mcta-i{background:rgba(124,106,255,.18);color:#A79BFF}
-  .mcta-b.qz   .mcta-i{background:rgba(255,122,41,.16);color:#FFA163}
+  .mcta-i{display:grid;place-items:center;width:44px;height:44px;border-radius:15px;
+    background:rgba(255,255,255,.09);transition:transform .22s cubic-bezier(.2,.8,.2,1),background .18s ease}
+  .mcta-b svg{width:23px;height:23px;fill:currentColor;flex:0 0 auto}
+  .mcta-b.call .mcta-i{background:var(--cta);color:#fff;box-shadow:0 8px 20px rgba(22,104,214,.5)}
+  .mcta-b.wa   .mcta-i{background:rgba(37,211,102,.24);color:#5BE79A}
+  .mcta-b.vb   .mcta-i{background:rgba(124,106,255,.26);color:#BDB2FF}
+  .mcta-b.qz   .mcta-i{background:rgba(255,122,41,.24);color:#FFB07A}
   .mcta-b.call{color:#fff}
   .mcta-b:active{color:#fff}
   .mcta-b:active .mcta-i{transform:scale(.9)}
   @media(prefers-reduced-motion:reduce){.mcta-i{transition:none}.mcta-b:active .mcta-i{transform:none}}
 }
 @media(max-width:360px){
-  .mcta-b{font-size:10px}
-  .mcta-i{width:32px;height:32px}
+  .mcta-b{font-size:11px}
+  .mcta-i{width:40px;height:40px;border-radius:14px}
+  .mcta-b svg{width:21px;height:21px}
 }
 
 /* ===== topbar: address link / contact / lang ===== */
