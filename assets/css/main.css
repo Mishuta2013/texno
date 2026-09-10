@@ -1086,7 +1086,7 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
   /* hide floating WA (replaced by sticky bar) */
   .wa-float,.vb-float{display:none}
   /* room for the sticky CTA bar */
-  body{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+  body{padding-bottom:calc(82px + env(safe-area-inset-bottom))}  /* clears .mcta, measured at 73px */
 }
 @media(max-width:480px){
   /* de-crowd header (sticky CTA covers call/order on mobile) */
@@ -1103,25 +1103,45 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 }
 /* sticky mobile CTA bar */
 .mcta{display:none}
+/* ===== mobile action bar =====
+   Was four saturated brand blocks butted against each other, all the same
+   size and shouting equally, so nothing read as the thing to press. Now it is
+   one bar: the call carries a filled accent, the rest are quiet, and the brand
+   colours survive in the icons where they are still recognisable without
+   taking a quarter of the screen each. */
 @media(max-width:760px){
-  .mcta{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;position:fixed;left:0;right:0;bottom:0;z-index:130;
-    background:rgba(11,26,51,.97);backdrop-filter:saturate(160%) blur(10px);
-    padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px));border-top:1px solid rgba(124,196,255,.18)}
-  .mcta-b{display:flex;align-items:center;justify-content:center;gap:5px;height:46px;border-radius:12px;
-    font-family:var(--disp);font-weight:700;font-size:12.5px;color:#fff;text-decoration:none;border:none;cursor:pointer;white-space:nowrap;padding:0 4px;overflow:hidden}
-  .mcta-b svg{width:16px;height:16px;fill:currentColor;flex:0 0 auto}
-  /* Same story as the buttons above: white on these brand colours measured
-     3.36, 1.98, 4.48 and 2.60. The green and the amber keep their hue and take
-     dark text; the blue and the violet go a shade deeper so white can stay. */
-  .mcta-b.call{background:var(--cta)}
-  .mcta-b.wa{background:#25D366;color:var(--on-bright)}
-  .mcta-b.vb{background:#5340C4}
-  .mcta-b.qz{background:var(--amber);color:var(--on-bright)}
-  .mcta-b:active{transform:scale(.97)}
+  .mcta{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;position:fixed;left:0;right:0;bottom:0;z-index:130;
+    padding:7px 6px calc(6px + env(safe-area-inset-bottom,0px));
+    background:linear-gradient(180deg,rgba(16,32,62,.93),rgba(9,20,40,.98));
+    backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);
+    border-top:1px solid rgba(124,196,255,.16);
+    border-radius:20px 20px 0 0;
+    /* the hairline inside the top edge is what makes it read as glass rather
+       than a block of navy pasted over the page */
+    box-shadow:0 -14px 34px rgba(4,10,22,.5),inset 0 1px 0 rgba(255,255,255,.07)}
+  /* icon over label: four labels side by side in pills had to shrink to 11px
+     and still nearly touched; stacked, each tab gets its full width back */
+  .mcta-b{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+    min-height:52px;padding:5px 2px;border-radius:14px;background:none;border:none;cursor:pointer;
+    font-family:var(--disp);font-weight:600;font-size:10.5px;line-height:1;letter-spacing:-.005em;
+    color:rgba(233,243,255,.82);text-decoration:none;white-space:nowrap;
+    -webkit-tap-highlight-color:transparent;transition:color .18s ease}
+  /* the icon sits in its own disc — that disc is what carries the colour */
+  .mcta-i{display:grid;place-items:center;width:34px;height:34px;border-radius:12px;
+    background:rgba(255,255,255,.07);transition:transform .22s cubic-bezier(.2,.8,.2,1),background .18s ease}
+  .mcta-b svg{width:18px;height:18px;fill:currentColor;flex:0 0 auto}
+  .mcta-b.call .mcta-i{background:var(--cta);color:#fff;box-shadow:0 6px 16px rgba(22,104,214,.45)}
+  .mcta-b.wa   .mcta-i{background:rgba(37,211,102,.16);color:#3DDC7F}
+  .mcta-b.vb   .mcta-i{background:rgba(124,106,255,.18);color:#A79BFF}
+  .mcta-b.qz   .mcta-i{background:rgba(255,122,41,.16);color:#FFA163}
+  .mcta-b.call{color:#fff}
+  .mcta-b:active{color:#fff}
+  .mcta-b:active .mcta-i{transform:scale(.9)}
+  @media(prefers-reduced-motion:reduce){.mcta-i{transition:none}.mcta-b:active .mcta-i{transform:none}}
 }
-@media(max-width:430px){
-  .mcta-b{font-size:11px;gap:4px;letter-spacing:-.01em}
-  .mcta-b svg{width:15px;height:15px}
+@media(max-width:360px){
+  .mcta-b{font-size:10px}
+  .mcta-i{width:32px;height:32px}
 }
 
 /* ===== topbar: address link / contact / lang ===== */
