@@ -1,0 +1,23 @@
+{
+  "_readme": "Backup-power bundles. Unlike everything in products.json these are not a model on a shelf: the shop assembles one from whatever inverter and battery fit the customer, after a phone call. So there is no brand, no model code and no photograph — the illustration is a diagram and says so. Only what is fixed is written here: the inverter's power, the battery's capacity, the price, and what that price covers. The owner confirmed on 2026-09-10 that the inverter figure is power (kW) and the battery figure is capacity (kWh), and that the price covers the inverter, the battery, the display and the cables between battery and inverter.",
+  "items": [
+    {
+      "slug": "invertor-4-kvt-akumulyator-2-5-kvt-god",
+      "inverterKw": 4,
+      "batteryKwh": 2.5,
+      "price": 44999
+    },
+    {
+      "slug": "invertor-4-kvt-akumulyator-8-kvt-god",
+      "inverterKw": 4,
+      "batteryKwh": 8,
+      "price": 61999
+    },
+    {
+      "slug": "invertor-6-kvt-akumulyator-5-kvt-god",
+      "inverterKw": 6,
+      "batteryKwh": 5,
+      "price": 64999
+    }
+  ]
+}

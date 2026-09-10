@@ -723,6 +723,18 @@ function openOrder(slug){
   currentProduct=p;
   openCb(null,pnameJS(p),slug);
 }
+/* The bundles page. Its three offers are not in PRODUCTS — there is no model
+   until the customer calls and one gets assembled — so the name and the price
+   are passed in rather than looked up. Everything downstream is unchanged:
+   Telegram gets the same 📦 line and the same 💰 line it gets for a product,
+   which is the whole point of sending the price along. */
+function openKit(btn){
+  const name=btn&&btn.dataset?btn.dataset.kit:'';
+  const price=btn&&btn.dataset?+btn.dataset.price:'';
+  openCb(null,name,'');
+  window.__CB_PRICE__=price||'';
+  window.__CB_URL__=location.origin+location.pathname;
+}
 /* kind 'question' comes from the product page's "Задати питання" — same form,
    but the heading and the Telegram label say it is a question, not a callback. */
 const CB_KINDS={question:['question','pp_ask_sub','cb_p'],cheaper:['cheaper','pp_cheaper_h','pp_cheaper_p']};
