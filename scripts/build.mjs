@@ -265,6 +265,18 @@ const subCounts = s => String(s)
   .replace(/\{\{PRICE\}\}/g, () => fmt(site.installPrice))
   .replace(new RegExp(`\{\{(${CAT_CODES.join('|')})_FROM\}\}`, 'g'), (m, k) => FROM(k))
   .replace(/\{\{FR_NOFROST\}\}/g, () => NOFROST())
+  /* The shop's real Google rating, for the one place in a search result we
+     actually control — the description text. The star annotation itself is a
+     Merchant Center store rating and cannot be produced by markup; Google
+     rules out reviews an entity publishes about itself ("ineligible for star
+     review feature"). Saying the number in words is honest and allowed.
+     Templated rather than typed into the translation, so it cannot drift from
+     data/reviews.json, which is the figure read off the Google profile. */
+  /* toFixed(1) because JSON's 5.0 stringifies to "5", and "5 ★" reads as a
+     count of stars rather than a score out of five. */
+  .replace(/\{\{RATING\}\}/g, () => REVIEWS.rating == null ? ''
+    : Number(REVIEWS.rating).toFixed(1).replace('.', L === 'en' ? '.' : ','))
+  .replace(/\{\{REVIEWS\}\}/g, () => String(REVIEWS.count ?? ''))
   .replace(new RegExp(`\{\{(TOTAL|${CAT_CODES.join('|')})\}\}`, 'g'), (m, k) => COUNTS[k]);
 const t = (k) => subCounts((i18n[L] && i18n[L][k]) ?? (i18n.uk && i18n.uk[k]) ?? k);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -1011,6 +1023,26 @@ function starRow(n) {
     `<svg viewBox="0 0 24 24"${i < n ? '' : ' class="rev-star-off"'}><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>`
   ).join('') + '</div>';
 }
+/* The 5,0 from 54 Google reviews sat in a section five screens down, where a
+   visitor deciding whether to trust an unfamiliar shop never reaches it. This
+   puts it beside the hero badge, linked to the profile so anyone can check.
+   Renders nothing when the figures are absent — data/reviews.json is allowed
+   to hold null rather than something plausible. */
+function heroRating() {
+  const R = REVIEWS || {};
+  if (!R.rating || !R.count) return '';
+  const score = Number(R.rating).toFixed(1).replace('.', L === 'en' ? '.' : ',');
+  /* One star, not five: the row shares a line with the opening hours, and five
+     of them crowd it out on a phone. The full "N reviews on Google" is the
+     accessible name and the tooltip, so nothing is hidden — only shortened. */
+  const label = `${score} · ${R.count} ${t('rev_on_google')}`;
+  const star = '<svg class="hr-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>';
+  const inner = `${star}<b>${score}</b><span>Google</span>`;
+  return R.googleUrl
+    ? `<a class="hero-rate" href="${esc(R.googleUrl)}" target="_blank" rel="noopener nofollow" title="${esc(label)}" aria-label="${esc(label)}">${inner}</a>`
+    : `<span class="hero-rate" title="${esc(label)}">${inner}</span>`;
+}
+
 function reviewsSection() {
   const R = REVIEWS || {};
   const items = Array.isArray(R.items) ? R.items : [];
@@ -1042,6 +1074,7 @@ function reviewsSection() {
    place_id form is the one Google documents as stable, and it lives in
    site.json so the three copies cannot drift apart again. */
 body = body.split('{{MAP_URL}}').join(esc(site.mapUrl));
+fill('<!--HERO_RATING-->', heroRating());
 fill('<!--REVIEWS-->', reviewsSection());
 fill('<!--FAQ_ITEMS-->', faqTopics() + faqItems());
 body = applyI18nStatic(body);   // bake the current language into static HTML (SEO)
@@ -1630,7 +1663,7 @@ function brandPage(cat, brand) {
   const fill = str => str
     .replace('{brand}', brand).replace('{cat}', (lf(cat, 'nameGen') || CAT).toLowerCase())
     .replace('{n}', list.length).replace('{plural}', plural)
-    .replace('{price}', priceText);
+    .replace('{price}', priceText).replace('{from}', fmt(lo));
   const intro = fill(t('brand_intro'));
   const jsonld = {
     '@context': 'https://schema.org', '@type': 'CollectionPage', name: NAME, url: abs(burl(cat, brand)),
@@ -1656,7 +1689,7 @@ ${head({
      Сумах — ціни, наявність, доставка"; the promises after the dash are the
      expendable part, so drop them one at a time until the line fits. */
   title: (() => {
-    const full = t('brand_seo_t').replace('{name}', NAME)
+    const full = fill(t('brand_seo_t').replace('{name}', NAME))
       .replace(/\s*[|·—–-]\s*TexnoPlaza\s*$/i, '').trim();
     const room = 65 - TITLE_PREFIX.length;
     if (full.length <= room) return full;

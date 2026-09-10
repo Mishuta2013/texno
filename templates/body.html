@@ -80,7 +80,14 @@
         <span class="hp-pin" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
         <span class="hp-txt">
           <a class="hp-addr" href="#contacts" data-i18n="hp_addr">Суми, вул. Харківська 2/1</a>
-          <span class="hp-state" id="hp-state" data-i18n="top_hours">Пн–Пт 10:00–18:00 · Сб 10:00–17:00 · Нд 10:00–14:00</span>
+          <!-- The Google score shares this line rather than taking one of its
+               own: stacked under the badge it pushed the hero's buttons off a
+               900px screen, and a trust signal nobody scrolls to is no signal.
+               It must sit beside .hp-state, never inside it — renderShopState
+               replaces that element's children every minute. -->
+          <span class="hp-line2">
+            <span class="hp-state" id="hp-state" data-i18n="top_hours">Пн–Пт 10:00–18:00 · Сб 10:00–17:00 · Нд 10:00–14:00</span><!--HERO_RATING-->
+          </span>
         </span>
         <!-- the label needs its own span: applyI18nStatic replaces the text of
              whatever carries data-i18n, and would eat the arrow with it -->
