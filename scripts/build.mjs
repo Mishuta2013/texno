@@ -493,6 +493,12 @@ function card(p) {
       </div></div></div>`;
 }
 
+/* The five «Хіт продажів» cards carried a photo, a name and three specs — and
+   no price, which is the one number a visitor is actually deciding on. It sat
+   four screens down in the catalogue. Same markup as .card-price, so the two
+   read as the same thing in two places. */
+const gcPrice = p => `<div class="gc-price">${fmt(p.price)} <small>${esc(t('u_uah'))}</small></div>`;
+
 function heroCard(p) {
   const s = p.specs || {};
   return `<a class="gauge-card" href="${purl(p)}">
@@ -500,6 +506,7 @@ function heroCard(p) {
     <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
     <div class="gc-img"><img src="${esc(av(p.photos[0]))}" alt="${esc(pname(p))}" width="680" height="510" loading="lazy"><div class="gc-airflow" id="airflow"></div></div>
     <div class="gc-name">${esc(pname(p))}</div>
+    ${gcPrice(p)}
     <div class="gc-readout">
       <div class="gc-r"><div class="v">${fmt(p.btu)}<small> BTU</small></div><div class="k">${esc(t('gc_power'))}</div></div>
       <div class="gc-r"><div class="v">${esc(s.eclass || 'A++')}</div><div class="k">${esc(t('gc_class'))}</div></div>
@@ -514,6 +521,7 @@ function heroStationCard(p) {
     <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
     <div class="gc-img"><img src="${esc(av(p.photos[0]))}" alt="${esc(pname(p))}" width="680" height="510" fetchpriority="high"><div class="gc-charge" id="charge"></div></div>
     <div class="gc-name">${esc(pname(p))}</div>
+    ${gcPrice(p)}
     <div class="gc-readout">
       <div class="gc-r"><div class="v">${fmt(s.capacity_wh)}<small> ${esc(t("u_wh"))}</small></div><div class="k">${esc(t("hc_capacity"))}</div></div>
       <div class="gc-r"><div class="v">${fmt(s.output_w)}<small> ${esc(t("u_w"))}</small></div><div class="k">${esc(t("hc_power"))}</div></div>
@@ -528,6 +536,7 @@ function heroBoilerCard(p) {
     <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
     <div class="gc-img"><img src="${esc(av(p.photos[0]))}" alt="${esc(pname(p))}" width="680" height="510" loading="lazy"><div class="gc-warm"></div></div>
     <div class="gc-name">${esc(pname(p))}</div>
+    ${gcPrice(p)}
     <div class="gc-readout">
       <div class="gc-r"><div class="v">${esc(s.volume_l)}<small> ${esc(t("u_l"))}</small></div><div class="k">${esc(t("hc_volume"))}</div></div>
       <div class="gc-r"><div class="v">${esc(s.power_w)}<small> ${esc(t("u_w"))}</small></div><div class="k">${esc(t("hc_power"))}</div></div>
@@ -541,6 +550,7 @@ function heroWasherCard(p) {
     <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
     <div class="gc-img"><img src="${esc(av(p.photos[0]))}" alt="${esc(pname(p))}" width="680" height="510" loading="lazy"><div class="gc-drum"></div></div>
     <div class="gc-name">${esc(pname(p))}</div>
+    ${gcPrice(p)}
     <div class="gc-readout">
       <div class="gc-r"><div class="v">${esc(s.load_kg)}<small> ${esc(t("u_kg"))}</small></div><div class="k">${esc(t("hc_load"))}</div></div>
       <div class="gc-r"><div class="v">${fmt(s.rpm)}<small> ${esc(t("u_rpm"))}</small></div><div class="k">${esc(t("hc_spin"))}</div></div>
@@ -555,6 +565,7 @@ function heroFridgeCard(p) {
     <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
     <div class="gc-img"><img src="${esc(av(p.photos[0]))}" alt="${esc(pname(p))}" width="680" height="510" loading="lazy"><div class="gc-chill" id="chill"></div></div>
     <div class="gc-name">${esc(pname(p))}</div>
+    ${gcPrice(p)}
     <div class="gc-readout">
       <div class="gc-r"><div class="v">${esc(s.volume_l)}<small> ${esc(t("u_l"))}</small></div><div class="k">${esc(t("hc_volume"))}</div></div>
       <div class="gc-r"><div class="v">${esc(s.height_cm)}<small> ${esc(t("u_cm"))}</small></div><div class="k">${esc(t("hc_height"))}</div></div>
@@ -702,6 +713,35 @@ const DELIVERY_MAP = fs.existsSync(path.join(ROOT, 'templates/map.svg'))
    strip all want the thumbnail, and every product has one. */
 const missingThumb = products.filter(p => !p.thumb);
 if (missingThumb.length) throw new Error('no thumb: ' + missingThumb.map(p => p.slug).join(', '));
+/* A spec value with no entry in spec-values.json falls back to the Ukrainian
+   text, which on the English page reads "Charging time: 100% приблизно за 2
+   години" under an English label. Nothing caught that — it was found by
+   opening the page. So: refuse to build.
+
+   Unit abbreviations are one or two Cyrillic letters and are spelled the same
+   in Ukrainian and Russian, so "555 × 585 × 560 мм" needs no Russian entry;
+   three letters or more is prose, and prose needs a translator. English has no
+   such luck — any Cyrillic at all has to be either translated or declared
+   identical on purpose. */
+{
+  const CYR = /[А-Яа-яЇїІіЄєҐґ]/, WORD = /[А-Яа-яЇїІіЄєҐґ]{3,}/;
+  const bad = new Map();
+  for (const p of products) {
+    const keys = new Set(((CATS[p.category] || {}).specs || []).map(s => s.key));
+    for (const [k, v] of Object.entries(p.specs || {})) {
+      if (!keys.has(k) || typeof v !== 'string') continue;
+      for (const lang of ['ru', 'en']) {
+        if (SPECV[v] && SPECV[v][lang]) continue;
+        const unitOnly = (UNIT_TR[lang] || []).some(([re]) => re.test(v) && NUMERIC_VAL.test(v));
+        if (unitOnly) continue;
+        if (lang === 'ru' ? WORD.test(v) : CYR.test(v))
+          bad.set(`${lang} · ${v}`, (bad.get(`${lang} · ${v}`) || p.slug));
+      }
+    }
+  }
+  if (bad.size) throw new Error('spec values with no translation in data/spec-values.json:\n  '
+    + [...bad].map(([k, slug]) => `[${k}]  first seen on ${slug}`).join('\n  '));
+}
 const catalogData = products.map(({ desc_ru, desc_en, desc_uk, srcIndex, photoCount, photos, ...keep }) =>
   ({ ...keep, thumb: av(keep.thumb) }));
 /* The browser reads five things out of a category: its code for the {{XX}}

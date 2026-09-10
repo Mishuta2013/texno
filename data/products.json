@@ -1856,7 +1856,7 @@
     "brand": "Fossibot",
     "series": "F1800",
     "name": "Зарядна станція Fossibot F1800 1800W 1024Wh Black",
-    "price": 30999,
+    "price": 29999,
     "category": "zaryadni-stantsii",
     "ups": true,
     "specs": {
@@ -1895,6 +1895,52 @@
       "/assets/img/products/fossibot-f1800-1800w-1024wh/6.webp"
     ],
     "pin": 1
+  },
+  {
+    "brand": "Fossibot",
+    "series": "F2400",
+    "name": "Зарядна станція Fossibot F2400 2400W 2048Wh",
+    "price": 46999,
+    "category": "zaryadni-stantsii",
+    "ups": true,
+    "specs": {
+      "capacity_wh": 2048,
+      "battery": "LiFePO₄ (EVE)",
+      "cycles": "3500+ (до 80%)",
+      "output_w": 2400,
+      "surge_w": 4800,
+      "waveform": "Чиста синусоїда",
+      "ac_sockets": 3,
+      "ac_hz": "220–240 В, 50/60 Гц (перемикання)",
+      "usb_c": "1 × 100 Вт + 3 × 20 Вт (PD)",
+      "usb_a": "2 × 18 Вт (QC 3.0)",
+      "car_out": "12 В / 10 A",
+      "dc_out": "12 В / 25 A + 2 × DC5521 12 В / 3 A",
+      "ac_in_w": 1100,
+      "charge_time": "100% приблизно за 2 години",
+      "dc_in": "11.5–50 В, до 500 Вт (MPPT)",
+      "ups_ms": "≤10 мс",
+      "weight": "22 кг",
+      "dims": "386 × 284 × 321 мм",
+      "op_temp": "Розряд −15…+40 °C · заряд 0…+40 °C",
+      "protections": "BMS автомобільного класу",
+      "warranty": "2 + 3 роки",
+      "features": "HD-дисплей, LED-ліхтар і SOS, регулювання швидкості заряджання 300/500/700/1100 Вт, Wi-Fi, Bluetooth, застосунок FOSSiBOT"
+    },
+    "desc_uk": "Найпотужніша станція Fossibot у каталозі: 2048 Вт·год ємності та 2400 Вт номінальної потужності, пік 4800 Вт — вистачає, щоб запустити насос опалення або компресор холодильника. Три розетки 220–240 В із чистою синусоїдою, чотири USB-C (один на 100 Вт для ноутбука), два USB-A QC3.0 та три DC-виходи, зокрема 12 В / 25 A. Комірки LiFePO₄ від EVE витримують понад 3500 циклів до 80% ємності. Від мережі заряджається до 100% приблизно за 2 години, і швидкість заряджання вибирається ручкою — 300, 500, 700 або 1100 Вт, щоб не навантажувати стару проводку. Сонячний вхід приймає до 500 Вт (11.5–50 В); разом із мережею це 1600 Вт і повний заряд за півтори години. UPS перемикає живлення за 10 мс — комп’ютер чи котел не помітять зникнення світла.",
+    "desc_ru": "Самая мощная станция Fossibot в каталоге: 2048 Вт·ч ёмкости и 2400 Вт номинальной мощности, пик 4800 Вт — хватает, чтобы запустить насос отопления или компрессор холодильника. Три розетки 220–240 В с чистой синусоидой, четыре USB-C (один на 100 Вт для ноутбука), два USB-A QC3.0 и три DC-выхода, в том числе 12 В / 25 A. Ячейки LiFePO₄ от EVE выдерживают более 3500 циклов до 80% ёмкости. От сети заряжается до 100% примерно за 2 часа, причём скорость зарядки выбирается ручкой — 300, 500, 700 или 1100 Вт, чтобы не нагружать старую проводку. Солнечный вход принимает до 500 Вт (11.5–50 В); вместе с сетью это 1600 Вт и полный заряд за полтора часа. UPS переключает питание за 10 мс — компьютер или котёл не заметят отключения света.",
+    "desc_en": "The most powerful Fossibot in our catalogue: 2048Wh of capacity and 2400W rated output with a 4800W surge — enough to start a heating pump or a fridge compressor. Three 220–240V sockets with a pure sine wave inverter, four USB-C ports (one 100W for a laptop), two QC3.0 USB-A ports and three DC outputs including 12V/25A. EVE LiFePO₄ cells are rated for over 3500 cycles to 80% capacity. A wall recharge reaches 100% in about 2 hours, and the input dial picks the rate — 300, 500, 700 or 1100W — so old wiring is not pushed. Solar input takes up to 500W (11.5–50V); combined with the wall that is 1600W and a full charge in an hour and a half. The UPS switches over in 10ms, so a computer or a boiler never notices the blackout.",
+    "slug": "fossibot-f2400-2400w-2048wh",
+    "thumb": "/assets/img/products/fossibot-f2400-2400w-2048wh/thumb.webp",
+    "photos": [
+      "/assets/img/products/fossibot-f2400-2400w-2048wh/1.webp",
+      "/assets/img/products/fossibot-f2400-2400w-2048wh/2.webp",
+      "/assets/img/products/fossibot-f2400-2400w-2048wh/3.webp",
+      "/assets/img/products/fossibot-f2400-2400w-2048wh/4.webp",
+      "/assets/img/products/fossibot-f2400-2400w-2048wh/5.webp",
+      "/assets/img/products/fossibot-f2400-2400w-2048wh/6.webp",
+      "/assets/img/products/fossibot-f2400-2400w-2048wh/7.webp"
+    ]
   },
   {
     "brand": "Haier",
@@ -2959,7 +3005,7 @@
     "brand": "Oukitel",
     "series": "P2001E Plus",
     "name": "Зарядна станція Oukitel P2001E Plus 2400W 2048Wh",
-    "price": 44999,
+    "price": 46999,
     "category": "zaryadni-stantsii",
     "ups": true,
     "specs": {

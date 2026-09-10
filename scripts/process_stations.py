@@ -69,6 +69,15 @@ u"Зарядна станція ALLPOWERS R1500 LITE": ("allpowers-r1500-lite-16
     "654428295.webp",            # front, port panel
     "654428297.webp"]),          # top
 
+u"Зарядна станція Fossibot F2400 2400W 2048Wh": ("fossibot-f2400-2400w-2048wh", [
+    "zariadna-stantsiia-fossibot-f2400-2400-vt-2048-vthod-zelena-94539966227883.webp",  # straight front: display, DC and USB panels
+    "zariadna-stantsiia-fossibot-f2400-2400-vt-2048-vthod-zelena-97409465416681.webp",  # 3/4 right, the three Schuko sockets
+    "zariadna-stantsiia-fossibot-f2400-2400-vt-2048-vthod-zelena-22573625131998.webp",  # 3/4 left
+    "zariadna-stantsiia-fossibot-f2400-2400-vt-2048-vthod-zelena-18898271938052.webp",  # 3/4, port covers open
+    "zariadna-stantsiia-fossibot-f2400-2400-vt-2048-vthod-zelena-51175682266786.webp",  # angled, carry handles
+    "zariadna-stantsiia-fossibot-f2400-2400-vt-2048-vthod-zelena-79329917939844.webp",  # right fan cover
+    "zariadna-stantsiia-fossibot-f2400-2400-vt-2048-vthod-zelena-81223598723382.webp"]),  # left fan cover
+
 "Зарядна станція OUKITEL P2001E Plus": ("oukitel-p2001e-plus-2400w-2048wh", [
     "464621884.webp",            # 3/4
     "464621889.webp",            # 3/4 other side

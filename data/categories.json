@@ -624,10 +624,10 @@
         "label_en": "Charging time"
       },
       {
-        "label": "Сонячний / DC вхід (XT60)",
+        "label": "Сонячний / DC вхід",
         "key": "dc_in",
-        "label_ru": "Солнечный / DC вход (XT60)",
-        "label_en": "Solar / DC input (XT60)"
+        "label_ru": "Солнечный / DC вход",
+        "label_en": "Solar / DC input"
       },
       {
         "label": "Час перемикання UPS",
