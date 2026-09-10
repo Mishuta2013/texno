@@ -258,7 +258,9 @@
         "intro_ru": "22 дБ и ниже — это тише шёпота. Такой кондиционер не мешает спать, поэтому именно эти модели берут в спальню и детскую. Цифра в характеристиках — для самой низкой скорости вентилятора, на максимуме будет громче.",
         "intro_en": "22 dB and below is quieter than a whisper — the models people put in a bedroom."
       }
-    ]
+    ],
+    "quizEyeKey": "quiz_eye",
+    "quizTitleKey": "quiz_h"
   },
   "pralni-mashyny": {
     "name": "Пральні машини",
@@ -497,7 +499,9 @@
         "intro_ru": "Чем выше обороты, тем суше бельё после отжима — и тем меньше ему сохнуть. Разница между 1000 и 1200 заметна, между 1200 и 1400 — уже почти нет, а изнашивается бельё быстрее.",
         "intro_en": "Higher spin means drier laundry, though past 1200 rpm the gain is small."
       }
-    ]
+    ],
+    "quizEyeKey": "wmq_eye",
+    "quizTitleKey": "wmq_h"
   },
   "zaryadni-stantsii": {
     "name": "Зарядні станції",
@@ -774,7 +778,9 @@
         "intro_ru": "Мощность решает, что вообще можно включить. До 1000 Вт — свет, ноутбук, роутер. От 2000 Вт — чайник, микроволновка, насос отопления. Смотрите на пусковую мощность: у техники с мотором она вдвое выше рабочей.",
         "intro_en": "Wattage decides what you can plug in at all: from 2000 W, a kettle or a heating pump."
       }
-    ]
+    ],
+    "quizEyeKey": "quiz_eye",
+    "quizTitleKey": "psq_h"
   },
   "holodylnyky": {
     "name": "Холодильники",
@@ -1083,7 +1089,9 @@
         "intro_ru": "Компрессор не включается рывками, а работает на переменных оборотах: меньше шума, ровнее температура и меньше счёт. Плюс он не боится скачков напряжения так, как обычный.",
         "intro_en": "The compressor runs at variable speed: less noise, steadier temperature, a smaller bill."
       }
-    ]
+    ],
+    "quizEyeKey": "quiz_eye",
+    "quizTitleKey": "frq_h"
   },
   "boylery": {
     "name": "Бойлери",
@@ -1370,7 +1378,9 @@
         "intro_ru": "Восемьдесят литров берут на семью из трёх человек или когда есть ванна, а не только душ. Греется такая ёмкость около трёх часов с нуля, поэтому включать лучше с таймером на ночь.",
         "intro_en": "Eighty litres suits a family of three, or a bath rather than just a shower."
       }
-    ]
+    ],
+    "quizEyeKey": "quiz_eye",
+    "quizTitleKey": "blq_h"
   },
   "duhovi-shafy": {
     "name": "Духові шафи",

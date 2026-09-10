@@ -628,11 +628,20 @@ function applyI18nStatic(html) {
     });
 }
 // full-size quiz embedded in the page (category pages + the homepage category tabs)
-function quizInline(hidden) {
+/* `cat` is optional because the home page renders the picker hidden, with no
+   category chosen yet. Where there is one, its own heading goes in: the static
+   markup used to read "Підберемо ідеальний кондиціонер" on the washing
+   machine, fridge, boiler and power-station pages, and only JS put that right
+   — after the visitor pressed a button they had every reason not to press.
+   main.js keeps its own table of these keys for the running quiz; this is the
+   one that has to be true before anybody clicks. */
+function quizInline(hidden, cat) {
+  const eyeKey = (cat && cat.quizEyeKey) || 'quiz_eye';
+  const titleKey = (cat && cat.quizTitleKey) || 'quiz_h';
   return `<section class="quiz-inline"${hidden ? ' id="quiz-inline" style="display:none"' : ' id="quiz-inline"'}>
     <div class="qi-head">
-      <div class="quiz-eyebrow" id="qi-eyebrow">${esc(t('quiz_eye'))}</div>
-      <h2 class="qi-title" id="qi-title">${esc(t('quiz_h'))}</h2>
+      <div class="quiz-eyebrow" id="qi-eyebrow">${esc(t(eyeKey))}</div>
+      <h2 class="qi-title" id="qi-title">${esc(t(titleKey))}</h2>
       <div class="quiz-prog"><div class="quiz-prog-bar" id="qi-prog"></div></div>
     </div>
     <div class="quiz-body" id="qi-body"></div>
@@ -939,7 +948,7 @@ body = body.replace('<div class="grid" id="catalog-grid"></div>',
     const brands = brandsOf(c.key).map(b =>
       `<li><a href="${pfx()}${c.urlPrefix}/${brandSlug(b)}/">${esc(b)}</a></li>`).join('\n          ');
     return `<div class="foot-col">
-        <h2 class="foot-h"><a href="${curl(c)}">${esc(lf(c, 'name'))}</a></h2>
+        <p class="foot-h"><a href="${curl(c)}">${esc(lf(c, 'name'))}</a></p>
         <ul>
           ${brands}
           <li class="fc-all"><a href="${curl(c)}">${esc(t('foot_all'))} →</a></li>
@@ -1752,7 +1761,7 @@ ${HEADER}
     <div class="cat-count">${list.length} ${esc(plural)} ${esc(t('cat_instock'))}</div>
   </header>
   ${about ? `<div class="brand-about"><p>${esc(about)}</p></div>` : ''}
-  ${lf(cat, 'quizCta') && list.length > 1 ? quizInline(false) : ''}
+  ${lf(cat, 'quizCta') && list.length > 1 ? quizInline(false, cat) : ''}
   <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
   <section class="section catalog cat-catalog" id="catalog">
     <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
@@ -1854,7 +1863,7 @@ ${HEADER}
         ` sizes="(max-width:860px) 94vw, 44vw" alt="${esc(lf(cat, 'coverAlt') || NAME)}" width="800" height="340" fetchpriority="high" decoding="async">`;
     })() : ''}
   </div>
-  ${lf(cat, 'quizCta') ? quizInline(false) : ''}
+  ${lf(cat, 'quizCta') ? quizInline(false, cat) : ''}
   <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
   <section class="section catalog cat-catalog" id="catalog">
     ${filtersFor(cat.key)}
