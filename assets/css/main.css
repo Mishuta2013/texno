@@ -1943,3 +1943,11 @@ input[type=range]:focus-visible{outline:2px solid var(--frost);outline-offset:3p
    gives the container neither class nor id. */
 body:has(.overlay.open) > div:has(iframe[src*="merchantverse"]),
 body:has(.lbox.open) > div:has(iframe[src*="merchantverse"]){display:none!important}
+
+/* ===== catalogue cards arriving =====
+   Only cards appended after load carry this: the first screenful is rendered
+   by the server and animating it would delay the one thing a visitor is
+   waiting to see. The global prefers-reduced-motion rule above turns the whole
+   thing off, and `both` leaves the card at its finished state when it does. */
+@keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.card-in{animation:cardIn .42s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--in-delay,0ms)}

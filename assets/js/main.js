@@ -325,6 +325,7 @@ function cardHTML(p){
    IntersectionObserver the sentinel becomes an ordinary button, so the rest of
    the catalogue is always reachable. */
 const PAGE_SIZE = 24;
+let catalogPainted=false;   // the first screenful is the server's; it must not fade in
 let pageList = [], pageShown = 0, pageIO = null;
 function catalogSentinel(){
   let el=$('catalog-more');
@@ -341,7 +342,25 @@ function appendPage(){
   const grid=$('catalog-grid'); if(!grid) return;
   const next=pageList.slice(pageShown,pageShown+PAGE_SIZE);
   if(next.length){
+    const had=grid.children.length;
     grid.insertAdjacentHTML('beforeend',next.map(cardHTML).join(''));
+    /* Twenty-four cards used to appear in one blink, which reads as a jump
+       rather than as more of the same list arriving. A short rise, staggered,
+       says "these are new" without making anyone wait: the delay is capped at
+       eight steps, so the last card in a page starts 280ms after the first,
+       not two seconds. Opacity and transform only — both composited, which is
+       what keeps this cheap on the phones that need it most.
+
+       Never on the first paint. renderCatalog() runs on load and redraws the
+       screenful the server already sent, so animating it produced a flash —
+       cards there, gone, faded back in — and pushed back the one thing the
+       visitor is waiting to see. Measured: 24 cards animating on load. */
+    if(!catalogPainted){ catalogPainted=true; }
+    else for(let i=had;i<grid.children.length;i++){
+      const el=grid.children[i];
+      el.style.setProperty('--in-delay',Math.min(i-had,7)*40+'ms');
+      el.classList.add('card-in');
+    }
     pageShown+=next.length;
     scanReveals(grid);
   }
@@ -1413,7 +1432,12 @@ document.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return
   else if(/t\.me|viber:\/\//.test(h))track('click_messenger');
 },{passive:true});
 
-if($('catalog-grid')){ setupFilters(); renderCatalog(); }
+/* setupFilters only wires listeners; applyI18n ends with renderCatalog(), so
+   the catalogue was being built twice on every page load — 24 cards drawn,
+   thrown away and drawn again before anyone saw either. One render now, and
+   the arriving-card animation stops firing on a screenful the visitor was
+   already looking at. */
+if($('catalog-grid')) setupFilters();
 applyI18n();
 
 /* ============ SHOP OPEN / CLOSED ============ */
