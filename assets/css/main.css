@@ -1913,3 +1913,13 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 .sort-select:focus-visible,
 .quiz-lead input:focus-visible{outline:2px solid var(--cta);outline-offset:2px}
 input[type=range]:focus-visible{outline:2px solid var(--frost);outline-offset:3px}
+
+/* ===== Google Customer Reviews badge =====
+   The widget mounts itself into a fixed container with z-index 2147483647 —
+   the largest a browser accepts — so it floats over everything the site has,
+   including the order form, whose overlay is 300. While a modal is open the
+   badge steps aside; it has nothing to say at the moment someone is typing
+   their phone number. Selected by the iframe it contains, because Google
+   gives the container neither class nor id. */
+body:has(.overlay.open) > div:has(iframe[src*="merchantverse"]),
+body:has(.lbox.open) > div:has(iframe[src*="merchantverse"]){display:none!important}

@@ -32,6 +32,9 @@ const email = v => {
   const s = String(v ?? '').trim();
   return s.length <= 254 && /^[^\s@<>"']+@[^\s@<>"']+\.[^\s@<>"']{2,}$/.test(s) ? s : null;
 };
+/* Shaped by makeOrderId in main.js — TP-YYYYMMDD-HHMM-XXXX. Anything else came
+   from somewhere that is not the form, so it does not get printed. */
+const orderId = v => /^TP-\d{8}-\d{4}-[A-Z0-9]{4}$/.test(String(v ?? '')) ? String(v) : null;
 /* A message arriving in the owner's Telegram with a tappable link has to point
    at this shop and nowhere else, whatever the request body says. */
 const link = v => {
@@ -174,6 +177,10 @@ export default async function handler(req, res) {
        Google Customer Reviews survey would later be sent to. */
     email(b.email) && `✉️ ${esc(email(b.email))}`,
     b.product && `📦 Модель: ${esc(b.product)}`,
+    /* The same id the Google Customer Reviews opt-in was given. When Google
+       later mentions a survey for an order, this is what ties it back to a
+       message the owner actually has. */
+    orderId(b.orderId) && `🧾 № ${esc(orderId(b.orderId))}`,
     b.product && price(b.price) && `💰 Ціна: <b>${price(b.price)} грн</b>`,
     b.product && link(b.url) && `🔗 ${esc(link(b.url))}`,
     b.interest && `Цікавить: ${esc(b.interest)}`,

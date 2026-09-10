@@ -57,5 +57,10 @@
       "17:00"
     ]
   ],
-  "tz": "Europe/Kyiv"
+  "tz": "Europe/Kyiv",
+  "gcrMerchantId": 5839381573,
+  "gcrCountry": "UA",
+  "gcrDeliveryDays": 5,
+  "gcrBadge": true,
+  "gcrOptIn": true
 }

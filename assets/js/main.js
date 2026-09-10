@@ -831,6 +831,60 @@ function watchPhone(input){
     if(v)fieldError(input,phoneProblem(v));
   });
 }
+/* ============ GOOGLE CUSTOMER REVIEWS: SURVEY OPT-IN ============ */
+/* The badge on every page only says the shop takes part. The seller rating on
+   the screenshot the owner sent comes from surveys, and surveys come from this
+   module — shown once, after an order, asking the customer whether Google may
+   write to them later about how it went.
+
+   Loaded on demand, never on page load: it is a third-party script, and the
+   overwhelming majority of visits never place an order.
+
+   Fired only for an order of a specific product with an email attached. A
+   plain callback from the header, a "задати питання", a price-match request —
+   none of those are purchases, and asking about delivery of a thing nobody
+   bought would be nonsense. Opting in is the customer's own click, so a lead
+   the manager never manages to close simply ends there. */
+function gcrDate(days){
+  /* Kyiv, not the visitor's clock: the delivery this date describes happens in
+     Sumy. Google wants YYYY-MM-DD. */
+  const p={};
+  try{
+    new Intl.DateTimeFormat('en-CA',{timeZone:SITE.tz||'Europe/Kyiv',year:'numeric',month:'2-digit',day:'2-digit'})
+      .formatToParts(new Date(Date.now()+days*864e5)).forEach(x=>p[x.type]=x.value);
+    if(p.year&&p.month&&p.day)return `${p.year}-${p.month}-${p.day}`;
+  }catch(e){}
+  return new Date(Date.now()+days*864e5).toISOString().slice(0,10);
+}
+/* Readable to a human reading Telegram, unique enough not to collide: the
+   minute of the order plus four random characters. It travels with the lead so
+   the owner can tie a survey Google mentions back to a message they have. */
+function makeOrderId(){
+  const d=new Date(), p=n=>String(n).padStart(2,'0');
+  const stamp=`${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}`;
+  return `TP-${stamp}-${Math.random().toString(36).slice(2,6).toUpperCase()}`;
+}
+let gcrDone=false;
+function gcrOptIn(orderId,email){
+  if(gcrDone||!SITE.gcrOptIn||!SITE.gcrMerchantId||!email||!orderId)return;
+  gcrDone=true;                                   // one module per page, per Google
+  window.renderOptIn=function(){
+    window.gapi.load('surveyoptin',function(){
+      window.gapi.surveyoptin.render({
+        merchant_id:Number(SITE.gcrMerchantId),
+        order_id:orderId,
+        email:email,
+        delivery_country:SITE.gcrCountry||'UA',
+        estimated_delivery_date:gcrDate(Number(SITE.gcrDeliveryDays)||5)
+      });
+    });
+  };
+  const sc=document.createElement('script');
+  sc.src='https://apis.google.com/js/platform.js?onload=renderOptIn';
+  sc.async=true;sc.defer=true;
+  document.body.appendChild(sc);
+}
+
 /* Optional, so it is checked only when it holds something. A typo here must
    never cost the order — the phone is what the manager actually calls. */
 function emailProblem(v){
@@ -848,12 +902,19 @@ async function submitCb(){
   const emBad=emailProblem(em);
   if(emBad){fieldError($('cb-email'),emBad);return;}
   if($('cb-email'))fieldError($('cb-email'),'');
+  /* An order of a named product, not a question about one and not a plain
+     callback from the header — only that counts as a purchase worth asking
+     Google to survey. The id goes out with the lead so Telegram and Google
+     name the same order. */
+  const isOrder=(window.__CB_TYPE__||'callback')==='callback' && !!window.__CB_SLUG__;
+  const orderId=isOrder?makeOrderId():'';
   const ok=await sendLead({type:window.__CB_TYPE__||'callback',name:$('cb-name').value.trim(),
-    phone:ph,email:em,product:$('cb-product').value||'',
+    phone:ph,email:em,product:$('cb-product').value||'',orderId:orderId,
     slug:window.__CB_SLUG__||'',price:window.__CB_PRICE__||'',url:window.__CB_URL__||'',
     lang:LANG});
   if(ok){$('cb-form').style.display='none';$('cb-success').style.display='block';
-    track('generate_lead',{method:'callback'});resetTurnstile();}
+    track('generate_lead',{method:'callback'});resetTurnstile();
+    if(isOrder&&em)gcrOptIn(orderId,em);}
   /* A browser dialog on a phone covers the form and says nothing useful. Put
      the reason under the field the visitor was last looking at. */
   else fieldError($('cb-phone'),t('err_send_retry'));

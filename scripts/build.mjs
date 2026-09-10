@@ -373,6 +373,33 @@ function ppChips(p) {
     return v ? `<span class="pp-chip">${c.icon ? c.icon + ' ' : ''}${esc(v)}</span>` : '';
   }).join('');
 }
+/* The Google Customer Reviews badge. Google's own snippet reaches the script
+   through the bare global its id creates; this asks the DOM for it, which is
+   the same thing said out loud.
+
+   mobileBottomMargin, because on a phone the badge centres itself along the
+   bottom edge — exactly where .mcta already sits with the call and WhatsApp
+   buttons. 86px clears that bar; the default 46 would bury it.
+
+   Before roughly a hundred reviews Google shows the badge with "rating not
+   available" rather than a score, which is the honest state of things and not
+   a fault to fix. */
+const GCR_BADGE = (!site.gcrBadge || !site.gcrMerchantId) ? '' : `
+<script id="merchantWidgetScript" src="https://www.gstatic.com/shopping/merchant/merchantwidget.js" defer></script>
+<script>document.getElementById('merchantWidgetScript').addEventListener('load',function(){
+merchantwidget.start({merchant_id:${Number(site.gcrMerchantId)},position:'RIGHT_BOTTOM',mobileBottomMargin:86});});</script>`;
+
+/* Nine page builders wrote their own file. Anything belonging at the foot of
+   every page — the badge today, whatever comes next — went into nine templates
+   that could drift apart. One door now, and it refuses a page with no </body>
+   rather than dropping the tail in silence, the same way fill() refuses a
+   template with no marker. */
+function writePage(dir, html) {
+  const at = html.lastIndexOf('</body>');
+  if (at < 0) throw new Error('page has no </body>: ' + dir);
+  fs.writeFileSync(path.join(dir, 'index.html'), html.slice(0, at) + GCR_BADGE + html.slice(at), 'utf8');
+}
+
 /* Assets are served with a one-year immutable cache, so a file whose contents
    change but whose name stays the same would keep serving the old version from
    every browser and the CDN. Stamp each asset URL with a hash of its bytes:
@@ -1136,7 +1163,7 @@ ${injectData()}
 <script>window.__CATALOG_CAT__=${JSON.stringify(homeCatalogCat)};</script>
 <script src="${av('/assets/js/main.js')}" defer></script>
 </body></html>`;
-fs.writeFileSync(path.join(outPath(), 'index.html'), indexHtml, 'utf8');
+writePage(path.join(outPath()), indexHtml);
 SITEMAP.push(pfx() + '/');
 
 // ---- product pages ----
@@ -1506,7 +1533,7 @@ addEventListener('load',function(){ppSyncActs();rtCalc();});
 
 for (const p of products) {
   const dir = outPath(catOf(p).urlPrefix.replace(/^\//, ''), p.slug);
-  fs.writeFileSync(path.join(dir, 'index.html'), productPage(p), 'utf8');
+  writePage(path.join(dir), productPage(p));
   SITEMAP.push(purl(p));
   n++;
 }
@@ -1854,7 +1881,7 @@ ${injectData()}
 for (const cat of catList) {
   if (!catProducts(cat.key).length) continue;   // skip empty categories (no thin pages)
   const dir = outPath(cat.urlPrefix.replace(/^\//, ''));
-  fs.writeFileSync(path.join(dir, 'index.html'), categoryPage(cat), 'utf8');
+  writePage(path.join(dir), categoryPage(cat));
   SITEMAP.push(curl(cat));
 
   /* Brand pages live beside the product pages in the same directory, so a brand
@@ -1865,7 +1892,7 @@ for (const cat of catList) {
     const clash = catProducts(cat.key).find(p => p.slug === slug);
     if (clash) throw new Error(`brand page /${cat.urlPrefix}/${slug}/ collides with product ${clash.slug}`);
     const bdir = outPath(cat.urlPrefix.replace(/^\//, ''), slug);
-    fs.writeFileSync(path.join(bdir, 'index.html'), brandPage(cat, brand), 'utf8');
+    writePage(path.join(bdir), brandPage(cat, brand));
     SITEMAP.push(burl(cat, brand));
     n++;
   }
@@ -1880,7 +1907,7 @@ for (const cat of catList) {
       throw new Error(`tag page ${cat.urlPrefix}/${tg.slug}/ collides with an existing page`);
     }
     const tdir = outPath(cat.urlPrefix.replace(/^\//, ''), tg.slug);
-    fs.writeFileSync(path.join(tdir, 'index.html'), tagPage(cat, tg), 'utf8');
+    writePage(path.join(tdir), tagPage(cat, tg));
     SITEMAP.push(turl(cat, tg));
     n++;
   }
@@ -1952,11 +1979,11 @@ ${injectData()}
 // the articles are written in Ukrainian and Russian, so those trees get a blog
 if (BLOG_LANGS.includes(L)) {
   const root = outPath('blog');
-  fs.writeFileSync(path.join(root, 'index.html'), blogIndexPage(), 'utf8');
+  writePage(path.join(root), blogIndexPage());
   SITEMAP.push(pfx() + '/blog/');
   for (const a of blog) {
     const dir = outPath('blog', a.slug);
-    fs.writeFileSync(path.join(dir, 'index.html'), blogPost(a), 'utf8');
+    writePage(path.join(dir), blogPost(a));
     SITEMAP.push(blogUrl(a));
   }
 }
@@ -2051,7 +2078,7 @@ ${injectData()}
 }
 if (INSTALL_LANGS.includes(L)) {
   const dir = outPath('montazh-kondicionera');
-  fs.writeFileSync(path.join(dir, 'index.html'), installPage(), 'utf8');
+  writePage(path.join(dir), installPage());
   SITEMAP.push(pfx() + INSTALL_PATH);
 }
 
@@ -2099,7 +2126,7 @@ ${injectData()}
 <script src="${av('/assets/js/main.js')}" defer></script>
 </body></html>`;
   fs.mkdirSync(path.join(DIST, 'polityka-konfidentsiynosti'), { recursive: true });
-  fs.writeFileSync(path.join(DIST, 'polityka-konfidentsiynosti', 'index.html'), html, 'utf8');
+  writePage(path.join(DIST, 'polityka-konfidentsiynosti'), html);
   SITEMAP.push('/polityka-konfidentsiynosti/');
 }
 }   // ← end of buildLanguage()
