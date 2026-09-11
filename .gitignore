@@ -33,3 +33,6 @@ scripts/_feed_*.xml
 
 # research reports from scripts/enrich_specs.mjs (review, then --apply)
 scratch/
+
+# written by build.mjs for gen_images.py; regenerated on every build
+scripts/.og-collections.json

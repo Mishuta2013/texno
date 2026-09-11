@@ -150,7 +150,65 @@ def product_og(p):
     d.text((70, y + 78), TAGLINE.get(p.get("category"), TAGLINE[None]), font=font(28, False), fill=(210, 225, 245))
     im.save(os.path.join(OG, p["slug"] + ".jpg"), quality=84)
 
-for _l in OG_TEXT: default_og(_l)
-products = json.load(open(os.path.join(ROOT, "data", "products.json"), encoding="utf-8"))
-for p in products: product_og(p)
-print(f"icons + default OG + {len(products)} product OG generated")
+COLL_PRICE = {"uk": ("від", "грн"), "ru": ("от", "грн"), "en": ("from", "UAH")}
+
+
+def collection_og(e):
+    """The card for a tag or brand page — "Газові варильні поверхні у Сумах".
+
+    Same hand as product_og, so a shared link to a shelf and a shared link to
+    one model look like the same shop. Everything written on it comes from
+    scripts/.og-collections.json, which build.mjs fills from the page itself:
+    the heading, the price floor, the count and the category's own promises,
+    already in the page's language. The photo is the page's first product.
+    """
+    im = og_bg(); d = ImageDraw.Draw(im)
+    fp = os.path.join(ROOT, e["photo"].lstrip("/")) if e.get("photo") else None
+    if fp and os.path.exists(fp):
+        u = Image.open(fp).convert("RGBA"); u.thumbnail((520, 420), Image.LANCZOS)
+        im.paste(u, (1200 - u.width - 60, (630 - u.height) // 2), u)
+    d.text((70, 90), "TEXNO PLAZA", font=font(40), fill=FROST)
+    f = font(46); lines, line = [], ""
+    for w in e["title"].split():
+        if line and d.textlength(line + " " + w, font=f) > 560:
+            lines.append(line); line = w
+        else:
+            line = (line + " " + w).strip()
+    lines.append(line)
+    if len(lines) > 3:                      # a long English heading: smaller, not clipped
+        f = font(38)
+    y = 190
+    for ln in lines[:4]:
+        d.text((70, y), ln, font=f, fill=WHITE); y += 58 if f.size >= 46 else 48
+    y += 16
+    pre, cur = COLL_PRICE.get(e["lang"], COLL_PRICE["uk"])
+    lo = f"{e['lo']:,}".replace(",", " ")
+    price = f"{lo} {cur}" if e["lo"] == e["hi"] else f"{pre} {lo} {cur}"
+    d.text((70, y), price, font=font(54), fill=FROST)
+    d.text((70, y + 78), e["count"], font=fitted(d, e["count"], 28, 560), fill=(210, 225, 245))
+    if e.get("trust"):
+        d.text((70, y + 118), e["trust"], font=fitted(d, e["trust"], 24, 560, False), fill=(150, 180, 220))
+    out = os.path.join(ROOT, e["file"].lstrip("/"))
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    im.save(out, quality=84)
+
+
+if __name__ == "__main__":
+    # No argument redraws everything; "collections", "products" or "defaults"
+    # redraws just that set — the tag and brand cards change with the catalogue,
+    # the 273 product cards mostly do not.
+    only = set(sys.argv[1:])
+    if not only or "defaults" in only:
+        for _l in OG_TEXT: default_og(_l)
+    if not only or "products" in only:
+        products = json.load(open(os.path.join(ROOT, "data", "products.json"), encoding="utf-8"))
+        for p in products: product_og(p)
+        print(f"{len(products)} product OG generated")
+    if not only or "collections" in only:
+        mf = os.path.join(ROOT, "scripts", ".og-collections.json")
+        if not os.path.exists(mf):
+            print("no scripts/.og-collections.json yet — run node scripts/build.mjs first")
+        else:
+            coll = json.load(open(mf, encoding="utf-8"))
+            for e in coll: collection_og(e)
+            print(f"{len(coll)} tag/brand OG generated")

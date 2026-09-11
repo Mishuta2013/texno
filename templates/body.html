@@ -168,7 +168,7 @@
 
 <section class="recent-band">
   <div class="wrap">
-    <div class="recent" id="recent" hidden><h2 class="recent-h" data-i18n="recent_h">Ви нещодавно дивилися</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" data-i18n="recent_clear" onclick="clearRecent()">Очистити історію</button></div>
+    <div class="recent" id="recent" data-nosnippet hidden><h2 class="recent-h" data-i18n="recent_h">Ви нещодавно дивилися</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" data-i18n="recent_clear" onclick="clearRecent()">Очистити історію</button></div>
   </div>
 </section>
 
@@ -626,7 +626,7 @@
 </div>
 
 <!-- CONTACT POPUP (Зв'язок) -->
-<div class="overlay" id="contact-modal" onclick="closeOverlay(event,'contact-modal')">
+<div class="overlay" data-nosnippet id="contact-modal" onclick="closeOverlay(event,'contact-modal')">
   <div class="contact-pop">
     <button class="modal-close" onclick="closeModalById('contact-modal')" aria-label="close">×</button>
     <h3 class="ct-h" data-i18n="ct_h">Зв'язатися з нами</h3>
@@ -642,7 +642,7 @@
 <!-- PRODUCT MODAL -->
 
 <!-- CALLBACK MODAL -->
-<div class="overlay" id="cb-modal" onclick="closeCb(event)">
+<div class="overlay" data-nosnippet id="cb-modal" onclick="closeCb(event)">
   <div class="cb-modal">
     <button class="cb-close" onclick="forceCloseCb()">✕</button>
     <h3 id="cb-title" data-i18n="cb_btn">Замовити дзвінок</h3>
@@ -684,7 +684,7 @@
 </div>
 
 <!-- COMPARE MODAL -->
-<div class="overlay" id="compare-modal" onclick="closeOverlay(event,'compare-modal')">
+<div class="overlay" data-nosnippet id="compare-modal" onclick="closeOverlay(event,'compare-modal')">
   <div class="cmp-modal">
     <button class="modal-close" onclick="closeModalById('compare-modal')">✕</button>
     <h3 data-i18n="cmp_title">Порівняння</h3>
@@ -693,7 +693,7 @@
 </div>
 
 <!-- FAVORITES MODAL -->
-<div class="overlay" id="fav-modal" onclick="closeOverlay(event,'fav-modal')">
+<div class="overlay" data-nosnippet id="fav-modal" onclick="closeOverlay(event,'fav-modal')">
   <div class="fav-modal">
     <button class="modal-close" onclick="closeModalById('fav-modal')">✕</button>
     <h3><svg width="22" height="22" viewBox="0 0 24 24" fill="#FF3B6B" stroke="#FF3B6B" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg> <span data-i18n="fav_title">Обране</span></h3>
@@ -711,7 +711,7 @@
 </div>
 
 <!-- QUIZ -->
-<div class="overlay" id="quiz-modal" onclick="closeOverlay(event,'quiz-modal')">
+<div class="overlay" data-nosnippet id="quiz-modal" onclick="closeOverlay(event,'quiz-modal')">
   <div class="quiz">
     <button class="modal-close" onclick="closeQuiz()" aria-label="close">×</button>
     <div class="quiz-head">

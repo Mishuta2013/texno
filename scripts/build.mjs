@@ -511,6 +511,7 @@ function head({ title, desc, canonical, ogTitle, ogDesc, ogImage, jsonld, altPat
   return `<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0B1A33">
+<meta name="robots" content="max-image-preview:large">
 ${GTM}
 <title>${esc(pageTitle(title))}</title>
 <meta name="description" content="${esc(desc)}">
@@ -856,12 +857,36 @@ const namesFor = (lang) => {
    And the free-text spec dictionary: specVal returns its argument untouched
    the moment the language is Ukrainian, so on the pages Google treats as
    canonical those forty-nine kilobytes answered no question at all. */
+/* The catalogue used to ride inline on every page — 295 KB in Ukrainian, 420 KB
+   in Russian — and with it the photo path of every product in the shop. Search
+   reads image URLs out of inline scripts, and it used them: "Варильні поверхні
+   60 см" went out in results under a picture of an air conditioner, the first
+   product in the list, and "Індукційні варильні поверхні" under a water heater.
+   Nothing visible on either page showed one.
+
+   The block is identical on every page of a language, so it is now one file per
+   language, content-hashed like the stylesheet: a page's HTML names only the
+   pictures it shows, and the data is downloaded once and cached across pages
+   instead of on every one. defer keeps the order main.js depends on — deferred
+   scripts run in document order, and this tag comes first. */
+const DATA_FILES = new Map();   // url -> script text, written after the asset copy
+const DATA_TAGS = new Map();    // language -> the <script> tag that loads it
+/* Tag and brand share cards — filled per language by collectionOg(), written with
+   the data files. Module scope, because the pages are built inside the language
+   loop and the list has to outlive it. */
+const COLLECTION_OG = new Map();   // file -> what gen_images.py puts on it
 const injectData = () => {
+  if (DATA_TAGS.has(L)) return DATA_TAGS.get(L);
   const strip = ({ faq, ...rest }) => rest;
   const i18nSlim = L === 'uk' ? { uk: strip(i18n.uk) }
                               : { uk: strip(i18n.uk), [L]: strip(i18n[L]) };
   const specv = L === 'uk' ? {} : SPECV;
-  return `<script>window.__I18N__=${JSON.stringify(i18nSlim)};window.__LANGS__=${JSON.stringify(LANGS)};window.__SITE__=${JSON.stringify(site)};window.__CATS__=${JSON.stringify(catsSlim)};window.__SPECV__=${JSON.stringify(specv)};window.__PRODUCTS__=${JSON.stringify(namesFor(L))};</script>`;
+  const js = `window.__I18N__=${JSON.stringify(i18nSlim)};window.__LANGS__=${JSON.stringify(LANGS)};window.__SITE__=${JSON.stringify(site)};window.__CATS__=${JSON.stringify(catsSlim)};window.__SPECV__=${JSON.stringify(specv)};window.__PRODUCTS__=${JSON.stringify(namesFor(L))};`;
+  const url = `/assets/js/data-${L}.${crypto.createHash('md5').update(js).digest('hex').slice(0, 8)}.js`;
+  DATA_FILES.set(url, js);
+  const tag = `<script src="${url}" defer></script>`;
+  DATA_TAGS.set(L, tag);
+  return tag;
 };
 
 // ===================== BUILD =====================
@@ -1468,7 +1493,7 @@ ${HEADER}
   ${runtimeCalc(p)}
   ${(() => { const m = matching(p); return m.length ? `<div class="pp-related pp-match"><h2>${esc(t('pp_match_' + p.category))}</h2>${p.category === 'myyky' ? `<p class="pp-match-sub">${esc(t('pp_match_sub'))}</p>` : ''}<div class="grid grid-rel">${m.map(card).join('')}</div></div>` : ''; })()}
   ${(() => { const rel = related(p); return rel.length ? `<div class="pp-related"><h2>${esc(t('pp_related'))}</h2><div class="grid grid-rel">${rel.map(card).join('')}</div></div>` : ''; })()}
-  <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
+  <div class="recent" id="recent" data-nosnippet hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
   <div class="pp-back"><a href="${curl(cat)}">← ${esc(lf(cat, 'name'))}</a></div>
 </div>
 <div class="pp-sticky" id="pp-sticky">
@@ -1652,6 +1677,30 @@ function catTags(catKey) {
 }
 const turl = (cat, tg) => `${pfx()}${cat.urlPrefix}/${tg.slug}/`;
 
+/* Tag and brand pages went out with the generic share card: the whole shop in
+   a line-up, an air conditioner in the corner. Search is free to ignore
+   og:image, and on these pages it did — but a card about hobs, on a page about
+   hobs, named in both og:image and the JSON-LD, leaves it one fewer wrong answer.
+
+   Each page names its own card and records what belongs on it; gen_images.py
+   draws them from scripts/.og-collections.json in the same hand as the product
+   cards. Until a card has been drawn the category's own card stands in, so no
+   page ever points at a file that is not there. The photo is the page's first
+   product, so the card and the top of the grid show the same thing. */
+function collectionOg(kind, cat, key, list, title) {
+  const file = `/assets/og/${kind}-${cat.key}-${key}${L === 'uk' ? '' : '-' + L}.jpg`;
+  const prices = list.map(p => p.price);
+  const lead = list.find(p => (p.photos || []).length) || list[0];
+  COLLECTION_OG.set(file, {
+    lang: L, cat: cat.key, title,
+    lo: Math.min(...prices), hi: Math.max(...prices),
+    count: `${list.length} ${modelsWord(list.length)} ${t('cat_instock')}`,
+    trust: catTrust(cat).slice(0, 2).join(' · '),
+    photo: lead && lead.photos ? lead.photos[0] : null,
+  });
+  if (fs.existsSync(path.join(ROOT, file.slice(1)))) return absImg(file);
+  return cat.cover ? absImg(`/assets/og/cat-${cat.key}.jpg`) : undefined;
+}
 function tagPage(cat, tg) {
   const list = tagProducts(cat.key, tg);
   const CAT = lf(cat, 'name');
@@ -1663,8 +1712,9 @@ function tagPage(cat, tg) {
     .replace('{lo}', fmt(lo)).replace('{hi}', fmt(hi));
   const fill = str => str.replace('{name}', NAME).replace('{n}', list.length)
     .replace('{plural}', plural).replace('{price}', priceText);
+  const OG = collectionOg('tag', cat, tg.slug, list, `${NAME} ${t('cat_in_sumy')}`);
   const jsonld = {
-    '@context': 'https://schema.org', '@type': 'CollectionPage', name: NAME, url: abs(turl(cat, tg)),
+    '@context': 'https://schema.org', '@type': 'CollectionPage', name: NAME, url: abs(turl(cat, tg)), image: OG,
     mainEntity: {
       '@type': 'ItemList', numberOfItems: list.length,
       itemListElement: list.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: abs(purl(p)), name: pname(p) }))
@@ -1696,7 +1746,7 @@ ${head({
     }
     return lead;
   })(),
-  canonical: abs(turl(cat, tg)), altPath: `${cat.urlPrefix}/${tg.slug}/`, jsonld
+  canonical: abs(turl(cat, tg)), altPath: `${cat.urlPrefix}/${tg.slug}/`, ogImage: OG, jsonld
 })}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
 </head><body>${GTM_NS}
@@ -1708,7 +1758,7 @@ ${HEADER}
     <p class="cat-sub">${esc(lf(tg, 'intro') || '')}</p>
     <div class="cat-count">${list.length} ${esc(plural)} ${esc(t('cat_instock'))}</div>
   </header>
-  <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
+  <div class="recent" id="recent" data-nosnippet hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
   <section class="section catalog cat-catalog" id="catalog">
     <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
   </section>
@@ -1737,8 +1787,9 @@ function brandPage(cat, brand) {
     .replace('{n}', list.length).replace('{plural}', plural)
     .replace('{price}', priceText).replace('{from}', fmt(lo));
   const intro = fill(t('brand_intro'));
+  const OG = collectionOg('brand', cat, brandSlug(brand), list, `${NAME} ${t('cat_in_sumy')}`);
   const jsonld = {
-    '@context': 'https://schema.org', '@type': 'CollectionPage', name: NAME, url: abs(burl(cat, brand)),
+    '@context': 'https://schema.org', '@type': 'CollectionPage', name: NAME, url: abs(burl(cat, brand)), image: OG,
     about: { '@type': 'Brand', name: brand },
     mainEntity: {
       '@type': 'ItemList', numberOfItems: list.length,
@@ -1784,7 +1835,7 @@ ${head({
     while (lines.length && `${lead} ${lines.join('. ')}.`.length > 165) lines.pop();
     return lines.length ? `${lead} ${lines.join('. ')}.` : lead;
   })(),
-  canonical: abs(burl(cat, brand)), altPath: `${cat.urlPrefix}/${brandSlug(brand)}/`, jsonld
+  canonical: abs(burl(cat, brand)), altPath: `${cat.urlPrefix}/${brandSlug(brand)}/`, ogImage: OG, jsonld
 })}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
 </head><body>${GTM_NS}
@@ -1798,7 +1849,7 @@ ${HEADER}
   </header>
   ${about ? `<div class="brand-about"><p>${esc(about)}</p></div>` : ''}
   ${lf(cat, 'quizCta') && list.length > 1 ? quizInline(false, cat) : ''}
-  <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
+  <div class="recent" id="recent" data-nosnippet hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
   <section class="section catalog cat-catalog" id="catalog">
     <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
   </section>
@@ -1938,7 +1989,7 @@ ${HEADER}
     })() : ''}
   </div>
   ${lf(cat, 'quizCta') ? quizInline(false, cat) : ''}
-  <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
+  <div class="recent" id="recent" data-nosnippet hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
   <section class="section catalog cat-catalog" id="catalog">
     ${filtersFor(cat.key)}
     <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
@@ -2020,7 +2071,7 @@ ${HEADER}
     ${[...new Set(blog.map(bg))].map(tg => `<button class="bl-tbtn" data-tag="${esc(tg)}">${esc(tg)}</button>`).join('')}
   </div>
   <div class="bl-grid" id="bl-grid">${blog.map(blogCard).join('')}</div>
-  <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
+  <div class="recent" id="recent" data-nosnippet hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
 </div>
 ${FOOTER}
 ${injectData()}
@@ -2053,7 +2104,7 @@ ${HEADER}
   ${artProducts(a)}
   <div class="bl-cta"><a class="btn-primary" href="${pfx()}/#catalog">${esc(t('blog_cta1'))}</a> <a class="btn-ghost2" href="${curl(artCat(a))}">${esc(lf(artCat(a), 'name'))}</a></div>
   ${others.length ? `<div class="bl-related"><h2>${esc(t("blog_also"))}</h2><div class="bl-grid">${others.map(blogCard).join('')}</div></div>` : ''}
-  <div class="recent" id="recent" hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
+  <div class="recent" id="recent" data-nosnippet hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
 </article>
 ${FOOTER}
 ${injectData()}
@@ -2235,6 +2286,15 @@ for (const [src, dst] of hashedCopies) {
   fs.mkdirSync(path.dirname(to), { recursive: true });
   fs.copyFileSync(from, to);
 }
+/* The per-language catalogue files injectData named, and the list of tag and
+   brand cards for gen_images.py to draw. */
+for (const [url, js] of DATA_FILES) {
+  const to = path.join(DIST, url.replace(/^\//, ''));
+  fs.mkdirSync(path.dirname(to), { recursive: true });
+  fs.writeFileSync(to, js, 'utf8');
+}
+fs.writeFileSync(path.join(ROOT, 'scripts', '.og-collections.json'),
+  JSON.stringify([...COLLECTION_OG].map(([file, v]) => ({ file, ...v })), null, 1) + '\n', 'utf8');
 
 /* The service worker keeps its cache under one fixed name, and its activate
    handler only deletes caches whose name differs. With the name never changing,
