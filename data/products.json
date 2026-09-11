@@ -1943,6 +1943,47 @@
     ]
   },
   {
+    "brand": "Fossibot",
+    "series": "F1200",
+    "name": "Зарядна станція Fossibot F1200 1200W 1024Wh",
+    "price": 25799,
+    "category": "zaryadni-stantsii",
+    "ups": true,
+    "specs": {
+      "capacity_wh": 1024,
+      "battery": "LiFePO₄ (EVE)",
+      "cycles": "4000+ (до 80%)",
+      "output_w": 1200,
+      "surge_w": 2400,
+      "waveform": "Чиста синусоїда",
+      "ac_sockets": 2,
+      "ac_hz": "220–240 В, 50/60 Гц (перемикання)",
+      "usb_c": "1 × 100 Вт + 1 × 20 Вт",
+      "usb_a": "2 × 18 Вт",
+      "car_out": "12 В / 10 A",
+      "ac_in_w": 1000,
+      "charge_time": "0–80% за 49 хв · 100% приблизно за 70 хв",
+      "dc_in": "12–50 В / 8 A, до 200 Вт",
+      "ups_ms": "<10 мс",
+      "weight": "11.5 кг",
+      "dims": "324 × 205 × 262 мм",
+      "op_temp": "Розряд −10…+40 °C · заряд 0…+40 °C",
+      "protections": "BMS автомобільного класу",
+      "warranty": "2 + 3 роки",
+      "features": "HD-дисплей, LED-ліхтар (світло, SOS, стробоскоп), 5 ступенів швидкості заряджання, заряджання від прикурювача авто, Wi-Fi, Bluetooth, застосунок"
+    },
+    "desc_uk": "Компактна зарядна станція Fossibot F1200: 1024 Вт·год ємності та 1200 Вт номінальної потужності з чистою синусоїдою, пік 2400 Вт. Комірки LiFePO₄ від EVE розраховані на понад 4000 циклів до 80% ємності. Дві розетки 220–240 В, два USB-C (100 Вт для ноутбука і 20 Вт), два USB-A по 18 Вт та автомобільний вихід 12 В / 10 A — разом сім виходів. Від мережі заряджається до 80% за 49 хвилин і повністю приблизно за 70; потужність заряджання — до 1000 Вт, п’ять ступенів на вибір. Сонячний вхід приймає до 200 Вт (12–50 В), разом із мережею — 1200 Вт; можна заряджати й від прикурювача авто, кабель у комплекті. Функція ДБЖ перемикає живлення менш ніж за 10 мс — роутер, комп’ютер чи котел не помітять відключення. Важить 11,5 кг.",
+    "desc_ru": "Компактная зарядная станция Fossibot F1200: 1024 Вт·ч ёмкости и 1200 Вт номинальной мощности с чистой синусоидой, пик 2400 Вт. Ячейки LiFePO₄ от EVE рассчитаны более чем на 4000 циклов до 80% ёмкости. Две розетки 220–240 В, два USB-C (100 Вт для ноутбука и 20 Вт), два USB-A по 18 Вт и автомобильный выход 12 В / 10 A — всего семь выходов. От сети заряжается до 80% за 49 минут и полностью примерно за 70; мощность зарядки — до 1000 Вт, пять ступеней на выбор. Солнечный вход принимает до 200 Вт (12–50 В), вместе с сетью — 1200 Вт; заряжать можно и от прикуривателя авто, кабель в комплекте. Функция ИБП переключает питание менее чем за 10 мс — роутер, компьютер или котёл не заметят отключения. Весит 11,5 кг.",
+    "desc_en": "A compact Fossibot power station: 1024Wh of capacity and 1200W of rated pure-sine output with a 2400W surge. The EVE LiFePO₄ cells are rated for more than 4000 cycles to 80% capacity. Two 220–240V sockets, two USB-C ports (100W for a laptop and 20W), two 18W USB-A ports and a 12V/10A car outlet — seven outputs in all. From the mains it charges to 80% in 49 minutes and fully in about 70, at up to 1000W with five charging speeds to choose from. The solar input takes up to 200W (12–50V), 1200W together with the mains, and it can also charge from a car socket — the cable is in the box. The UPS function switches over in under 10 ms, so a router, a computer or a boiler never notices the outage. It weighs 11.5 kg.",
+    "slug": "fossibot-f1200-1200w-1024wh",
+    "thumb": "/assets/img/products/fossibot-f1200-1200w-1024wh/thumb.webp",
+    "photos": [
+      "/assets/img/products/fossibot-f1200-1200w-1024wh/1.webp",
+      "/assets/img/products/fossibot-f1200-1200w-1024wh/2.webp",
+      "/assets/img/products/fossibot-f1200-1200w-1024wh/3.webp"
+    ]
+  },
+  {
     "brand": "Haier",
     "series": "HW70-B14929-S",
     "name": "Пральна машина Haier HW70-B14929-S",
