@@ -1014,43 +1014,73 @@ document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',closeNa
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('nav-open'))closeNav();});
 /* ---- catalog panel ------------------------------------------------------
    Every [data-catpanel] opens the same panel, dropped just under the sticky
-   header wherever that header is at the moment. Listening in the capture phase
-   on document means the click is claimed before the in-page anchor handler
-   scrolls to #catalog and before the menu links close the drawer on their own. */
+   header wherever that header is. Claimed in the capture phase, so the in-page
+   anchor handler never scrolls to #catalog and the menu's own links never close
+   the drawer on their own.
+
+   It closes only when asked: Escape, the close button, a tap on the dimmed page,
+   a link inside. It used to close on any scroll past 80px, and on a phone that
+   fired the moment it opened from the burger menu — closing the menu gives the
+   page back its scroll position, which is a scroll — so the panel flashed and
+   was gone. A scroll now only keeps it attached to the header. */
 (function catalogPanel(){
   const panel=document.getElementById('catpanel');
   if(!panel)return;
-  let opener=null,openY=0;
+  const stage=panel.querySelector('.cp-stage');
+  let opener=null,hoverT=0;
+  const wide=()=>matchMedia('(min-width:1001px)').matches;
   const place=()=>{const h=document.getElementById('header');panel.style.top=Math.max(0,Math.round(h?h.getBoundingClientRect().bottom:0))+'px';};
   const mark=v=>document.querySelectorAll('[data-catpanel]').forEach(t=>t.setAttribute('aria-expanded',v?'true':'false'));
-  function open(t){
+  function show(key){
+    panel.querySelectorAll('.cp-item').forEach(a=>a.classList.toggle('is-on',a.dataset.cp===key));
+    panel.querySelectorAll('.cp-pane').forEach(s=>{const on=s.dataset.cp===key;s.hidden=!on;s.classList.toggle('is-on',on);});
+  }
+  function open(t,keyboard){
     if(document.body.classList.contains('nav-open'))closeNav();
-    opener=t;openY=scrollY;place();
+    opener=t;place();
     panel.hidden=false;mark(true);
     /* Read layout once so the transparent state is committed, then fade in.
-       requestAnimationFrame did the same but never ran in a tab that was not
-       painting, which left the panel open and invisible. */
+       requestAnimationFrame never ran in a tab that was not painting. */
     void panel.offsetWidth;
     panel.classList.add('in');
-    const first=panel.querySelector('.cp-item');
-    if(first)first.focus({preventScroll:true});
+    /* Focus goes into the panel only for a keyboard: after a mouse click it left
+       a ring on the first shelf while the pointer was already showing another. */
+    if(keyboard){
+      const f=wide()?panel.querySelector('.cp-item.is-on'):panel.querySelector('.cp-close');
+      if(f)f.focus({preventScroll:true});
+    }
   }
   function close(back){
     if(panel.hidden)return;
+    clearTimeout(hoverT);
     panel.classList.remove('in');panel.hidden=true;mark(false);
     if(back&&opener)opener.focus({preventScroll:true});
   }
   document.addEventListener('click',e=>{
     const t=e.target.closest('[data-catpanel]');
-    if(t){e.preventDefault();e.stopPropagation();if(panel.hidden)open(t);else close(false);return;}
+    if(t){e.preventDefault();e.stopPropagation();if(panel.hidden)open(t,e.detail===0);else close(false);return;}
     if(panel.hidden)return;
-    if(e.target.closest('.cp-item,.cp-all')){close(false);return;}
+    if(e.target.closest('.cp-close')){close(true);return;}
+    if(e.target.closest('.cp-box a')){close(false);return;}
     if(!e.target.closest('.cp-box'))close(false);
   },true);
+  /* The list drives the preview beside it. A short delay, so a pointer crossing
+     the list on its way to the preview does not flick through every shelf it
+     passes; keyboard focus switches at once. */
+  panel.addEventListener('mouseover',e=>{
+    const a=e.target.closest('.cp-item');
+    if(!a||!wide())return;
+    clearTimeout(hoverT);
+    hoverT=setTimeout(()=>{
+      show(a.dataset.cp);
+      const f=document.activeElement;
+      if(f&&f!==a&&f.classList.contains('cp-item')&&panel.contains(f))a.focus({preventScroll:true});
+    },90);
+  });
+  if(stage)stage.addEventListener('mouseenter',()=>clearTimeout(hoverT));
+  panel.addEventListener('focusin',e=>{const a=e.target.closest('.cp-item');if(a&&wide())show(a.dataset.cp);});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden)close(true);});
-  /* It is a menu, not a page: a real scroll puts it away. A small one only
-     re-seats it, because the contact strip above the header slides off first. */
-  addEventListener('scroll',()=>{if(panel.hidden)return;if(Math.abs(scrollY-openY)>80)close(false);else place();},{passive:true});
+  addEventListener('scroll',()=>{if(!panel.hidden)place();},{passive:true});
   addEventListener('resize',()=>{if(!panel.hidden)place();});
 })();
 /* Mark where the visitor already is: the menu lists every category from every

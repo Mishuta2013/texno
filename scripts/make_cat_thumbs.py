@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Square 96px thumbnails of the category covers, for the catalog panel and the
-home page's "all categories" card.
+"""Square crops of the category covers for the catalog panel.
 
-The smallest cover is a 400px landscape at about 20 KB; the panel shows fourteen
-of them at 40px. A centre crop slightly inside the full height keeps the
-appliance filling the square, at about a kilobyte each.
+  @tile  320px  the phone and tablet tiles and the home page's category cards.
+                The 96px squares that used to sit beside it were for icons in
+                the desktop list, which is text now.
 
-Run after a cover changes: python scripts/make_cat_thumbs.py
+A centre crop slightly inside the full height keeps the appliance filling the
+square. Run after a cover changes: python scripts/make_cat_thumbs.py
 """
 import glob
 import os
@@ -19,6 +19,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, 'scripts', 'covers-src')
 OUT = os.path.join(ROOT, 'assets', 'img', 'covers')
+SIZES = (('tile', 320, 84),)
 
 for f in sorted(glob.glob(os.path.join(SRC, 'cat-*.webp'))):
     key = os.path.basename(f)[4:-5]
@@ -26,6 +27,10 @@ for f in sorted(glob.glob(os.path.join(SRC, 'cat-*.webp'))):
     w, h = im.size
     side = int(h * 0.86)
     x0, y0 = (w - side) // 2, (h - side) // 2
-    out = os.path.join(OUT, 'cat-%s@thumb.webp' % key)
-    im.crop((x0, y0, x0 + side, y0 + side)).resize((96, 96), Image.LANCZOS).save(out, 'WEBP', quality=82, method=6)
-    print('%-24s %.1f KB' % (key, os.path.getsize(out) / 1024))
+    sq = im.crop((x0, y0, x0 + side, y0 + side))
+    sizes = []
+    for name, px, q in SIZES:
+        out = os.path.join(OUT, 'cat-%s@%s.webp' % (key, name))
+        sq.resize((px, px), Image.LANCZOS).save(out, 'WEBP', quality=q, method=6)
+        sizes.append('%s %.1f KB' % (name, os.path.getsize(out) / 1024))
+    print('%-22s %s' % (key, ' | '.join(sizes)))

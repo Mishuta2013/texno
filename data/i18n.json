@@ -885,7 +885,14 @@
     "cp_all": "Увесь каталог",
     "cats_all_t": "Усі категорії",
     "cats_all_more": "та ще {n}",
-    "cats_all_go": "Відкрити каталог →"
+    "cats_all_go": "Відкрити каталог →",
+    "cp_from": "від {price} грн",
+    "cp_go": "Перейти до категорії",
+    "cp_popular": "Популярні запити",
+    "cp_brands": "Бренди",
+    "cp_close": "Закрити",
+    "cp_stock": "{{ITEMS}} у наявності",
+    "cp_models": "Моделі в наявності"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1773,7 +1780,14 @@
     "cp_all": "Весь каталог",
     "cats_all_t": "Все категории",
     "cats_all_more": "и ещё {n}",
-    "cats_all_go": "Открыть каталог →"
+    "cats_all_go": "Открыть каталог →",
+    "cp_from": "от {price} грн",
+    "cp_go": "Перейти в категорию",
+    "cp_popular": "Популярные запросы",
+    "cp_brands": "Бренды",
+    "cp_close": "Закрыть",
+    "cp_stock": "{{ITEMS}} в наличии",
+    "cp_models": "Модели в наличии"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -2630,6 +2644,13 @@
     "cp_all": "Browse the whole catalog",
     "cats_all_t": "All categories",
     "cats_all_more": "and {n} more",
-    "cats_all_go": "Open catalog →"
+    "cats_all_go": "Open catalog →",
+    "cp_from": "from {price} UAH",
+    "cp_go": "Open category",
+    "cp_popular": "Popular searches",
+    "cp_brands": "Brands",
+    "cp_close": "Close",
+    "cp_stock": "{{ITEMS}} in stock",
+    "cp_models": "In stock now"
   }
 }

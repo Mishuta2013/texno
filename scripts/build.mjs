@@ -91,6 +91,10 @@ const catList = Object.entries(CATS).map(([key, c]) => ({ key, ...c })).sort((a,
    until the first product lands. */
 const catLive = () => catList.filter(c => catProducts(c.key).length);
 const catProducts = key => products.filter(p => p.category === key);
+/* Thresholds for query pages (see catTags). Up here rather than beside it: the
+   catalog panel in the header lists each category's query pages, and the header
+   is built long before the page loop gets that far. */
+const TAG_MIN = 3, TAG_MAX_SHARE = 0.9;
 const SPECV = read('spec-values.json');
 const BRANDS = read('brands.json');   // per-brand copy for the brand pages
 const LANGS = ['uk', 'ru', 'en'];                 // uk at /, others at /ru/ and /en/
@@ -907,6 +911,36 @@ const injectData = () => {
 };
 
 // ===================== BUILD =====================
+/* A stray "}" in the stylesheet is invisible until something is written after
+   it: the browser then reads the next selector as "} .catpanel", drops that one
+   rule and carries on. That is how the catalog panel lost position:fixed and
+   opened off-screen on every scrolled phone. Count the braces outside comments
+   and strings, and refuse to build a stylesheet that does not balance. */
+{
+  const css = fs.readFileSync(path.join(ROOT, 'assets/css/main.css'), 'utf8');
+  let depth = 0, line = 1, i = 0;
+  while (i < css.length) {
+    const c = css[i];
+    if (c === '\n') line++;
+    if (c === '/' && css[i + 1] === '*') {
+      const end = css.indexOf('*/', i + 2);
+      const chunk = css.slice(i, end < 0 ? css.length : end + 2);
+      line += (chunk.match(/\n/g) || []).length;
+      i += chunk.length;
+      continue;
+    }
+    if (c === '"' || c === "'") {
+      let j = i + 1;
+      while (j < css.length && css[j] !== c && css[j] !== '\n') j += css.charCodeAt(j) === 92 ? 2 : 1;   // 92: backslash escape
+      i = j + 1;
+      continue;
+    }
+    if (c === '{') depth++;
+    if (c === '}' && --depth < 0) throw new Error(`assets/css/main.css:${line}: "}" with no block to close`);
+    i++;
+  }
+  if (depth !== 0) throw new Error(`assets/css/main.css: ${depth} block(s) left open at the end of the file`);
+}
 fs.rmSync(DIST, { recursive: true, force: true });
 fs.mkdirSync(DIST, { recursive: true });
 
@@ -1057,30 +1091,89 @@ fill('<!--QUIZ_INLINE-->', quizInline(true));
 /* The phone menu used to hold nothing but anchors into the homepage. Most
    visitors come to pick an appliance, so the five categories go in first, each
    with how many models it holds — one tap from anywhere on the site. */
-/* The catalog panel, opened by every "Каталог" on the page: the header button,
+/* The catalog panel, opened by every "Каталог" on the page — the header button,
    the phone's top-bar button, the bottom bar and the home page's "all
-   categories" card. It is the whole shop on one screen, in two groups the way
-   people think about it — for the house, for the kitchen — each row a thumbnail,
-   a name and how many models there are, so nobody scrolls to find a shelf.
-   Built here in the page's language, so its links and labels are right before
-   any script runs; the triggers stay links to #catalog for anyone without one.
-   The thumbnails are 96px squares cut from the covers — about a kilobyte each,
-   against twenty for the smallest cover. */
+   categories" card.
+
+   On a desktop it is a mega menu: the shop's fourteen shelves down the left as
+   a plain list in two groups, and beside them the one under the pointer — its
+   cover at full quality, how many models and from what price, the query pages
+   and brand pages it actually has, and four of its models with their prices.
+   The first version was a list of 40px icons; the owner called it wooden, and
+   the icons were too small to tell a hob from a hood. The pictures now live in
+   the preview, at a size that can be read.
+
+   On a phone and a tablet the same list becomes tiles with square photographs,
+   three to five to a row, in a sheet with its own close button.
+
+   Built here, in the page's language; every trigger stays a link to #catalog
+   for anyone without JavaScript. */
 const GRID_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7.4" height="7.4" rx="1.6"/><rect x="13.6" y="3" width="7.4" height="7.4" rx="1.6"/><rect x="3" y="13.6" width="7.4" height="7.4" rx="1.6"/><rect x="13.6" y="13.6" width="7.4" height="7.4" rx="1.6"/></svg>';
-const catThumb = c => av(c.cover.replace(/\.webp$/, '@thumb.webp'));
+/* 320px squares for the tiles — see scripts/make_cat_thumbs.py */
+const catSquare = (c, size) => av(c.cover.replace(/\.webp$/, `@${size}.webp`));
 function catPanel() {
   const live = catLive();
-  const item = c => `<a class="cp-item" href="${curl(c)}">` +
-    (c.cover ? `<img class="cp-th" src="${esc(catThumb(c))}" alt="" width="96" height="96" loading="lazy" decoding="async">`
-             : `<span class="cp-th cp-emoji" aria-hidden="true">${esc(c.emoji || '')}</span>`) +
-    `<span class="cp-name">${esc(lf(c, 'name'))}</span><em class="cp-n">${catProducts(c.key).length}</em></a>`;
-  const groups = [['home', 'cp_home'], ['kitchen', 'cp_kitchen']].map(([g, key]) => {
-    const cs = live.filter(c => (c.group || 'home') === g);
-    return cs.length ? `<div class="cp-group"><p class="cp-h">${esc(t(key))}</p><div class="cp-list">${cs.map(item).join('')}</div></div>` : '';
+  const ordered = ['home', 'kitchen'].flatMap(g => live.filter(c => (c.group || 'home') === g));
+  const first = ordered[0] && ordered[0].key;
+  const icon = c => c.cover
+    ? `<img class="cp-ic" src="${esc(catSquare(c, 'tile'))}" alt="" width="320" height="320" loading="lazy" decoding="async">`
+    : `<span class="cp-ic cp-emoji" aria-hidden="true">${esc(c.emoji || '')}</span>`;
+  const item = c => `<a class="cp-item${c.key === first ? ' is-on' : ''}" href="${curl(c)}" data-cp="${esc(c.key)}">${icon(c)}` +
+    `<span class="cp-name">${esc(lf(c, 'name'))}</span><em class="cp-n">${catProducts(c.key).length}</em>` +
+    `<svg class="cp-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>`;
+  const rail = [['home', 'cp_home'], ['kitchen', 'cp_kitchen']].map(([g, key]) => {
+    const cs = ordered.filter(c => (c.group || 'home') === g);
+    return cs.length ? `<p class="cp-h">${esc(t(key))}</p><div class="cp-list">${cs.map(item).join('')}</div>` : '';
   }).join('');
+  const pane = c => {
+    const ps = catProducts(c.key);
+    const meta = `${ps.length} ${modelsWord(ps.length)} · ${t('cp_from').replace('{price}', fmt(Math.min(...ps.map(p => p.price))))}`;
+    /* Four models under the links, so the preview is a shop window rather than
+       a caption over empty space. */
+    /* Inside the hob shelf "Варильна поверхня" in front of every name is noise
+       that pushed the model itself past the two lines a card has room for. */
+    const pre = (c.productPrefix || {})[L];
+    const shortName = p => {
+      const n = pname(p);
+      if (!pre || !n.startsWith(pre)) return n;
+      const rest = n.slice(pre.length).replace(/^[\s:·,–-]+/, '');
+      return rest ? rest.charAt(0).toUpperCase() + rest.slice(1) : n;
+    };
+    /* Pinned models, then bestsellers, then catalogue order — one per brand
+       first, so the air conditioners are not four near-identical TCL units. */
+    const ranked = ps.map((p, i) => ({ p, i }))
+      .sort((a, b) => (a.p.pin || 99) - (b.p.pin || 99) || (b.p.bestseller ? 1 : 0) - (a.p.bestseller ? 1 : 0) || a.i - b.i)
+      .map(x => x.p);
+    const seenBrand = new Set();
+    const picks = ranked.filter(p => !seenBrand.has(p.brand) && seenBrand.add(p.brand)).slice(0, 4);
+    for (const p of ranked) { if (picks.length >= 4) break; if (!picks.includes(p)) picks.push(p); }
+    const prods = picks.length ? `<div class="cp-prods"><p class="cp-h">${esc(t('cp_models'))}</p><div class="cp-prod-grid">` +
+      picks.map(p => `<a class="cp-prod" href="${purl(p)}"><span class="cp-prod-img"><img src="${esc(av(p.thumb))}" alt="" width="400" height="400" loading="lazy" decoding="async"></span>` +
+        `<span class="cp-prod-name">${esc(shortName(p))}</span><span class="cp-prod-price">${fmt(p.price)} ${esc(t('u_uah'))}</span></a>`).join('') +
+      `</div></div>` : '';
+    const tags = catTags(c.key).map(tg => `<a class="cp-chip" href="${turl(c, tg)}">${esc(lf(tg, 'label'))}</a>`).join('');
+    const brands = catBrands(c.key).filter(b => !brandIsShelf(c.key, b))
+      .map(b => `<a class="cp-chip" href="${burl(c, b)}">${esc(b)}</a>`).join('');
+    const col = (label, chips) => chips ? `<div class="cp-col"><p class="cp-h">${esc(t(label))}</p><div class="cp-chips">${chips}</div></div>` : '';
+    const cover = c.cover ? (() => {
+      const w = n => esc(av(c.cover.replace(/\.webp$/, `@${n}.webp`)));
+      return `<img src="${esc(av(c.cover))}" srcset="${w(400)} 400w, ${esc(av(c.cover))} 800w, ${w(1200)} 1200w"` +
+        ` sizes="(min-width:1001px) 480px, 1px" alt="${esc(lf(c, 'coverAlt') || lf(c, 'name'))}" width="800" height="340" loading="lazy" decoding="async">`;
+    })() : '';
+    return `<section class="cp-pane${c.key === first ? ' is-on' : ''}" data-cp="${esc(c.key)}"${c.key === first ? '' : ' hidden'}>` +
+      `<div class="cp-lead"><a class="cp-cover" href="${curl(c)}" tabindex="-1" aria-hidden="true">${cover}</a>` +
+      `<div class="cp-info"><p class="cp-title">${esc(lf(c, 'name'))}</p><p class="cp-meta">${esc(meta)}</p>` +
+      `<p class="cp-desc">${esc(lf(c, 'cardSub') || '')}</p>` +
+      `<a class="cp-go" href="${curl(c)}">${esc(t('cp_go'))} <span aria-hidden="true">→</span></a></div></div>` +
+      (tags || brands ? `<div class="cp-links">${col('cp_popular', tags)}${col('cp_brands', brands)}</div>` : '') +
+      prods + `</section>`;
+  };
   return `<div class="catpanel" id="catpanel" hidden data-nosnippet><nav class="cp-box" aria-label="${esc(t('cp_label'))}">` +
-    `<div class="cp-groups">${groups}</div>` +
-    `<a class="cp-all" href="${pfx()}/#catalog">${esc(t('cp_all'))} <span aria-hidden="true">→</span></a></nav></div>`;
+    `<div class="cp-top"><p class="cp-top-t">${esc(t('nav_catalog'))}</p>` +
+    `<button type="button" class="cp-close" aria-label="${esc(t('cp_close'))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>` +
+    `<div class="cp-body"><div class="cp-rail">${rail}</div><div class="cp-stage">${ordered.map(pane).join('')}</div></div>` +
+    `<div class="cp-foot"><span>${esc(t('cp_stock'))}</span><a class="cp-all" href="${pfx()}/#catalog">${esc(t('cp_all'))} <span aria-hidden="true">→</span></a></div>` +
+    `</nav></div>`;
 }
 function navCats() {
   return '<div class="nav-cats">' + catLive().map(c =>
@@ -1136,7 +1229,7 @@ function navCats() {
     const shown = rest.filter(c => c.cover).slice(0, 4);
     const more = rest.length - shown.length;
     return `<a class="cat-card cat-card-cover cat-card-all reveal" href="#catalog" data-catpanel aria-controls="catpanel" aria-expanded="false">` +
-      `<span class="cat-all-art" aria-hidden="true">${shown.map(c => `<img src="${esc(catThumb(c))}" alt="" width="96" height="96" loading="lazy" decoding="async">`).join('')}` +
+      `<span class="cat-all-art" aria-hidden="true">${shown.map(c => `<img src="${esc(catSquare(c, 'tile'))}" alt="" width="320" height="320" loading="lazy" decoding="async">`).join('')}` +
       `${more > 0 ? `<b>+${more}</b>` : ''}</span>` +
       `<span class="cat-ic" aria-hidden="true">${GRID_SVG}</span>` +
       `<span class="cat-tx"><span class="cat-t">${esc(t('cats_all_t'))}</span><span class="cat-s">${esc(sub)}</span></span>` +
@@ -1703,7 +1796,9 @@ function catBrands(catKey) {
   return [...new Set(catProducts(catKey).map(p => p.brand))]
     .sort((a, b) => a.localeCompare(b, 'uk'));
 }
-const burl = (cat, brand) => `${pfx()}${cat.urlPrefix}/${brandSlug(brand)}/`;
+/* Declarations, not arrow constants: the catalog panel in the header calls
+   these before the page loop reaches this line. */
+function burl(cat, brand) { return `${pfx()}${cat.urlPrefix}/${brandSlug(brand)}/`; }
 /* A brand that is the whole shelf — every hob here is Gunter&Hauer, every water
    heater Atlantic — got a page identical to its category, product for product.
    Tag pages already refuse to exist past 90% of a category, "the definition of
@@ -1711,8 +1806,9 @@ const burl = (cat, brand) => `${pfx()}${cat.urlPrefix}/${brandSlug(brand)}/`;
    sitemap as rivals to their own category. They stay online for anyone who has
    the address — search may already know them — but canonical, hreflang and the
    sitemap now send search to the category. */
-const brandIsShelf = (catKey, brand) =>
-  catProducts(catKey).filter(p => p.brand === brand).length >= catProducts(catKey).length * TAG_MAX_SHARE;
+function brandIsShelf(catKey, brand) {
+  return catProducts(catKey).filter(p => p.brand === brand).length >= catProducts(catKey).length * TAG_MAX_SHARE;
+}
 
 /* ---- query landing pages ------------------------------------------------
    A brand has an address of its own, so "кондиціонер Ardesto Суми" has
@@ -1726,7 +1822,6 @@ const brandIsShelf = (catKey, brand) =>
    almost the whole category is skipped: "мийки з нержавіючої сталі" matched all
    thirty-two, so its page would have been the category page under a different
    address, which is the definition of a duplicate. */
-const TAG_MIN = 3, TAG_MAX_SHARE = 0.9;
 function tagMatch(p, m) {
   /* Half of what a shopper filters on is not in specs: area, btu and the
      inverter/heat-pump/No-Frost flags sit on the product itself, the way
@@ -1743,7 +1838,7 @@ function tagMatch(p, m) {
   if (m.max !== undefined && n > m.max) return false;
   return true;
 }
-const tagProducts = (catKey, tag) => catProducts(catKey).filter(p => tagMatch(p, tag.match));
+function tagProducts(catKey, tag) { return catProducts(catKey).filter(p => tagMatch(p, tag.match)); }
 function catTags(catKey) {
   const cat = CATS[catKey];
   const total = catProducts(catKey).length;
@@ -1752,7 +1847,7 @@ function catTags(catKey) {
     return n >= TAG_MIN && n < total * TAG_MAX_SHARE;
   });
 }
-const turl = (cat, tg) => `${pfx()}${cat.urlPrefix}/${tg.slug}/`;
+function turl(cat, tg) { return `${pfx()}${cat.urlPrefix}/${tg.slug}/`; }
 
 /* Tag and brand pages went out with the generic share card: the whole shop in
    a line-up, an air conditioner in the corner. Search is free to ignore

@@ -1974,52 +1974,163 @@ body:has(.lbox.open) > div:has(iframe[src*="merchantverse"]){display:none!import
 @keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .card-in{animation:cardIn .42s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--in-delay,0ms)}
 
-}
-
 /* ============ CATALOG PANEL ============
    Under the header (z 200), over the compare bar (190) and the phone's bottom
-   bar (130); a tap on the dimmed page closes it. */
-.catpanel{position:fixed;left:0;right:0;bottom:0;top:70px;z-index:195;background:rgba(6,14,30,.5);opacity:0;transition:opacity .18s ease}
+   bar (130). Desktop: the list of shelves on the left, the one under the
+   pointer on the right. Phone and tablet: a full sheet of photo tiles. */
+.catpanel{position:fixed;left:0;right:0;bottom:0;top:70px;z-index:195;background:rgba(6,14,30,.52);opacity:0;transition:opacity .2s ease}
 .catpanel.in{opacity:1}
-.cp-box{display:block;max-width:var(--max);margin:0 auto;max-height:calc(100% - 12px);overflow:auto;overscroll-behavior:contain;
-  background:var(--white);border-radius:0 0 18px 18px;box-shadow:0 26px 60px rgba(6,20,48,.32);padding:18px 22px 8px;
-  transform:translateY(-10px);transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+.cp-box{display:flex;flex-direction:column;max-width:var(--max);margin:0 auto;height:min(calc(100% - 14px),730px);overflow:hidden;
+  background:var(--white);border-radius:0 0 22px 22px;box-shadow:0 30px 70px rgba(6,20,48,.34),0 0 0 1px rgba(124,196,255,.08);
+  transform:translateY(-12px);transition:transform .26s cubic-bezier(.2,.8,.2,1)}
 .catpanel.in .cp-box{transform:none}
-.cp-groups{display:grid;grid-template-columns:3fr 4fr;gap:8px 30px}
-.cp-h{margin:0 0 6px 8px;font-family:var(--disp);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g4)}
-.cp-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 8px}
-.cp-item{display:flex;align-items:center;gap:11px;min-height:52px;padding:6px 8px;border-radius:12px;color:var(--ink);text-decoration:none;transition:background .15s ease,transform .12s ease}
-.cp-item:hover{background:var(--g1)}
-.cp-item:active{transform:scale(.985)}
-.cp-th{flex:none;width:40px;height:40px;border-radius:10px;object-fit:cover;background:var(--navy)}
-.cp-emoji{display:grid;place-items:center;font-size:20px;background:var(--blue-a)}
-.cp-name{flex:1;min-width:0;font-family:var(--disp);font-weight:600;font-size:14px;line-height:1.25}
-.cp-n{flex:none;font-style:normal;font-variant-numeric:tabular-nums;font-size:12px;font-weight:600;color:var(--g4);background:var(--g1);border-radius:var(--r-pill);padding:2px 8px}
-.cp-item:hover .cp-n{background:var(--white)}
-.cp-all{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px;padding:12px;border-top:1px solid var(--g2);
-  font-family:var(--disp);font-weight:700;font-size:14px;color:var(--blue-d);text-decoration:none}
-.cp-all:hover{color:var(--blue)}
-:root[data-theme="dark"] .cp-all{color:var(--frost)}
+.cp-top{display:none}
+.cp-body{display:grid;grid-template-columns:300px minmax(0,1fr);grid-template-rows:minmax(0,1fr);flex:1;min-height:0}
+
+.cp-rail{background:var(--paper);border-right:1px solid var(--line);padding:12px 10px;overflow:auto;overscroll-behavior:contain}
+.cp-h{margin:12px 10px 6px;font-family:var(--disp);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--g4)}
+.cp-rail > .cp-h:first-child{margin-top:4px}
+.cp-list{display:flex;flex-direction:column;gap:2px}
+.cp-item{position:relative;display:flex;align-items:center;gap:11px;padding:8px 10px 8px 14px;border-radius:12px;color:var(--ink);
+  text-decoration:none;transition:background .15s ease,box-shadow .15s ease,color .15s ease}
+/* On a desktop the list is text, like Comfy's: a 34px photograph could not be
+   read, and the preview beside it carries the pictures at a size that can. */
+.cp-rail .cp-ic{display:none}
+.cp-ic{flex:none;border-radius:9px;object-fit:cover;background:var(--navy);transition:transform .2s ease}
+.cp-emoji{place-items:center;font-size:18px;background:var(--blue-a)}
+.cp-name{flex:1;min-width:0;font-family:var(--disp);font-weight:600;font-size:14.5px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp-n{flex:none;font-style:normal;font-variant-numeric:tabular-nums;font-size:12px;font-weight:600;color:var(--g4)}
+.cp-chev{flex:none;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;
+  color:var(--blue-d);opacity:0;transform:translateX(-4px);transition:opacity .15s ease,transform .15s ease}
+.cp-item:hover{background:rgba(46,139,255,.07)}
+.cp-item.is-on{background:var(--white);color:var(--blue-d);box-shadow:0 4px 14px rgba(11,26,51,.08),0 0 0 1px var(--line)}
+.cp-item.is-on .cp-n{color:var(--blue-d)}
+.cp-item.is-on .cp-chev{opacity:1;transform:none}
+.cp-item.is-on::before{content:'';position:absolute;left:-10px;top:9px;bottom:9px;width:3px;border-radius:0 3px 3px 0;background:var(--blue)}
+
+.cp-stage{display:flex;flex-direction:column;padding:24px 28px;overflow:auto;overscroll-behavior:contain}
+.cp-pane[hidden]{display:none!important}
+.cp-pane{animation:cpPane .24s cubic-bezier(.2,.8,.2,1) both}
+@keyframes cpPane{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.cp-lead{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:26px;align-items:center}
+.cp-cover{display:block;aspect-ratio:40/17;border-radius:18px;overflow:hidden;background:#0B1A33;box-shadow:0 16px 36px rgba(11,26,51,.24)}
+.cp-cover img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.cp-cover:hover img{transform:scale(1.04)}
+.cp-title{margin:0;font-family:var(--disp);font-weight:800;font-size:27px;line-height:1.1;letter-spacing:-.02em;color:var(--ink);text-wrap:balance}
+.cp-meta{margin:9px 0 0;font-size:13.5px;font-weight:700;color:var(--blue-d);font-variant-numeric:tabular-nums}
+.cp-desc{margin:8px 0 0;font-size:14px;line-height:1.5;color:var(--g5);text-wrap:pretty}
+.cp-go{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:11px 18px;border-radius:12px;background:#1560C4;color:#fff;
+  font-family:var(--disp);font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 8px 20px rgba(21,96,196,.3);transition:background .18s ease,transform .12s ease}
+.cp-go span{transition:transform .18s ease}
+.cp-go:hover{background:#0F4DA0}
+.cp-go:hover span{transform:translateX(3px)}
+.cp-go:active{transform:scale(.98)}
+.cp-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 30px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+.cp-col .cp-h{margin:0 0 9px}
+.cp-chips{display:flex;flex-wrap:wrap;gap:7px}
+.cp-chip{padding:7px 12px;border-radius:var(--r-pill);background:var(--g1);color:var(--g5);font-size:13px;font-weight:600;text-decoration:none;
+  transition:background .15s ease,color .15s ease,transform .12s ease}
+.cp-chip:hover{background:var(--blue-a);color:var(--blue-d)}
+.cp-chip:active{transform:scale(.97)}
+.cp-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 24px;border-top:1px solid var(--line);font-size:13px;color:var(--g4)}
+.cp-all{display:inline-flex;align-items:center;gap:6px;font-family:var(--disp);font-weight:700;font-size:14px;color:var(--blue-d);text-decoration:none}
+.cp-all span{transition:transform .18s ease}
+.cp-all:hover span{transform:translateX(3px)}
+:root[data-theme="dark"] .cp-all,:root[data-theme="dark"] .cp-meta,:root[data-theme="dark"] .cp-item.is-on,
+:root[data-theme="dark"] .cp-item.is-on .cp-n,:root[data-theme="dark"] .cp-chev,:root[data-theme="dark"] .cp-chip:hover{color:var(--frost)}
 .header nav .nav-cta[aria-expanded="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
-@media(max-width:900px){.cp-groups{grid-template-columns:1fr}}
-@media(max-width:560px){
-  .cp-box{padding:12px 10px 4px;border-radius:0 0 16px 16px}
-  .cp-list{gap:2px 4px}
-  .cp-item{gap:8px;min-height:48px;padding:5px 6px}
-  .cp-th{width:34px;height:34px;border-radius:9px}
-  .cp-name{font-size:13px}
-  .cp-n{font-size:11px;padding:1px 6px}
+
+/* The panel is as tall as the screen allows, up to 730px, and the model photos
+   take whatever height is left under the links: a laptop gets smaller photos,
+   a monitor bigger ones, and neither gets a scrollbar. Chasing that with height
+   breakpoints failed at every edge — 1180×701, 1400×821 — because the number of
+   chip rows differs from shelf to shelf. */
+.cp-pane{flex:1 0 auto;display:flex;flex-direction:column}
+.cp-prods{flex:1 0 auto;display:flex;flex-direction:column;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+.cp-prods .cp-h{margin:0 0 10px}
+.cp-prod-grid{flex:1 0 auto;max-height:300px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:1fr;gap:12px}
+.cp-prod{min-height:0;display:flex;flex-direction:column;gap:6px;padding:10px 10px 12px;border-radius:14px;border:1px solid var(--line);background:var(--card);
+  color:var(--ink);text-decoration:none;transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}
+.cp-prod:hover{border-color:var(--frost);box-shadow:0 12px 26px rgba(11,26,51,.1);transform:translateY(-2px)}
+.cp-prod:active{transform:translateY(0) scale(.99)}
+.cp-prod-img{position:relative;flex:1 0 80px;min-height:0;border-radius:10px;background:var(--g1);overflow:hidden}
+.cp-prod-img img{position:absolute;inset:9%;width:82%;height:82%;object-fit:contain;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.cp-prod:hover .cp-prod-img img{transform:scale(1.06)}
+.cp-prod-name{font-size:12.5px;font-weight:600;line-height:1.3;min-height:2.6em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cp-prod-price{font-family:var(--disp);font-weight:800;font-size:14.5px;font-variant-numeric:tabular-nums;color:var(--ink)}
+@media(max-width:1199px){.cp-prod-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.cp-prod:nth-child(4){display:none}}
+/* Laptops are wide but short inside a browser — 1536×730, 1366×657 — so there
+   the panel draws tighter rather than make the list of shelves scroll. */
+@media(min-width:1001px) and (max-height:820px){
+  .cp-rail{padding:6px 10px}
+  .cp-h{margin:8px 10px 4px}
+  .cp-list{gap:1px}
+  .cp-item{padding-top:6px;padding-bottom:6px}
+  .cp-item.is-on::before{top:7px;bottom:7px}
+  .cp-stage{padding:16px 24px 10px}
+  .cp-title{font-size:24px}
+  .cp-go{margin-top:12px;padding:9px 16px}
+  .cp-links{margin-top:12px;padding-top:10px}
+  .cp-prods{margin-top:12px;padding-top:10px}
+  .cp-prod{padding:8px 8px 10px;gap:4px}
+  .cp-foot{padding:8px 24px}
+  .cp-lead{grid-template-columns:minmax(0,.7fr) minmax(0,1fr);gap:22px}
+  .cp-desc{display:none}
 }
-@media(prefers-reduced-motion:reduce){.catpanel,.cp-box{transition:none}}
+/* 1366×657 and shorter: the four models become rows — photo, name, price — so
+   they still fit on the first screen without the photos shrinking to stamps. */
+@media(min-width:1001px) and (max-height:700px){
+  .cp-item{padding-top:4px;padding-bottom:4px}
+  .cp-prod{display:grid;grid-template-columns:64px minmax(0,1fr);align-items:center;column-gap:10px;row-gap:3px;padding:7px 10px 7px 7px}
+  .cp-prods,.cp-prod-grid{flex:none;max-height:none}
+  .cp-prod-grid{grid-auto-rows:auto}
+  .cp-prod-img{grid-row:span 2;flex:none;width:64px;height:64px}
+  .cp-prod-name{min-height:0;align-self:end;font-size:12px}
+  .cp-prod-price{align-self:start;font-size:13.5px}
+}
+
+/* phone and tablet: one sheet, photo tiles, its own close button */
+@media(max-width:1000px){
+  .cp-box{max-width:none;height:100%;max-height:none;border-radius:0}
+  .cp-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 10px 8px 18px;border-bottom:1px solid var(--line)}
+  .cp-top-t{margin:0;font-family:var(--disp);font-weight:800;font-size:19px;color:var(--ink)}
+  .cp-close{display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:12px;background:var(--g1);color:var(--ink);cursor:pointer;transition:transform .12s ease}
+  .cp-close svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+  .cp-close:active{transform:scale(.94)}
+  .cp-body{display:block;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+  .cp-stage{display:none}
+  .cp-rail{background:none;border:0;padding:4px 16px 18px;overflow:visible}
+  .cp-rail > .cp-h:first-child{margin-top:12px}
+  .cp-h{margin:18px 2px 10px}
+  .cp-list{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px 12px}
+  .cp-item,.cp-item.is-on{flex-direction:column;align-items:stretch;gap:6px;padding:0;background:none;box-shadow:none;color:var(--ink);border-radius:14px}
+  .cp-item:hover{background:none}
+  .cp-item.is-on::before,.cp-chev{display:none}
+  .cp-rail .cp-ic{display:block;width:100%;height:auto;aspect-ratio:1;border-radius:14px;box-shadow:0 6px 16px rgba(11,26,51,.14)}
+  .cp-rail .cp-emoji{display:grid}
+  .cp-item:active .cp-ic{transform:scale(.96)}
+  .cp-name{white-space:normal;font-size:13px;line-height:1.25;padding:0 2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .cp-n,.cp-item.is-on .cp-n{padding:0 2px;margin-top:-3px;font-size:11.5px;color:var(--g4)}
+  .cp-foot{padding:12px 18px calc(12px + env(safe-area-inset-bottom))}
+  :root[data-theme="dark"] .cp-item.is-on,:root[data-theme="dark"] .cp-item.is-on .cp-n{color:inherit}
+}
+@media(max-width:760px){.cp-list{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:560px){
+  .cp-list{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 9px}
+  .cp-rail{padding:2px 12px 14px}
+  .cp-name{font-size:12.5px}
+}
+@media(prefers-reduced-motion:reduce){.catpanel,.cp-box,.cp-pane,.cp-cover img,.cp-ic{transition:none;animation:none}}
 
 /* ============ CATALOG BUTTON IN THE PHONE HEADER ============
    From 1380px down the nav folds into the burger, and "Каталог" went with it.
    It now sits beside the logo, in the header that stays on screen while the
-   page scrolls. White on the darker blue: 5.6:1, where the lighter one is 3.4. */
+   page scrolls. White on the darker blue: 6:1, where the lighter one is 3.4. A
+   literal, not var(--blue-d): the dark theme turns that token light, 2.3:1. */
 .hdr-cat,.nav-theme{display:none}
 @media(max-width:1380px){
   .hdr-cat{display:inline-flex;align-items:center;gap:7px;flex:none;height:40px;padding:0 14px 0 12px;border-radius:var(--r-sm);
-    background:var(--blue-d);color:#fff;font-family:var(--disp);font-size:14px;font-weight:700;white-space:nowrap;text-decoration:none;
+    background:#1560C4;color:#fff;font-family:var(--disp);font-size:14px;font-weight:700;white-space:nowrap;text-decoration:none;
     box-shadow:0 6px 18px rgba(21,96,196,.45);transition:background .18s ease,transform .12s ease}
   .hdr-cat svg{width:16px;height:16px;fill:currentColor}
   .hdr-cat:hover,.hdr-cat[aria-expanded="true"]{background:#0F4DA0}
