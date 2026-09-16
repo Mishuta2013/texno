@@ -878,7 +878,14 @@
     "map_title": "Карта — TexnoPlaza",
     "form_name_ph": "Олександр",
     "cb_name_ph": "Ім’я",
-    "nav_returns": "Повернення товару"
+    "nav_returns": "Повернення товару",
+    "cp_label": "Каталог товарів",
+    "cp_home": "Техніка для дому",
+    "cp_kitchen": "Для кухні",
+    "cp_all": "Увесь каталог",
+    "cats_all_t": "Усі категорії",
+    "cats_all_more": "та ще {n}",
+    "cats_all_go": "Відкрити каталог →"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1759,7 +1766,14 @@
     "map_title": "Карта — TexnoPlaza",
     "form_name_ph": "Александр",
     "cb_name_ph": "Имя",
-    "nav_returns": "Возврат товара"
+    "nav_returns": "Возврат товара",
+    "cp_label": "Каталог товаров",
+    "cp_home": "Техника для дома",
+    "cp_kitchen": "Для кухни",
+    "cp_all": "Весь каталог",
+    "cats_all_t": "Все категории",
+    "cats_all_more": "и ещё {n}",
+    "cats_all_go": "Открыть каталог →"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -2609,6 +2623,13 @@
     "map_title": "Map — TexnoPlaza",
     "form_name_ph": "Alex",
     "cb_name_ph": "Name",
-    "nav_returns": "Returns"
+    "nav_returns": "Returns",
+    "cp_label": "Product catalog",
+    "cp_home": "Home appliances",
+    "cp_kitchen": "Kitchen",
+    "cp_all": "Browse the whole catalog",
+    "cats_all_t": "All categories",
+    "cats_all_more": "and {n} more",
+    "cats_all_go": "Open catalog →"
   }
 }

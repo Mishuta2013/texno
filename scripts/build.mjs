@@ -1057,6 +1057,31 @@ fill('<!--QUIZ_INLINE-->', quizInline(true));
 /* The phone menu used to hold nothing but anchors into the homepage. Most
    visitors come to pick an appliance, so the five categories go in first, each
    with how many models it holds — one tap from anywhere on the site. */
+/* The catalog panel, opened by every "Каталог" on the page: the header button,
+   the phone's top-bar button, the bottom bar and the home page's "all
+   categories" card. It is the whole shop on one screen, in two groups the way
+   people think about it — for the house, for the kitchen — each row a thumbnail,
+   a name and how many models there are, so nobody scrolls to find a shelf.
+   Built here in the page's language, so its links and labels are right before
+   any script runs; the triggers stay links to #catalog for anyone without one.
+   The thumbnails are 96px squares cut from the covers — about a kilobyte each,
+   against twenty for the smallest cover. */
+const GRID_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7.4" height="7.4" rx="1.6"/><rect x="13.6" y="3" width="7.4" height="7.4" rx="1.6"/><rect x="3" y="13.6" width="7.4" height="7.4" rx="1.6"/><rect x="13.6" y="13.6" width="7.4" height="7.4" rx="1.6"/></svg>';
+const catThumb = c => av(c.cover.replace(/\.webp$/, '@thumb.webp'));
+function catPanel() {
+  const live = catLive();
+  const item = c => `<a class="cp-item" href="${curl(c)}">` +
+    (c.cover ? `<img class="cp-th" src="${esc(catThumb(c))}" alt="" width="96" height="96" loading="lazy" decoding="async">`
+             : `<span class="cp-th cp-emoji" aria-hidden="true">${esc(c.emoji || '')}</span>`) +
+    `<span class="cp-name">${esc(lf(c, 'name'))}</span><em class="cp-n">${catProducts(c.key).length}</em></a>`;
+  const groups = [['home', 'cp_home'], ['kitchen', 'cp_kitchen']].map(([g, key]) => {
+    const cs = live.filter(c => (c.group || 'home') === g);
+    return cs.length ? `<div class="cp-group"><p class="cp-h">${esc(t(key))}</p><div class="cp-list">${cs.map(item).join('')}</div></div>` : '';
+  }).join('');
+  return `<div class="catpanel" id="catpanel" hidden data-nosnippet><nav class="cp-box" aria-label="${esc(t('cp_label'))}">` +
+    `<div class="cp-groups">${groups}</div>` +
+    `<a class="cp-all" href="${pfx()}/#catalog">${esc(t('cp_all'))} <span aria-hidden="true">→</span></a></nav></div>`;
+}
 function navCats() {
   return '<div class="nav-cats">' + catLive().map(c =>
     `<a class="nav-cat" href="${curl(c)}"><span>${esc(lf(c, 'name'))}</span><em>${catProducts(c.key).length}</em></a>`
@@ -1074,7 +1099,14 @@ function navCats() {
    A category without a cover renders exactly as it did before — an emoji tile
    beside the name — so the section is never half-dressed while artwork is made. */
 {
-  const live = catLive();
+  /* Five categories carry the shop — air conditioners, washing machines,
+     fridges, power stations, water heaters — and the section showed all
+     fourteen, 1631px of cards on a phone. The featured five stay; the rest are
+     one card that opens the catalog panel, with a few of their thumbnails so it
+     reads as "and more" rather than as a sixth category. */
+  const every = catLive();
+  const live = every.some(c => c.featured) ? every.filter(c => c.featured) : every;
+  const rest = every.filter(c => !live.includes(c));
   const withCover = live.filter(c => c.cover);
   const cards = live.map(c => {
     const cover = c.cover ? (() => {
@@ -1082,7 +1114,7 @@ function navCats() {
       /* Two widths. On a phone the grid is 2-up, so a card is about 46vw — a 400px
          file covers that at 2x, and the odd last card, which spans the row, gets a
          sizes of its own rather than a soft picture. */
-      const last = withCover.length % 2 === 1 && c === withCover[withCover.length - 1];
+      const last = !rest.length && withCover.length % 2 === 1 && c === withCover[withCover.length - 1];
       const sizes = last ? '(max-width:640px) 92vw, (max-width:1000px) 46vw, 380px'
                          : '(max-width:1000px) 46vw, 380px';
       return `<img class="cat-cover" src="${esc(av(c.cover))}" srcset="${w(400)} 400w, ${esc(av(c.cover))} 800w"` +
@@ -1097,8 +1129,21 @@ function navCats() {
   /* The 2-up phone layout used to be selected with :has(). A browser without it
      silently fell back to one tall card per row — which is exactly the endless
      scrolling this was meant to fix — so the grid is told here instead. */
+  const allTile = rest.length ? (() => {
+    const names = rest.map((c, i) => (i ? lf(c, 'name').toLowerCase() : lf(c, 'name')));
+    const sub = names.length > 3
+      ? `${names.slice(0, 3).join(', ')} ${t('cats_all_more').replace('{n}', names.length - 3)}` : names.join(', ');
+    const shown = rest.filter(c => c.cover).slice(0, 4);
+    const more = rest.length - shown.length;
+    return `<a class="cat-card cat-card-cover cat-card-all reveal" href="#catalog" data-catpanel aria-controls="catpanel" aria-expanded="false">` +
+      `<span class="cat-all-art" aria-hidden="true">${shown.map(c => `<img src="${esc(catThumb(c))}" alt="" width="96" height="96" loading="lazy" decoding="async">`).join('')}` +
+      `${more > 0 ? `<b>+${more}</b>` : ''}</span>` +
+      `<span class="cat-ic" aria-hidden="true">${GRID_SVG}</span>` +
+      `<span class="cat-tx"><span class="cat-t">${esc(t('cats_all_t'))}</span><span class="cat-s">${esc(sub)}</span></span>` +
+      `<span class="cat-go">${esc(t('cats_all_go'))}</span></a>`;
+  })() : '';
   fill('<!--CAT_CARDS-->',
-    `<div class="cats-grid${withCover.length ? ' has-covers' : ''}">\n      ${cards}\n    </div>`);
+    `<div class="cats-grid${withCover.length ? ' has-covers' : ''}${rest.length ? ' cats-main' : ''}">\n      ${cards}${allTile ? '\n      ' + allTile : ''}\n    </div>`);
 }
 fill('<!--INSTALL_MORE-->', INSTALL_LANGS.includes(L)
   ? `<a class="pc-more" href="${pfx()}${INSTALL_PATH}">${esc(t('inst_more'))} →</a>` : '');
@@ -1123,6 +1168,7 @@ fill('<!--TURNSTILE-->', site.turnstileKey
     + ` data-theme="auto" data-size="flexible" data-language="${L}"></div>`
   : '');
 fill('<!--NAV_CATS-->', navCats());
+fill('<!--CAT_PANEL-->', catPanel());
 /* Reviews were a third-party embed: a 704px-tall iframe from elfsightcdn that
    loaded on every page, could not be styled and read as somebody else's box
    dropped into the page. This renders the same reviews as our own markup, from

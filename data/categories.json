@@ -260,7 +260,9 @@
       }
     ],
     "quizEyeKey": "quiz_eye",
-    "quizTitleKey": "quiz_h"
+    "quizTitleKey": "quiz_h",
+    "group": "home",
+    "featured": true
   },
   "pralni-mashyny": {
     "name": "Пральні машини",
@@ -501,7 +503,9 @@
       }
     ],
     "quizEyeKey": "wmq_eye",
-    "quizTitleKey": "wmq_h"
+    "quizTitleKey": "wmq_h",
+    "group": "home",
+    "featured": true
   },
   "zaryadni-stantsii": {
     "name": "Зарядні станції",
@@ -780,7 +784,9 @@
       }
     ],
     "quizEyeKey": "quiz_eye",
-    "quizTitleKey": "psq_h"
+    "quizTitleKey": "psq_h",
+    "group": "home",
+    "featured": true
   },
   "holodylnyky": {
     "name": "Холодильники",
@@ -1091,7 +1097,9 @@
       }
     ],
     "quizEyeKey": "quiz_eye",
-    "quizTitleKey": "frq_h"
+    "quizTitleKey": "frq_h",
+    "group": "home",
+    "featured": true
   },
   "boylery": {
     "name": "Бойлери",
@@ -1380,7 +1388,9 @@
       }
     ],
     "quizEyeKey": "quiz_eye",
-    "quizTitleKey": "blq_h"
+    "quizTitleKey": "blq_h",
+    "group": "home",
+    "featured": true
   },
   "duhovi-shafy": {
     "name": "Духові шафи",
@@ -1646,7 +1656,8 @@
         "intro_ru": "Объём решает, сколько уровней работает одновременно. От 65 литров в духовке свободно встают два противня и утятница.",
         "intro_en": "Capacity decides how many shelves you can use at once."
       }
-    ]
+    ],
+    "group": "kitchen"
   },
   "varylni-poverhni": {
     "name": "Варильні поверхні",
@@ -1956,7 +1967,8 @@
         "intro_ru": "Две конфорки шириной около 30 см. Ставят на маленькую кухню или рядом со второй такой же, чтобы собрать поверхность под себя.",
         "intro_en": "Two zones about 30 cm wide — for a small kitchen, or paired up."
       }
-    ]
+    ],
+    "group": "kitchen"
   },
   "vytyazhky": {
     "name": "Витяжки",
@@ -2297,7 +2309,8 @@
         "intro_ru": "Закалённое стекло легко мыть и оно хорошо смотрится в современной кухне. Наклонные модели к тому же не мешают головой.",
         "intro_en": "Toughened glass wipes clean and suits a modern kitchen."
       }
-    ]
+    ],
+    "group": "kitchen"
   },
   "myyky": {
     "name": "Кухонні мийки",
@@ -2659,7 +2672,8 @@
         "intro_ru": "Под тумбу 80 см и шире. В такую мойку ложится противень, и остаётся место под крыло или доску.",
         "intro_en": "For an 80 cm cabinet and wider — a baking tray lies flat."
       }
-    ]
+    ],
+    "group": "kitchen"
   },
   "zmishuvachi": {
     "name": "Змішувачі",
@@ -2984,7 +2998,8 @@
         "intro_ru": "Излив тянется на шланге — удобно мыть саму чашу и наполнять кастрюли, стоящие на плите.",
         "intro_en": "The spout pulls out on a hose — handy for rinsing the bowl itself."
       }
-    ]
+    ],
+    "group": "kitchen"
   },
   "dozatory": {
     "name": "Дозатори",
@@ -3149,7 +3164,8 @@
         "label_ru": "Особенности",
         "label_en": "Features"
       }
-    ]
+    ],
+    "group": "kitchen"
   },
   "mikrohvylovi-pechi": {
     "name": "Мікрохвильові печі",
@@ -3308,7 +3324,8 @@
         "label_ru": "Особенности",
         "label_en": "Features"
       }
-    ]
+    ],
+    "group": "kitchen"
   },
   "posudomyyni-mashyny": {
     "name": "Посудомийні машини",
@@ -3515,7 +3532,8 @@
     "illustration": "/assets/img/blog/seo-posudomyyna.webp",
     "illustrationAlt": "Вбудована посудомийна машина на кухні",
     "illustrationAlt_ru": "Встраиваемая посудомоечная машина на кухне",
-    "illustrationAlt_en": "A built-in dishwasher in a kitchen"
+    "illustrationAlt_en": "A built-in dishwasher in a kitchen",
+    "group": "kitchen"
   },
   "komplekty": {
     "name": "Комплекти живлення",
@@ -3697,6 +3715,7 @@
         "Why are no specific inverter and battery models listed?",
         "An inverter and a battery have to agree on voltage, charge current and the way they talk to each other; picked apart from one another they either do not communicate or run at half strength. We fix the power, the reserve and the price, then choose models to match those figures after a call, once it is clear what needs to stay on."
       ]
-    ]
+    ],
+    "group": "home"
   }
 }

@@ -508,7 +508,7 @@ function setupFilters(){
 /* Which end of a chip row still has something behind it. Re-read on scroll, on
    resize, and after the brand and price rows are rebuilt for a new category. */
 function markScrollEdges(){
-  document.querySelectorAll('.filter-group').forEach(g=>{
+  document.querySelectorAll('.filter-group, .brandstrip-in').forEach(g=>{
     const more=g.scrollWidth-g.clientWidth;
     g.classList.toggle('fg-l',g.scrollLeft>4);
     g.classList.toggle('fg-r',more>4&&g.scrollLeft<more-4);
@@ -519,6 +519,7 @@ function markScrollEdges(){
   });
 }
 addEventListener('resize',markScrollEdges);
+markScrollEdges();   // the brand strip on a phone is one scrolling row from the start
 /* brand buttons follow the active category — every brand actually in stock, nothing stale */
 function renderBrandFilters(){
   const g=$('brand-filters'); if(!g) return;
@@ -1011,6 +1012,47 @@ function toggleNav(){setNav(!document.getElementById('header').classList.contain
 function closeNav(){setNav(false);}
 document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',closeNav));
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('nav-open'))closeNav();});
+/* ---- catalog panel ------------------------------------------------------
+   Every [data-catpanel] opens the same panel, dropped just under the sticky
+   header wherever that header is at the moment. Listening in the capture phase
+   on document means the click is claimed before the in-page anchor handler
+   scrolls to #catalog and before the menu links close the drawer on their own. */
+(function catalogPanel(){
+  const panel=document.getElementById('catpanel');
+  if(!panel)return;
+  let opener=null,openY=0;
+  const place=()=>{const h=document.getElementById('header');panel.style.top=Math.max(0,Math.round(h?h.getBoundingClientRect().bottom:0))+'px';};
+  const mark=v=>document.querySelectorAll('[data-catpanel]').forEach(t=>t.setAttribute('aria-expanded',v?'true':'false'));
+  function open(t){
+    if(document.body.classList.contains('nav-open'))closeNav();
+    opener=t;openY=scrollY;place();
+    panel.hidden=false;mark(true);
+    /* Read layout once so the transparent state is committed, then fade in.
+       requestAnimationFrame did the same but never ran in a tab that was not
+       painting, which left the panel open and invisible. */
+    void panel.offsetWidth;
+    panel.classList.add('in');
+    const first=panel.querySelector('.cp-item');
+    if(first)first.focus({preventScroll:true});
+  }
+  function close(back){
+    if(panel.hidden)return;
+    panel.classList.remove('in');panel.hidden=true;mark(false);
+    if(back&&opener)opener.focus({preventScroll:true});
+  }
+  document.addEventListener('click',e=>{
+    const t=e.target.closest('[data-catpanel]');
+    if(t){e.preventDefault();e.stopPropagation();if(panel.hidden)open(t);else close(false);return;}
+    if(panel.hidden)return;
+    if(e.target.closest('.cp-item,.cp-all')){close(false);return;}
+    if(!e.target.closest('.cp-box'))close(false);
+  },true);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden)close(true);});
+  /* It is a menu, not a page: a real scroll puts it away. A small one only
+     re-seats it, because the contact strip above the header slides off first. */
+  addEventListener('scroll',()=>{if(panel.hidden)return;if(Math.abs(scrollY-openY)>80)close(false);else place();},{passive:true});
+  addEventListener('resize',()=>{if(!panel.hidden)place();});
+})();
 /* Mark where the visitor already is: the menu lists every category from every
    page, and without this the current one looks like somewhere else to go. */
 (function markCurrent(){
