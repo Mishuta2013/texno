@@ -869,37 +869,15 @@
     "cb_email_hint": "Надішлемо чек і гарантійний талон",
     "err_email": "Схоже на помилку в адресі. Приклад: ім’я@пошта.com",
     "kits_nav": "Комплекти живлення",
-    "kits_h1": "Комплекти резервного живлення у Сумах",
-    "kits_title": "Комплекти живлення у Сумах — від {from} грн",
-    "kits_desc": "Інвертор і акумулятор одним комплектом: {n} готові конфігурації від {from} грн. Точні моделі підбираємо під ваш будинок по телефону. Суми, оплата після отримання.",
-    "kits_lead": "Інвертор, акумулятор і дисплей одним рішенням — щоб світло в домі не залежало від графіка. Нижче три конфігурації за потужністю та запасом енергії. Конкретні моделі підбираємо під ваш будинок: зателефонуйте, і ми порахуємо, що саме вам треба.",
-    "kit_name": "Інвертор {kw} кВт + акумулятор {kwh} кВт·год",
-    "kit_display": "з дисплеєм",
-    "kit_inv": "Інвертор",
-    "kit_bat": "Запас енергії",
-    "kit_incl_h": "Що входить у ціну",
-    "kit_i1": "Інвертор {kw} кВт",
-    "kit_i2": "Акумулятор {kwh} кВт·год",
-    "kit_i3": "Дисплей стану системи",
-    "kit_i4": "Кабелі від акумулятора до інвертора",
-    "kit_cta": "Порахувати комплект",
-    "kit_note": "Монтаж і підключення обговорюємо окремо — залежить від будинку.",
-    "kits_how_h": "Як це працює",
-    "kits_s1t": "Ви телефонуєте",
-    "kits_s1p": "Кажете, що маєте живити: холодильник і роутер чи ще й котел із насосом.",
-    "kits_s2t": "Ми рахуємо",
-    "kits_s2p": "Підбираємо інвертор і акумулятор під ваше навантаження та бюджет — із того, що є в наявності.",
-    "kits_s3t": "Привозимо й показуємо",
-    "kits_s3p": "Комплект приїжджає зібраним, з кабелями. Оплата після отримання.",
-    "kits_why_h": "Чому комплектом, а не окремо",
-    "kits_why_p": "Інвертор і акумулятор мають підходити один одному за напругою, струмом заряду та типом зв'язку. Зібрані нарізно, вони або не бачать один одного, або працюють упівсили. Комплектом ви отримуєте пару, яка вже перевірена разом.",
-    "kit_illu_alt": "Схема комплекту: інвертор, акумулятор і кабель між ними",
     "u_kw": "кВт",
-    "kits_strip_p": "Інвертор і акумулятор одним рішенням. Конкретні моделі підбираємо під ваш будинок — зателефонуйте, і порахуємо, що саме вам треба.",
-    "kits_strip_cta": "Подивитися комплекти",
-    "kits_strip_call": "Порахувати комплект",
     "kits_nav_s": "Комплекти",
-    "cat_faq_h": "Часті запитання"
+    "cat_faq_h": "Часті запитання",
+    "logo_home": "TexnoPlaza — на головну",
+    "nav_menu": "Меню",
+    "mcta_label": "Швидкі дії",
+    "map_title": "Карта — TexnoPlaza",
+    "form_name_ph": "Олександр",
+    "cb_name_ph": "Ім’я"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1771,37 +1749,15 @@
     "cb_email_hint": "Пришлём чек и гарантийный талон",
     "err_email": "Похоже на ошибку в адресе. Пример: имя@почта.com",
     "kits_nav": "Комплекты питания",
-    "kits_h1": "Комплекты резервного питания в Сумах",
-    "kits_title": "Комплекты питания в Сумах — от {from} грн",
-    "kits_desc": "Инвертор и аккумулятор одним комплектом: {n} готовые конфигурации от {from} грн. Точные модели подбираем под ваш дом по телефону. Сумы, оплата после получения.",
-    "kits_lead": "Инвертор, аккумулятор и дисплей одним решением — чтобы свет в доме не зависел от графика. Ниже три конфигурации по мощности и запасу энергии. Конкретные модели подбираем под ваш дом: позвоните, и мы посчитаем, что именно вам нужно.",
-    "kit_name": "Инвертор {kw} кВт + аккумулятор {kwh} кВт·ч",
-    "kit_display": "с дисплеем",
-    "kit_inv": "Инвертор",
-    "kit_bat": "Запас энергии",
-    "kit_incl_h": "Что входит в цену",
-    "kit_i1": "Инвертор {kw} кВт",
-    "kit_i2": "Аккумулятор {kwh} кВт·ч",
-    "kit_i3": "Дисплей состояния системы",
-    "kit_i4": "Кабели от аккумулятора до инвертора",
-    "kit_cta": "Посчитать комплект",
-    "kit_note": "Монтаж и подключение обсуждаем отдельно — зависит от дома.",
-    "kits_how_h": "Как это работает",
-    "kits_s1t": "Вы звоните",
-    "kits_s1p": "Говорите, что нужно питать: холодильник и роутер или ещё и котёл с насосом.",
-    "kits_s2t": "Мы считаем",
-    "kits_s2p": "Подбираем инвертор и аккумулятор под вашу нагрузку и бюджет — из того, что есть в наличии.",
-    "kits_s3t": "Привозим и показываем",
-    "kits_s3p": "Комплект приезжает собранным, с кабелями. Оплата после получения.",
-    "kits_why_h": "Почему комплектом, а не по отдельности",
-    "kits_why_p": "Инвертор и аккумулятор должны подходить друг другу по напряжению, току заряда и типу связи. Собранные порознь, они либо не видят друг друга, либо работают вполсилы. Комплектом вы получаете пару, уже проверенную вместе.",
-    "kit_illu_alt": "Схема комплекта: инвертор, аккумулятор и кабель между ними",
     "u_kw": "кВт",
-    "kits_strip_p": "Инвертор и аккумулятор одним решением. Конкретные модели подбираем под ваш дом — позвоните, и посчитаем, что именно вам нужно.",
-    "kits_strip_cta": "Посмотреть комплекты",
-    "kits_strip_call": "Посчитать комплект",
     "kits_nav_s": "Комплекты",
-    "cat_faq_h": "Частые вопросы"
+    "cat_faq_h": "Частые вопросы",
+    "logo_home": "TexnoPlaza — на главную",
+    "nav_menu": "Меню",
+    "mcta_label": "Быстрые действия",
+    "map_title": "Карта — TexnoPlaza",
+    "form_name_ph": "Александр",
+    "cb_name_ph": "Имя"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -2103,58 +2059,58 @@
         "general"
       ],
       [
-        "Мийку якого розміру брати під мою стільницю?",
-        "Головне — не ширина мийки, а розмір вирізу: він менший за корпус на 8–12 мм з кожного боку. У картці кожної моделі вказані і габарити, і розміри чаші. Заміряйте вільний простір у тумбі між боковинами й відніміть 3–4 см на кріплення.",
+        "What size sink should I get for my worktop?",
+        "What matters is not the width of the sink but the size of the cut-out: it is 8–12 mm smaller than the body on each side. Every model card lists both the overall dimensions and the bowl size. Measure the free space in the base unit between the side panels and take off 3–4 cm for the fixings.",
         "sink"
       ],
       [
-        "Чим врізна мийка відрізняється від підстільної?",
-        "Врізна лягає зверху на стільницю, її борт видно — це найпоширеніший і найдешевший монтаж, підходить під будь-яку стільницю. Підстільна кріпиться знизу, край стільниці лишається відкритим: виглядає дорожче, але потребує вологостійкої стільниці з обробленим торцем.",
+        "What is the difference between an inset and an undermount sink?",
+        "An inset sink sits on top of the worktop with its rim showing — the most common and cheapest installation, and it suits any worktop. An undermount sink is fixed from below and leaves the worktop edge exposed: it looks more expensive but needs a moisture-resistant worktop with a finished edge.",
         "sink"
       ],
       [
-        "Яку продуктивність витяжки обрати?",
-        "Рахують так: об’єм кухні в кубометрах помножити на 12 — стільки повітря витяжка має прокачати за годину. Для кухні 9 м² зі стелею 2,7 м це близько 300 м³/год, але беріть із запасом: на максимумі витяжка гучна, і зручніше, коли вистачає середньої швидкості.",
+        "What extraction rate should a cooker hood have?",
+        "Work it out like this: multiply the volume of the kitchen in cubic metres by 12 — that is how much air the hood should move in an hour. For a 9 m² kitchen with a 2.7 m ceiling that is about 300 m³/h, but leave a margin: at full speed a hood is loud, and it is more comfortable when the middle speed is enough.",
         "kitchen"
       ],
       [
-        "Витяжка обов’язково має виходити в вентиляцію?",
-        "Ні. Більшість наших моделей працюють у двох режимах: на відвід у вентканал і на рециркуляцію — через вугільний фільтр назад у кухню. Другий варіант рятує, коли до вентиляції не дотягнутися; фільтр міняють раз на 3–6 місяців.",
+        "Does a cooker hood have to vent into a duct?",
+        "No. Most of our models work in two modes: extraction into a ventilation duct, or recirculation back into the kitchen through a charcoal filter. The second option helps when the duct is out of reach; the filter is changed every 3–6 months.",
         "kitchen"
       ],
       [
-        "Індукційна чи електрична поверхня — що обрати?",
-        "Індукція гріє тільки дно посуду: швидше, економніше й безпечніше, бо сама поверхня лишається майже холодною. Потрібен посуд із феромагнітним дном — перевіряється магнітом. Класична склокераміка дешевша й працює з будь-яким посудом, але довше гріється й довше остигає.",
+        "Induction or electric hob — which should I choose?",
+        "Induction heats only the bottom of the pan: faster, cheaper to run and safer, because the surface itself stays almost cold. It needs cookware with a ferromagnetic base — a magnet will tell you. A classic ceramic hob is cheaper and works with any cookware, but it takes longer to heat up and to cool down.",
         "kitchen"
       ],
       [
-        "Чи підійде варильна поверхня до моєї стільниці?",
-        "Дивіться рядок «Розміри для вбудовування» в характеристиках — це виріз, який треба зробити у стільниці. Стандарт для чотириконфоркової поверхні — 560×490 мм, для дволанкової — близько 270×490 мм. Глибина стільниці має бути не менше 600 мм.",
+        "Will a hob fit my worktop?",
+        "Look at the “Cut-out size” line in the specifications — that is the opening to make in the worktop. The standard for a four-zone hob is 560×490 mm, for a two-zone one about 270×490 mm. The worktop has to be at least 600 mm deep.",
         "kitchen"
       ],
       [
-        "Духова шафа і варильна поверхня мають бути одного бренду?",
-        "Ні, вони незалежні: духова шафа підключається до розетки або напряму до щитка, поверхня — окремо. Одного бренду беруть заради однакового дизайну фасаду. Залежними вони бувають лише у старих газових комплектах, де поверхня керується з духовки.",
+        "Do the oven and the hob have to be the same brand?",
+        "No, they are independent: the oven plugs into a socket or is wired straight to the consumer unit, and the hob is connected separately. People choose one brand for a matching look. They only depend on each other in old gas sets where the hob is controlled from the oven.",
         "kitchen"
       ],
       [
-        "Скільки комплектів посуду треба в посудомийці?",
-        "Один комплект — це тарілки, склянка й прибори на одну людину. Для сім’ї з двох-трьох осіб вистачає вузької машини на 45 см (9–10 комплектів), для чотирьох і більше або якщо часто приймаєте гостей — повнорозмірної на 60 см (13–14 комплектів).",
+        "How many place settings should a dishwasher hold?",
+        "One place setting is the plates, a glass and cutlery for one person. For a household of two or three a slim 45 cm machine (9–10 settings) is enough; for four or more, or if you often have guests, go for a full-size 60 cm one (13–14 settings).",
         "kitchen"
       ],
       [
-        "Змішувач підбирається під мийку?",
-        "Під отвір у мийці — він стандартний, 35 мм, тож підійде будь-який наш змішувач. Решта — смак: беруть у колір мийки (чорний до чорної, нержавійка до нержавійки) і дивляться на висоту виливу, щоб під нього проходила висока каструля.",
+        "Does the tap have to match the sink?",
+        "Only the hole in the sink — it is a standard 35 mm, so any of our taps will fit. The rest is taste: people match the colour of the sink (black with black, stainless with stainless) and check the spout height so a tall pot fits underneath.",
         "sink"
       ],
       [
-        "Навіщо дозатор для миючого засобу?",
-        "Він ставиться в отвір мийки або стільниці, а пляшка ховається в тумбу — на робочій поверхні нічого не стоїть і нічого не перекидається. Заправляється будь-яким засобом, колба на 300–350 мл.",
+        "What is a soap dispenser for?",
+        "It fits into a hole in the sink or the worktop, and the bottle hides in the cabinet below — nothing stands on the worktop and nothing gets knocked over. It takes any detergent; the bottle holds 300–350 ml.",
         "sink"
       ],
       [
-        "Ви привозите кухонну техніку по Сумах?",
-        "Так, доставка день у день по місту. Мийки, змішувачі й дозатори привозимо безкоштовно разом із замовленням від 5 000 грн; на велику вбудовану техніку діють ті самі умови, що й на холодильники.",
+        "Do you deliver kitchen appliances in Sumy?",
+        "Yes, same-day delivery across the city. Sinks, taps and dispensers come free with an order from 5,000 UAH; large built-in appliances follow the same terms as fridges.",
         "kitchen"
       ]
     ],
@@ -2643,11 +2599,13 @@
     "err_email": "That address looks wrong. Example: name@mail.com",
     "u_kw": "kW",
     "kits_nav": "Backup power kits",
-    "kits_h1": "Backup power kits in Sumy",
-    "kits_strip_p": "An inverter and a battery as one solution. We pick the exact models for your home — call and we will work out what you need.",
-    "kits_strip_cta": "See the kits",
-    "kits_strip_call": "Get a quote",
     "kits_nav_s": "Power kits",
-    "cat_faq_h": "Frequently asked questions"
+    "cat_faq_h": "Frequently asked questions",
+    "logo_home": "TexnoPlaza — home page",
+    "nav_menu": "Menu",
+    "mcta_label": "Quick actions",
+    "map_title": "Map — TexnoPlaza",
+    "form_name_ph": "Alex",
+    "cb_name_ph": "Name"
   }
 }

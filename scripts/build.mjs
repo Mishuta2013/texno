@@ -648,6 +648,19 @@ function applyI18nStatic(html) {
     const v = i18n[L] && i18n[L][key] !== undefined ? i18n[L][key] : i18n.uk[key];
     return v === undefined ? tag : tag.replace(/\salt="[^"]*"/, ` alt="${esc(subCounts(v))}"`);
   });
+  /* Attributes nobody sees but a screen reader and a search engine read first.
+     aria-label, placeholder and title stayed Ukrainian on every Russian and
+     English page — "Обране", "Швидкі дії", "Пошук моделі…" — because only the
+     text inside an element was baked in here, and main.js put the rest right
+     later, if it ran. A function replacement, so a "$" in a translation is not
+     read as a pattern. */
+  for (const [marker, attr] of [['data-i18n-aria', 'aria-label'], ['data-i18n-ph', 'placeholder'], ['data-i18n-title', 'title']]) {
+    html = html.replace(new RegExp(`<[a-zA-Z0-9]+[^>]*\\s${marker}="([^"]+)"[^>]*>`, 'g'), (tag, key) => {
+      const v = i18n[L] && i18n[L][key] !== undefined ? i18n[L][key] : i18n.uk[key];
+      const re = new RegExp(`\\s${attr}="[^"]*"`);
+      return v === undefined || !re.test(tag) ? tag : tag.replace(re, () => ` ${attr}="${esc(subCounts(v))}"`);
+    });
+  }
   return html.replace(/(<([a-zA-Z0-9]+)((?:[^>]*?)\sdata-i18n="([^"]+)"(?:[^>]*?))>)([\s\S]*?)(<\/\2>)/g,
     (m, open, tag, attrs, key, inner, close) => {
       const v = i18n[L] && i18n[L][key] !== undefined ? i18n[L][key] : i18n.uk[key];
@@ -878,8 +891,12 @@ const COLLECTION_OG = new Map();   // file -> what gen_images.py puts on it
 const injectData = () => {
   if (DATA_TAGS.has(L)) return DATA_TAGS.get(L);
   const strip = ({ faq, ...rest }) => rest;
+  /* Russian and English pages carried the whole Ukrainian dictionary as well —
+     about 14 KB gzipped on a first visit — though t() in main.js only reaches
+     for Ukrainian when the page's own language lacks a key. Send just those. */
+  const own = L === 'uk' ? null : strip(i18n[L]);
   const i18nSlim = L === 'uk' ? { uk: strip(i18n.uk) }
-                              : { uk: strip(i18n.uk), [L]: strip(i18n[L]) };
+    : { uk: Object.fromEntries(Object.entries(strip(i18n.uk)).filter(([k]) => own[k] === undefined)), [L]: own };
   const specv = L === 'uk' ? {} : SPECV;
   const js = `window.__I18N__=${JSON.stringify(i18nSlim)};window.__LANGS__=${JSON.stringify(LANGS)};window.__SITE__=${JSON.stringify(site)};window.__CATS__=${JSON.stringify(catsSlim)};window.__SPECV__=${JSON.stringify(specv)};window.__PRODUCTS__=${JSON.stringify(namesFor(L))};`;
   const url = `/assets/js/data-${L}.${crypto.createHash('md5').update(js).digest('hex').slice(0, 8)}.js`;
@@ -1172,6 +1189,11 @@ fill('<!--HERO_RATING-->', heroRating());
 fill('<!--REVIEWS-->', reviewsSection());
 fill('<!--FAQ_ITEMS-->', faqTopics() + faqItems());
 body = applyI18nStatic(body);   // bake the current language into static HTML (SEO)
+/* The logo linked to "/" on every page, so the one link everybody clicks took a
+   reader of the English site to the Ukrainian home page. The map embed asked
+   Google for Ukrainian labels whatever the page was in. */
+body = body.replace('<a href="/" class="logo"', `<a href="${pfx()}/" class="logo"`)
+  .replace('&hl=uk&', `&hl=${L}&`);
 body = subCounts(body);         // resolve {{TOTAL}}/{{AC}}/{{WM}}/{{PS}} tokens in raw markup
 body = body.replace(/src="(\/assets\/img\/(?:site|logo)[^"]*)"/g, (m, u) => `src="${av(u)}"`);
 
@@ -1636,6 +1658,15 @@ function catBrands(catKey) {
     .sort((a, b) => a.localeCompare(b, 'uk'));
 }
 const burl = (cat, brand) => `${pfx()}${cat.urlPrefix}/${brandSlug(brand)}/`;
+/* A brand that is the whole shelf — every hob here is Gunter&Hauer, every water
+   heater Atlantic — got a page identical to its category, product for product.
+   Tag pages already refuse to exist past 90% of a category, "the definition of
+   a duplicate"; brand pages were never held to it, and thirty of them sat in the
+   sitemap as rivals to their own category. They stay online for anyone who has
+   the address — search may already know them — but canonical, hreflang and the
+   sitemap now send search to the category. */
+const brandIsShelf = (catKey, brand) =>
+  catProducts(catKey).filter(p => p.brand === brand).length >= catProducts(catKey).length * TAG_MAX_SHARE;
 
 /* ---- query landing pages ------------------------------------------------
    A brand has an address of its own, so "кондиціонер Ardesto Суми" has
@@ -1835,7 +1866,8 @@ ${head({
     while (lines.length && `${lead} ${lines.join('. ')}.`.length > 165) lines.pop();
     return lines.length ? `${lead} ${lines.join('. ')}.` : lead;
   })(),
-  canonical: abs(burl(cat, brand)), altPath: `${cat.urlPrefix}/${brandSlug(brand)}/`, ogImage: OG, jsonld
+  canonical: brandIsShelf(cat.key, brand) ? abs(curl(cat)) : abs(burl(cat, brand)),
+  altPath: brandIsShelf(cat.key, brand) ? `${cat.urlPrefix}/` : `${cat.urlPrefix}/${brandSlug(brand)}/`, ogImage: OG, jsonld
 })}
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
 </head><body>${GTM_NS}
@@ -2028,7 +2060,7 @@ for (const cat of catList) {
     if (clash) throw new Error(`brand page /${cat.urlPrefix}/${slug}/ collides with product ${clash.slug}`);
     const bdir = outPath(cat.urlPrefix.replace(/^\//, ''), slug);
     writePage(path.join(bdir), brandPage(cat, brand));
-    SITEMAP.push(burl(cat, brand));
+    if (!brandIsShelf(cat.key, brand)) SITEMAP.push(burl(cat, brand));
     n++;
   }
 

@@ -15,7 +15,10 @@
 // stops that one costs a real customer nothing only if it is invisible.
 const SITE = 'https://texnoplaza.sumy.ua';
 
-const esc = s => String(s ?? '').replace(/[<&>]/g, c => ({ '<': '&lt;', '&': '&amp;', '>': '&gt;' }[c])).slice(0, 600);
+/* Cut first, escape second. The other way round, a long comment could be cut
+   through the middle of "&amp;", Telegram refuses a message with a broken
+   entity, and the lead was lost with a 502. */
+const esc = s => String(s ?? '').slice(0, 600).replace(/[<&>]/g, c => ({ '<': '&lt;', '&': '&amp;', '>': '&gt;' }[c]));
 
 /* The price the visitor was looking at when they asked. It arrives from the
    page, so it is checked rather than trusted. */
@@ -169,7 +172,7 @@ export default async function handler(req, res) {
 
   const typeMap = { callback: '📞 Зворотний дзвінок', consultation: '💬 Консультація', quiz: '🧩 Підбір (квіз)', order: '🛒 Замовлення', question: '❓ Питання про товар', cheaper: '💰 Знайшли дешевше', '': '📩 Заявка' };
   const lines = [
-    `<b>${typeMap[b.type] || typeMap['']}</b> — TexnoPlaza`,
+    `<b>${Object.prototype.hasOwnProperty.call(typeMap, b.type) ? typeMap[b.type] : typeMap['']}</b> — TexnoPlaza`,
     b.name && `👤 ${esc(b.name)}`,
     `📱 <b>${esc(phone)}</b>`,
     /* Optional on the form, so usually absent. Shape-checked rather than

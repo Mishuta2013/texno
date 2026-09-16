@@ -144,6 +144,10 @@ function applyI18n(){
     const k=el.getAttribute('data-i18n-ph'); const v=t(k);
     if(v!==undefined) el.setAttribute('placeholder',v);
   });
+  document.querySelectorAll('[data-i18n-title]').forEach(el=>{
+    const k=el.getAttribute('data-i18n-title'); const v=t(k);
+    if(v!==undefined) el.setAttribute('title',v);
+  });
   // sort select options
   const so=$('sort-select');
   if(so){[['default','sort_pop'],['price-asc','sort_cheap'],['price-desc','sort_exp'],['area-asc','sort_area']].forEach(([val,key])=>{const o=so.querySelector(`option[value="${val}"]`);if(o)o.textContent=t(key);});}
