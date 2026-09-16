@@ -877,7 +877,8 @@
     "mcta_label": "Швидкі дії",
     "map_title": "Карта — TexnoPlaza",
     "form_name_ph": "Олександр",
-    "cb_name_ph": "Ім’я"
+    "cb_name_ph": "Ім’я",
+    "nav_returns": "Повернення товару"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1757,7 +1758,8 @@
     "mcta_label": "Быстрые действия",
     "map_title": "Карта — TexnoPlaza",
     "form_name_ph": "Александр",
-    "cb_name_ph": "Имя"
+    "cb_name_ph": "Имя",
+    "nav_returns": "Возврат товара"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -2606,6 +2608,7 @@
     "mcta_label": "Quick actions",
     "map_title": "Map — TexnoPlaza",
     "form_name_ph": "Alex",
-    "cb_name_ph": "Name"
+    "cb_name_ph": "Name",
+    "nav_returns": "Returns"
   }
 }

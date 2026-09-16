@@ -2295,6 +2295,29 @@ ${injectData()}
   fs.mkdirSync(path.join(DIST, 'polityka-konfidentsiynosti'), { recursive: true });
   writePage(path.join(DIST, 'polityka-konfidentsiynosti'), html);
   SITEMAP.push('/polityka-konfidentsiynosti/');
+
+  /* The return policy, the address Google Merchant Center is given. Written from
+     the owner's own terms, not a template: 14 days to return a working item,
+     replacement or refund for a fault within 14 days and warranty repair after,
+     returns in the shop only, money back in the shop the same day, no exchange.
+     The phone and opening hours come from site.json, so they cannot drift from
+     the rest of the site. */
+  const returnsBody = fs.readFileSync(path.join(ROOT, 'templates/returns.html'), 'utf8')
+    .replaceAll('{{PHONE_DISPLAY}}', esc(site.phoneDisplay))
+    .replaceAll('{{PHONE}}', esc(site.phone))
+    .replaceAll('{{HOURS}}', esc(site.hours));
+  const returnsHtml = `<!doctype html><html lang="uk"><head>
+${head({ title: 'Повернення товару | TexnoPlaza', desc: 'Повернення товару в TexnoPlaza (Суми): 14 днів на повернення справної техніки, заміна або гроші за брак, гроші — одразу в магазині.', canonical: abs('/povernennya-tovaru/') })}
+</head><body>${GTM_NS}
+${HEADER}
+${returnsBody}
+${FOOTER}
+${injectData()}
+<script src="${av('/assets/js/main.js')}" defer></script>
+</body></html>`;
+  fs.mkdirSync(path.join(DIST, 'povernennya-tovaru'), { recursive: true });
+  writePage(path.join(DIST, 'povernennya-tovaru'), returnsHtml);
+  SITEMAP.push('/povernennya-tovaru/');
 }
 }   // ← end of buildLanguage()
 
