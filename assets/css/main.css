@@ -470,6 +470,13 @@ input[type=range]{height:26px;padding:10px 0;background-clip:content-box}
 .rev-who{display:flex;align-items:center;gap:12px}
 .rev-av{width:42px;height:42px;border-radius:50%;background:linear-gradient(150deg,var(--blue),var(--frost));display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:800;color:#fff;font-size:16px}
 .rev-name{font-family:var(--disp);font-weight:700;font-size:14.5px;color:var(--ink)}
+/* Live Google reviews carry the author's photo and a link to their profile. */
+.rev-av{overflow:hidden;flex:none}
+.rev-av img{display:block;width:100%;height:100%;object-fit:cover}
+a.rev-name{text-decoration:none}
+a.rev-name:hover{text-decoration:underline}
+.rev-src{margin-top:14px;text-align:right;font-size:12.5px;color:var(--g4)}
+.rev-src a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 .rev-meta{font-size:12.5px;color:var(--g4)}
 /* google rating bar */
 .rev-rating{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:26px}

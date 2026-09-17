@@ -867,6 +867,46 @@ function watchPhone(input){
     if(v)fieldError(input,phoneProblem(v));
   });
 }
+/* The number takes the shape of the placeholder as it is typed: 0671234567,
+   380671234567 and +380 067… all become +380 67 123 45 67, the one form
+   api/lead.js and phoneProblem read the same way. Digits past the ninth are
+   kept, not cut off, so a typo still reads as "too long" instead of being
+   quietly shortened into somebody else's number. Letters are left alone for
+   phoneProblem to name. */
+function phoneShape(v){
+  const raw=String(v==null?'':v);
+  if(/[a-zа-яїієґ]/i.test(raw))return raw;
+  const d=raw.replace(/\D/g,'');
+  if(!d)return raw.trim()==='+'?'+':'';
+  if('380'.startsWith(d))return '+'+d;            // still typing the code
+  if(raw.trim().startsWith('+')&&!d.startsWith('380'))return raw;  // +48…: not ours to rewrite
+  let rest;
+  if(d.startsWith('380'))rest=d.slice(3);
+  else if(d.startsWith('80'))rest=d.slice(2);
+  else if(d.startsWith('0'))rest=d.slice(1);
+  else if(d==='8')return d;
+  else rest=d;                                      // 67… typed without the 0
+  if(rest.startsWith('0'))rest=rest.slice(1);       // +380 067…
+  const g=[rest.slice(0,2),rest.slice(2,5),rest.slice(5,7),rest.slice(7,9)+rest.slice(9)].filter(Boolean);
+  return '+380'+(g.length?' '+g.join(' '):'');
+}
+/* Reshaped only while the caret is at the end: re-spacing the number under a
+   caret in the middle of it would jump the caret and scramble the next digit.
+   An edit in the middle is tidied when the field is left. */
+document.addEventListener('input',e=>{
+  const el=e.target;
+  if(!el||el.type!=='tel')return;
+  const v=el.value;
+  if(el.selectionStart!==v.length)return;
+  const s=phoneShape(v);
+  if(s!==v)el.value=s;
+});
+document.addEventListener('focusout',e=>{
+  const el=e.target;
+  if(!el||el.type!=='tel'||!el.value)return;
+  const s=phoneShape(el.value);
+  if(s!==el.value)el.value=s;
+},true);
 /* ============ GOOGLE CUSTOMER REVIEWS: SURVEY OPT-IN ============ */
 /* The badge on every page only says the shop takes part. The seller rating on
    the screenshot the owner sent comes from surveys, and surveys come from this
@@ -1826,3 +1866,74 @@ function resetTurnstile(){
     });
   }
 }
+
+/* ============ GOOGLE REVIEWS, LIVE ============
+   The cards built into the page are the reviews the owner confirmed. When the
+   section is about to come into view, /api/reviews asks Google for the
+   profile's current ones and they take the cards' place — with the author, the
+   date Google gives and a link back, which is the only way Google lets its
+   reviews be shown on another site. One request per page view, and only for a
+   visitor who scrolls that far. Anything short of a good answer — no key yet,
+   the daily quota spent, Google down — leaves the page exactly as it was. */
+(function liveReviews(){
+  const sec=document.querySelector('section.reviews');
+  if(!sec||!('IntersectionObserver' in window)||!window.fetch)return;
+  const wrap=sec.querySelector('.wrap');
+  const STAR='M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z';
+  const el=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e;};
+  const stars=n=>{
+    const d=el('div','rev-stars');d.setAttribute('aria-label',n+'/5');
+    for(let i=0;i<5;i++){
+      const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox','0 0 24 24');
+      if(i>=n)s.setAttribute('class','rev-star-off');
+      const p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d',STAR);s.appendChild(p);d.appendChild(s);
+    }
+    return d;
+  };
+  const initial=name=>el('span',null,String(name||'?').trim().charAt(0).toUpperCase());
+  function render(d){
+    if(d.rating){
+      const num=Number(d.rating).toFixed(1).replace('.',LANG==='en'?'.':',');
+      const n=sec.querySelector('.rev-score-n');if(n)n.textContent=num;
+      const old=sec.querySelector('.rev-score .rev-stars');if(old)old.replaceWith(stars(Math.round(d.rating)));
+    }
+    const c=sec.querySelector('.rev-score-c');if(c&&d.count)c.textContent=d.count+' '+plural(d.count,t('rev_on_google').split('|'));
+    let grid=sec.querySelector('.rev-grid');
+    if(!grid){grid=el('div','rev-grid');wrap.appendChild(grid);}
+    grid.textContent='';
+    d.reviews.slice(0,3).forEach(r=>{
+      const fig=el('figure','rev-card');
+      fig.appendChild(stars(r.rating));
+      fig.appendChild(el('blockquote','rev-text',r.text));
+      const who=el('figcaption','rev-who');
+      const av=el('span','rev-av');av.setAttribute('aria-hidden','true');
+      if(r.photo){
+        const img=el('img');img.alt='';img.width=42;img.height=42;img.loading='lazy';img.referrerPolicy='no-referrer';
+        img.onerror=()=>{img.remove();av.appendChild(initial(r.author));};
+        img.src=r.photo;av.appendChild(img);
+      }else av.appendChild(initial(r.author));
+      const meta=el('span');
+      const name=el(r.authorUrl?'a':'span','rev-name',r.author);
+      if(r.authorUrl){name.href=r.authorUrl;name.target='_blank';name.rel='noopener nofollow';}
+      meta.appendChild(name);
+      const when=[r.when,r.translated?t('rev_translated'):''].filter(Boolean).join(' · ');
+      if(when)meta.appendChild(el('span','rev-date',when));
+      who.appendChild(av);who.appendChild(meta);fig.appendChild(who);grid.appendChild(fig);
+    });
+    const prev=sec.querySelector('.rev-src');if(prev)prev.remove();
+    const src=el('p','rev-src');
+    const a=el('a',null,t('rev_google_src'));
+    a.href=d.url||(sec.querySelector('.rev-link')||{}).href||'https://maps.google.com/';
+    a.target='_blank';a.rel='noopener nofollow';
+    src.appendChild(a);grid.after(src);
+  }
+  const io=new IntersectionObserver(es=>{
+    if(!es.some(e=>e.isIntersecting))return;
+    io.disconnect();
+    fetch('/api/reviews?lang='+encodeURIComponent(LANG),{headers:{accept:'application/json'}})
+      .then(r=>r.ok?r.json():null)
+      .then(d=>{if(d&&d.ok&&Array.isArray(d.reviews)&&d.reviews.length)render(d);})
+      .catch(()=>{});
+  },{rootMargin:'600px 0px'});
+  io.observe(sec);
+})();

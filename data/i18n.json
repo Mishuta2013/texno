@@ -156,7 +156,7 @@
     "inst_e4": "Робота автовишки",
     "rev_eye": "Відгуки",
     "rev_h": "Що кажуть клієнти",
-    "rev_sub": "Реальні враження мешканців Сум та області після встановлення.",
+    "rev_sub": "Враження покупців нашого магазину в Сумах — з профілю TexnoPlaza у Google.",
     "rr_meta": "Середня оцінка за відгуками клієнтів у Google",
     "rr_btn": "Дивитися відгуки в Google",
     "nav_service": "Сервіс",
@@ -781,7 +781,7 @@
     "f_h201": "200+ см",
     "u_and": "та",
     "rev_all_google": "Усі відгуки в Google",
-    "rev_on_google": "відгуків у Google",
+    "rev_on_google": "відгук у Google|відгуки у Google|відгуків у Google",
     "rev_leave": "Залишити відгук",
     "mp_title": "Монтаж кондиціонера у Сумах від {{PRICE}} грн — під ключ",
     "mp_desc": "Монтаж кондиціонера у Сумах під ключ від {{PRICE}} грн: усі матеріали в ціні, робота за один день, оплата після запуску. 2 роки гарантії на монтаж, майстри з допуском.",
@@ -894,7 +894,9 @@
     "cp_stock": "{{ITEMS}} у наявності",
     "cp_models": "Моделі в наявності",
     "form_phone_ph": "+380 XX XXX XX XX",
-    "cb_email_ph": "Наприклад: name@gmail.com"
+    "cb_email_ph": "Наприклад: name@gmail.com",
+    "rev_translated": "Перекладено Google",
+    "rev_google_src": "Відгуки з Google Maps"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1053,7 +1055,7 @@
     "inst_e4": "Работа автовышки",
     "rev_eye": "Отзывы",
     "rev_h": "Что говорят клиенты",
-    "rev_sub": "Реальные впечатления жителей Сум и области после установки.",
+    "rev_sub": "Впечатления покупателей нашего магазина в Сумах — из профиля TexnoPlaza в Google.",
     "rr_meta": "Средняя оценка по отзывам клиентов в Google",
     "rr_btn": "Смотреть отзывы в Google",
     "nav_service": "Сервис",
@@ -1678,7 +1680,7 @@
     "f_h201": "200+ см",
     "u_and": "и",
     "rev_all_google": "Все отзывы в Google",
-    "rev_on_google": "отзывов в Google",
+    "rev_on_google": "отзыв в Google|отзыва в Google|отзывов в Google",
     "rev_leave": "Оставить отзыв",
     "mp_title": "Монтаж кондиционера в Сумах от {{PRICE}} грн — под ключ",
     "mp_desc": "Монтаж кондиционера в Сумах под ключ от {{PRICE}} грн: все материалы в цене, работа за один день, оплата после запуска. 2 года гарантии на монтаж, мастера с допуском.",
@@ -1791,7 +1793,9 @@
     "cp_stock": "{{ITEMS}} в наличии",
     "cp_models": "Модели в наличии",
     "form_phone_ph": "+380 XX XXX XX XX",
-    "cb_email_ph": "Например: name@gmail.com"
+    "cb_email_ph": "Например: name@gmail.com",
+    "rev_translated": "Переведено Google",
+    "rev_google_src": "Отзывы из Google Maps"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -1950,7 +1954,7 @@
     "inst_e4": "Aerial lift",
     "rev_eye": "Reviews",
     "rev_h": "What clients say",
-    "rev_sub": "Real impressions from residents of Sumy and the region after installation.",
+    "rev_sub": "What customers of our Sumy shop say — from the TexnoPlaza profile on Google.",
     "rr_meta": "Average rating from customer reviews on Google",
     "rr_btn": "See reviews on Google",
     "nav_service": "Service",
@@ -2575,7 +2579,7 @@
     "f_h201": "200+ cm",
     "u_and": "and",
     "rev_all_google": "All reviews on Google",
-    "rev_on_google": "reviews on Google",
+    "rev_on_google": "review on Google|reviews on Google|reviews on Google",
     "rev_leave": "Leave a review",
     "inst_more": "More about installation",
     "e404_t": "Page not found — TexnoPlaza",
@@ -2657,6 +2661,8 @@
     "cp_stock": "{{ITEMS}} in stock",
     "cp_models": "In stock now",
     "form_phone_ph": "+380 XX XXX XX XX",
-    "cb_email_ph": "e.g. name@gmail.com"
+    "cb_email_ph": "e.g. name@gmail.com",
+    "rev_translated": "Translated by Google",
+    "rev_google_src": "Reviews from Google Maps"
   }
 }

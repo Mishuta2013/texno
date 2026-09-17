@@ -83,6 +83,16 @@ function linkProducts(html) {
 }
 const CATS = read('categories.json');
 const REVIEWS = read('reviews.json');
+/* api/reviews.js asks Google for one place and cannot read data/ at run time,
+   so it carries the id itself. A shop that moves, or a profile that is
+   replaced, must not leave the site showing another place's reviews. */
+{
+  const api = fs.readFileSync(path.join(ROOT, 'api', 'reviews.js'), 'utf8');
+  const m = api.match(/const PLACE_ID = '([^']+)'/);
+  if (!m || m[1] !== site.placeId) {
+    throw new Error(`api/reviews.js PLACE_ID ${m ? m[1] : '(missing)'} is not data/site.json placeId ${site.placeId}`);
+  }
+}
 const catOf = p => CATS[p.category] || CATS['kondicioneri'];
 const catList = Object.entries(CATS).map(([key, c]) => ({ key, ...c })).sort((a, b) => (a.order || 99) - (b.order || 99));
 /* A category with nothing in it is worse than no category at all: a nav link to
@@ -729,6 +739,16 @@ function searchLd() {
 /* "модель / моделі / моделей" — the brand page and the category page each
    worked this out inline, and the picker needs the same answer, so it lives in
    one place now. */
+/* "54 відгуків" was wrong Ukrainian: 54 takes відгуки. rev_on_google holds the
+   three forms, one|few|many, the same as u_digits. */
+function reviewsWord(n) {
+  const [one, few, many] = t('rev_on_google').split('|');
+  if (L === 'en') return n === 1 ? one : few;
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return one;
+  if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return few;
+  return many;
+}
 function modelsWord(n) {
   const m10 = n % 10, m100 = n % 100;
   if (m10 === 1 && m100 !== 11) return t('cat_models1');
@@ -1285,7 +1305,7 @@ function heroRating() {
   /* One star, not five: the row shares a line with the opening hours, and five
      of them crowd it out on a phone. The full "N reviews on Google" is the
      accessible name and the tooltip, so nothing is hidden — only shortened. */
-  const label = `${score} · ${R.count} ${t('rev_on_google')}`;
+  const label = `${score} · ${R.count} ${reviewsWord(R.count)}`;
   const star = '<svg class="hr-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>';
   const inner = `${star}<b>${score}</b><span>Google</span>`;
   return R.googleUrl
@@ -1301,7 +1321,7 @@ function reviewsSection() {
     ? `<div class="rev-score">
          <div class="rev-score-n">${Number(R.rating).toFixed(1).replace('.', ',')}</div>
          <div>${starRow(Math.round(R.rating))}
-           <div class="rev-score-c">${R.count} ${esc(t('rev_on_google'))}</div></div>
+           <div class="rev-score-c">${R.count} ${esc(reviewsWord(R.count))}</div></div>
        </div>` : '';
   /* No author line when we have no name: a blank avatar over an empty name reads
      as a broken card, and inventing one would misattribute a real review. */
