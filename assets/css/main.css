@@ -549,7 +549,9 @@ input[type=range]{height:26px;padding:10px 0;background-clip:content-box}
 .field-hint{display:block;margin-top:6px;font-size:12px;line-height:1.4;color:rgba(233,243,255,.6)}
 .field label{display:block;font-size:13px;font-weight:600;color:rgba(233,243,255,.8);margin-bottom:7px;font-family:var(--disp)}
 .field input,.field select,.field textarea{width:100%;background:rgba(255,255,255,.07);border:1.5px solid rgba(124,196,255,.2);border-radius:var(--r-sm);padding:12px 14px;font-size:14.5px;font-family:var(--body);color:#fff;outline:none;transition:.16s}
-.field input::placeholder,.field textarea::placeholder{color:rgba(233,243,255,.4)}
+/* The placeholders are worked examples now, so they have to be read: .4 was
+   about 3:1 on the card, .58 clears 4.5:1 while still looking unfilled. */
+.field input::placeholder,.field textarea::placeholder{color:rgba(233,243,255,.58)}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);background:rgba(255,255,255,.1)}
 .field select option{background:var(--navy);color:#fff}
 .field textarea{resize:vertical;min-height:74px}
@@ -633,6 +635,11 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
 .cb-modal .field label{color:var(--g5)}
 .cb-modal .field input{background:var(--paper);border-color:var(--g2);color:var(--ink)}
 .cb-modal .field input:focus{border-color:var(--blue);background:var(--white)}
+/* The dark card's pale text colours reached this light modal too, where they
+   measured 1.1:1 — the examples, the e-mail hint and "консультація
+   безкоштовна" were all there and nobody could read them. */
+.cb-modal .field input::placeholder,.quiz-lead input::placeholder{color:var(--g4);opacity:1}
+.cb-modal .field-hint,.cb-modal .form-note{color:var(--g5)}
 .cb-modal .success h4{color:var(--ink)}
 .cb-modal .success p{color:var(--g5)}
 .cb-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;background:var(--g1);color:var(--g5);font-size:17px;display:flex;align-items:center;justify-content:center;transition:.16s}

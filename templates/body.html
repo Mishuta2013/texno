@@ -548,13 +548,13 @@
         <p data-i18n="form_p">Менеджер передзвонить протягом 15 хвилин і допоможе з підбором.</p>
         <div id="contact-form">
           <div class="fgrid">
-            <div class="field"><label for="cf-name" data-i18n="form_name">Ваше ім'я</label><input type="text" id="cf-name" placeholder="Олександр" data-i18n-ph="form_name_ph"></div>
-            <div class="field"><label for="cf-phone" data-i18n="form_phone">Телефон</label><input type="tel" id="cf-phone" placeholder="+38 (___) ___-__-__"></div>
+            <div class="field"><label for="cf-name" data-i18n="form_name">Ваше ім'я</label><input type="text" id="cf-name" autocomplete="name" placeholder="Наприклад: Олександр" data-i18n-ph="form_name_ph"></div>
+            <div class="field"><label for="cf-phone" data-i18n="form_phone">Телефон</label><input type="tel" id="cf-phone" autocomplete="tel" placeholder="+380 XX XXX XX XX" data-i18n-ph="form_phone_ph"></div>
           </div>
           <div class="field"><label for="cf-interest" data-i18n="form_int">Що вас цікавить?</label>
             <select id="cf-interest" aria-label="Що вас цікавить?" data-i18n-aria="form_int"><option data-i18n="form_i1">Підбір техніки</option><option data-i18n="form_i5">Зарядні станції</option><option data-i18n="form_i2">Вартість монтажу</option><option data-i18n="form_i3">Сервісне обслуговування</option><option data-i18n="form_i4">Інше питання</option></select>
           </div>
-          <div class="field"><label for="cf-comment" data-i18n="form_com">Коментар (необов'язково)</label><textarea id="cf-comment" placeholder="Наприклад: кімната 20 м², 5 поверх..." data-i18n-ph="form_com_ph"></textarea></div>
+          <div class="field"><label for="cf-comment" data-i18n="form_com">Коментар (необов'язково)</label><textarea id="cf-comment" placeholder="Наприклад: потрібен бойлер на 80 л, доставка на 5 поверх" data-i18n-ph="form_com_ph"></textarea></div>
           <button class="btn-submit" onclick="submitContact()" data-i18n="form_btn">Отримати консультацію</button>
           <p class="form-note" data-i18n="form_note">Надсилаючи форму, ви погоджуєтесь на обробку персональних даних</p>
         </div>
@@ -653,15 +653,15 @@
     <h3 id="cb-title" data-i18n="cb_btn">Замовити дзвінок</h3>
     <p id="cb-sub" data-i18n="cb_p">Менеджер передзвонить вам протягом 15 хвилин.</p>
     <div id="cb-form">
-      <div class="field"><label for="cb-name" data-i18n="cb_name">Ваше ім'я</label><input type="text" id="cb-name" placeholder="Ім'я" data-i18n-ph="cb_name_ph"></div>
-      <div class="field"><label for="cb-phone" data-i18n="cb_phone">Телефон</label><input type="tel" id="cb-phone" placeholder="+38 (___) ___-__-__"></div>
+      <div class="field"><label for="cb-name" data-i18n="cb_name">Ваше ім'я</label><input type="text" id="cb-name" autocomplete="name" placeholder="Наприклад: Олександр" data-i18n-ph="cb_name_ph"></div>
+      <div class="field"><label for="cb-phone" data-i18n="cb_phone">Телефон</label><input type="tel" id="cb-phone" autocomplete="tel" placeholder="+380 XX XXX XX XX" data-i18n-ph="form_phone_ph"></div>
       <div class="field" id="cb-product-wrap" style="display:none"><label for="cb-product" data-i18n="cb_product">Товар</label><input type="text" id="cb-product" readonly></div>
       <!-- Optional on purpose. Google Customer Reviews needs an address to send
            its survey to, and that survey is the only route to the seller rating
            in search — but a required field on an order form costs orders, and
            orders are the point. Left blank, everything works exactly as before. -->
       <div class="field"><label for="cb-email" data-i18n="cb_email">E-mail — необов'язково</label>
-        <input type="email" id="cb-email" inputmode="email" autocomplete="email" placeholder="you@example.com">
+        <input type="email" id="cb-email" inputmode="email" autocomplete="email" placeholder="Наприклад: name@gmail.com" data-i18n-ph="cb_email_ph">
         <span class="field-hint" data-i18n="cb_email_hint">Надішлемо чек і гарантійний талон</span></div>
       <input type="text" id="cb-hp" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <!--TURNSTILE-->

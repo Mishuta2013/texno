@@ -373,7 +373,7 @@
     "form_i3": "Сервісне обслуговування",
     "form_i4": "Інше питання",
     "form_com": "Коментар (необов'язково)",
-    "form_com_ph": "Наприклад: кімната 20 м², 5 поверх...",
+    "form_com_ph": "Наприклад: потрібен бойлер на 80 л, доставка на 5 поверх",
     "form_btn": "Отримати консультацію",
     "form_note": "Надсилаючи форму, ви погоджуєтесь на обробку персональних даних",
     "form_ok_h": "Заявку прийнято!",
@@ -876,8 +876,8 @@
     "nav_menu": "Меню",
     "mcta_label": "Швидкі дії",
     "map_title": "Карта — TexnoPlaza",
-    "form_name_ph": "Олександр",
-    "cb_name_ph": "Ім’я",
+    "form_name_ph": "Наприклад: Олександр",
+    "cb_name_ph": "Наприклад: Олександр",
     "nav_returns": "Повернення товару",
     "cp_label": "Каталог товарів",
     "cp_home": "Техніка для дому",
@@ -892,7 +892,9 @@
     "cp_brands": "Бренди",
     "cp_close": "Закрити",
     "cp_stock": "{{ITEMS}} у наявності",
-    "cp_models": "Моделі в наявності"
+    "cp_models": "Моделі в наявності",
+    "form_phone_ph": "+380 XX XXX XX XX",
+    "cb_email_ph": "Наприклад: name@gmail.com"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1268,7 +1270,7 @@
     "form_i3": "Сервисное обслуживание",
     "form_i4": "Другой вопрос",
     "form_com": "Комментарий (необязательно)",
-    "form_com_ph": "Например: комната 20 м², 5 этаж...",
+    "form_com_ph": "Например: нужен бойлер на 80 л, доставка на 5 этаж",
     "form_btn": "Получить консультацию",
     "form_note": "Отправляя форму, вы соглашаетесь на обработку персональных данных",
     "form_ok_h": "Заявка принята!",
@@ -1771,8 +1773,8 @@
     "nav_menu": "Меню",
     "mcta_label": "Быстрые действия",
     "map_title": "Карта — TexnoPlaza",
-    "form_name_ph": "Александр",
-    "cb_name_ph": "Имя",
+    "form_name_ph": "Например: Александр",
+    "cb_name_ph": "Например: Александр",
     "nav_returns": "Возврат товара",
     "cp_label": "Каталог товаров",
     "cp_home": "Техника для дома",
@@ -1787,7 +1789,9 @@
     "cp_brands": "Бренды",
     "cp_close": "Закрыть",
     "cp_stock": "{{ITEMS}} в наличии",
-    "cp_models": "Модели в наличии"
+    "cp_models": "Модели в наличии",
+    "form_phone_ph": "+380 XX XXX XX XX",
+    "cb_email_ph": "Например: name@gmail.com"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -2163,7 +2167,7 @@
     "form_i3": "Service & maintenance",
     "form_i4": "Other question",
     "form_com": "Comment (optional)",
-    "form_com_ph": "e.g. 20 m² room, 5th floor...",
+    "form_com_ph": "e.g. an 80 l water heater, delivery to the 5th floor",
     "form_btn": "Get a consultation",
     "form_note": "By submitting the form you agree to the processing of personal data",
     "form_ok_h": "Request received!",
@@ -2635,8 +2639,8 @@
     "nav_menu": "Menu",
     "mcta_label": "Quick actions",
     "map_title": "Map — TexnoPlaza",
-    "form_name_ph": "Alex",
-    "cb_name_ph": "Name",
+    "form_name_ph": "e.g. Oleksandr",
+    "cb_name_ph": "e.g. Oleksandr",
     "nav_returns": "Returns",
     "cp_label": "Product catalog",
     "cp_home": "Home appliances",
@@ -2651,6 +2655,8 @@
     "cp_brands": "Brands",
     "cp_close": "Close",
     "cp_stock": "{{ITEMS}} in stock",
-    "cp_models": "In stock now"
+    "cp_models": "In stock now",
+    "form_phone_ph": "+380 XX XXX XX XX",
+    "cb_email_ph": "e.g. name@gmail.com"
   }
 }

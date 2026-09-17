@@ -1473,7 +1473,7 @@ function quizResult(){
     +relaxNote+(warnKey?`<div class="quiz-note">${t(warnKey)}</div>`:'');
   qel('body').innerHTML=`<div class="quiz-res"><div class="quiz-q">${t(d.resKey)}</div>${note}<div class="quiz-cards">${cards}</div>
     <form class="quiz-lead" onsubmit="return quizSubmit(event)"><div class="quiz-q2">${t('quiz_lead_h')}</div>
-      <div class="quiz-lead-row"><input name="name" placeholder="${t('form_name')}" required><input name="phone" placeholder="+38 (0__) ___-__-__" required></div>
+      <div class="quiz-lead-row"><input name="name" autocomplete="name" placeholder="${t('form_name_ph')}" aria-label="${t('form_name')}" required><input name="phone" type="tel" autocomplete="tel" placeholder="${t('form_phone_ph')}" aria-label="${t('form_phone')}" required></div>
       <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit" class="btn-primary">${t('quiz_send')}</button></form></div>`;
 }
