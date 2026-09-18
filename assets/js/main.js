@@ -76,8 +76,7 @@ function catChipsJS(p){
   }).join('');
 }
 /* ============ CONFIG ============ */
-const PHONE="380991108041";              // WhatsApp / Viber / Telegram number
-const TG_USER="a3w44";                    // Telegram username
+const PHONE="380956082228";              // WhatsApp / Viber / Telegram number
 const FORMSPREE="xaqgygqb";          // Formspree form ID (e.g. xyzabcd)
 
 function track(n,p){try{if(window.gtag)gtag('event',n,p||{});}catch(e){}}
@@ -709,7 +708,8 @@ function openQbuy(e,slug){
   const msg=encodeURIComponent(t('buy_msg')+' '+p.name+' ('+fmt(p.price)+' '+(LANG==='en'?'UAH':'грн')+')');
   $('qb-wa').href=`https://api.whatsapp.com/send?phone=${PHONE}&text=${msg}`;
   $('qb-vb').href=`viber://chat?number=%2B${PHONE}`;
-  $('qb-tg').href=`https://t.me/${TG_USER}?text=${msg}`;
+  // a phone-number link opens the chat by number; it takes no prefilled text
+  $('qb-tg').href=`https://t.me/+${PHONE}`;
   const pop=$('qbuy-pop');const r=e.target.getBoundingClientRect();
   pop.style.left=Math.min(r.left, window.innerWidth-256)+'px';
   pop.style.top=(r.top - pop.offsetHeight - 8)<10 ? (r.bottom+8)+'px' : '';
@@ -1199,8 +1199,6 @@ function scanReveals(root){
 scanReveals();
 window.scanReveals=scanReveals;
 
-/* WhatsApp float + contact links use new phone */
-document.querySelectorAll('a[href*="380991108041"]').forEach(()=>{});
 
 /* 3D tilt on product cards and on the hero cards (delegated, survives
    re-renders). The hero cards are large and sit against a dark backdrop, so
