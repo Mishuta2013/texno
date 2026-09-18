@@ -424,7 +424,7 @@ const firstPage = list => list.slice(0, PAGE_SIZE);
 const GCR_BADGE = (!site.gcrBadge || !site.gcrMerchantId) ? '' : `
 <script id="merchantWidgetScript" src="https://www.gstatic.com/shopping/merchant/merchantwidget.js" defer></script>
 <script>document.getElementById('merchantWidgetScript').addEventListener('load',function(){
-merchantwidget.start({merchant_id:${Number(site.gcrMerchantId)},position:'RIGHT_BOTTOM',mobileBottomMargin:86});});</script>`;
+merchantwidget.start({merchant_id:${Number(site.gcrMerchantId)},position:'RIGHT_BOTTOM',region:'${site.gcrCountry || 'UA'}',mobileBottomMargin:86});});</script>`;
 
 /* Nine page builders wrote their own file. Anything belonging at the foot of
    every page — the badge today, whatever comes next — went into nine templates
