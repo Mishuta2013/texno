@@ -433,10 +433,17 @@ merchantwidget.start({merchant_id:${Number(site.gcrMerchantId)},position:'RIGHT_
    that could drift apart. One door now, and it refuses a page with no </body>
    rather than dropping the tail in silence, the same way fill() refuses a
    template with no marker. */
+/* Cloudflare's Email Address Obfuscation rewrites every mailto link into
+   /cdn-cgi/l/email-protection#…, and that address answers 404 to anything
+   that is not a browser running its decoder. The footer carries the address,
+   so Ahrefs reported 1,122 of 1,157 pages as linking to a broken page. The
+   email_off comments are Cloudflare's own opt-out; a gmail address gains
+   nothing from the obfuscation that its spam filter does not already give. */
+const emailOff = html => html.replace(/<a\b[^>]*href="mailto:[^"]*"[^>]*>[\s\S]*?<\/a>/g, m => `<!--email_off-->${m}<!--/email_off-->`);
 function writePage(dir, html) {
   const at = html.lastIndexOf('</body>');
   if (at < 0) throw new Error('page has no </body>: ' + dir);
-  fs.writeFileSync(path.join(dir, 'index.html'), html.slice(0, at) + GCR_BADGE + html.slice(at), 'utf8');
+  fs.writeFileSync(path.join(dir, 'index.html'), emailOff(html.slice(0, at) + GCR_BADGE + html.slice(at)), 'utf8');
 }
 
 /* Assets are served with a one-year immutable cache, so a file whose contents
@@ -2626,7 +2633,7 @@ ${FOOTER}
 ${injectData()}
 <script src="${av('/assets/js/main.js')}" defer></script>
 </body></html>`;
-  fs.writeFileSync(path.join(DIST, '404.html'), html, 'utf8');
+  fs.writeFileSync(path.join(DIST, '404.html'), emailOff(html), 'utf8');
 }
 
 // ---- privacy policy page (Ukrainian legal text, generated once) ----
