@@ -2,7 +2,9 @@
 //
 // Env vars (Vercel → Project → Settings → Environment Variables):
 //   TELEGRAM_BOT_TOKEN   from @BotFather
-//   TELEGRAM_CHAT_ID     your chat/channel id (@userinfobot, or getUpdates)
+//   TELEGRAM_CHAT_ID     who gets the leads: one chat id, or several separated
+//                        by commas (each person must press Start in the bot
+//                        first); a group id (-100…) also works
 //   TURNSTILE_SECRET     optional; when set, every lead must carry a valid
 //                        Cloudflare Turnstile token. Until it is set the site
 //                        keeps working with the checks below and nothing else.
@@ -198,14 +200,29 @@ export default async function handler(req, res) {
       && '⚠️ Turnstile не перевіряється: у Vercel немає TURNSTILE_SECRET_KEY'
   ].filter(Boolean);
 
-  try {
-    const r = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: CHAT, text: lines.join('\n'), parse_mode: 'HTML', disable_web_page_preview: true })
-    });
-    if (!r.ok) { const e = await r.text(); res.status(502).json({ ok: false, error: 'telegram', detail: e.slice(0, 200) }); return; }
-    res.status(200).json({ ok: true });
-  } catch (e) {
-    res.status(502).json({ ok: false, error: 'network' });
+  /* More than one person takes the orders, so TELEGRAM_CHAT_ID may list several
+     ids separated by commas ("111111111,222222222" — a group id works too).
+     Each gets its own copy. One recipient who blocked the bot or never pressed
+     Start must not cost the lead: it counts as sent if anyone received it. */
+  const chats = String(CHAT).split(/[\s,;]+/).filter(Boolean);
+  const text = lines.join('\n');
+  const failed = (await Promise.all(chats.map(async id => {
+    try {
+      const r = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: id, text, parse_mode: 'HTML', disable_web_page_preview: true })
+      });
+      return r.ok ? null : { id, error: 'telegram', detail: (await r.text()).slice(0, 200) };
+    } catch (e) {
+      return { id, error: 'network' };
+    }
+  }))).filter(Boolean);
+  if (failed.length === chats.length) {
+    res.status(502).json({ ok: false, error: failed[0].error, detail: failed[0].detail });
+    return;
   }
+  // the browser learns nothing about who the recipients are; the owner finds
+  // the one that missed it in the Vercel logs
+  if (failed.length) console.error('lead not delivered to', failed.map(f => `${f.id}: ${f.detail || f.error}`).join(' | '));
+  res.status(200).json({ ok: true });
 }
