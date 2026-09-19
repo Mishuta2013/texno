@@ -498,9 +498,13 @@ const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com"><link 
    (G-HJC1PWRVE9) and Google Ads (AW-765371108) used to load here through their
    own gtag snippet as well; they were removed on the owner's instruction so
    everything is configured inside the container instead. Adding them back here
-   while the container also fires them would double-count every visit. */
+   while the container also fires them would double-count every visit.
+
+   Only on the real domain: the local test server and Vercel preview builds
+   loaded the container too, so every test page view landed in the shop's
+   Analytics as a visitor from localhost:8099. */
 const GTM = `<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KBTGSLKD');</script>
+<script>if(location.hostname==='texnoplaza.sumy.ua')(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KBTGSLKD');</script>
 <!-- End Google Tag Manager -->`;
 const GTM_NS = `<!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBTGSLKD" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`;
 
