@@ -1693,7 +1693,7 @@ ${HEADER}
           <svg viewBox="0 0 24 24"><path d="M12 2v20M17 6.5A4 4 0 0 0 13 4h-2a3.5 3.5 0 0 0 0 7h2a3.5 3.5 0 0 1 0 7h-2a4 4 0 0 1-4-2.5"/></svg>
           <span>${esc(t('pp_cheaper'))}</span></button>
       </div>
-      <div class="pp-trust">${trustLines.map(x => `<span>${esc(x)}</span>`).join('')}</div>
+      <div class="pp-trust">${trustLines.map(x => `<span>${esc(x)}</span>`).join('')}<span><a href="/povernennya-tovaru/">${esc(t('trust_return'))}</a></span></div>
     </div>
   </div>
   <div class="pp-cols">

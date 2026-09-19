@@ -897,7 +897,8 @@
     "cb_email_ph": "Наприклад: name@gmail.com",
     "rev_translated": "Перекладено Google",
     "rev_google_src": "Відгуки з Google Maps",
-    "blog_updated": "оновлено"
+    "blog_updated": "оновлено",
+    "trust_return": "Повернення 14 днів — безкоштовно"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1797,7 +1798,8 @@
     "cb_email_ph": "Например: name@gmail.com",
     "rev_translated": "Переведено Google",
     "rev_google_src": "Отзывы из Google Maps",
-    "blog_updated": "обновлено"
+    "blog_updated": "обновлено",
+    "trust_return": "Возврат 14 дней — бесплатно"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -2666,6 +2668,7 @@
     "cb_email_ph": "e.g. name@gmail.com",
     "rev_translated": "Translated by Google",
     "rev_google_src": "Reviews from Google Maps",
-    "blog_updated": "updated"
+    "blog_updated": "updated",
+    "trust_return": "Free returns within 14 days"
   }
 }

@@ -974,6 +974,9 @@ a.gauge-card:hover{transform:translateY(-4px)}
 .btn-ghost2:hover{border-color:var(--blue);color:var(--blue-d)}
 .pp-trust{display:flex;flex-direction:column;gap:10px;font-size:14px;color:var(--g5);border-top:1px solid var(--g2);padding-top:18px}
 .pp-trust span{display:flex;align-items:center;gap:10px}
+/* the free-returns line links to the terms; it reads as one of the promises, not as a link */
+.pp-trust a{color:inherit;text-decoration:underline;text-decoration-color:var(--g3);text-underline-offset:3px}
+.pp-trust a:hover{color:var(--blue-d);text-decoration-color:currentColor}
 .pp-trust span::before{content:"✓";flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:var(--ice);color:var(--blue-d);font-weight:800;font-size:12px;display:inline-flex;align-items:center;justify-content:center}
 .pp-cols{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:48px}
 .pp-cols h2,.pp-related h2{font-family:var(--disp);font-size:21px;font-weight:800;color:var(--ink);margin-bottom:16px}
