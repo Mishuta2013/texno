@@ -896,7 +896,8 @@
     "form_phone_ph": "+380 XX XXX XX XX",
     "cb_email_ph": "Наприклад: name@gmail.com",
     "rev_translated": "Перекладено Google",
-    "rev_google_src": "Відгуки з Google Maps"
+    "rev_google_src": "Відгуки з Google Maps",
+    "blog_updated": "оновлено"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1795,7 +1796,8 @@
     "form_phone_ph": "+380 XX XXX XX XX",
     "cb_email_ph": "Например: name@gmail.com",
     "rev_translated": "Переведено Google",
-    "rev_google_src": "Отзывы из Google Maps"
+    "rev_google_src": "Отзывы из Google Maps",
+    "blog_updated": "обновлено"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -2663,6 +2665,7 @@
     "form_phone_ph": "+380 XX XXX XX XX",
     "cb_email_ph": "e.g. name@gmail.com",
     "rev_translated": "Translated by Google",
-    "rev_google_src": "Reviews from Google Maps"
+    "rev_google_src": "Reviews from Google Maps",
+    "blog_updated": "updated"
   }
 }

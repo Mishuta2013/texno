@@ -1305,7 +1305,7 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 .bl-body{font-size:16.5px;line-height:1.75;color:var(--g5)}
 .bl-body h2{font-family:var(--disp);font-size:21px;font-weight:800;color:var(--ink);margin:28px 0 12px}
 .bl-body p{margin-bottom:16px}
-.bl-body ul{margin:0 0 16px;padding-left:22px}
+.bl-body ul,.bl-body ol{margin:0 0 16px;padding-left:22px}
 .bl-body li{margin-bottom:8px}
 .bl-body a{color:var(--blue-d);font-weight:600;text-decoration:underline}
 .bl-body strong{color:var(--ink)}

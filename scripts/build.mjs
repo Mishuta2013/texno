@@ -40,7 +40,9 @@ const btSeo = a => {
    address. */
 const stampAssets = html => html.replace(
   /(["\s])(\/assets\/img\/blog\/[A-Za-z0-9@._-]+\.webp)/g, (m, p, u) => p + av(u));
-const bh = a => stampAssets(linkProducts((L !== 'uk' && a['html_' + L]) || a.html));
+/* subCounts too, so an article can quote {{PRICE}} or {{AC_FROM}} and follow the
+   price list instead of going stale with a typed number. */
+const bh = a => subCounts(stampAssets(linkProducts((L !== 'uk' && a['html_' + L]) || a.html)));
 
 /* Articles name real models — "Edler ED-120DT", "Beko RCNA406I30XB" — and until
    now they were plain text, so an interested reader had to go hunting in the
@@ -2304,7 +2306,7 @@ ${injectData()}
 function blogPost(a) {
   const others = blog.filter(x => x.slug !== a.slug).slice(0, 3);
   const jsonld = { '@context': 'https://schema.org', '@type': 'Article', headline: bt(a), description: bd(a),
-    datePublished: a.date, dateModified: a.date, author: { '@type': 'Organization', name: site.name },
+    datePublished: a.date, dateModified: a.updated || a.date, author: { '@type': 'Organization', name: site.name },
     publisher: { '@type': 'Organization', name: site.name, logo: { '@type': 'ImageObject', url: absImg('/assets/icons/icon-512.png') } },
     mainEntityOfPage: abs(blogUrl(a)),
     image: absImg(a.cover ? `/assets/og/blog-${a.slug}.jpg` : `/assets/og/default${L === 'uk' ? '' : '-' + L}.jpg`) };
@@ -2322,7 +2324,7 @@ ${HEADER}
   ${a.cover ? `<img class="bl-art-cover" src="${esc(av(a.cover))}" alt="" width="800" height="450" fetchpriority="high" decoding="async">` : ''}
   <div class="bl-chips"><span class="bl-tag">${esc(bg(a))}</span><a class="bl-cat" href="${curl(artCat(a))}">${esc(lf(artCat(a), 'name'))}</a></div>
   <h1 class="bl-art-h1">${esc(bt(a))}</h1>
-  <div class="bl-meta">${new Date(a.date).toLocaleDateString(L === 'ru' ? 'ru-RU' : 'uk-UA', { day: 'numeric', month: 'long', year: 'numeric' })} · ${a.read} ${esc(t('blog_read'))}</div>
+  <div class="bl-meta">${new Date(a.date).toLocaleDateString(L === 'ru' ? 'ru-RU' : 'uk-UA', { day: 'numeric', month: 'long', year: 'numeric' })}${a.updated && a.updated !== a.date ? ` · ${esc(t('blog_updated'))} ${new Date(a.updated).toLocaleDateString(L === 'ru' ? 'ru-RU' : 'uk-UA', { day: 'numeric', month: 'long', year: 'numeric' })}` : ''} · ${a.read} ${esc(t('blog_read'))}</div>
   <div class="bl-body">${bh(a)}</div>
   ${artProducts(a)}
   <div class="bl-cta"><a class="btn-primary" href="${pfx()}/#catalog">${esc(t('blog_cta1'))}</a> <a class="btn-ghost2" href="${curl(artCat(a))}">${esc(lf(artCat(a), 'name'))}</a></div>
@@ -2623,7 +2625,7 @@ ${items}
    ignore a lastmod that always says "just now". */
 const LASTMOD = new Map();
 for (const a of blog) for (const l of BLOG_LANGS)
-  LASTMOD.set(`${l === 'uk' ? '' : '/' + l}/blog/${a.slug}/`, a.date);
+  LASTMOD.set(`${l === 'uk' ? '' : '/' + l}/blog/${a.slug}/`, a.updated || a.date);
 const urls = [...new Set(SITEMAP)].map(u => {
   const d = LASTMOD.get(u);
   return `  <url><loc>${abs(u)}</loc>${d ? `<lastmod>${d}</lastmod>` : ''}</url>`;
