@@ -2091,7 +2091,10 @@ ${head({
     const lead = fill(t('tag_seo_d'));
     const extra = (lf(tg, 'intro') || '').trim();
     const first = extra.split(/(?<=\.)\s+/)[0] || '';
-    for (const tail of [extra, first, '']) {
+    // a one-sentence intro that is too long leaves nothing to fall back on;
+    // the first tip is the next most useful line for the snippet
+    const tip = (lf(tg, 'tips') || '').trim().split(/(?<=\.)\s+/)[0] || '';
+    for (const tail of [extra, first, tip, '']) {
       const cand = `${lead} ${tail}`.trim();
       if (cand.length <= 165) return cand;
     }
