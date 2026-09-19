@@ -1925,6 +1925,126 @@ function collectionOg(kind, cat, key, list, title) {
   if (fs.existsSync(path.join(ROOT, file.slice(1)))) return absImg(file);
   return cat.cover ? absImg(`/assets/og/cat-${cat.key}.jpg`) : undefined;
 }
+/* ---- "що є в наявності": the shelf in numbers --------------------------
+   A tag or brand page was a heading, one sentence and a grid — under a hundred
+   words of its own, and the same sentence shape on seventy pages. What a buyer
+   comparing "кондиціонери на 35 м²" wants next is the spread: how big, how
+   quiet, how many have a heat pump, which is the cheapest. Every figure here
+   is read from products.json, so it is different on every page and cannot
+   drift from the grid above it — nothing is typed in by hand. */
+const FACT_RANGES = {
+  kondicioneri: [
+    { key: 'area', label: 'Площа приміщення', label_ru: 'Площадь помещения', label_en: 'Room size', unit: 'м²', unit_en: 'm²' },
+    { key: 'btu', label: 'Потужність', label_ru: 'Мощность', label_en: 'Capacity', unit: 'BTU' },
+    { key: 'noise', label: 'Шум на найнижчій швидкості', label_ru: 'Шум на минимальной скорости', label_en: 'Noise at the lowest fan speed', unit: 'дБ', unit_en: 'dB' },
+  ],
+  'pralni-mashyny': [
+    { key: 'load_kg', label: 'Завантаження', label_ru: 'Загрузка', label_en: 'Drum load', unit: 'кг', unit_en: 'kg' },
+    { key: 'depth', label: 'Глибина', label_ru: 'Глубина', label_en: 'Depth', unit: 'см', unit_en: 'cm' },
+    { key: 'rpm', label: 'Віджим', label_ru: 'Отжим', label_en: 'Spin', unit: 'об/хв', unit_ru: 'об/мин', unit_en: 'rpm' },
+  ],
+  holodylnyky: [
+    { key: 'volume_l', label: 'Загальний об’єм', label_ru: 'Общий объём', label_en: 'Total volume', unit: 'л', unit_en: 'l' },
+    { key: 'height_cm', label: 'Висота', label_ru: 'Высота', label_en: 'Height', unit: 'см', unit_en: 'cm' },
+  ],
+  boylery: [
+    { key: 'volume_l', label: 'Об’єм бака', label_ru: 'Объём бака', label_en: 'Tank size', unit: 'л', unit_en: 'l' },
+    { key: 'power_w', label: 'Потужність ТЕНа', label_ru: 'Мощность ТЭНа', label_en: 'Element power', unit: 'Вт', unit_en: 'W' },
+  ],
+  'zaryadni-stantsii': [
+    { key: 'capacity_wh', label: 'Ємність', label_ru: 'Ёмкость', label_en: 'Capacity', unit: 'Вт·год', unit_ru: 'Вт·ч', unit_en: 'Wh' },
+    { key: 'output_w', label: 'Вихідна потужність', label_ru: 'Выходная мощность', label_en: 'Output', unit: 'Вт', unit_en: 'W' },
+  ],
+  'duhovi-shafy': [
+    { key: 'volume_l', label: 'Об’єм камери', label_ru: 'Объём камеры', label_en: 'Cavity', unit: 'л', unit_en: 'l' },
+    { key: 'functions', label: 'Режимів', label_ru: 'Режимов', label_en: 'Cooking modes', unit: '' },
+  ],
+  'varylni-poverhni': [
+    { key: 'width_cm', label: 'Ширина', label_ru: 'Ширина', label_en: 'Width', unit: 'см', unit_en: 'cm' },
+    { key: 'burners', label: 'Конфорок', label_ru: 'Конфорок', label_en: 'Cooking zones', unit: '' },
+  ],
+  vytyazhky: [
+    { key: 'airflow', label: 'Продуктивність', label_ru: 'Производительность', label_en: 'Extraction', unit: 'м³/год', unit_ru: 'м³/ч', unit_en: 'm³/h' },
+    { key: 'noise_db', label: 'Рівень шуму', label_ru: 'Уровень шума', label_en: 'Noise', unit: 'дБ', unit_en: 'dB' },
+    { key: 'width_cm', label: 'Ширина', label_ru: 'Ширина', label_en: 'Width', unit: 'см', unit_en: 'cm' },
+  ],
+  myyky: [
+    { key: 'width_cm', label: 'Ширина', label_ru: 'Ширина', label_en: 'Width', unit: 'см', unit_en: 'cm' },
+    { key: 'depth_mm', label: 'Глибина чаші', label_ru: 'Глубина чаши', label_en: 'Bowl depth', unit: 'мм', unit_en: 'mm' },
+  ],
+  zmishuvachi: [
+    { key: 'height_mm', label: 'Висота', label_ru: 'Высота', label_en: 'Height', unit: 'мм', unit_en: 'mm' },
+    { key: 'spout_l_mm', label: 'Виліт носика', label_ru: 'Вылет излива', label_en: 'Spout reach', unit: 'мм', unit_en: 'mm' },
+  ],
+  'posudomyyni-mashyny': [
+    { key: 'sets', label: 'Комплектів посуду', label_ru: 'Комплектов посуды', label_en: 'Place settings', unit: '' },
+    { key: 'noise_db', label: 'Рівень шуму', label_ru: 'Уровень шума', label_en: 'Noise', unit: 'дБ', unit_en: 'dB' },
+  ],
+  'mikrohvylovi-pechi': [
+    { key: 'volume_l', label: 'Об’єм камери', label_ru: 'Объём камеры', label_en: 'Cavity', unit: 'л', unit_en: 'l' },
+    { key: 'power_mw', label: 'Потужність мікрохвиль', label_ru: 'Мощность микроволн', label_en: 'Microwave power', unit: 'Вт', unit_en: 'W' },
+  ],
+  dozatory: [
+    { key: 'volume_ml', label: 'Об’єм пляшки', label_ru: 'Объём бутылки', label_en: 'Bottle', unit: 'мл', unit_en: 'ml' },
+  ],
+};
+/* Flags that sit on the product itself (see tagMatch): a count only means
+   something against the total, so it is always written as "5 з 14". */
+const FACT_FLAGS = {
+  kondicioneri: [
+    { key: 'inverter', label: 'Інверторні', label_ru: 'Инверторные', label_en: 'Inverter' },
+    { key: 'heatpump', label: 'З тепловим насосом', label_ru: 'С тепловым насосом', label_en: 'With a heat pump' },
+    { key: 'wifi', label: 'З Wi-Fi', label_ru: 'С Wi-Fi', label_en: 'With Wi-Fi' },
+  ],
+  holodylnyky: [
+    { key: 'nofrost', label: 'З No Frost', label_ru: 'С No Frost', label_en: 'No Frost' },
+    { key: 'inverter', label: 'З інверторним компресором', label_ru: 'С инверторным компрессором', label_en: 'Inverter compressor' },
+  ],
+  'pralni-mashyny': [
+    { key: 'inverter', label: 'З інверторним мотором', label_ru: 'С инверторным мотором', label_en: 'Inverter motor' },
+  ],
+  'zaryadni-stantsii': [
+    { key: 'ups', label: 'З режимом ДБЖ (UPS)', label_ru: 'С режимом ИБП (UPS)', label_en: 'With UPS mode' },
+  ],
+};
+const factNum = p => k => {
+  const v = (p.specs || {})[k] ?? p[k];
+  const n = parseFloat(String(v ?? '').replace(',', '.'));
+  return isNaN(n) ? null : n;
+};
+const numOut = n => Number.isInteger(n) ? fmt(n) : String(n).replace('.', L === 'en' ? '.' : ',');
+/* extra: a line of <a> links the page adds of its own — the brands in a tag,
+   or the tags a brand turns up in. */
+function shelfFacts(cat, list, name, extra) {
+  const rows = [];
+  if (list.length >= 2) {
+    const byPrice = list.slice().sort((a, b) => a.price - b.price);
+    const lo = byPrice[0], hi = byPrice[byPrice.length - 1];
+    const link = p => `<a href="${purl(p)}">${esc(pname(p))}</a>`;
+    rows.push(`<li><b>${esc(t('f_cheap'))}:</b> ${link(lo)} <span class="sf-p">— ${fmt(lo.price)} ${esc(t('u_uah'))}</span></li>`);
+    if (hi.price > lo.price) rows.push(`<li><b>${esc(t('f_dear'))}:</b> ${link(hi)} <span class="sf-p">— ${fmt(hi.price)} ${esc(t('u_uah'))}</span></li>`);
+  }
+  for (const f of FACT_RANGES[cat.key] || []) {
+    const vals = list.map(p => factNum(p)(f.key)).filter(v => v !== null);
+    if (vals.length < Math.max(1, Math.ceil(list.length / 2))) continue;   // too patchy to summarise
+    const lo = Math.min(...vals), hi = Math.max(...vals);
+    const u = lf(f, 'unit') ? ' ' + lf(f, 'unit') : '';
+    const val = lo === hi ? `${numOut(lo)}${u}`
+      : t('f_range').replace('{lo}', numOut(lo)).replace('{hi}', numOut(hi)).replace('{u}', u);
+    rows.push(`<li><b>${esc(lf(f, 'label'))}:</b> ${esc(val)}</li>`);
+  }
+  for (const f of FACT_FLAGS[cat.key] || []) {
+    const n = list.filter(p => p[f.key]).length;
+    if (!n) continue;
+    rows.push(`<li><b>${esc(lf(f, 'label'))}:</b> ${n === list.length ? esc(t('f_every')) : `${n} ${esc(t('f_of'))} ${list.length}`}</li>`);
+  }
+  if (extra) rows.push(extra);
+  if (rows.length < 2) return '';
+  return `<section class="shelf-facts">
+    <h2>${esc(t('f_h').replace('{name}', name))}</h2>
+    <ul>${rows.join('')}</ul>
+  </section>`;
+}
 function tagPage(cat, tg) {
   const list = tagProducts(cat.key, tg);
   const CAT = lf(cat, 'name');
@@ -1950,6 +2070,13 @@ function tagPage(cat, tg) {
     { '@type': 'ListItem', position: 3, name: NAME, item: abs(turl(cat, tg)) } ] };
   const siblings = catTags(cat.key).filter(x => x.slug !== tg.slug)
     .map(x => `<a class="bl-chip" href="${turl(cat, x)}">${esc(lf(x, 'label'))}</a>`).join('');
+  // which brands make up this selection, each linked to its own shelf
+  const tagBrands = [...new Set(list.map(p => p.brand))].sort((a, b) => a.localeCompare(b, 'uk'));
+  const brandsRow = tagBrands.length > 1 ? `<li><b>${esc(t('f_brands'))}:</b> ` + tagBrands.map(b => {
+    const n = list.filter(p => p.brand === b).length;
+    const label = `${esc(b)} (${n})`;
+    return brandIsShelf(cat.key, b) ? label : `<a href="${burl(cat, b)}">${label}</a>`;
+  }).join(', ') + '</li>' : '';
   return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
 ${head({
   title: (() => {
@@ -1986,6 +2113,7 @@ ${HEADER}
   <section class="section catalog cat-catalog" id="catalog">
     <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
   </section>
+  ${shelfFacts(cat, list, NAME, brandsRow)}
   ${siblings ? `<div class="brand-links"><h2>${esc(t('tag_other'))}</h2><div class="bl-row">${siblings}</div></div>` : ''}
   <div class="pp-back"><a href="${curl(cat)}">← ${esc(CAT)}</a></div>
 </div>
@@ -2028,6 +2156,11 @@ function brandPage(cat, brand) {
   const about = (BRANDS[brand] || {})[L] || (BRANDS[brand] || {}).uk || '';
   const siblings = catBrands(cat.key).filter(b => b !== brand)
     .map(b => `<a class="bl-chip" href="${burl(cat, b)}">${esc(b)}</a>`).join('');
+  // the selections this brand turns up in: "Ardesto на 25 м²" is one click away
+  const inTags = catTags(cat.key).map(tg => [tg, tagProducts(cat.key, tg).filter(p => p.brand === brand).length])
+    .filter(([, n]) => n);
+  const tagsRow = inTags.length ? `<li><b>${esc(t('f_tags'))}:</b> ` +
+    inTags.map(([tg, n]) => `<a href="${turl(cat, tg)}">${esc(lf(tg, 'label'))}</a> (${n})`).join(', ') + '</li>' : '';
   return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
 ${head({
   /* head() already puts "TexnoPlaza" in front, so the "| TexnoPlaza" the
@@ -2078,6 +2211,7 @@ ${HEADER}
   <section class="section catalog cat-catalog" id="catalog">
     <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
   </section>
+  ${shelfFacts(cat, list, NAME, tagsRow)}
   ${siblings ? `<div class="brand-links"><h2>${esc(t('brand_other').replace('{cat}', (lf(cat, 'nameGen') || CAT).toLowerCase()))}</h2><div class="bl-row">${siblings}</div></div>` : ''}
   <div class="pp-back"><a href="${curl(cat)}">← ${esc(CAT)}</a></div>
 </div>
@@ -2282,9 +2416,20 @@ function blogCard(a) {
     <p class="bl-card-d">${esc(bd(a))}</p>
     <span class="bl-more">${esc(t("blog_more"))}</span></a>`;
 }
+/* The index was the one page type with no structured data at all: search saw
+   a list of links, not a blog with dated posts by the shop. */
 function blogIndexPage() {
+  const jsonld = { '@context': 'https://schema.org', '@type': 'Blog', name: t('blog_h1'), description: t('seo_blog_d'),
+    url: abs(pfx() + '/blog/'), inLanguage: L,
+    publisher: { '@type': 'Organization', '@id': BASE + '/#store', name: site.name },
+    blogPost: blog.map(a => ({ '@type': 'BlogPosting', headline: bt(a), url: abs(blogUrl(a)),
+      datePublished: a.date, dateModified: a.updated || a.date })) };
+  const crumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t('pp_home'), item: abs(pfx() + '/') },
+    { '@type': 'ListItem', position: 2, name: t('nav_blog'), item: abs(pfx() + '/blog/') } ] };
   return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
-${head({ title: t('seo_blog_t'), desc: t('seo_blog_d'), canonical: abs(pfx() + '/blog/'), altPath: '/blog/', altLangs: BLOG_LANGS })}
+${head({ title: t('seo_blog_t'), desc: t('seo_blog_d'), canonical: abs(pfx() + '/blog/'), altPath: '/blog/', altLangs: BLOG_LANGS, jsonld })}
+<script type="application/ld+json">${JSON.stringify(crumbs)}</script>
 </head><body>${GTM_NS}
 ${HEADER}
 <div class="pp-wrap">

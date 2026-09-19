@@ -10,7 +10,7 @@
      the button colours are the same in light and dark, so one value is right
      for both. */
   --on-bright:#0E1726;--cta:#1668D6;
-  --paper:#F7FAFD;--white:#fff;--card:#fff;--line:#E1E9F3;--blue-a:#EAF3FF;
+  --paper:#F7FAFD;--white:#fff;--card:#fff;--line:#E1E9F3;--blue-a:#EAF3FF;--wash:#EEF4FB;
   --stripe:rgba(233,243,255,.45);--chip-line:#C9E2FB;--bar-bg:rgba(255,255,255,.97);
   --g1:#EEF3F9;--g2:#E1E9F3;--g3:#C6D2E2;--g4:#5F708A;--g5:#4D5E76;--ink:#0E1726;
   --green:#15803D;--green-bg:#DCFCE7;
@@ -31,7 +31,7 @@
 :root[data-theme="dark"]{
   --filter-bg:rgba(20,31,54,.90);--stripe:rgba(255,255,255,.045);--chip-line:#2C4569;
   --bar-bg:rgba(20,31,54,.97);
-  --paper:#0C1526;--white:#141F36;--card:#141F36;--line:#27344F;
+  --paper:#0C1526;--white:#141F36;--card:#141F36;--line:#27344F;--wash:#101B30;
   --g1:#1A2640;--g2:#27344F;--g3:#3C4C6B;--g4:#8CA0BE;--g5:#B6C6DD;--ink:#E9F0FA;
   --ice:#16283F;--blue-a:#16283F;--blue-d:#68ADFF;
   --green:#4ADE80;--green-bg:#123420;
@@ -321,7 +321,7 @@ input[type=range]{height:26px;padding:10px 0;background-clip:content-box}
 .btn-calc:hover{background:var(--amber-d);transform:translateY(-2px)}
 
 /* ============ FILTERS / CATALOG ============ */
-.catalog{background:linear-gradient(180deg,var(--paper) 0%,#EEF4FB 55%,var(--paper) 100%)}
+.catalog{background:linear-gradient(180deg,var(--paper) 0%,var(--wash) 55%,var(--paper) 100%)}
 .filters{background:var(--filter-bg,rgba(255,255,255,.88));backdrop-filter:saturate(160%) blur(14px);-webkit-backdrop-filter:saturate(160%) blur(14px);border:1px solid rgba(198,210,226,.7);border-radius:var(--r-lg);padding:20px 22px;box-shadow:0 8px 30px rgba(11,26,51,.08);margin-bottom:26px;position:sticky;top:80px;z-index:60}
 .filters.unstuck{position:static}
 .frow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
@@ -1561,6 +1561,19 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
   border-left:3px solid var(--blue)}
 @media(max-width:760px){.brand-about{padding:0 16px 18px}.brand-about p{padding:16px 18px;font-size:14.5px}}
 
+/* ---- tag and brand pages: the shelf in numbers ---- */
+.shelf-facts{max-width:var(--max);margin:0 auto;padding:4px 20px 26px}
+.shelf-facts h2{font-size:19px;margin-bottom:12px;text-wrap:balance}
+.shelf-facts ul{list-style:none;margin:0;padding:6px 24px;max-width:780px;background:var(--white);
+  border:1px solid var(--g2);border-radius:var(--r)}
+.shelf-facts li{padding:11px 0;font-size:15px;line-height:1.55;color:var(--g5);border-top:1px solid var(--g1)}
+.shelf-facts li:first-child{border-top:0}
+.shelf-facts b{color:var(--ink);font-weight:600}
+.shelf-facts .sf-p{white-space:nowrap}
+.shelf-facts a{color:var(--blue-d);text-decoration:underline;text-decoration-color:var(--g3);text-underline-offset:3px}
+.shelf-facts a:hover{text-decoration-color:currentColor}
+@media(max-width:760px){.shelf-facts{padding:0 16px 20px}.shelf-facts ul{padding:4px 16px}.shelf-facts li{font-size:14.5px;padding:10px 0}}
+
 /* On a 320px screen the H1 word "енергонезалежність" is wider than the column,
    and a grid child defaults to min-width:auto, so it refused to shrink and
    pushed the page 2px sideways. Let it shrink and let the word break. */
@@ -1593,7 +1606,9 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 .rc-img{display:block;height:104px;border-radius:10px;overflow:hidden;
   background:radial-gradient(120% 100% at 50% 10%,#FCFEFF,#E8EFFA)}
 .rc-img img{width:100%;height:100%;object-fit:contain;padding:8px}
-.rc-n{font-size:13px;line-height:1.35;color:var(--ink);font-weight:600;
+/* scoped to the card: the results counter's number is also .rc-n, and this
+   rule turned it into a block, splitting "Знайдено: 274 з 274" over three lines */
+.rc-card .rc-n{font-size:13px;line-height:1.35;color:var(--ink);font-weight:600;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .rc-p{font-family:var(--disp);font-weight:800;font-size:15px;color:var(--ink);margin-top:auto}
 .recent-clear{margin-top:12px;padding:8px 15px;border:1px solid var(--g2);border-radius:999px;
