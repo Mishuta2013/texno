@@ -262,7 +262,61 @@
     "quizEyeKey": "quiz_eye",
     "quizTitleKey": "quiz_h",
     "group": "home",
-    "featured": true
+    "featured": true,
+    "faq": [
+      [
+        "Скільки коштує кондиціонер з монтажем у Сумах?",
+        "Кондиціонери — від {{AC_FROM}} грн, монтаж під ключ — від {{PRICE}} грн з усіма матеріалами. Платите після того, як кондиціонер запрацював."
+      ],
+      [
+        "Чи можна опалювати квартиру кондиціонером узимку?",
+        "Так. Моделі з тепловим насосом гріють при морозі до −20…−30 °C і дають близько 3 кВт тепла з 1 кВт електрики. Звичайні інверторні здебільшого гріють приблизно до −15…−20 °C — межа вказана в характеристиках кожної моделі."
+      ],
+      [
+        "Як швидко встановите кондиціонер?",
+        "Монтаж займає один день. Якщо модель є в наявності, доставку й встановлення часто робимо в день замовлення — по Сумах і області."
+      ],
+      [
+        "Які кондиціонери є в наявності?",
+        "Зараз у Сумах {{AC_MODELS}}: {{AC_BRANDS}}. Майже всі — інверторні з Wi-Fi, потужністю {{AC_RANGE}}."
+      ]
+    ],
+    "faq_ru": [
+      [
+        "Сколько стоит кондиционер с установкой в Сумах?",
+        "Кондиционеры — от {{AC_FROM}} грн, установка под ключ — от {{PRICE}} грн со всеми материалами. Платите после того, как кондиционер заработал."
+      ],
+      [
+        "Можно ли отапливать квартиру кондиционером зимой?",
+        "Да. Модели с тепловым насосом греют при морозе до −20…−30 °C и дают около 3 кВт тепла из 1 кВт электричества. Обычные инверторные в большинстве греют примерно до −15…−20 °C — предел указан в характеристиках каждой модели."
+      ],
+      [
+        "Как быстро установите кондиционер?",
+        "Монтаж занимает один день. Если модель в наличии, доставку и установку часто делаем в день заказа — по Сумам и области."
+      ],
+      [
+        "Какие кондиционеры есть в наличии?",
+        "Сейчас в Сумах {{AC_MODELS}}: {{AC_BRANDS}}. Почти все — инверторные с Wi-Fi, мощностью {{AC_RANGE}}."
+      ]
+    ],
+    "faq_en": [
+      [
+        "How much is an air conditioner with installation in Sumy?",
+        "Air conditioners start at {{AC_FROM}} UAH; turnkey installation starts at {{PRICE}} UAH with all materials. You pay once the unit is running."
+      ],
+      [
+        "Can an air conditioner heat a flat in winter?",
+        "Yes. Heat-pump models heat down to −20…−30 °C and give about 3 kW of heat for 1 kW of electricity. Most regular inverter units heat down to roughly −15…−20 °C; the limit is listed in each model's specs."
+      ],
+      [
+        "How soon can you install it?",
+        "Installation takes one day. If the model is in stock we often deliver and install on the day of the order, across Sumy and the region."
+      ],
+      [
+        "Which air conditioners are in stock?",
+        "Right now {{AC_MODELS}} in Sumy: {{AC_BRANDS}}. Nearly all are inverter units with Wi-Fi, {{AC_RANGE}}."
+      ]
+    ]
   },
   "pralni-mashyny": {
     "name": "Пральні машини",
@@ -505,7 +559,61 @@
     "quizEyeKey": "wmq_eye",
     "quizTitleKey": "wmq_h",
     "group": "home",
-    "featured": true
+    "featured": true,
+    "faq": [
+      [
+        "Скільки коштує пральна машина з доставкою в Сумах?",
+        "Пральні машини — від {{WM_FROM}} грн. Доставка по Сумах — 400 грн, підключення — 500 грн. Оплата після отримання."
+      ],
+      [
+        "Яка найвужча пральна машина є в наявності?",
+        "Найвужчі моделі — від 40 см завглибшки: стають у нішу під стільницею або у вузьку ванну кімнату. Глибина кожної моделі — у характеристиках і у фільтрі каталогу."
+      ],
+      [
+        "Чи є пральні машини з функцією пари?",
+        "Так, у кількох моделях є обробка парою: вона освіжає речі без прання й допомагає прибрати алергени. Шукайте позначку «пара» в характеристиках."
+      ],
+      [
+        "Чи можна повернути товар, якщо не підійде?",
+        "Так. Будь-який товар можна повернути безкоштовно протягом 14 днів з дня отримання — гроші віддаємо одразу в магазині на вул. Харківській 2/1. Умови — на сторінці «Повернення товару»."
+      ]
+    ],
+    "faq_ru": [
+      [
+        "Сколько стоит стиральная машина с доставкой в Сумах?",
+        "Стиральные машины — от {{WM_FROM}} грн. Доставка по Сумам — 400 грн, подключение — 500 грн. Оплата после получения."
+      ],
+      [
+        "Какая самая узкая стиральная машина в наличии?",
+        "Самые узкие модели — от 40 см в глубину: встают в нишу под столешницей или в узкую ванную. Глубина каждой модели — в характеристиках и в фильтре каталога."
+      ],
+      [
+        "Есть ли стиральные машины с функцией пара?",
+        "Да, в нескольких моделях есть обработка паром: она освежает вещи без стирки и помогает убрать аллергены. Ищите отметку «пар» в характеристиках."
+      ],
+      [
+        "Можно ли вернуть товар, если не подойдёт?",
+        "Да. Любой товар можно вернуть бесплатно в течение 14 дней со дня получения — деньги отдаём сразу в магазине на ул. Харьковской 2/1. Условия — на странице «Возврат товара»."
+      ]
+    ],
+    "faq_en": [
+      [
+        "How much is a washing machine with delivery in Sumy?",
+        "Washing machines start at {{WM_FROM}} UAH. Delivery in Sumy is 400 UAH, connection 500 UAH. You pay on receipt."
+      ],
+      [
+        "What is the slimmest washing machine in stock?",
+        "The slimmest models are from 40 cm deep, so they fit under a worktop or into a narrow bathroom. Each model's depth is in its specs and in the catalogue filter."
+      ],
+      [
+        "Are there washing machines with steam?",
+        "Yes, several models have a steam function that refreshes clothes without a wash and helps remove allergens. Look for \"steam\" in the specs."
+      ],
+      [
+        "Can I return an item if it does not suit me?",
+        "Yes. Any item can be returned free of charge within 14 days of receipt; the money is paid back on the spot at our shop, 2/1 Kharkivska St. Details are on the returns page."
+      ]
+    ]
   },
   "zaryadni-stantsii": {
     "name": "Зарядні станції",
@@ -786,7 +894,73 @@
     "quizEyeKey": "quiz_eye",
     "quizTitleKey": "psq_h",
     "group": "home",
-    "featured": true
+    "featured": true,
+    "faq": [
+      [
+        "Скільки коштує зарядна станція в Сумах?",
+        "Від {{PS_FROM}} грн. У наявності {{PS_MODELS}} на {{PS_RANGE}}: {{PS_BRANDS}}. Доставка по Сумах — 400 грн, оплата після отримання."
+      ],
+      [
+        "Скільки пропрацює холодильник від зарядної станції?",
+        "Холодильник у середньому бере близько 100 Вт, тож станція на 1024 Вт·год тримає його 8–9 годин, а на 2048 Вт·год — приблизно вдвічі довше. Роутер на 15 Вт від тієї ж станції працює понад дві доби."
+      ],
+      [
+        "Що таке режим ДБЖ (UPS) у зарядній станції?",
+        "Станція постійно ввімкнена в розетку, а техніка — у станцію. Коли зникає світло, вона перемикається на акумулятор за 10–15 мс: роутер, комп’ютер і газовий котел навіть не помітять відключення."
+      ],
+      [
+        "Чому LiFePO₄ кращий за звичайний літій?",
+        "Акумулятори LiFePO₄ витримують 2 500–4 000 циклів заряду — це понад 10 років щоденного використання — і безпечніші при нагріванні. Звичайний літій-іон служить 500–800 циклів."
+      ],
+      [
+        "Чи можна заряджати станцію від сонячних панелей?",
+        "Так, усі станції в каталозі заряджаються від сонячних панелей. Допустима потужність і напруга входу вказані в характеристиках кожної моделі."
+      ]
+    ],
+    "faq_ru": [
+      [
+        "Сколько стоит зарядная станция в Сумах?",
+        "От {{PS_FROM}} грн. В наличии {{PS_MODELS}} на {{PS_RANGE}}: {{PS_BRANDS}}. Доставка по Сумам — 400 грн, оплата после получения."
+      ],
+      [
+        "Сколько проработает холодильник от зарядной станции?",
+        "Холодильник в среднем потребляет около 100 Вт, поэтому станция на 1024 Вт·ч держит его 8–9 часов, а на 2048 Вт·ч — примерно вдвое дольше. Роутер на 15 Вт от той же станции работает больше двух суток."
+      ],
+      [
+        "Что такое режим ИБП (UPS) в зарядной станции?",
+        "Станция постоянно включена в розетку, а техника — в станцию. Когда пропадает свет, она переключается на аккумулятор за 10–15 мс: роутер, компьютер и газовый котёл даже не заметят отключения."
+      ],
+      [
+        "Чем LiFePO₄ лучше обычного лития?",
+        "Аккумуляторы LiFePO₄ выдерживают 2 500–4 000 циклов заряда — это больше 10 лет ежедневного использования — и безопаснее при нагреве. Обычный литий-ион служит 500–800 циклов."
+      ],
+      [
+        "Можно ли заряжать станцию от солнечных панелей?",
+        "Да, все станции в каталоге заряжаются от солнечных панелей. Допустимая мощность и напряжение входа указаны в характеристиках каждой модели."
+      ]
+    ],
+    "faq_en": [
+      [
+        "How much is a portable power station in Sumy?",
+        "From {{PS_FROM}} UAH. In stock: {{PS_MODELS}}, {{PS_RANGE}}: {{PS_BRANDS}}. Delivery in Sumy is 400 UAH, pay on receipt."
+      ],
+      [
+        "How long will a fridge run on a power station?",
+        "A fridge draws about 100 W on average, so a 1024 Wh station keeps it going for 8–9 hours and a 2048 Wh one for roughly twice that. A 15 W router runs for more than two days on the same station."
+      ],
+      [
+        "What is UPS mode on a power station?",
+        "The station stays plugged into the wall and your appliances plug into it. When the power goes, it switches to battery in 10–15 ms, so a router, a computer or a gas boiler does not notice the outage."
+      ],
+      [
+        "Why is LiFePO₄ better than ordinary lithium?",
+        "LiFePO₄ batteries last 2,500–4,000 charge cycles, more than ten years of daily use, and are safer when hot. Ordinary lithium-ion lasts 500–800 cycles."
+      ],
+      [
+        "Can the station charge from solar panels?",
+        "Yes, every station in the catalogue charges from solar panels. The allowed input power and voltage are listed in each model's specs."
+      ]
+    ]
   },
   "holodylnyky": {
     "name": "Холодильники",
@@ -1099,7 +1273,73 @@
     "quizEyeKey": "quiz_eye",
     "quizTitleKey": "frq_h",
     "group": "home",
-    "featured": true
+    "featured": true,
+    "faq": [
+      [
+        "Скільки коштує холодильник у Сумах?",
+        "Холодильники — від {{FR_FROM}} грн, у наявності {{FR_MODELS}} на {{FR_RANGE}}: {{FR_BRANDS}}. Доставка по Сумах — 400 грн, оплата після отримання."
+      ],
+      [
+        "Які холодильники з No Frost є в наявності?",
+        "Більшість холодильників у наявності — з No Frost: морозильну камеру не треба розморожувати. Фільтр «No Frost» у каталозі показує лише їх."
+      ],
+      [
+        "Чи є маленькі холодильники для дачі чи офісу?",
+        "Так, найкомпактніші — від 83 л і заввишки від 85 см: стають під стільницю. Для однієї-двох людей зручна підбірка «до 250 літрів»."
+      ],
+      [
+        "Скільки електроенергії споживає холодильник?",
+        "Моделі в наявності споживають приблизно 170–310 кВт·год на рік — точна цифра є в характеристиках кожного холодильника. Інверторний компресор тихіший і економніший за звичайний."
+      ],
+      [
+        "Чи можна повернути товар, якщо не підійде?",
+        "Так. Будь-який товар можна повернути безкоштовно протягом 14 днів з дня отримання — гроші віддаємо одразу в магазині на вул. Харківській 2/1. Умови — на сторінці «Повернення товару»."
+      ]
+    ],
+    "faq_ru": [
+      [
+        "Сколько стоит холодильник в Сумах?",
+        "Холодильники — от {{FR_FROM}} грн, в наличии {{FR_MODELS}} на {{FR_RANGE}}: {{FR_BRANDS}}. Доставка по Сумам — 400 грн, оплата после получения."
+      ],
+      [
+        "Какие холодильники с No Frost есть в наличии?",
+        "Большинство холодильников в наличии — с No Frost: морозильную камеру не нужно размораживать. Фильтр «No Frost» в каталоге показывает только их."
+      ],
+      [
+        "Есть ли маленькие холодильники для дачи или офиса?",
+        "Да, самые компактные — от 83 л и высотой от 85 см: встают под столешницу. Для одного-двух человек удобна подборка «до 250 литров»."
+      ],
+      [
+        "Сколько электроэнергии потребляет холодильник?",
+        "Модели в наличии потребляют примерно 170–310 кВт·ч в год — точная цифра есть в характеристиках каждого холодильника. Инверторный компрессор тише и экономнее обычного."
+      ],
+      [
+        "Можно ли вернуть товар, если не подойдёт?",
+        "Да. Любой товар можно вернуть бесплатно в течение 14 дней со дня получения — деньги отдаём сразу в магазине на ул. Харьковской 2/1. Условия — на странице «Возврат товара»."
+      ]
+    ],
+    "faq_en": [
+      [
+        "How much is a refrigerator in Sumy?",
+        "Refrigerators start at {{FR_FROM}} UAH; {{FR_MODELS}} in stock, {{FR_RANGE}}: {{FR_BRANDS}}. Delivery in Sumy is 400 UAH, pay on receipt."
+      ],
+      [
+        "Which refrigerators have No Frost?",
+        "Most refrigerators in stock have No Frost, so the freezer never needs defrosting. The \"No Frost\" filter in the catalogue shows only those."
+      ],
+      [
+        "Do you have small fridges for a dacha or office?",
+        "Yes, the most compact start at 83 l and 85 cm tall, small enough to go under a worktop. The \"up to 250 litres\" selection suits one or two people."
+      ],
+      [
+        "How much electricity does a refrigerator use?",
+        "The models in stock use roughly 170–310 kWh a year; the exact figure is in each fridge's specs. An inverter compressor is quieter and more economical than a regular one."
+      ],
+      [
+        "Can I return an item if it does not suit me?",
+        "Yes. Any item can be returned free of charge within 14 days of receipt; the money is paid back on the spot at our shop, 2/1 Kharkivska St. Details are on the returns page."
+      ]
+    ]
   },
   "boylery": {
     "name": "Бойлери",
@@ -1390,7 +1630,61 @@
     "quizEyeKey": "quiz_eye",
     "quizTitleKey": "blq_h",
     "group": "home",
-    "featured": true
+    "featured": true,
+    "faq": [
+      [
+        "Скільки коштує бойлер у Сумах?",
+        "Бойлери Atlantic — від {{BL_FROM}} грн, у наявності {{BL_MODELS}} на {{BL_RANGE}}. Доставка по Сумах — 400 грн, вартість підключення узгоджуємо з менеджером."
+      ],
+      [
+        "Скільки гріється бойлер на 50 і 80 літрів?",
+        "Бойлер на 50 л з ТЕНом 1500 Вт гріє повний бак приблизно за 1 год 45 хв, на 80 л — близько трьох годин. Час нагріву кожної моделі вказаний у характеристиках."
+      ],
+      [
+        "Яка гарантія на бойлер?",
+        "Загальна гарантія — 2 роки, на бак — від 3 до 8 років залежно від серії: найдовша в моделей із сухим стеатитовим ТЕНом."
+      ],
+      [
+        "Чи є вузький бойлер для маленької ніші?",
+        "Так, серія Atlantic Steatite Ego Slim має діаметр 38 см замість стандартних 43 см — на 50 і 80 літрів."
+      ]
+    ],
+    "faq_ru": [
+      [
+        "Сколько стоит бойлер в Сумах?",
+        "Бойлеры Atlantic — от {{BL_FROM}} грн, в наличии {{BL_MODELS}} на {{BL_RANGE}}. Доставка по Сумам — 400 грн, стоимость подключения согласуем с менеджером."
+      ],
+      [
+        "Сколько греется бойлер на 50 и 80 литров?",
+        "Бойлер на 50 л с ТЭНом 1500 Вт греет полный бак примерно за 1 ч 45 мин, на 80 л — около трёх часов. Время нагрева каждой модели указано в характеристиках."
+      ],
+      [
+        "Какая гарантия на бойлер?",
+        "Общая гарантия — 2 года, на бак — от 3 до 8 лет в зависимости от серии: самая долгая у моделей с сухим стеатитовым ТЭНом."
+      ],
+      [
+        "Есть ли узкий бойлер для маленькой ниши?",
+        "Да, серия Atlantic Steatite Ego Slim имеет диаметр 38 см вместо стандартных 43 см — на 50 и 80 литров."
+      ]
+    ],
+    "faq_en": [
+      [
+        "How much is a water heater in Sumy?",
+        "Atlantic water heaters start at {{BL_FROM}} UAH; {{BL_MODELS}} in stock, {{BL_RANGE}}. Delivery in Sumy is 400 UAH; the connection price is agreed with the manager."
+      ],
+      [
+        "How long do 50 and 80 litre heaters take to heat?",
+        "A 50 l tank with a 1500 W element heats in about 1 h 45 min, an 80 l tank in about three hours. Each model's heating time is in its specs."
+      ],
+      [
+        "What is the warranty?",
+        "Two years on the unit and 3 to 8 years on the tank depending on the series; the longest is on models with a dry steatite element."
+      ],
+      [
+        "Is there a slim heater for a narrow niche?",
+        "Yes, the Atlantic Steatite Ego Slim series is 38 cm across instead of the standard 43 cm, in 50 and 80 litres."
+      ]
+    ]
   },
   "duhovi-shafy": {
     "name": "Духові шафи",
@@ -1657,7 +1951,61 @@
         "intro_en": "Capacity decides how many shelves you can use at once."
       }
     ],
-    "group": "kitchen"
+    "group": "kitchen",
+    "faq": [
+      [
+        "Скільки коштує духова шафа в Сумах?",
+        "Вбудовані духові шафи Gunter&Hauer — від {{OV_FROM}} грн, у наявності {{OV_MODELS}}. Офіційна гарантія виробника — 2 роки."
+      ],
+      [
+        "Який розмір ніші потрібен для духової шафи?",
+        "Для повнорозмірної шафи 60 × 60 см — приблизно 56 см завширшки, 58 см заввишки і 55 см завглибшки, для компактної — 56 × 45 см. Точні розміри ніші вказані в характеристиках кожної моделі."
+      ],
+      [
+        "Чи є духова шафа з мікрохвильовкою?",
+        "Так, компактні моделі Gunter&Hauer EOK на 44–50 л поєднують духову шафу й мікрохвильову піч: одна техніка в ніші 45 см замість двох."
+      ],
+      [
+        "Як підключається вбудована духова шафа?",
+        "Частина моделей постачається без кабелю й вилки: їх під’єднують до окремої лінії через клемну колодку. Закладіть це в план електрики кухні заздалегідь."
+      ]
+    ],
+    "faq_ru": [
+      [
+        "Сколько стоит духовой шкаф в Сумах?",
+        "Встраиваемые духовые шкафы Gunter&Hauer — от {{OV_FROM}} грн, в наличии {{OV_MODELS}}. Официальная гарантия производителя — 2 года."
+      ],
+      [
+        "Какой размер ниши нужен для духового шкафа?",
+        "Для полноразмерного шкафа 60 × 60 см — примерно 56 см в ширину, 58 см в высоту и 55 см в глубину, для компактного — 56 × 45 см. Точные размеры ниши указаны в характеристиках каждой модели."
+      ],
+      [
+        "Есть ли духовой шкаф с микроволновкой?",
+        "Да, компактные модели Gunter&Hauer EOK на 44–50 л совмещают духовой шкаф и микроволновую печь: одна техника в нише 45 см вместо двух."
+      ],
+      [
+        "Как подключается встраиваемый духовой шкаф?",
+        "Часть моделей поставляется без кабеля и вилки: их подключают к отдельной линии через клеммную колодку. Заложите это в план электрики кухни заранее."
+      ]
+    ],
+    "faq_en": [
+      [
+        "How much is a built-in oven in Sumy?",
+        "Gunter&Hauer built-in ovens start at {{OV_FROM}} UAH; {{OV_MODELS}} in stock. The manufacturer's warranty is 2 years."
+      ],
+      [
+        "What niche size does an oven need?",
+        "A full-size 60 × 60 cm oven needs about 56 cm wide, 58 cm high and 55 cm deep; a compact one needs 56 × 45 cm. Exact niche sizes are in each model's specs."
+      ],
+      [
+        "Is there an oven with a microwave?",
+        "Yes, the compact Gunter&Hauer EOK models (44–50 l) combine an oven and a microwave: one appliance in a 45 cm niche instead of two."
+      ],
+      [
+        "How is a built-in oven connected?",
+        "Some models come without a cable or plug and are wired to a dedicated line through a terminal block, so plan it into the kitchen wiring in advance."
+      ]
+    ]
   },
   "varylni-poverhni": {
     "name": "Варильні поверхні",
@@ -1968,7 +2316,61 @@
         "intro_en": "Two zones about 30 cm wide — for a small kitchen, or paired up."
       }
     ],
-    "group": "kitchen"
+    "group": "kitchen",
+    "faq": [
+      [
+        "Скільки коштує варильна поверхня в Сумах?",
+        "Від {{HB_FROM}} грн. У наявності {{HB_MODELS}} Gunter&Hauer: газові, індукційні, електричні й комбіновані, на 2 або 4 конфорки."
+      ],
+      [
+        "Що таке поверхня «доміно»?",
+        "Вузька поверхня завширшки близько 30 см на дві конфорки. Її ставлять у маленьку кухню або поруч з іншою поверхнею — наприклад, газ і індукція поряд."
+      ],
+      [
+        "Чи можна підключити газову поверхню до балона?",
+        "Так. Газові поверхні працюють і від магістрального газу, і від балонного — для балона потрібні інші форсунки. Підключення газу виконує лише спеціаліст із допуском."
+      ],
+      [
+        "Який посуд підходить для індукції?",
+        "Посуд із магнітним дном: якщо магніт тримається на дні каструлі, вона підійде. Алюмінієвий, скляний і керамічний посуд без спеціального дна не нагріватиметься."
+      ]
+    ],
+    "faq_ru": [
+      [
+        "Сколько стоит варочная поверхность в Сумах?",
+        "От {{HB_FROM}} грн. В наличии {{HB_MODELS}} Gunter&Hauer: газовые, индукционные, электрические и комбинированные, на 2 или 4 конфорки."
+      ],
+      [
+        "Что такое поверхность «домино»?",
+        "Узкая поверхность шириной около 30 см на две конфорки. Её ставят в маленькую кухню или рядом с другой поверхностью — например, газ и индукция рядом."
+      ],
+      [
+        "Можно ли подключить газовую поверхность к баллону?",
+        "Да. Газовые поверхности работают и от магистрального газа, и от баллонного — для баллона нужны другие форсунки. Подключение газа выполняет только специалист с допуском."
+      ],
+      [
+        "Какая посуда подходит для индукции?",
+        "Посуда с магнитным дном: если магнит держится на дне кастрюли, она подойдёт. Алюминиевая, стеклянная и керамическая посуда без специального дна греться не будет."
+      ]
+    ],
+    "faq_en": [
+      [
+        "How much is a hob in Sumy?",
+        "From {{HB_FROM}} UAH. {{HB_MODELS}} by Gunter&Hauer in stock: gas, induction, electric and combined, with 2 or 4 zones."
+      ],
+      [
+        "What is a \"domino\" hob?",
+        "A narrow hob about 30 cm wide with two zones, for a small kitchen or to sit beside another hob, such as gas next to induction."
+      ],
+      [
+        "Can a gas hob run on bottled gas?",
+        "Yes. Gas hobs work on mains or bottled gas; bottled gas needs different jets. Only a certified gas fitter may connect it."
+      ],
+      [
+        "Which pans work on induction?",
+        "Pans with a magnetic base: if a magnet sticks to the bottom, the pan will work. Aluminium, glass and ceramic pans without a special base will not heat."
+      ]
+    ]
   },
   "vytyazhky": {
     "name": "Витяжки",
@@ -2310,7 +2712,61 @@
         "intro_en": "Toughened glass wipes clean and suits a modern kitchen."
       }
     ],
-    "group": "kitchen"
+    "group": "kitchen",
+    "faq": [
+      [
+        "Скільки коштує кухонна витяжка в Сумах?",
+        "Від {{HD_FROM}} грн. У наявності {{HD_MODELS}} Gunter&Hauer завширшки від 30 до 90 см, продуктивністю від 400 до 1200 м³/год."
+      ],
+      [
+        "Чи можна поставити витяжку без виходу у вентиляцію?",
+        "Так. Більшість моделей працюють у режимі рециркуляції: повітря проходить через вугільний фільтр і повертається на кухню. Фільтр міняють раз на 3–6 місяців."
+      ],
+      [
+        "Яка витяжка тиха?",
+        "Шум моделей у наявності — від 49 до 69 дБ на максимальній швидкості. Тихішою буде витяжка з запасом продуктивності: вона працює на середній швидкості."
+      ],
+      [
+        "Витяжку якої ширини брати?",
+        "Не вужчу за варильну поверхню: для поверхні 60 см — витяжку 60 см, а краще 90 см. Вона захоплює пару й з крайніх конфорок."
+      ]
+    ],
+    "faq_ru": [
+      [
+        "Сколько стоит кухонная вытяжка в Сумах?",
+        "От {{HD_FROM}} грн. В наличии {{HD_MODELS}} Gunter&Hauer шириной от 30 до 90 см, производительностью от 400 до 1200 м³/ч."
+      ],
+      [
+        "Можно ли поставить вытяжку без выхода в вентиляцию?",
+        "Да. Большинство моделей работают в режиме рециркуляции: воздух проходит через угольный фильтр и возвращается на кухню. Фильтр меняют раз в 3–6 месяцев."
+      ],
+      [
+        "Какая вытяжка тихая?",
+        "Шум моделей в наличии — от 49 до 69 дБ на максимальной скорости. Тише будет вытяжка с запасом производительности: она работает на средней скорости."
+      ],
+      [
+        "Вытяжку какой ширины брать?",
+        "Не уже варочной поверхности: для поверхности 60 см — вытяжку 60 см, а лучше 90 см. Она захватывает пар и с крайних конфорок."
+      ]
+    ],
+    "faq_en": [
+      [
+        "How much is a cooker hood in Sumy?",
+        "From {{HD_FROM}} UAH. {{HD_MODELS}} by Gunter&Hauer in stock, 30 to 90 cm wide, from 400 to 1,200 m³/h."
+      ],
+      [
+        "Can a hood work without a duct?",
+        "Yes. Most models run in recirculation mode, passing air through a carbon filter back into the kitchen. The filter is changed every 3–6 months."
+      ],
+      [
+        "Which hood is quiet?",
+        "The models in stock make 49 to 69 dB at top speed. A hood with capacity to spare is quieter, because it runs at a middle speed."
+      ],
+      [
+        "How wide should the hood be?",
+        "No narrower than the hob: a 60 cm hood for a 60 cm hob, or better a 90 cm one, which also catches steam from the outer zones."
+      ]
+    ]
   },
   "myyky": {
     "name": "Кухонні мийки",
@@ -2673,7 +3129,49 @@
         "intro_en": "For an 80 cm cabinet and wider — a baking tray lies flat."
       }
     ],
-    "group": "kitchen"
+    "group": "kitchen",
+    "faq": [
+      [
+        "Скільки коштує кухонна мийка в Сумах?",
+        "Від {{SK_FROM}} грн. У наявності {{SK_MODELS}} Gunter&Hauer з нержавіючої сталі: врізні й підстільні, з однією або двома чашами. Гарантія виробника на мийки — 5 років."
+      ],
+      [
+        "Чим підстільна мийка відрізняється від врізної?",
+        "Врізна кладеться зверху на стільницю, бортик лишається над нею. Підстільна кріпиться знизу: стільниця переходить у мийку без бортика, і крихти змахуються просто в чашу. Для неї потрібна стільниця з каменю або компакт-плити."
+      ],
+      [
+        "Як підібрати мийку під тумбу?",
+        "Міряйте тумбу зсередини, а не стару мийку: корпус мийки має входити з запасом 3–4 см. Тумба 60 см вміщує мийку до 550 мм завширшки, тумба 80 см — до 780 мм. Розмір вирізу вказаний у характеристиках кожної моделі."
+      ]
+    ],
+    "faq_ru": [
+      [
+        "Сколько стоит кухонная мойка в Сумах?",
+        "От {{SK_FROM}} грн. В наличии {{SK_MODELS}} Gunter&Hauer из нержавеющей стали: врезные и подстольные, с одной или двумя чашами. Гарантия производителя на мойки — 5 лет."
+      ],
+      [
+        "Чем подстольная мойка отличается от врезной?",
+        "Врезная кладётся сверху на столешницу, бортик остаётся над ней. Подстольная крепится снизу: столешница переходит в мойку без бортика, и крошки сметаются прямо в чашу. Для неё нужна столешница из камня или компакт-плиты."
+      ],
+      [
+        "Как подобрать мойку под тумбу?",
+        "Меряйте тумбу изнутри, а не старую мойку: корпус мойки должен входить с запасом 3–4 см. Тумба 60 см вмещает мойку до 550 мм шириной, тумба 80 см — до 780 мм. Размер выреза указан в характеристиках каждой модели."
+      ]
+    ],
+    "faq_en": [
+      [
+        "How much is a kitchen sink in Sumy?",
+        "From {{SK_FROM}} UAH. {{SK_MODELS}} by Gunter&Hauer in stainless steel: inset and undermount, with one or two bowls. The manufacturer's warranty on sinks is 5 years."
+      ],
+      [
+        "Inset or undermount — what is the difference?",
+        "An inset sink sits on top of the worktop with its rim above it. An undermount is fixed from below, so the worktop runs straight into the bowl and crumbs sweep in. It needs a stone or compact-laminate worktop."
+      ],
+      [
+        "How do I choose a sink for my cabinet?",
+        "Measure the cabinet from the inside, not the old sink: the sink body needs 3–4 cm to spare. A 60 cm cabinet takes a sink up to 550 mm wide, an 80 cm one up to 780 mm. The cut-out size is in each model's specs."
+      ]
+    ]
   },
   "zmishuvachi": {
     "name": "Змішувачі",
@@ -2999,7 +3497,49 @@
         "intro_en": "The spout pulls out on a hose — handy for rinsing the bowl itself."
       }
     ],
-    "group": "kitchen"
+    "group": "kitchen",
+    "faq": [
+      [
+        "Скільки коштує кухонний змішувач у Сумах?",
+        "Від {{TP_FROM}} грн. У наявності {{TP_MODELS}} Gunter&Hauer з латуні та нержавіючої сталі, у сріблястих, золотих (Gold PVD) і темних (Gun Metal) кольорах. Гарантія — 2 роки."
+      ],
+      [
+        "Чи є змішувачі з висувною лійкою?",
+        "Так, серед моделей є поворотні, гнучкі й висувні виливи. Висувна лійка зручна, щоб мити великі каструлі й саму мийку."
+      ],
+      [
+        "Змішувач підходить до будь-якої мийки?",
+        "Більшість моделей ставиться в стандартний отвір 35 мм, кілька — в отвір 49,5 мм: діаметр вказаний у характеристиках. Перевірте й виліт носика — він має діставати приблизно до середини чаші."
+      ]
+    ],
+    "faq_ru": [
+      [
+        "Сколько стоит кухонный смеситель в Сумах?",
+        "От {{TP_FROM}} грн. В наличии {{TP_MODELS}} Gunter&Hauer из латуни и нержавеющей стали, в серебристых, золотых (Gold PVD) и тёмных (Gun Metal) цветах. Гарантия — 2 года."
+      ],
+      [
+        "Есть ли смесители с выдвижной лейкой?",
+        "Да, среди моделей есть поворотные, гибкие и выдвижные изливы. Выдвижная лейка удобна, чтобы мыть большие кастрюли и саму мойку."
+      ],
+      [
+        "Подходит ли смеситель к любой мойке?",
+        "Большинство моделей ставится в стандартное отверстие 35 мм, несколько — в отверстие 49,5 мм: диаметр указан в характеристиках. Проверьте и вылет носика — он должен доставать примерно до середины чаши."
+      ]
+    ],
+    "faq_en": [
+      [
+        "How much is a kitchen tap in Sumy?",
+        "From {{TP_FROM}} UAH. {{TP_MODELS}} by Gunter&Hauer in brass and stainless steel, in silver, gold (Gold PVD) and dark (Gun Metal) finishes. Two-year warranty."
+      ],
+      [
+        "Are there taps with a pull-out spray?",
+        "Yes, the range has swivel, flexible and pull-out spouts. A pull-out spray makes it easy to rinse big pans and the sink itself."
+      ],
+      [
+        "Will a tap fit any sink?",
+        "Most models fit the standard 35 mm hole, a few need 49.5 mm; the diameter is in the specs. Check the spout reach too: it should come to about the middle of the bowl."
+      ]
+    ]
   },
   "dozatory": {
     "name": "Дозатори",
@@ -3165,7 +3705,37 @@
         "label_en": "Features"
       }
     ],
-    "group": "kitchen"
+    "group": "kitchen",
+    "faq": [
+      [
+        "Скільки коштує дозатор для мийки?",
+        "Від {{DS_FROM}} грн. Врізні дозатори Gunter&Hauer з нержавіючої сталі на 300–350 мл, у кольорах під мийку й змішувач: сталь, чорний, золото, Gun Metal."
+      ],
+      [
+        "Як встановити дозатор у мийку?",
+        "Дозатор ставиться в отвір близько 24 мм у мийці або стільниці, флакон кріпиться знизу, під мийкою. Якщо отвору немає, його можна просвердлити в стільниці."
+      ]
+    ],
+    "faq_ru": [
+      [
+        "Сколько стоит дозатор для мойки?",
+        "От {{DS_FROM}} грн. Врезные дозаторы Gunter&Hauer из нержавеющей стали на 300–350 мл, в цветах под мойку и смеситель: сталь, чёрный, золото, Gun Metal."
+      ],
+      [
+        "Как установить дозатор в мойку?",
+        "Дозатор ставится в отверстие около 24 мм в мойке или столешнице, флакон крепится снизу, под мойкой. Если отверстия нет, его можно просверлить в столешнице."
+      ]
+    ],
+    "faq_en": [
+      [
+        "How much is a soap dispenser for the sink?",
+        "From {{DS_FROM}} UAH. Gunter&Hauer inset dispensers in stainless steel, 300–350 ml, in finishes to match the sink and tap: steel, black, gold, Gun Metal."
+      ],
+      [
+        "How is the dispenser fitted?",
+        "It goes into a hole of about 24 mm in the sink or worktop, with the bottle fixed underneath. If there is no hole, one can be drilled in the worktop."
+      ]
+    ]
   },
   "mikrohvylovi-pechi": {
     "name": "Мікрохвильові печі",
@@ -3325,7 +3895,49 @@
         "label_en": "Features"
       }
     ],
-    "group": "kitchen"
+    "group": "kitchen",
+    "faq": [
+      [
+        "Скільки коштує вбудована мікрохвильова піч у Сумах?",
+        "Від {{MW_FROM}} грн. У наявності {{MW_MODELS}} Gunter&Hauer на 20–34 л з грилем, для вбудовування в кухонну шафу 60 см."
+      ],
+      [
+        "Який розмір ніші потрібен для мікрохвильовки?",
+        "Залежить від моделі: ніша вказана в характеристиках кожної печі — у міліметрах, ширина × висота × глибина. Звірте її з шафою до замовлення."
+      ],
+      [
+        "Чим інверторна мікрохвильовка краща?",
+        "Вона гріє рівномірно на будь-якій потужності, а не вмикається й вимикається циклами: їжа не пересихає з країв, а розморожування проходить м’якше."
+      ]
+    ],
+    "faq_ru": [
+      [
+        "Сколько стоит встраиваемая микроволновая печь в Сумах?",
+        "От {{MW_FROM}} грн. В наличии {{MW_MODELS}} Gunter&Hauer на 20–34 л с грилем, для встраивания в кухонный шкаф 60 см."
+      ],
+      [
+        "Какой размер ниши нужен для микроволновки?",
+        "Зависит от модели: ниша указана в характеристиках каждой печи — в миллиметрах, ширина × высота × глубина. Сверьте её со шкафом до заказа."
+      ],
+      [
+        "Чем инверторная микроволновка лучше?",
+        "Она греет равномерно на любой мощности, а не включается и выключается циклами: еда не пересыхает по краям, а разморозка проходит мягче."
+      ]
+    ],
+    "faq_en": [
+      [
+        "How much is a built-in microwave in Sumy?",
+        "From {{MW_FROM}} UAH. {{MW_MODELS}} by Gunter&Hauer, 20–34 l with a grill, built into a 60 cm kitchen cabinet."
+      ],
+      [
+        "What niche does a microwave need?",
+        "It depends on the model; the niche is listed in each oven's specs in millimetres, width × height × depth. Check it against the cabinet before ordering."
+      ],
+      [
+        "Why choose an inverter microwave?",
+        "It heats evenly at any power level instead of switching on and off in cycles, so food does not dry out at the edges and defrosting is gentler."
+      ]
+    ]
   },
   "posudomyyni-mashyny": {
     "name": "Посудомийні машини",
@@ -3533,7 +4145,61 @@
     "illustrationAlt": "Вбудована посудомийна машина на кухні",
     "illustrationAlt_ru": "Встраиваемая посудомоечная машина на кухне",
     "illustrationAlt_en": "A built-in dishwasher in a kitchen",
-    "group": "kitchen"
+    "group": "kitchen",
+    "faq": [
+      [
+        "Скільки коштує посудомийна машина в Сумах?",
+        "Від {{DW_FROM}} грн. У наявності {{DW_MODELS}} Gunter&Hauer для повного вбудовування: завширшки 45 і 60 см, на 9–14 комплектів посуду."
+      ],
+      [
+        "Посудомийка 45 чи 60 см — що обрати?",
+        "Вузька на 45 см вміщує 9–10 комплектів — для однієї-двох людей. Повнорозмірна на 60 см бере 12–14 комплектів і великі тарілки — для сім’ї з трьох-чотирьох."
+      ],
+      [
+        "Скільки води витрачає посудомийна машина?",
+        "9–11 літрів за цикл — помітно менше, ніж піде на той самий посуд під краном. Функція половинного завантаження економить ще більше, коли посуду мало."
+      ],
+      [
+        "Що потрібно для підключення посудомийки?",
+        "Холодна вода, злив у сифон мийки й розетка із заземленням поруч. Повністю вбудовану машину закривають фасадом у тон кухні."
+      ]
+    ],
+    "faq_ru": [
+      [
+        "Сколько стоит посудомоечная машина в Сумах?",
+        "От {{DW_FROM}} грн. В наличии {{DW_MODELS}} Gunter&Hauer для полного встраивания: шириной 45 и 60 см, на 9–14 комплектов посуды."
+      ],
+      [
+        "Посудомойка 45 или 60 см — что выбрать?",
+        "Узкая на 45 см вмещает 9–10 комплектов — для одного-двух человек. Полноразмерная на 60 см берёт 12–14 комплектов и большие тарелки — для семьи из трёх-четырёх."
+      ],
+      [
+        "Сколько воды расходует посудомоечная машина?",
+        "9–11 литров за цикл — заметно меньше, чем уйдёт на ту же посуду под краном. Функция половинной загрузки экономит ещё больше, когда посуды мало."
+      ],
+      [
+        "Что нужно для подключения посудомойки?",
+        "Холодная вода, слив в сифон мойки и розетка с заземлением рядом. Полностью встроенную машину закрывают фасадом в тон кухни."
+      ]
+    ],
+    "faq_en": [
+      [
+        "How much is a dishwasher in Sumy?",
+        "From {{DW_FROM}} UAH. {{DW_MODELS}} by Gunter&Hauer, fully integrated, 45 and 60 cm wide, for 9–14 place settings."
+      ],
+      [
+        "45 or 60 cm — which dishwasher?",
+        "A 45 cm model holds 9–10 place settings, enough for one or two people. A 60 cm one takes 12–14 settings and large plates, for a family of three or four."
+      ],
+      [
+        "How much water does a dishwasher use?",
+        "9–11 litres a cycle, noticeably less than washing the same dishes under a running tap. Half-load saves more when there are few dishes."
+      ],
+      [
+        "What does a dishwasher need to be connected?",
+        "Cold water, a drain into the sink trap and an earthed socket nearby. A fully integrated machine is closed with a furniture front to match the kitchen."
+      ]
+    ]
   },
   "komplekty": {
     "name": "Комплекти живлення",

@@ -25,7 +25,7 @@ const bg = a => lf(a, 'tag');
    hand-written seo_title. The full headline stays as the h1 and og:title. */
 const btSeo = a => {
   const full = bt(a);
-  const room = 65 - TITLE_PREFIX.length;
+  const room = 65 - TITLE_SUFFIX.length;
   if (full.length <= room) return full;
   const explicit = lf(a, 'seo_title');
   if (explicit) return explicit;
@@ -495,22 +495,46 @@ const GTM = `<!-- Google Tag Manager -->
 <!-- End Google Tag Manager -->`;
 const GTM_NS = `<!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBTGSLKD" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`;
 
-/* Every <title> leads with the shop. A searcher scanning a page of results
-   should see who is selling before what is sold, and Google shows roughly the
-   first sixty characters — so the name goes at the front, not trailing after a
-   pipe where it gets cut. Applied here rather than at the six call sites, so a
-   new kind of page cannot be added without it. Any "| TexnoPlaza" already on
-   the end is removed instead of printed twice. */
-const TITLE_PREFIX = `${site.name} · `;
+/* The words a buyer typed come first, the shop's name last: "Купити
+   холодильник у Сумах — від 4 899 грн | TexnoPlaza". Google prints the site
+   name above every result on its own, so a title that opened with it spent 13
+   of the ~60 visible characters saying twice who the seller is, and pushed the
+   product and the price — what earns the click — towards the cut. The home
+   page is the one exception: people who type "техноплаза" are looking for the
+   shop itself, so there the name stays in front. Applied here rather than at
+   the call sites, so a new kind of page cannot be added without it; a
+   "| TexnoPlaza" already on the end is not printed twice. */
+/* What Google needs to show "Безкоштовне повернення · 14 днів" and a delivery
+   price beside a product: the same terms the returns page states and the
+   Merchant Center feed declares, written once so the three cannot disagree.
+   Returns are free, any product, within 14 days of receipt, brought back to the
+   shop; delivery across Sumy is 400 UAH, the same day or the next. */
+const RETURN_POLICY = () => ({
+  '@type': 'MerchantReturnPolicy',
+  applicableCountry: 'UA',
+  returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+  merchantReturnDays: 14,
+  returnMethod: 'https://schema.org/ReturnInStore',
+  returnFees: 'https://schema.org/FreeReturn',
+  refundType: 'https://schema.org/FullRefund',
+  merchantReturnLink: abs('/povernennya-tovaru/')            // the returns page is Ukrainian only
+});
+const SHIPPING = () => ({
+  '@type': 'OfferShippingDetails',
+  shippingRate: { '@type': 'MonetaryAmount', value: 400, currency: 'UAH' },
+  shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'UA' },
+  deliveryTime: {
+    '@type': 'ShippingDeliveryTime',
+    handlingTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 1, unitCode: 'DAY' },
+    transitTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 1, unitCode: 'DAY' }
+  }
+});
+const TITLE_SUFFIX = ` | ${site.name}`;          // length budget: the suffix costs what the prefix did
 const pageTitle = s => {
   const clean = String(s ?? '').replace(/\s*[|·—–-]\s*TexnoPlaza\s*$/i, '').trim();
-  /* Titles written before this prefix existed already open with the shop name
-     and their own dash. Rewrite that separator too, so the homepage and a
-     product page do not sit side by side in the results with different
-     punctuation. */
   return clean.startsWith(site.name)
-    ? TITLE_PREFIX + clean.slice(site.name.length).replace(/^\s*[|·—–-]?\s*/, '')
-    : TITLE_PREFIX + clean;
+    ? `${site.name} — ` + clean.slice(site.name.length).replace(/^\s*[|·—–-]?\s*/, '')
+    : clean + TITLE_SUFFIX;
 };
 
 function head({ title, desc, canonical, ogTitle, ogDesc, ogImage, jsonld, altPath, altLangs }) {
@@ -1402,7 +1426,11 @@ ${head({
     /* Same table the hero's "Відчинено / Зачинено" line reads, so the two can
        never drift apart. It is what lets a local result say "Open · closes
        18:00" instead of nothing at all. */
-    openingHoursSpecification: openingHoursLd()
+    openingHoursSpecification: openingHoursLd(),
+    /* The Google Business Profile this site belongs to, stated rather than
+       left for Google to infer from a matching address. */
+    sameAs: [site.googleReviewsUrl].filter(Boolean),
+    hasMerchantReturnPolicy: RETURN_POLICY()
   }
 })}
 <script type="application/ld+json">${JSON.stringify(faqLd)}</script>
@@ -1510,7 +1538,9 @@ function productPage(p) {
   const jsonld = {
     '@context': 'https://schema.org', '@type': 'Product', name: NAME, sku: p.slug,
     image: p.photos.map(ph => abs(ph)), description: pdesc(p), brand: { '@type': 'Brand', name: p.brand },
-    offers: { '@type': 'Offer', price: p.price, priceCurrency: 'UAH', availability: 'https://schema.org/InStock', url: abs(purl(p)), itemCondition: 'https://schema.org/NewCondition' }
+    offers: { '@type': 'Offer', price: p.price, priceCurrency: 'UAH', availability: 'https://schema.org/InStock', url: abs(purl(p)), itemCondition: 'https://schema.org/NewCondition',
+      seller: { '@type': 'Organization', '@id': BASE + '/#store', name: site.name },
+      shippingDetails: SHIPPING(), hasMerchantReturnPolicy: RETURN_POLICY() }
   };
   const crumbs = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
@@ -1552,7 +1582,7 @@ ${(() => {
       /* Only these words may be dropped, and only from the end. Colour,
          refrigerant, Wi-Fi, wattage — never a model code. */
       const DROP = /^(wi-?fi|ready|r-?32|r-?410a?|inverter|inv|rotary|інверторний|инверторный|heatpump|heat|pump|ai|black|white|silver|grey|gray|чорний|білий|сірий|черный|белый|серый|\d+(w|вт|kw|квт))$/i;
-      const room = 65 - TITLE_PREFIX.length;
+      const room = 65 - TITLE_SUFFIX.length;
       const price = fmt(p.price);
       const shorten = (form) => {
         let w = nm.split(' ');
@@ -1922,7 +1952,7 @@ function tagPage(cat, tg) {
 ${head({
   title: (() => {
     const full = fill(t('tag_seo_t'));
-    const room = 65 - TITLE_PREFIX.length;
+    const room = 65 - TITLE_SUFFIX.length;
     return full.length <= room ? full : NAME;
   })(),
   /* The lead alone is about seventy characters, which is right on the floor of
@@ -2006,7 +2036,7 @@ ${head({
   title: (() => {
     const full = fill(t('brand_seo_t').replace('{name}', NAME))
       .replace(/\s*[|·—–-]\s*TexnoPlaza\s*$/i, '').trim();
-    const room = 65 - TITLE_PREFIX.length;
+    const room = 65 - TITLE_SUFFIX.length;
     if (full.length <= room) return full;
     const m = full.match(/^(.*?)\s+—\s+(.*)$/);
     if (!m) return full;
@@ -2468,7 +2498,7 @@ ${injectData()}
     .replaceAll('{{PHONE}}', esc(site.phone))
     .replaceAll('{{HOURS}}', esc(site.hours));
   const returnsHtml = `<!doctype html><html lang="uk"><head>
-${head({ title: 'Повернення товару | TexnoPlaza', desc: 'Повернення товару в TexnoPlaza (Суми): 14 днів на повернення справної техніки, заміна або гроші за брак, гроші — одразу в магазині.', canonical: abs('/povernennya-tovaru/') })}
+${head({ title: 'Безкоштовне повернення товару — 14 днів | TexnoPlaza', desc: 'Повернення товару в TexnoPlaza (Суми): будь-яку техніку можна повернути безкоштовно протягом 14 днів. Гроші — одразу в магазині, повну суму без утримань.', canonical: abs('/povernennya-tovaru/') })}
 </head><body>${GTM_NS}
 ${HEADER}
 ${returnsBody}
