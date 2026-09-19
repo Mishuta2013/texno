@@ -174,7 +174,10 @@
         "h1_en": "Air conditioners for up to 25 m²",
         "intro": "Для кімнати до 25 м² вистачає 9 000 BTU — це найпоширеніший розмір спальні чи невеликої вітальні. Брати більше немає сенсу: потужніший кондиціонер частіше вмикається й вимикається, гірше сушить повітря і коштує дорожче.",
         "intro_ru": "Для комнаты до 25 м² хватает 9 000 BTU — самый распространённый размер спальни или небольшой гостиной. Брать больше смысла нет: более мощный кондиционер чаще включается и выключается, хуже сушит воздух и стоит дороже.",
-        "intro_en": "A room up to 25 m² needs about 9,000 BTU — the usual size of a bedroom."
+        "intro_en": "A room up to 25 m² needs about 9,000 BTU — the usual size of a bedroom.",
+        "tips": "Норма «9 000 BTU на 25 м²» рахується для стелі до 2,7 м і звичайних вікон. Кутова кімната, сонячний бік чи останній поверх додають навантаження — тоді дивіться моделі з підбірки на 26–35 м². Для спальні порівнюйте шум на найнижчій швидкості: різницю в 3 дБ добре чути вночі.",
+        "tips_ru": "Норма «9 000 BTU на 25 м²» считается для потолка до 2,7 м и обычных окон. Угловая комната, солнечная сторона или последний этаж добавляют нагрузку — тогда смотрите модели из подборки на 26–35 м². Для спальни сравнивайте шум на минимальной скорости: разницу в 3 дБ хорошо слышно ночью.",
+        "tips_en": "The \"9,000 BTU for 25 m²\" rule assumes a ceiling up to 2.7 m and ordinary windows. A corner room, a sunny side or a top floor adds load — then look at the 26–35 m² selection. For a bedroom compare the noise at the lowest fan speed: 3 dB is easy to hear at night."
       },
       {
         "slug": "na-35-kvadrativ",
@@ -191,7 +194,10 @@
         "h1_en": "Air conditioners for 26–35 m²",
         "intro": "Вітальня або кухня-студія — це 12 000 BTU. Якщо вікна виходять на південь або в кімнаті стоїть техніка, що гріє, беріть верхню межу діапазону.",
         "intro_ru": "Гостиная или кухня-студия — это 12 000 BTU. Если окна выходят на юг или в комнате стоит греющая техника, берите верхнюю границу диапазона.",
-        "intro_en": "A living room or open kitchen needs about 12,000 BTU."
+        "intro_en": "A living room or open kitchen needs about 12,000 BTU.",
+        "tips": "Для кухні-студії рахуйте всю площу разом із кухнею: плита й духовка теж гріють повітря. Внутрішній блок краще вішати так, щоб потік ішов уздовж довшої стіни, а не прямо на диван чи обідній стіл. Якщо кондиціонер має й гріти взимку, порівняйте нижню межу роботи на обігрів — вона вказана в характеристиках.",
+        "tips_ru": "Для кухни-студии считайте всю площадь вместе с кухней: плита и духовка тоже греют воздух. Внутренний блок лучше вешать так, чтобы поток шёл вдоль длинной стены, а не прямо на диван или обеденный стол. Если кондиционер должен и греть зимой, сравните нижнюю границу работы на обогрев — она указана в характеристиках.",
+        "tips_en": "For an open-plan kitchen count the whole area, kitchen included: the hob and oven heat the air too. Hang the indoor unit so the airflow runs along the longer wall rather than straight at the sofa or the dining table. If it must heat in winter as well, compare the lowest outdoor temperature for heating in the specs."
       },
       {
         "slug": "na-50-kvadrativ",
@@ -208,7 +214,10 @@
         "h1_en": "Air conditioners for 36–50 m²",
         "intro": "Великий простір або дві суміжні кімнати — 18 000 BTU. Один кондиціонер на дві кімнати працює лише тоді, коли між ними немає дверей: повітря має куди йти.",
         "intro_ru": "Большое пространство или две смежные комнаты — 18 000 BTU. Один кондиционер на две комнаты работает только когда между ними нет дверей: воздуху есть куда идти.",
-        "intro_en": "A large space or two adjoining rooms — around 18,000 BTU."
+        "intro_en": "A large space or two adjoining rooms — around 18,000 BTU.",
+        "tips": "Кондиціонер на 18 000 BTU споживає в охолодженні близько 1,5–2 кВт, тож перед покупкою переконайтеся, що проводка й автомат розраховані на таке навантаження. Зовнішній блок такої потужності помітно більший — місце на фасаді чи балконі краще оглянути заздалегідь. Для двох кімнат, розділених дверима, два менші кондиціонери працюють рівніше за один великий.",
+        "tips_ru": "Кондиционер на 18 000 BTU потребляет в охлаждении около 1,5–2 кВт, так что перед покупкой убедитесь, что проводка и автомат рассчитаны на такую нагрузку. Наружный блок такой мощности заметно больше — место на фасаде или балконе лучше осмотреть заранее. Для двух комнат, разделённых дверью, два меньших кондиционера работают ровнее одного большого.",
+        "tips_en": "An 18,000 BTU unit draws about 1.5–2 kW when cooling, so check that the wiring and the breaker can take it before you buy. The outdoor unit at this size is noticeably bigger — look at the spot on the facade or balcony in advance. For two rooms with a door between them, two smaller units work more evenly than one large one."
       },
       {
         "slug": "vid-50-kvadrativ",
@@ -224,7 +233,10 @@
         "h1_en": "Air conditioners over 50 m²",
         "intro": "24 000 BTU і більше — для великої вітальні, офісу чи магазину. На такій потужності уважно перевірте проводку: кондиціонеру потрібна окрема лінія.",
         "intro_ru": "24 000 BTU и больше — для большой гостиной, офиса или магазина. На такой мощности внимательно проверьте проводку: кондиционеру нужна отдельная линия.",
-        "intro_en": "24,000 BTU and up — for a large living room, an office or a shop."
+        "intro_en": "24,000 BTU and up — for a large living room, an office or a shop.",
+        "tips": "24 000 BTU — це близько 7 кВт холоду й понад 2 кВт споживання, тому такому кондиціонеру потрібна окрема лінія з власним автоматом. Для офісу чи магазину рахуйте не лише площу, а й людей і техніку: кожна людина додає близько 100 Вт тепла, комп’ютер — приблизно стільки ж. Зовнішній блок важить кілька десятків кілограмів, тож стіна під кронштейни має бути капітальною.",
+        "tips_ru": "24 000 BTU — это около 7 кВт холода и больше 2 кВт потребления, поэтому такому кондиционеру нужна отдельная линия со своим автоматом. Для офиса или магазина считайте не только площадь, но и людей и технику: каждый человек добавляет около 100 Вт тепла, компьютер — примерно столько же. Наружный блок весит несколько десятков килограммов, так что стена под кронштейны должна быть капитальной.",
+        "tips_en": "24,000 BTU is about 7 kW of cooling and over 2 kW of draw, so the unit needs a dedicated circuit with its own breaker. For an office or a shop count people and equipment as well as area: each person adds about 100 W of heat, a computer roughly the same. The outdoor unit weighs several tens of kilograms, so the wall behind the brackets has to be solid."
       },
       {
         "slug": "z-teplovym-nasosom",
@@ -240,7 +252,10 @@
         "h1_en": "Air conditioners with a heat pump",
         "intro": "Гріють узимку до −15…−25 °C і віддають 3–4 кВт тепла на кожен кіловат електрики — дешевше за обігрівач у стільки ж разів. Для Сум це реальна альтернатива на міжсезоння, коли опалення вже вимкнули, а вдома холодно.",
         "intro_ru": "Греют зимой до −15…−25 °C и отдают 3–4 кВт тепла на каждый киловатт электричества — дешевле обогревателя во столько же раз. Для Сум это реальная альтернатива в межсезонье, когда отопление уже отключили, а дома холодно.",
-        "intro_en": "They heat down to −15…−25 °C and return 3–4 kW of heat per kilowatt of electricity."
+        "intro_en": "They heat down to −15…−25 °C and return 3–4 kW of heat per kilowatt of electricity.",
+        "tips": "Головне число для зими — нижня межа роботи на обігрів, вона вказана в характеристиках кожної моделі. Чим холодніше надворі, тим менше тепла дає кондиціонер, тому на сильні морози потужність беруть із запасом. Зовнішній блок ставлять так, щоб його не замітало снігом і на нього не капало з даху: інакше він обмерзає.",
+        "tips_ru": "Главная цифра для зимы — нижняя граница работы на обогрев, она указана в характеристиках каждой модели. Чем холоднее на улице, тем меньше тепла даёт кондиционер, поэтому на сильные морозы мощность берут с запасом. Наружный блок ставят так, чтобы его не заметало снегом и на него не капало с крыши: иначе он обмерзает.",
+        "tips_en": "The figure that matters in winter is the lowest outdoor temperature for heating, listed in each model’s specs. The colder it is outside, the less heat the unit delivers, so for hard frosts size it with a margin. Mount the outdoor unit where snow cannot bury it and water from the roof cannot drip on it, or it ices up."
       },
       {
         "slug": "tyhi",
@@ -256,7 +271,10 @@
         "h1_en": "Quiet air conditioners",
         "intro": "22 дБ і нижче — це тихіше за шепіт. Такий кондиціонер не заважає спати, тож саме ці моделі беруть у спальню й дитячу. Цифра в характеристиках — для найнижчої швидкості вентилятора, на максимумі буде гучніше.",
         "intro_ru": "22 дБ и ниже — это тише шёпота. Такой кондиционер не мешает спать, поэтому именно эти модели берут в спальню и детскую. Цифра в характеристиках — для самой низкой скорости вентилятора, на максимуме будет громче.",
-        "intro_en": "22 dB and below is quieter than a whisper — the models people put in a bedroom."
+        "intro_en": "22 dB and below is quieter than a whisper — the models people put in a bedroom.",
+        "tips": "Порівнюйте шум внутрішнього блока в однакових умовах — на найнижчій швидкості, як у характеристиках. У нічному режимі інвертор тримає температуру на мінімальних обертах, тому тихі моделі тихі саме тоді, коли це найважливіше. Зовнішній блок гучніший, тож його краще не вішати під вікном спальні — вашої чи сусідської.",
+        "tips_ru": "Сравнивайте шум внутреннего блока в одинаковых условиях — на минимальной скорости, как в характеристиках. В ночном режиме инвертор держит температуру на минимальных оборотах, поэтому тихие модели тихие именно тогда, когда это важнее всего. Наружный блок громче, так что его лучше не вешать под окном спальни — вашей или соседской.",
+        "tips_en": "Compare indoor-unit noise like for like — at the lowest fan speed, as the specs give it. In night mode an inverter holds the temperature at minimum revs, so a quiet model is quiet exactly when it matters. The outdoor unit is louder: keep it away from a bedroom window, yours or a neighbour’s."
       }
     ],
     "quizEyeKey": "quiz_eye",
@@ -520,7 +538,10 @@
         "h1_en": "Slim washing machines",
         "intro": "Глибина до 45 см — для ванної, де кожен сантиметр на рахунку. Місткість у вузьких менша, зате машина не перекриває прохід і двері відчиняються повністю.",
         "intro_ru": "Глубина до 45 см — для ванной, где каждый сантиметр на счету. Вместимость у узких меньше, зато машина не перекрывает проход и дверь открывается полностью.",
-        "intro_en": "Up to 45 cm deep — for a bathroom where every centimetre counts."
+        "intro_en": "Up to 45 cm deep — for a bathroom where every centimetre counts.",
+        "tips": "Зміряйте нішу з запасом: до глибини машини додайте 5–10 см на шланги й вилку, інакше вона не стане врівень зі стіною. Вузька машина легша, тому на віджимі її помітніше хитає — виставте її рівно за рівнем і на твердій підлозі. Перевірте й двері: дверцята люка та двері ванної мають відчинятися, не зачіпаючи одне одного.",
+        "tips_ru": "Измерьте нишу с запасом: к глубине машины добавьте 5–10 см на шланги и вилку, иначе она не встанет вровень со стеной. Узкая машина легче, поэтому на отжиме её заметнее качает — выставьте её ровно по уровню и на твёрдом полу. Проверьте и двери: дверца люка и дверь ванной должны открываться, не задевая друг друга.",
+        "tips_en": "Measure the recess with a margin: add 5–10 cm to the machine’s depth for the hoses and the plug, or it will not sit flush with the wall. A slim machine is lighter and rocks more on the spin, so level it carefully on a solid floor. Check the doors too: the porthole and the bathroom door must open without hitting each other."
       },
       {
         "slug": "na-7-kg",
@@ -535,9 +556,12 @@
         "h1": "Пральні машини на 7 кг",
         "h1_ru": "Стиральные машины на 7 кг",
         "h1_en": "Washing machines with a 7 kg drum",
-        "intro": "Сім кілограмів — це сім’я з трьох-чотирьох осіб або одна закладка з ковдрою. Завантаження рахують по сухій білизні, і барабан має бути заповнений приблизно на дві третини: набитий ущільна пере гірше.",
+        "intro": "Сім кілограмів — це сім’я з трьох-чотирьох осіб або одна закладка з ковдрою. Завантаження рахують по сухій білизні, і барабан має бути заповнений приблизно на дві третини: набитий щільно пере гірше.",
         "intro_ru": "Семь килограммов — это семья из трёх-четырёх человек или одна закладка с одеялом. Загрузку считают по сухому белью, и барабан должен быть заполнен примерно на две трети: набитый плотно стирает хуже.",
-        "intro_en": "Seven kilograms suits a family of three or four, or one duvet."
+        "intro_en": "Seven kilograms suits a family of three or four, or one duvet.",
+        "tips": "Сім кілограмів уміщують ковдру чи зимову куртку, а за щоденного прання невеликих закладок не доводиться переплачувати за воду й електрику. Барабан на 7 кг буває і у вузьких машинах до 45 см, і в повнорозмірних — порівнюйте глибину під своє місце. Якщо часто перете потроху, шукайте автозважування: машина сама зменшить воду й час.",
+        "tips_ru": "Семь килограммов вмещают одеяло или зимнюю куртку, а при ежедневной стирке небольших закладок не приходится переплачивать за воду и электричество. Барабан на 7 кг бывает и в узких машинах до 45 см, и в полноразмерных — сравнивайте глубину под своё место. Если часто стираете понемногу, ищите автовзвешивание: машина сама уменьшит воду и время.",
+        "tips_en": "Seven kilograms takes a duvet or a winter coat, and small everyday loads do not cost extra water and power. A 7 kg drum comes in slim machines under 45 cm as well as full-size ones, so compare depth against your space. If you often wash small loads, look for automatic weighing: the machine cuts the water and time itself."
       },
       {
         "slug": "vid-1200-obertiv",
@@ -553,7 +577,10 @@
         "h1_en": "Washing machines from 1200 rpm",
         "intro": "Чим вищі оберти, тим сухіша білизна після віджиму — і тим менше їй сохнути. Різниця між 1000 і 1200 помітна, між 1200 і 1400 — уже майже ні, а зношується білизна швидше.",
         "intro_ru": "Чем выше обороты, тем суше бельё после отжима — и тем меньше ему сохнуть. Разница между 1000 и 1200 заметна, между 1200 и 1400 — уже почти нет, а изнашивается бельё быстрее.",
-        "intro_en": "Higher spin means drier laundry, though past 1200 rpm the gain is small."
+        "intro_en": "Higher spin means drier laundry, though past 1200 rpm the gain is small.",
+        "tips": "Оберти в характеристиках — максимальні: делікатні програми все одно віджимають повільніше, тож висока цифра тонким речам не шкодить. Важливіше, щоб машина стояла рівно на твердій підлозі — на 1200 обертах і вище будь-яка нерівність дає вібрацію й шум. Інверторний мотор на високих обертах тихіший і рівніший за колекторний.",
+        "tips_ru": "Обороты в характеристиках — максимальные: деликатные программы всё равно отжимают медленнее, так что высокая цифра тонким вещам не вредит. Важнее, чтобы машина стояла ровно на твёрдом полу — на 1200 оборотах и выше любая неровность даёт вибрацию и шум. Инверторный мотор на высоких оборотах тише и ровнее коллекторного.",
+        "tips_en": "The spin speed in the specs is the maximum: delicate programmes still spin slower, so a high figure does no harm to fine fabrics. What matters more is a level machine on a solid floor — at 1,200 rpm and above any tilt turns into vibration and noise. An inverter motor is quieter and smoother at high speed than a brushed one."
       }
     ],
     "quizEyeKey": "wmq_eye",
@@ -872,7 +899,10 @@
         "h1_en": "Power stations from 1000 Wh",
         "intro": "Кіловат-година — це холодильник на добу або роутер із світлом на кілька діб. Рахуйте так: ємність поділити на споживання приладу й відняти чверть на втрати.",
         "intro_ru": "Киловатт-час — это холодильник на сутки или роутер со светом на несколько суток. Считайте так: ёмкость разделить на потребление прибора и вычесть четверть на потери.",
-        "intro_en": "A kilowatt-hour runs a fridge for a day, or a router and lights for several."
+        "intro_en": "A kilowatt-hour runs a fridge for a day, or a router and lights for several.",
+        "tips": "Для станції, що живить дім під час відключень, дивіться на хімію батареї: LiFePO₄ витримує тисячі циклів і не боїться щоденного розряду. Режим ДБЖ (UPS) перемикає прилади на батарею за мілісекунди — роутер і комп’ютер не перезавантажуються. І порівняйте, як швидко станція заряджається від мережі: між відключеннями часто є лише кілька годин.",
+        "tips_ru": "Для станции, которая питает дом во время отключений, смотрите на химию батареи: LiFePO₄ выдерживает тысячи циклов и не боится ежедневного разряда. Режим ИБП (UPS) переключает приборы на батарею за миллисекунды — роутер и компьютер не перезагружаются. И сравните, как быстро станция заряжается от сети: между отключениями часто есть всего несколько часов.",
+        "tips_en": "For a station that carries a home through outages, look at the battery chemistry: LiFePO₄ lasts thousands of cycles and does not mind a daily discharge. UPS mode switches devices to the battery within milliseconds, so the router and the computer do not restart. And compare how fast it recharges from the mains: between outages there are often only a few hours."
       },
       {
         "slug": "vid-2000-vt",
@@ -888,7 +918,10 @@
         "h1_en": "Power stations from 2000 W",
         "intro": "Потужність вирішує, що взагалі можна ввімкнути. До 1000 Вт — світло, ноутбук, роутер. Від 2000 Вт — чайник, мікрохвильова, насос опалення. Дивіться на пускову потужність: у техніки з мотором вона вдвічі вища за робочу.",
         "intro_ru": "Мощность решает, что вообще можно включить. До 1000 Вт — свет, ноутбук, роутер. От 2000 Вт — чайник, микроволновка, насос отопления. Смотрите на пусковую мощность: у техники с мотором она вдвое выше рабочей.",
-        "intro_en": "Wattage decides what you can plug in at all: from 2000 W, a kettle or a heating pump."
+        "intro_en": "Wattage decides what you can plug in at all: from 2000 W, a kettle or a heating pump.",
+        "tips": "Пускова (пікова) потужність вказана окремо — саме вона вирішує, чи запуститься насос, холодильник або мікрохвильова піч. Котлам і техніці з мотором потрібна чиста синусоїда: форма напруги вказана в характеристиках. Потужні станції важкі — зазвичай кілька десятків кілограмів, тож одразу подумайте, де вона стоятиме і чи доведеться її переносити.",
+        "tips_ru": "Пусковая (пиковая) мощность указана отдельно — именно она решает, запустится ли насос, холодильник или микроволновка. Котлам и технике с мотором нужна чистая синусоида: форма напряжения указана в характеристиках. Мощные станции тяжёлые — обычно несколько десятков килограммов, так что сразу подумайте, где она будет стоять и придётся ли её переносить.",
+        "tips_en": "Surge (peak) power is listed separately, and it decides whether a pump, a fridge or a microwave will start. Boilers and anything with a motor need a pure sine wave; the waveform is in the specs. Powerful stations are heavy — usually a few tens of kilograms — so decide where it will stand and whether it will need carrying."
       }
     ],
     "quizEyeKey": "quiz_eye",
@@ -1218,7 +1251,10 @@
         "h1_en": "Refrigerators up to 250 litres",
         "intro": "Для однієї-двох людей або на дачу. Такий холодильник вужчий і нижчий, тож стає туди, де великий не поміститься, і споживає менше.",
         "intro_ru": "Для одного-двух человек или на дачу. Такой холодильник уже и ниже, поэтому встанет туда, где большой не поместится, и потребляет меньше.",
-        "intro_en": "For one or two people, or a summer house."
+        "intro_en": "For one or two people, or a summer house.",
+        "tips": "Невеликі холодильники частіше мають маленьку морозильну камеру або зовсім без неї, тож її об’єм перевірте окремо — він вказаний у характеристиках. Для дачі важливий кліматичний клас: якщо холодильник стоятиме в неопалюваному приміщенні, він має бути розрахований на низьку температуру навколо. Невисоку модель можна поставити в нішу чи під навісні шафи.",
+        "tips_ru": "Небольшие холодильники чаще имеют маленькую морозильную камеру или вовсе без неё, так что её объём проверьте отдельно — он указан в характеристиках. Для дачи важен климатический класс: если холодильник будет стоять в неотапливаемом помещении, он должен быть рассчитан на низкую температуру вокруг. Невысокую модель можно поставить в нишу или под навесные шкафы.",
+        "tips_en": "Small refrigerators often have a small freezer or none, so check the freezer volume on its own — it is in the specs. For a country house the climate class matters: in an unheated room the fridge has to be rated for low surrounding temperatures. A low model fits into a recess or under wall cabinets."
       },
       {
         "slug": "250-350-litriv",
@@ -1235,7 +1271,10 @@
         "h1_en": "Refrigerators of 250–350 litres",
         "intro": "Найпоширеніший розмір: сім’я з двох-трьох осіб, стандартна кухня, ширина 60 см. Рахують приблизно 100–120 літрів на людину плюс запас на морозильну камеру.",
         "intro_ru": "Самый распространённый размер: семья из двух-трёх человек, стандартная кухня, ширина 60 см. Считают примерно 100–120 литров на человека плюс запас на морозильную камеру.",
-        "intro_en": "The most common size: a family of two or three, a standard 60 cm kitchen."
+        "intro_en": "The most common size: a family of two or three, a standard 60 cm kitchen.",
+        "tips": "За однакового загального об’єму моделі сильно різняться розподілом: дивіться, скільки літрів припадає на холодильну камеру, а скільки — на морозильну. No Frost звільняє від розморожування, але продукти без упаковки в ньому швидше підсихають. Ширина в цьому розмірі майже завжди 60 см, тож під нішу порівнюйте передусім висоту й глибину.",
+        "tips_ru": "При одинаковом общем объёме модели сильно отличаются распределением: смотрите, сколько литров приходится на холодильную камеру, а сколько — на морозильную. No Frost избавляет от разморозки, но продукты без упаковки в нём быстрее подсыхают. Ширина в этом размере почти всегда 60 см, так что под нишу сравнивайте прежде всего высоту и глубину.",
+        "tips_en": "With the same total volume, models split it very differently: check how many litres go to the fridge and how many to the freezer. No Frost ends defrosting, but unwrapped food dries out faster in it. Width at this size is almost always 60 cm, so for a recess compare height and depth first."
       },
       {
         "slug": "vid-350-litriv",
@@ -1251,7 +1290,10 @@
         "h1_en": "Large refrigerators over 350 litres",
         "intro": "Для сім’ї від чотирьох осіб або коли закуповуються раз на тиждень. Перед покупкою зміряйте не лише нішу, а й прохід: холодильник висотою 2 метри має ще й заїхати у двері та ліфт.",
         "intro_ru": "Для семьи от четырёх человек или когда закупаются раз в неделю. Перед покупкой замерьте не только нишу, но и проход: холодильник высотой 2 метра должен ещё и заехать в двери и лифт.",
-        "intro_en": "For a family of four or more, or a weekly shop."
+        "intro_en": "For a family of four or more, or a weekly shop.",
+        "tips": "Великому холодильнику потрібне місце не лише в ніші, а й спереду: двері відчиняються на всю його ширину. Якщо він стоїть впритул до стіни, перевірте, на який кут відчиняються двері — інакше висувні ящики можуть не виїжджати повністю. Для великої родини зручна морозильна камера знизу з кількома ящиками: заморожене простіше сортувати.",
+        "tips_ru": "Большому холодильнику нужно место не только в нише, но и спереди: двери открываются на всю его ширину. Если он стоит вплотную к стене, проверьте, на какой угол открываются двери — иначе выдвижные ящики могут не выезжать полностью. Для большой семьи удобна морозильная камера снизу с несколькими ящиками: замороженное проще сортировать.",
+        "tips_en": "A big refrigerator needs room in front as well as in the recess: the doors open across its full width. If it stands against a wall, check the door opening angle, or the drawers may not slide all the way out. For a large family a bottom freezer with several drawers keeps frozen food easy to sort."
       },
       {
         "slug": "invertorni",
@@ -1267,7 +1309,10 @@
         "h1_en": "Inverter refrigerators",
         "intro": "Компресор не вмикається ривками, а працює на змінних обертах: менше шуму, рівніша температура і менший рахунок. Плюс він не боїться стрибків напруги так, як звичайний.",
         "intro_ru": "Компрессор не включается рывками, а работает на переменных оборотах: меньше шума, ровнее температура и меньше счёт. Плюс он не боится скачков напряжения так, как обычный.",
-        "intro_en": "The compressor runs at variable speed: less noise, steadier temperature, a smaller bill."
+        "intro_en": "The compressor runs at variable speed: less noise, steadier temperature, a smaller bill.",
+        "tips": "Економію видно у класі енергоспоживання й річному споживанні в кВт·год — порівнюйте саме цю цифру, а не слово «інвертор» на наліпці. На інверторні компресори виробники часто дають окрему, довшу гарантію: умови вказані в характеристиках моделі. Якщо напруга в будинку скаче сильно, стабілізатор усе одно не зайвий.",
+        "tips_ru": "Экономию видно в классе энергопотребления и годовом потреблении в кВт·ч — сравнивайте именно эту цифру, а не слово «инвертор» на наклейке. На инверторные компрессоры производители часто дают отдельную, более долгую гарантию: условия указаны в характеристиках модели. Если напряжение в доме сильно скачет, стабилизатор всё равно не лишний.",
+        "tips_en": "The saving shows in the energy class and the annual consumption in kWh — compare that figure, not the word \"inverter\" on the sticker. Makers often give inverter compressors a separate, longer warranty; the terms are in each model’s specs. If the voltage in the building swings a lot, a stabiliser is still worth having."
       }
     ],
     "quizEyeKey": "quiz_eye",
@@ -1574,7 +1619,10 @@
         "h1_en": "Water heaters with a dry element",
         "intro": "Сухий ТЕН не торкається води, тож не обростає накипом і служить довше — у Сумах із жорсткою водою це головний аргумент. Міняти його можна не зливаючи бак.",
         "intro_ru": "Сухой ТЭН не касается воды, поэтому не обрастает накипью и служит дольше — в Сумах с жёсткой водой это главный аргумент. Менять его можно не сливая бак.",
-        "intro_en": "A dry element never touches the water, so limescale does not build up on it."
+        "intro_en": "A dry element never touches the water, so limescale does not build up on it.",
+        "tips": "Сухий ТЕН стоїть у колбі, тож при заміні не треба зливати бак і знімати бойлер зі стіни. Анод усе одно варто перевіряти раз на рік-два: саме він захищає бак від корозії. У деяких моделях потужність розбита на два ТЕНи — можна гріти вполовину, щоб не перевантажувати проводку.",
+        "tips_ru": "Сухой ТЭН стоит в колбе, так что при замене не нужно сливать бак и снимать бойлер со стены. Анод всё равно стоит проверять раз в год-два: именно он защищает бак от коррозии. В некоторых моделях мощность разбита на два ТЭНа — можно греть вполовину, чтобы не перегружать проводку.",
+        "tips_en": "A dry element sits in a sleeve, so replacing it needs neither draining the tank nor taking the heater off the wall. The anode still wants checking every year or two: it is what protects the tank from corrosion. Some models split the power across two elements, so you can heat at half power and spare the wiring."
       },
       {
         "slug": "z-mokrym-tenom",
@@ -1590,7 +1638,10 @@
         "h1_en": "Water heaters with a wet element",
         "intro": "Мідний ТЕН у воді гріє швидше й коштує помітно дешевше за сухий. Ціна цього — накип: раз на два роки бак доведеться зливати й чистити, інакше ТЕН згорить.",
         "intro_ru": "Медный ТЭН в воде греет быстрее и стоит заметно дешевле сухого. Цена этого — накипь: раз в два года бак придётся сливать и чистить, иначе ТЭН сгорит.",
-        "intro_en": "A copper element in the water heats faster and costs noticeably less."
+        "intro_en": "A copper element in the water heats faster and costs noticeably less.",
+        "tips": "Мокрий ТЕН чутливий до жорсткої води, тому магнієвий анод варто перевіряти щороку, а бак чистити від накипу разом із ТЕНом. Ставте температуру 55–60 °C: так ТЕН менше працює й повільніше обростає накипом. Такий бойлер — розумний вибір для дачі чи кухні, де гарячої води треба небагато.",
+        "tips_ru": "Мокрый ТЭН чувствителен к жёсткой воде, поэтому магниевый анод стоит проверять каждый год, а бак чистить от накипи вместе с ТЭНом. Ставьте температуру 55–60 °C: так ТЭН меньше работает и медленнее обрастает накипью. Такой бойлер — разумный выбор для дачи или кухни, где горячей воды нужно немного.",
+        "tips_en": "A wet element is sensitive to hard water, so check the magnesium anode every year and descale the tank together with the element. Set 55–60 °C: the element works less and scales up more slowly. It is a sensible choice for a country house or a kitchen where little hot water is needed."
       },
       {
         "slug": "na-50-litriv",
@@ -1607,7 +1658,10 @@
         "h1_en": "50-litre water heaters",
         "intro": "П’ятдесят літрів — це один душ для двох людей поспіль. Найпоширеніший вибір для квартири: більший бак довше гріється й займає помітно більше місця на стіні.",
         "intro_ru": "Пятьдесят литров — это один душ для двух человек подряд. Самый распространённый выбор для квартиры: бак больше дольше греется и занимает заметно больше места на стене.",
-        "intro_en": "Fifty litres is one shower for two people in a row."
+        "intro_en": "Fifty litres is one shower for two people in a row.",
+        "tips": "Гарячої води виходить більше, ніж 50 літрів: вода 60–65 °C, змішана з холодною до 40 °C, дає близько 90–100 літрів для душу. З нуля такий бак гріється приблизно 1,5–2,5 години — залежно від потужності ТЕНа, вона вказана в характеристиках. Перед покупкою зміряйте місце на стіні: діаметр і висота бака теж є в характеристиках.",
+        "tips_ru": "Горячей воды получается больше, чем 50 литров: вода 60–65 °C, смешанная с холодной до 40 °C, даёт около 90–100 литров для душа. С нуля такой бак греется примерно 1,5–2,5 часа — в зависимости от мощности ТЭНа, она указана в характеристиках. Перед покупкой измерьте место на стене: диаметр и высота бака тоже есть в характеристиках.",
+        "tips_en": "You get more than 50 litres of hot water: water at 60–65 °C mixed down to 40 °C gives about 90–100 litres for a shower. From cold the tank takes roughly 1.5–2.5 hours, depending on the element power listed in the specs. Measure the wall space before buying — the tank’s diameter and height are in the specs too."
       },
       {
         "slug": "na-80-litriv",
@@ -1624,7 +1678,10 @@
         "h1_en": "80-litre water heaters",
         "intro": "Вісімдесят літрів беруть на сім’ю з трьох осіб або коли є ванна, а не лише душ. Гріється така ємність близько трьох годин з нуля, тож вмикати краще з таймером на ніч.",
         "intro_ru": "Восемьдесят литров берут на семью из трёх человек или когда есть ванна, а не только душ. Греется такая ёмкость около трёх часов с нуля, поэтому включать лучше с таймером на ночь.",
-        "intro_en": "Eighty litres suits a family of three, or a bath rather than just a shower."
+        "intro_en": "Eighty litres suits a family of three, or a bath rather than just a shower.",
+        "tips": "80 літрів при змішуванні дають близько 150 літрів теплої води — вистачає на ванну або кілька душів поспіль. Заповнений бак важить понад 100 кг, тож вішати його можна лише на капітальну стіну, не на гіпсокартон. Якщо у вас двозонний тариф, гріти вночі вигідніше — з таймером чи просто вмикаючи ввечері.",
+        "tips_ru": "80 литров при смешивании дают около 150 литров тёплой воды — хватает на ванну или несколько душей подряд. Заполненный бак весит больше 100 кг, так что вешать его можно только на капитальную стену, не на гипсокартон. Если у вас двухзонный тариф, греть ночью выгоднее — с таймером или просто включая вечером.",
+        "tips_en": "80 litres mixed down gives about 150 litres of warm water — enough for a bath or several showers in a row. A full tank weighs over 100 kg, so it goes on a solid wall only, never on plasterboard. On a day/night tariff heating overnight is cheaper, with a timer or just by switching on in the evening."
       }
     ],
     "quizEyeKey": "quiz_eye",
@@ -1948,7 +2005,10 @@
         "h1_en": "Large built-in ovens from 65 l",
         "intro": "Об’єм вирішує, скільки рівнів працює одночасно. Від 65 літрів у духовці вільно стають два дека й гуска.",
         "intro_ru": "Объём решает, сколько уровней работает одновременно. От 65 литров в духовке свободно встают два противня и утятница.",
-        "intro_en": "Capacity decides how many shelves you can use at once."
+        "intro_en": "Capacity decides how many shelves you can use at once.",
+        "tips": "Велика камера має сенс, коли готуєте на кількох рівнях одночасно, — тоді потрібна конвекція, щоб жар розходився рівно. Зверніть увагу на кількість стекол у дверцятах: три шари тримають зовнішню поверхню прохолоднішою. Телескопічні напрямні дозволяють висувати деко, не тягнучися в гарячу камеру.",
+        "tips_ru": "Большая камера имеет смысл, когда готовите на нескольких уровнях одновременно, — тогда нужна конвекция, чтобы жар расходился равномерно. Обратите внимание на количество стёкол в дверце: три слоя держат внешнюю поверхность прохладнее. Телескопические направляющие позволяют выдвигать противень, не залезая в горячую камеру.",
+        "tips_en": "A large cavity pays off when you cook on several levels at once, and then you want convection so the heat spreads evenly. Count the glass panes in the door: three layers keep the outside cooler. Telescopic runners let you pull a tray out without reaching into the hot oven."
       }
     ],
     "group": "kitchen",
@@ -2248,7 +2308,10 @@
         "h1_en": "Induction hobs",
         "intro": "Гріють дно посуду напряму: літр води закипає за 3–4 хвилини, а сама поверхня лишається майже холодною. Потрібен посуд, до дна якого прилипає магніт.",
         "intro_ru": "Греют дно посуды напрямую: литр воды закипает за 3–4 минуты, а сама поверхность остаётся почти холодной. Нужна посуда, ко дну которой прилипает магнит.",
-        "intro_en": "They heat the pan base directly — a litre boils in three or four minutes."
+        "intro_en": "They heat the pan base directly — a litre boils in three or four minutes.",
+        "tips": "Перевірте проводку: індукційна поверхня на чотири зони може брати до 7 кВт, тож їй потрібна окрема лінія з кабелем достатнього перерізу. Функція Booster ненадовго дає одній зоні більше потужності — зручно, щоб швидко закип’ятити воду. Під поверхнею потрібен вентиляційний зазор, тому над духовкою її ставлять із відступом, який указує виробник.",
+        "tips_ru": "Проверьте проводку: индукционная поверхность на четыре зоны может брать до 7 кВт, так что ей нужна отдельная линия с кабелем достаточного сечения. Функция Booster ненадолго даёт одной зоне больше мощности — удобно, чтобы быстро вскипятить воду. Под поверхностью нужен вентиляционный зазор, поэтому над духовкой её ставят с отступом, который указывает производитель.",
+        "tips_en": "Check the wiring: a four-zone induction hob can draw up to 7 kW, so it needs its own circuit with a heavy enough cable. Booster gives one zone extra power for a short time, handy for boiling water fast. The hob needs an air gap underneath, so over an oven it goes in with the clearance the maker specifies."
       },
       {
         "slug": "gazovi",
@@ -2264,7 +2327,10 @@
         "h1_en": "Gas hobs",
         "intro": "Найдешевші у користуванні й працюють при відключенні світла. Дають миттєве регулювання полум’я, але потребують доброї витяжки.",
         "intro_ru": "Самые дешёвые в пользовании и работают при отключении света. Дают мгновенную регулировку пламени, но требуют хорошей вытяжки.",
-        "intro_en": "The cheapest to run, and they work when the power is out."
+        "intro_en": "The cheapest to run, and they work when the power is out.",
+        "tips": "Газову поверхню підключає газова служба або фахівець із допуском — з актом і сертифікованим шлангом. Газ-контроль перекриває подачу, якщо полум’я згасло: з дітьми вдома це обов’язково. Чавунні решітки стійкіші й тримають важкий посуд, емальовані легше мити.",
+        "tips_ru": "Газовую поверхность подключает газовая служба или специалист с допуском — с актом и сертифицированным шлангом. Газ-контроль перекрывает подачу, если пламя погасло: с детьми в доме это обязательно. Чугунные решётки устойчивее и держат тяжёлую посуду, эмалированные легче мыть.",
+        "tips_en": "A gas hob is connected by the gas service or a licensed fitter, with a signed report and a certified hose. Flame failure protection cuts the gas if the flame goes out — a must with children at home. Cast-iron grates are steadier under heavy pans; enamelled ones are easier to clean."
       },
       {
         "slug": "elektrychni",
@@ -2280,7 +2346,10 @@
         "h1_en": "Electric hobs",
         "intro": "Склокераміка працює з будь-яким посудом і коштує дешевше за індукцію. Гріється довше й довше остигає — це зручно для томління.",
         "intro_ru": "Стеклокерамика работает с любой посудой и стоит дешевле индукции. Греется дольше и дольше остывает — это удобно для томления.",
-        "intro_en": "Glass-ceramic works with any pan and costs less than induction."
+        "intro_en": "Glass-ceramic works with any pan and costs less than induction.",
+        "tips": "Склокераміка гріється від нагрівачів під склом, тож найкраще працює посуд із рівним товстим дном, що щільно прилягає. Індикатор залишкового тепла показує, яка зона ще гаряча, — на вигляд скло однакове. Для підключення потрібна окрема лінія, як і для індукції.",
+        "tips_ru": "Стеклокерамика греется от нагревателей под стеклом, поэтому лучше всего работает посуда с ровным толстым дном, которое плотно прилегает. Индикатор остаточного тепла показывает, какая зона ещё горячая, — на вид стекло одинаковое. Для подключения нужна отдельная линия, как и для индукции.",
+        "tips_en": "Ceramic glass is heated by elements under the glass, so pans with a flat, thick base that sits tight work best. The residual heat indicator shows which zone is still hot, since the glass looks the same. It needs its own circuit, just like induction."
       },
       {
         "slug": "60-sm",
@@ -2297,7 +2366,10 @@
         "h1_en": "Hobs 60 cm",
         "intro": "Стандарт на чотири конфорки. Виріз у стільниці — 560×490 мм, однаковий для газу, склокераміки та індукції.",
         "intro_ru": "Стандарт на четыре конфорки. Вырез в столешнице — 560×490 мм, одинаковый для газа, стеклокерамики и индукции.",
-        "intro_en": "The four-zone standard. The cut-out is 560×490 mm whatever the technology."
+        "intro_en": "The four-zone standard. The cut-out is 560×490 mm whatever the technology.",
+        "tips": "Якщо міняєте стару поверхню на нову такої ж ширини, звірте розміри вирізу — для 60 см вони зазвичай збігаються, а точні розміри кожної моделі є в характеристиках. Витяжку над такою поверхнею беруть щонайменше тієї ж ширини. Якщо під поверхнею буде духовка, перевірте, що їх можна поєднати за висотою й вентиляцією.",
+        "tips_ru": "Если меняете старую поверхность на новую той же ширины, сверьте размеры выреза — для 60 см они обычно совпадают, а точные размеры каждой модели есть в характеристиках. Вытяжку над такой поверхностью берут как минимум той же ширины. Если под поверхностью будет духовка, проверьте, что их можно совместить по высоте и вентиляции.",
+        "tips_en": "Replacing an old hob with one of the same width? Compare the cut-outs — at 60 cm they usually match, and each model’s exact size is in the specs. The hood above should be at least as wide. If an oven goes underneath, check that the two fit together for height and ventilation."
       },
       {
         "slug": "domino",
@@ -2313,7 +2385,10 @@
         "h1_en": "Narrow domino hobs",
         "intro": "Дві конфорки завширшки близько 30 см. Ставлять на маленьку кухню або поруч із другою такою ж, щоб зібрати поверхню під себе.",
         "intro_ru": "Две конфорки шириной около 30 см. Ставят на маленькую кухню или рядом со второй такой же, чтобы собрать поверхность под себя.",
-        "intro_en": "Two zones about 30 cm wide — for a small kitchen, or paired up."
+        "intro_en": "Two zones about 30 cm wide — for a small kitchen, or paired up.",
+        "tips": "Домино зручне для маленької кухні або як друга поверхня: газова для казана плюс індукційна на щодень. Дві домино ставлять поруч, але виріз роблять під кожну окремо — розміри вказані в характеристиках. Для однієї-двох людей двох конфорок зазвичай вистачає.",
+        "tips_ru": "Домино удобно для маленькой кухни или как вторая поверхность: газовая для казана плюс индукционная на каждый день. Две домино ставят рядом, но вырез делают под каждую отдельно — размеры указаны в характеристиках. Для одного-двух человек двух конфорок обычно хватает.",
+        "tips_en": "A domino suits a small kitchen or works as a second hob: gas for a wok plus induction for every day. Two dominoes go side by side, each in its own cut-out — the sizes are in the specs. For one or two people two zones are usually enough."
       }
     ],
     "group": "kitchen",
@@ -2645,7 +2720,10 @@
         "h1_en": "Cooker hoods 60 cm",
         "intro": "Під стандартну варильну поверхню 60 см. Витяжка має бути не вужчою за плиту, інакше пара з крайніх конфорок іде повз.",
         "intro_ru": "Под стандартную варочную поверхность 60 см. Вытяжка должна быть не уже плиты, иначе пар с крайних конфорок идёт мимо.",
-        "intro_en": "For a standard 60 cm hob — a hood must never be narrower than the hob."
+        "intro_en": "For a standard 60 cm hob — a hood must never be narrower than the hob.",
+        "tips": "Витяжку вішають на висоті 65–75 см над електричною поверхнею і 75–85 см над газовою. Потрібну продуктивність рахують від об’єму кухні: площа × висота стелі × 10–12 — стільки кубометрів на годину. Якщо вентканалу немає, беріть модель із режимом рециркуляції й вугільним фільтром.",
+        "tips_ru": "Вытяжку вешают на высоте 65–75 см над электрической поверхностью и 75–85 см над газовой. Нужную производительность считают от объёма кухни: площадь × высота потолка × 10–12 — столько кубометров в час. Если вентканала нет, берите модель с режимом рециркуляции и угольным фильтром.",
+        "tips_en": "Hang the hood 65–75 cm above an electric hob and 75–85 cm above a gas one. Size the extraction from the kitchen’s volume: floor area × ceiling height × 10–12 gives the cubic metres per hour. With no duct available, choose a model with recirculation and a charcoal filter."
       },
       {
         "slug": "vbudovani",
@@ -2661,7 +2739,10 @@
         "h1_en": "Built-in cooker hoods",
         "intro": "Ховається у шафу над плитою — видно лише панель керування. Найтихіший варіант для маленької кухні.",
         "intro_ru": "Прячется в шкаф над плитой — видна только панель управления. Самый тихий вариант для маленькой кухни.",
-        "intro_en": "Hidden in the cabinet above the hob, only the control panel shows."
+        "intro_en": "Hidden in the cabinet above the hob, only the control panel shows.",
+        "tips": "Вбудовану витяжку ховають у навісну шафу, тож ширину й глибину шафи звірте заздалегідь — розміри для вбудовування вказані в характеристиках. Повітровід проходить крізь шафу, тому на полицю над витяжкою місця лишається менше. Алюмінієві жирові фільтри зазвичай можна мити в посудомийній машині.",
+        "tips_ru": "Встраиваемую вытяжку прячут в навесной шкаф, так что ширину и глубину шкафа сверьте заранее — размеры для встраивания указаны в характеристиках. Воздуховод проходит сквозь шкаф, поэтому на полку над вытяжкой места остаётся меньше. Алюминиевые жировые фильтры обычно можно мыть в посудомоечной машине.",
+        "tips_en": "A built-in hood hides inside a wall cabinet, so check the cabinet width and depth in advance — the fitting dimensions are in the specs. The duct runs through the cabinet, leaving less shelf space above. Aluminium grease filters can usually go in the dishwasher."
       },
       {
         "slug": "potuzhni",
@@ -2677,7 +2758,10 @@
         "h1_en": "Powerful cooker hoods from 1000 m³/h",
         "intro": "Для кухні від 12 м² або для кухні-студії. Беріть із запасом: витяжка з запасом працює на середній швидкості й тому тихіша.",
         "intro_ru": "Для кухни от 12 м² или для кухни-студии. Берите с запасом: вытяжка с запасом работает на средней скорости и потому тише.",
-        "intro_en": "For a kitchen of 12 m² and up, or an open-plan one."
+        "intro_en": "For a kitchen of 12 m² and up, or an open-plan one.",
+        "tips": "Продуктивність обмежує повітровід: через трубу 120 мм тисяча кубометрів на годину не пройде — потрібна 150 мм і якомога менше колін. Витяжка з запасом тиха, бо працює на середній швидкості: кілька швидкостей і таймер вимкнення дозволяють не тримати її на максимумі. Якщо кухня поєднана з вітальнею, запас окупається тишею.",
+        "tips_ru": "Производительность ограничивает воздуховод: через трубу 120 мм тысяча кубометров в час не пройдёт — нужна 150 мм и как можно меньше колен. Вытяжка с запасом тихая, потому что работает на средней скорости: несколько скоростей и таймер выключения позволяют не держать её на максимуме. Если кухня совмещена с гостиной, запас окупается тишиной.",
+        "tips_en": "The duct sets the limit: a thousand cubic metres an hour will not get through a 120 mm pipe — it needs 150 mm and as few bends as possible. A hood with capacity to spare is quiet because it runs at medium speed; several speeds and an off-timer keep it off maximum. In an open-plan kitchen-living room the spare capacity pays back in quiet."
       },
       {
         "slug": "tyhi",
@@ -2693,7 +2777,10 @@
         "h1_en": "Quiet cooker hoods",
         "intro": "До 55 дБ на максимумі — розмову чути, телевізор не треба робити гучнішим. Саме шум вирішує, чи будете ви вмикати витяжку взагалі.",
         "intro_ru": "До 55 дБ на максимуме — разговор слышно, телевизор не надо делать громче. Именно шум решает, будете ли вы включать вытяжку вообще.",
-        "intro_en": "Up to 55 dB at full speed — you can still hold a conversation."
+        "intro_en": "Up to 55 dB at full speed — you can still hold a conversation.",
+        "tips": "Шум на першій-другій швидкості помітно нижчий, ніж у характеристиках, — там найгучніший режим. Тихіше працюють потужніші моделі: на середній швидкості вони тягнуть стільки ж, скільки слабка на максимумі. Прямий повітровід без гофри й зайвих поворотів теж помітно знижує шум.",
+        "tips_ru": "Шум на первой-второй скорости заметно ниже, чем в характеристиках, — там самый громкий режим. Тише работают более мощные модели: на средней скорости они тянут столько же, сколько слабая на максимуме. Прямой воздуховод без гофры и лишних поворотов тоже заметно снижает шум.",
+        "tips_en": "At first or second speed the noise is well below the figure in the specs, which is the loudest setting. More powerful models are the quieter ones: at medium speed they move as much air as a weak hood on maximum. A straight rigid duct without corrugated hose or extra bends lowers the noise noticeably too."
       },
       {
         "slug": "zi-sklom",
@@ -2709,7 +2796,10 @@
         "h1_en": "Cooker hoods with a glass front",
         "intro": "Загартоване скло легко мити й воно добре виглядає у сучасній кухні. Похилі моделі до того ж не заважають головою.",
         "intro_ru": "Закалённое стекло легко мыть и оно хорошо смотрится в современной кухне. Наклонные модели к тому же не мешают головой.",
-        "intro_en": "Toughened glass wipes clean and suits a modern kitchen."
+        "intro_en": "Toughened glass wipes clean and suits a modern kitchen.",
+        "tips": "Скло на фасаді збирає відбитки частіше, ніж нержавійка, зате відмивається без розводів звичайним засобом для скла. Похилі моделі ставлять ближче до поверхні — так вони краще захоплюють пару й не заважають голові. Чорне скло ховає бризки, біле візуально легше в невеликій кухні.",
+        "tips_ru": "Стекло на фасаде собирает отпечатки чаще, чем нержавейка, зато отмывается без разводов обычным средством для стекла. Наклонные модели ставят ближе к поверхности — так они лучше захватывают пар и не мешают голове. Чёрное стекло прячет брызги, белое визуально легче в небольшой кухне.",
+        "tips_en": "A glass front shows fingerprints more than steel, but cleans streak-free with ordinary glass cleaner. Angled models sit closer to the hob, catch steam better and stay clear of your head. Black glass hides splashes; white looks lighter in a small kitchen."
       }
     ],
     "group": "kitchen",
@@ -3061,7 +3151,10 @@
         "h1_en": "Black kitchen sinks",
         "intro": "Чорна мийка виглядає дорого й ховає подряпини, але на ній помітний вапняний наліт — у Сумах вода жорстка, тож протирати доведеться частіше.",
         "intro_ru": "Чёрная мойка выглядит дорого и прячет царапины, но на ней заметен известковый налёт — в Сумах вода жёсткая, так что протирать придётся чаще.",
-        "intro_en": "A black sink looks expensive and hides scratches, though limescale shows on it."
+        "intro_en": "A black sink looks expensive and hides scratches, though limescale shows on it.",
+        "tips": "Чорні мийки тут — із нержавіючої сталі з покриттям PVD: сталь не боїться гарячого посуду й ударів, а покриття тримає колір. Щоб не лишався вапняний наліт, мийку досить витирати насухо після використання й не чистити абразивом. Під чорну мийку зручно підібрати змішувач і дозатор у тон.",
+        "tips_ru": "Чёрные мойки здесь — из нержавеющей стали с покрытием PVD: сталь не боится горячей посуды и ударов, а покрытие держит цвет. Чтобы не оставался известковый налёт, мойку достаточно вытирать насухо после использования и не чистить абразивом. Под чёрную мойку удобно подобрать смеситель и дозатор в тон.",
+        "tips_en": "The black sinks here are stainless steel with a PVD coating: the steel shrugs off hot pans and knocks, the coating holds the colour. To keep limescale marks away, wipe the sink dry after use and skip abrasive cleaners. A tap and a soap dispenser in the same colour complete it."
       },
       {
         "slug": "z-nerzhaviyuchoyi-stali",
@@ -3077,7 +3170,10 @@
         "h1_en": "Stainless steel kitchen sinks",
         "intro": "Нержавійка не боїться гарячого посуду й не тріскається від перепаду температур. Дрібні подряпини з часом зливаються в рівну матову поверхню.",
         "intro_ru": "Нержавейка не боится горячей посуды и не трескается от перепада температур. Мелкие царапины со временем сливаются в ровную матовую поверхность.",
-        "intro_en": "Stainless steel takes hot pans and thermal shock without complaint."
+        "intro_en": "Stainless steel takes hot pans and thermal shock without complaint.",
+        "tips": "Товщина сталі впливає на жорсткість і шум: чим товща сталь, тим менше мийка гуде від струменя. Матова або сатинована поверхня ховає подряпини краще за дзеркальну. Глибина чаші від 200 мм дозволяє мити великі каструлі без бризок на стільницю.",
+        "tips_ru": "Толщина стали влияет на жёсткость и шум: чем толще сталь, тем меньше мойка гудит от струи. Матовая или сатинированная поверхность прячет царапины лучше зеркальной. Глубина чаши от 200 мм позволяет мыть большие кастрюли без брызг на столешницу.",
+        "tips_en": "Steel thickness sets stiffness and noise: the thicker it is, the less the sink drums under the tap. A matt or brushed finish hides scratches better than a mirror one. A bowl 200 mm deep or more lets you wash big pots without splashing the worktop."
       },
       {
         "slug": "na-dvi-chashi",
@@ -3093,7 +3189,10 @@
         "h1_en": "Double-bowl kitchen sinks",
         "intro": "Дві чаші мають сенс від 80 см завширшки: на вужчій тумбі в жодну з них не влізе деко з духовки.",
         "intro_ru": "Две чаши имеют смысл от 80 см шириной: на более узкой тумбе ни в одну из них не влезет противень из духовки.",
-        "intro_en": "Two bowls make sense from 80 cm wide — narrower and neither takes a baking tray."
+        "intro_en": "Two bowls make sense from 80 cm wide — narrower and neither takes a baking tray.",
+        "tips": "Друга чаша — для розморожування, миття овочів чи замочування посуду, поки перша вільна. Перевірте, щоб хоча б одна з чаш уміщала найбільше деко або сковороду. Для двох чаш потрібен сифон із двома випусками — комплектацію дивіться в характеристиках.",
+        "tips_ru": "Вторая чаша — для разморозки, мытья овощей или замачивания посуды, пока первая свободна. Проверьте, чтобы хотя бы одна из чаш вмещала самый большой противень или сковороду. Для двух чаш нужен сифон с двумя выпусками — комплектацию смотрите в характеристиках.",
+        "tips_en": "The second bowl is for defrosting, washing vegetables or soaking dishes while the first stays free. Make sure at least one bowl takes your largest tray or frying pan. Two bowls need a siphon with two outlets — check the kit contents in the specs."
       },
       {
         "slug": "60-sm",
@@ -3108,9 +3207,12 @@
         "h1": "Мийки 50–70 см",
         "h1_ru": "Мойки 50–70 см",
         "h1_en": "Kitchen sinks 50–70 cm",
-        "intro": "Найпоширеніший розмір: така мийка стає в тумбу 60 см і лишає місце під сифон та фільтр.",
-        "intro_ru": "Самый ходовой размер: такая мойка встаёт в тумбу 60 см и оставляет место под сифон и фильтр.",
-        "intro_en": "The common size: fits a 60 cm cabinet and leaves room for the trap."
+        "intro": "Найпоширеніший розмір для стандартної кухні: мийка лишає робоче місце на стільниці, а під нею — простір для сифона й фільтра.",
+        "intro_ru": "Самый ходовой размер для стандартной кухни: мойка оставляет рабочее место на столешнице, а под ней — пространство для сифона и фильтра.",
+        "intro_en": "The common size for a standard kitchen: it leaves working space on the worktop and room underneath for the trap and a filter.",
+        "tips": "У тумбу 60 см стає мийка до 550 мм завширшки, ширша — у тумбу 70–80 см: корпус мийки має входити з запасом 3–4 см. Під мийкою лишається місце для фільтра питної води — якщо плануєте його, беріть змішувач із підключенням фільтра. Глибина чаші 200 мм і більше не дає бризкам летіти на стільницю.",
+        "tips_ru": "В тумбу 60 см встаёт мойка до 550 мм шириной, более широкая — в тумбу 70–80 см: корпус мойки должен входить с запасом 3–4 см. Под мойкой остаётся место для фильтра питьевой воды — если планируете его, берите смеситель с подключением фильтра. Глубина чаши 200 мм и больше не даёт брызгам лететь на столешницу.",
+        "tips_en": "A 60 cm cabinet takes a sink up to 550 mm wide; anything wider needs a 70–80 cm cabinet, since the sink body needs 3–4 cm to spare. There is room left underneath for a drinking-water filter — if you plan one, choose a tap with a filter outlet. A bowl 200 mm deep or more keeps splashes off the worktop."
       },
       {
         "slug": "velyki",
@@ -3126,7 +3228,10 @@
         "h1_en": "Large kitchen sinks from 70 cm",
         "intro": "Під тумбу 80 см і ширше. У таку мийку лягає деко, і лишається місце під крило або дошку.",
         "intro_ru": "Под тумбу 80 см и шире. В такую мойку ложится противень, и остаётся место под крыло или доску.",
-        "intro_en": "For an 80 cm cabinet and wider — a baking tray lies flat."
+        "intro_en": "For an 80 cm cabinet and wider — a baking tray lies flat.",
+        "tips": "Велика мийка з крилом дає місце, де посуд стікає, не займаючи стільниці. Перевірте, що під тумбою 80–90 см можна підвести каналізацію без переробок. До великої чаші зручний змішувач із гнучким або висувним виливом — він дістає до кутів.",
+        "tips_ru": "Большая мойка с крылом даёт место, где посуда стекает, не занимая столешницу. Проверьте, что под тумбу 80–90 см можно подвести канализацию без переделок. К большой чаше удобен смеситель с гибким или выдвижным изливом — он достаёт до углов.",
+        "tips_en": "A large sink with a drainer wing gives dishes somewhere to drip without taking worktop space. Check that the drain can reach the 80–90 cm cabinet without rework. A tap with a flexible or pull-out spout suits a big bowl — it reaches the corners."
       }
     ],
     "group": "kitchen",
@@ -3430,7 +3535,10 @@
         "h1_en": "Black kitchen taps",
         "intro": "Беруть у тон чорної мийки. Матове чорне покриття прощає краплі й відбитки значно краще за хром.",
         "intro_ru": "Берут в тон чёрной мойки. Матовое чёрное покрытие прощает капли и отпечатки значительно лучше хрома.",
-        "intro_en": "Matched to a black sink — and matt black forgives water spots."
+        "intro_en": "Matched to a black sink — and matt black forgives water spots.",
+        "tips": "Мити чорний змішувач краще м’якою ганчіркою й м’яким засобом, без абразивів і хлору — так покриття довше лишається рівним. Перевірте діаметр отвору під змішувач: він вказаний у характеристиках, більшість моделей ставиться в стандартні 35 мм. Разом із чорною мийкою і дозатором у тон кухня виглядає цілісно.",
+        "tips_ru": "Мыть чёрный смеситель лучше мягкой тряпкой и мягким средством, без абразивов и хлора — так покрытие дольше остаётся ровным. Проверьте диаметр отверстия под смеситель: он указан в характеристиках, большинство моделей ставится в стандартные 35 мм. Вместе с чёрной мойкой и дозатором в тон кухня выглядит цельно.",
+        "tips_en": "Clean a black tap with a soft cloth and a mild cleaner, no abrasives or chlorine, and the finish stays even for longer. Check the mounting hole diameter in the specs — most models take the standard 35 mm. With a black sink and a matching dispenser the kitchen looks all of a piece."
       },
       {
         "slug": "z-latuni",
@@ -3444,9 +3552,12 @@
         "h1": "Кухонні змішувачі з латуні",
         "h1_ru": "Кухонные смесители из латуни",
         "h1_en": "Brass kitchen taps",
-        "intro": "Латунний корпус важчий і глушить звук води. Вагу видно в характеристиках — це чесний показник того, що всередині не силумін.",
-        "intro_ru": "Латунный корпус тяжелее и глушит звук воды. Вес виден в характеристиках — это честный показатель того, что внутри не силумин.",
-        "intro_en": "A brass body is heavier and quieter than the alternatives."
+        "intro": "Латунний корпус важчий і глушить звук води, а латунь не іржавіє зсередини від жорсткої води. Це класичний матеріал для змішувача, який має служити роками.",
+        "intro_ru": "Латунный корпус тяжелее и глушит звук воды, а латунь не ржавеет изнутри от жёсткой воды. Это классический материал для смесителя, который должен служить годами.",
+        "intro_en": "A brass body is heavier and muffles the sound of running water, and brass does not rust from the inside in hard water. It is the classic material for a tap meant to last for years.",
+        "tips": "Латунь зверху покривають — хромом, фарбою чи PVD, і від якості шару залежить, як змішувач виглядатиме через кілька років. Картридж усередині керамічний: його міняють, не знімаючи змішувач зі стільниці. Довжину гнучких шлангів підводки звірте з відстанню до кранів під мийкою — вона вказана в характеристиках.",
+        "tips_ru": "Латунь сверху покрывают — хромом, краской или PVD, и от качества слоя зависит, как смеситель будет выглядеть через несколько лет. Картридж внутри керамический: его меняют, не снимая смеситель со столешницы. Длину гибких шлангов подводки сверьте с расстоянием до кранов под мойкой — она указана в характеристиках.",
+        "tips_en": "Brass is finished on top — chrome, paint or PVD — and the quality of that layer decides how the tap looks in a few years. The cartridge inside is ceramic and is replaced without taking the tap off the worktop. Check the flexible hose length against the distance to the valves under the sink; it is in the specs."
       },
       {
         "slug": "odnovazhilni",
@@ -3462,7 +3573,10 @@
         "h1_en": "Single-lever kitchen taps",
         "intro": "Одна ручка на воду й температуру — швидше налаштувати мокрими руками. Усередині керамічний картридж, який міняється за десять хвилин.",
         "intro_ru": "Одна ручка на воду и температуру — быстрее настроить мокрыми руками. Внутри керамический картридж, который меняется за десять минут.",
-        "intro_en": "One handle for flow and temperature, easier with wet hands."
+        "intro_en": "One handle for flow and temperature, easier with wet hands.",
+        "tips": "Головне в одноважільному змішувачі — картридж: керамічні картриджі відомих виробників служать довше й плавніше регулюють температуру. Аератор на кінці виливу змішує воду з повітрям — струмінь м’якший, менше бризкає, а витрата води нижча. Висоту виливу обирайте під найвищу каструлю, яку наповнюєте в мийці.",
+        "tips_ru": "Главное в однорычажном смесителе — картридж: керамические картриджи известных производителей служат дольше и плавнее регулируют температуру. Аэратор на конце излива смешивает воду с воздухом — струя мягче, меньше брызгает, а расход воды ниже. Высоту излива выбирайте под самую высокую кастрюлю, которую наполняете в мойке.",
+        "tips_en": "The heart of a single-lever tap is the cartridge: ceramic cartridges from known makers last longer and adjust temperature more smoothly. The aerator at the spout mixes air into the water, so the stream is softer, splashes less and uses less water. Pick the spout height to clear the tallest pot you fill in the sink."
       },
       {
         "slug": "pid-filtr",
@@ -3478,7 +3592,10 @@
         "h1_en": "Kitchen taps with a filter outlet",
         "intro": "Окремий канал для питної води: фільтрована йде своїм виливом і не змішується з водопровідною.",
         "intro_ru": "Отдельный канал для питьевой воды: фильтрованная идёт своим изливом и не смешивается с водопроводной.",
-        "intro_en": "A separate channel for filtered water, with its own spout."
+        "intro_en": "A separate channel for filtered water, with its own spout.",
+        "tips": "Такий змішувач замінює окремий кран для фільтра — отвір у стільниці чи мийці потрібен лише один. Фільтр під мийкою підключають до окремого входу змішувача, і фільтрована вода йде своїм каналом, не змішуючись із водопровідною. Перевірте, що під мийкою є місце для колб фільтра поруч із сифоном.",
+        "tips_ru": "Такой смеситель заменяет отдельный кран для фильтра — отверстие в столешнице или мойке нужно только одно. Фильтр под мойкой подключают к отдельному входу смесителя, и фильтрованная вода идёт своим каналом, не смешиваясь с водопроводной. Проверьте, что под мойкой есть место для колб фильтра рядом с сифоном.",
+        "tips_en": "A tap like this replaces a separate filter faucet, so the worktop or sink needs only one hole. The under-sink filter connects to its own inlet on the tap, and filtered water runs through its own channel without mixing with mains water. Check there is room under the sink for the filter housings next to the siphon."
       },
       {
         "slug": "z-vysuvnym-vylyvom",
@@ -3494,7 +3611,10 @@
         "h1_en": "Kitchen taps with a flexible spout",
         "intro": "Вилив тягнеться на шлангу — зручно мити саму чашу й наповнювати каструлі, що стоять на плиті.",
         "intro_ru": "Излив тянется на шланге — удобно мыть саму чашу и наполнять кастрюли, стоящие на плите.",
-        "intro_en": "The spout pulls out on a hose — handy for rinsing the bowl itself."
+        "intro_en": "The spout pulls out on a hose — handy for rinsing the bowl itself.",
+        "tips": "Гнучкий вилив зручний у глибокій або великій мийці: струмінь дістає до кутів і миє саму чашу. Зверніть увагу на висоту змішувача — під навісною полицею високий вилив може не поміститися. Витрата води в характеристиках (л/хв) показує, як швидко наповниться каструля.",
+        "tips_ru": "Гибкий излив удобен в глубокой или большой мойке: струя достаёт до углов и моет саму чашу. Обратите внимание на высоту смесителя — под навесной полкой высокий излив может не поместиться. Расход воды в характеристиках (л/мин) показывает, как быстро наполнится кастрюля.",
+        "tips_en": "A flexible spout suits a deep or large sink: the stream reaches the corners and rinses the bowl itself. Watch the tap’s height — under a wall shelf a tall spout may not fit. The flow rate in the specs (l/min) tells you how fast a pot fills."
       }
     ],
     "group": "kitchen",

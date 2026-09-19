@@ -906,7 +906,8 @@
     "f_of": "з",
     "f_brands": "Бренди в добірці",
     "f_tags": "Є в добірках",
-    "f_every": "усі моделі"
+    "f_every": "усі моделі",
+    "tips_h": "На що звернути увагу, обираючи {name}"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1815,7 +1816,8 @@
     "f_of": "из",
     "f_brands": "Бренды в подборке",
     "f_tags": "Есть в подборках",
-    "f_every": "все модели"
+    "f_every": "все модели",
+    "tips_h": "На что обратить внимание, выбирая {name}"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -2693,6 +2695,7 @@
     "f_of": "of",
     "f_brands": "Brands here",
     "f_tags": "Also in",
-    "f_every": "every model"
+    "f_every": "every model",
+    "tips_h": "What to check when choosing {name}"
   }
 }

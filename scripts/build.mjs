@@ -2114,6 +2114,8 @@ ${HEADER}
     <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
   </section>
   ${shelfFacts(cat, list, NAME, brandsRow)}
+  ${lf(tg, 'tips') ? `<section class="tag-tips"><h2>${esc(t('tips_h').replace('{name}', NAME.charAt(0).toLowerCase() + NAME.slice(1)))}</h2>` +
+    `<p>${esc(lf(tg, 'tips'))}</p></section>` : ''}
   ${siblings ? `<div class="brand-links"><h2>${esc(t('tag_other'))}</h2><div class="bl-row">${siblings}</div></div>` : ''}
   <div class="pp-back"><a href="${curl(cat)}">← ${esc(CAT)}</a></div>
 </div>

@@ -1572,6 +1572,12 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 .shelf-facts .sf-p{white-space:nowrap}
 .shelf-facts a{color:var(--blue-d);text-decoration:underline;text-decoration-color:var(--g3);text-underline-offset:3px}
 .shelf-facts a:hover{text-decoration-color:currentColor}
+/* ---- query pages: what to check before buying ---- */
+.tag-tips{max-width:var(--max);margin:0 auto;padding:0 20px 26px}
+.tag-tips h2{font-size:19px;margin-bottom:12px;max-width:780px;text-wrap:balance}
+.tag-tips p{max-width:780px;font-size:15.5px;line-height:1.7;color:var(--g5);padding:20px 24px;background:var(--white);
+  border:1px solid var(--g2);border-radius:var(--r);border-left:3px solid var(--blue);text-wrap:pretty}
+@media(max-width:760px){.tag-tips{padding:0 16px 20px}.tag-tips p{padding:16px 18px;font-size:14.5px}}
 @media(max-width:760px){.shelf-facts{padding:0 16px 20px}.shelf-facts ul{padding:4px 16px}.shelf-facts li{font-size:14.5px;padding:10px 0}}
 
 /* On a 320px screen the H1 word "енергонезалежність" is wider than the column,
