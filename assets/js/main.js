@@ -79,9 +79,16 @@ function catChipsJS(p){
 const PHONE="380956082228";              // WhatsApp / Viber / Telegram number
 const FORMSPREE="xaqgygqb";          // Formspree form ID (e.g. xyzabcd)
 
-function track(n,p){try{if(window.gtag)gtag('event',n,p||{});}catch(e){}}
-/* lead events → GA4 (imported to Google Ads as conversions): click_to_call, click_whatsapp, generate_lead */
-document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a');if(!a)return;var h=a.getAttribute('href')||'';if(h.indexOf('tel:')===0){track('click_to_call');}else if(h.indexOf('api.whatsapp.com')>-1||h.indexOf('wa.me')>-1||h.indexOf('t.me')>-1||h.toLowerCase().indexOf('viber')>-1){track('click_whatsapp');}},true);
+/* Tag Manager loads Analytics but never defines window.gtag, so the gtag()
+   call that used to live here went nowhere: not one lead the site sent reached
+   Analytics. Events now go into dataLayer as Tag Manager custom events; a
+   Custom Event trigger per name forwards them to GA4 and Google Ads.
+   Tag Manager merges every push into one data model, so the parameters of a
+   quiz lead would still be sitting there when the next phone click arrives —
+   each push resets the whole set first. */
+const TRACK_KEYS=['method','lead_type','category','value','currency','theme'];
+function track(n,p){try{const o={event:n};TRACK_KEYS.forEach(k=>{o[k]=undefined;});Object.assign(o,p||{});
+  (window.dataLayer=window.dataLayer||[]).push(o);}catch(e){}}
 
 /* language comes from the URL: / = uk, /ru/… and /en/… are separate page trees */
 const LANG_FROM_PATH=(function(){var m=location.pathname.match(/^\/(ru|en)(?=\/|$)/);return m?m[1]:'uk';})();
@@ -786,7 +793,6 @@ function openContact(){$('contact-modal').classList.add('open');document.body.st
   markFormStart();ensureTurnstile();}
 
 async function sendLead(data){
-  track('generate_lead',{lead_type:(data&&data.type)||'form'});
   const body={...data,ts:window.__FORM_TS__||0,token:turnstileToken()};
   /* The server drops anything filled in under two and a half seconds, which a
      phone offering to autofill the number can beat. Waiting out the remainder
@@ -989,7 +995,9 @@ async function submitCb(){
     slug:window.__CB_SLUG__||'',price:window.__CB_PRICE__||'',url:window.__CB_URL__||'',
     lang:LANG});
   if(ok){$('cb-form').style.display='none';$('cb-success').style.display='block';
-    track('generate_lead',{method:'callback'});resetTurnstile();
+    const pr=Number(String(window.__CB_PRICE__||'').replace(/\s/g,''));
+    track('generate_lead',Object.assign({method:'callback',lead_type:window.__CB_TYPE__||'callback'},
+      isOrder&&pr>0?{value:pr,currency:'UAH'}:{}));resetTurnstile();
     if(isOrder&&em)gcrOptIn(orderId,em);}
   /* A browser dialog on a phone covers the form and says nothing useful. Put
      the reason under the field the visitor was last looking at. */
@@ -1002,7 +1010,7 @@ async function submitContact(){
   if(bad){fieldError($('cf-phone'),bad);return;}
   fieldError($('cf-phone'),'');
   const ok=await sendLead({type:'consultation',name:$('cf-name').value.trim(),phone:ph,interest:$('cf-interest').value,comment:$('cf-comment').value.trim(),lang:LANG});
-  if(ok){$('contact-form').style.display='none';$('contact-success').style.display='block';track('generate_lead',{method:'consultation'});}
+  if(ok){$('contact-form').style.display='none';$('contact-success').style.display='block';track('generate_lead',{method:'consultation',lead_type:'consultation'});}
   else fieldError($('cf-phone'),t('err_send_retry'));
 }
 
@@ -1533,7 +1541,7 @@ async function quizSubmit(e){
   const ok=await sendLead({type:'quiz-'+quizKind,name:name,phone:phone,note:quizSummary()});
   if(btn)btn.disabled=false;
   if(!ok){fieldError(f.phone,t('err_send_retry'));return false;}
-  track('generate_lead',{method:'quiz',category:quizKind});
+  track('generate_lead',{method:'quiz',lead_type:'quiz',category:quizKind});
   resetTurnstile();
   qel('body').innerHTML=`<div class="quiz-done"><div class="quiz-done-ic">✓</div><h3>${t('quiz_done_h')}</h3><p>${t('quiz_done_p')}</p></div>`;
   qel('back').style.visibility='hidden';
@@ -1551,11 +1559,14 @@ function startInlineQuiz(cat){
   if(QUIZZES[cat]&&!document.getElementById('cat-tabs'))startInlineQuiz(cat);   // category page
 })();
 
-/* GA: track call / WhatsApp / messenger clicks */
+/* Call and messenger clicks, one event per click. There used to be a second
+   listener near the top of the file as well, which counted every call twice
+   and filed Viber and Telegram under WhatsApp. */
 document.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;const h=a.getAttribute('href')||'';
   if(h.indexOf('tel:')===0)track('click_to_call');
   else if(/wa\.me|api\.whatsapp|whatsapp\.com/.test(h))track('click_whatsapp');
-  else if(/t\.me|viber:\/\//.test(h))track('click_messenger');
+  else if(/^viber:/i.test(h))track('click_viber');
+  else if(/t\.me\//.test(h))track('click_telegram');
 },{passive:true});
 
 /* setupFilters only wires listeners; applyI18n ends with renderCatalog(), so
