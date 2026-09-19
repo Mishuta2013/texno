@@ -2143,7 +2143,13 @@ function brandPage(cat, brand) {
     .replace('{brand}', brand).replace('{cat}', (lf(cat, 'nameGen') || CAT).toLowerCase())
     .replace('{n}', list.length).replace('{plural}', plural)
     .replace('{price}', priceText).replace('{from}', fmt(lo));
-  const intro = fill(t('brand_intro'));
+  /* People type the brand the way it sounds — "бош суми", "стиральная машина
+     либертон", "грифон" — and a page that only ever spells it in Latin letters
+     does not match. The Cyrillic spelling goes into the intro and the snippet;
+     the title keeps the Latin name, which is what the rest of the page shows. */
+  const alias = (BRANDS[brand] || {})['alias_' + L];
+  const fillA = str => fill(str.replace('{brand}', alias ? `${brand} (${alias})` : brand));
+  const intro = fillA(t('brand_intro'));
   const OG = collectionOg('brand', cat, brandSlug(brand), list, `${NAME} ${t('cat_in_sumy')}`);
   const jsonld = {
     '@context': 'https://schema.org', '@type': 'CollectionPage', name: NAME, url: abs(burl(cat, brand)), image: OG,
@@ -2192,7 +2198,7 @@ ${head({
      range pushes the whole line past what Google shows. Drop promises from the
      end until it fits — the brand, the count and the price come first. */
   desc: (() => {
-    const lead = fill(t('brand_seo_d'));
+    const lead = fillA(t('brand_seo_d'));
     const lines = catTrust(cat).slice();
     while (lines.length && `${lead} ${lines.join('. ')}.`.length > 165) lines.pop();
     return lines.length ? `${lead} ${lines.join('. ')}.` : lead;
