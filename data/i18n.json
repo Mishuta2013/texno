@@ -214,6 +214,11 @@
         "general"
       ],
       [
+        "Чи відправляєте техніку в інші міста?",
+        "Так, Новою поштою по всій Україні — будь-яку техніку з каталогу. Доставку оплачує покупець за тарифом перевізника: на велику техніку, як холодильник чи пральна машина, вона дорожча. Відправлення працює за передоплатою на картку. По Сумах доставляємо самі: 400 грн, оплата після отримання.",
+        "general"
+      ],
+      [
         "Підготуєте документи на висотні роботи для ОСББ/ЖЕКу?",
         "Так, підготуємо повний пакет документів завчасно. Наші фахівці мають посвідчення промислових альпіністів. Для кожного об’єкта оформлюємо наряд-допуск.",
         "ac"
@@ -746,12 +751,12 @@
     "hc_tank": "Гарантія на бак",
     "dl_eye": "Доставка",
     "dl_h": "Куди возимо",
-    "dl_sub": "Магазин на вул. Харківській, 2/1 — звідси розвозимо по всіх Сумах.",
+    "dl_sub": "Магазин на вул. Харківській, 2/1 — звідси розвозимо по Сумах і відправляємо Новою поштою по всій Україні.",
     "dl_1": "доставка по місту",
     "dl_2b": "Після отримання",
     "dl_2": "оплата за товар",
-    "dl_3b": "За межі Сум",
-    "dl_3": "уточнюйте у менеджера",
+    "dl_3b": "Новою поштою",
+    "dl_3": "в інші міста України, доставку оплачує покупець",
     "dl_pin": "Суми, вул. Харківська 2/1",
     "dl_map_alt": "Мапа центру Сум: райони, вулиці та орієнтири",
     "dl_1b": "400 грн",
@@ -914,7 +919,10 @@
     "f_every": "усі моделі",
     "tips_h": "На що звернути увагу, обираючи {name}",
     "dl_4b": "14 днів",
-    "dl_4": "безкоштовне повернення"
+    "dl_4": "безкоштовне повернення",
+    "dl_5b": "Передоплата",
+    "dl_5": "на картку — для відправлень поштою",
+    "trust_np": "Відправляємо Новою поштою"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1128,6 +1136,11 @@
       [
         "Можно ли вернуть технику, если передумали?",
         "Да. Любую технику можно вернуть в течение 14 дней со дня получения — бесплатно, без комиссий. Товар должен быть без следов использования, в оригинальной упаковке и полной комплектации, с чеком. Привезите его в магазин на ул. Харьковской 2/1 — деньги возвращаем сразу, полную сумму. Все условия — на странице «Возврат товара».",
+        "general"
+      ],
+      [
+        "Отправляете ли технику в другие города?",
+        "Да, Новой почтой по всей Украине — любую технику из каталога. Доставку оплачивает покупатель по тарифу перевозчика: на крупную технику, как холодильник или стиральная машина, она дороже. Отправка работает по предоплате на карту. По Сумам доставляем сами: 400 грн, оплата после получения.",
         "general"
       ],
       [
@@ -1663,12 +1676,12 @@
     "hc_tank": "Гарантия на бак",
     "dl_eye": "Доставка",
     "dl_h": "Куда возим",
-    "dl_sub": "Магазин на ул. Харьковской, 2/1 — отсюда развозим по всем Сумам.",
+    "dl_sub": "Магазин на ул. Харьковской, 2/1 — отсюда развозим по Сумам и отправляем Новой почтой по всей Украине.",
     "dl_1": "доставка по городу",
     "dl_2b": "После получения",
     "dl_2": "оплата за товар",
-    "dl_3b": "За пределы Сум",
-    "dl_3": "уточняйте у менеджера",
+    "dl_3b": "Новой почтой",
+    "dl_3": "в другие города Украины, доставку оплачивает покупатель",
     "dl_pin": "Сумы, ул. Харьковская 2/1",
     "dl_map_alt": "Карта центра Сум: районы, улицы и ориентиры",
     "dl_1b": "400 грн",
@@ -1831,7 +1844,10 @@
     "f_every": "все модели",
     "tips_h": "На что обратить внимание, выбирая {name}",
     "dl_4b": "14 дней",
-    "dl_4": "бесплатный возврат"
+    "dl_4": "бесплатный возврат",
+    "dl_5b": "Предоплата",
+    "dl_5": "на карту — для отправлений почтой",
+    "trust_np": "Отправляем Новой почтой"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -2045,6 +2061,11 @@
       [
         "Can I return an appliance if I change my mind?",
         "Yes. Any appliance can be returned within 14 days of receiving it, free of charge and with no fees. It must be unused, in its original packaging and complete, with the receipt. Bring it to the shop at 2/1 Kharkivska St. and we refund the full amount on the spot. The full terms are on the Returns page.",
+        "general"
+      ],
+      [
+        "Do you ship to other cities?",
+        "Yes — anything in the catalogue, by Nova Poshta anywhere in Ukraine. The buyer pays the carrier’s rate, which is higher for a large appliance such as a fridge or a washing machine. Parcels are sent against prepayment by card. In Sumy we deliver ourselves: 400 UAH, paid on receipt.",
         "general"
       ],
       [
@@ -2580,12 +2601,12 @@
     "hc_tank": "Tank warranty",
     "dl_eye": "Delivery",
     "dl_h": "Where we deliver",
-    "dl_sub": "The shop is at 2/1 Kharkivska St — we deliver across Sumy from there.",
+    "dl_sub": "The shop is at 2/1 Kharkivska St — we deliver across Sumy from there and ship anywhere in Ukraine with Nova Poshta.",
     "dl_1": "delivery across the city",
     "dl_2b": "On receipt",
     "dl_2": "you pay for the goods",
-    "dl_3b": "Outside Sumy",
-    "dl_3": "ask the manager",
+    "dl_3b": "Nova Poshta",
+    "dl_3": "to other cities in Ukraine, paid by the buyer",
     "dl_pin": "Sumy, 2/1 Kharkivska St",
     "dl_map_alt": "Map of central Sumy: districts, streets and landmarks",
     "dl_1b": "400 UAH",
@@ -2717,6 +2738,9 @@
     "f_every": "every model",
     "tips_h": "What to check when choosing {name}",
     "dl_4b": "14 days",
-    "dl_4": "free returns"
+    "dl_4": "free returns",
+    "dl_5b": "Prepayment",
+    "dl_5": "by card — for parcels",
+    "trust_np": "We ship with Nova Poshta"
   }
 }

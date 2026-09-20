@@ -535,7 +535,10 @@ const RETURN_POLICY = () => ({
 const SHIPPING = () => ({
   '@type': 'OfferShippingDetails',
   shippingRate: { '@type': 'MonetaryAmount', value: 400, currency: 'UAH' },
-  shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'UA' },
+  /* 400 UAH is the shop's own van around Sumy. Everywhere else goes by Nova
+     Poshta at the carrier's rate, which depends on the parcel — so it is not
+     declared here rather than declared wrong. */
+  shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'UA', addressRegion: 'UA-59' },
   deliveryTime: {
     '@type': 'ShippingDeliveryTime',
     handlingTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 1, unitCode: 'DAY' },
@@ -1704,7 +1707,7 @@ ${HEADER}
           <svg viewBox="0 0 24 24"><path d="M12 2v20M17 6.5A4 4 0 0 0 13 4h-2a3.5 3.5 0 0 0 0 7h2a3.5 3.5 0 0 1 0 7h-2a4 4 0 0 1-4-2.5"/></svg>
           <span>${esc(t('pp_cheaper'))}</span></button>
       </div>
-      <div class="pp-trust">${trustLines.map(x => `<span>${esc(x)}</span>`).join('')}<span><a href="/povernennya-tovaru/">${esc(t('trust_return'))}</a></span></div>
+      <div class="pp-trust">${trustLines.map(x => `<span>${esc(x)}</span>`).join('')}<span>${esc(t('trust_np'))}</span><span><a href="/povernennya-tovaru/">${esc(t('trust_return'))}</a></span></div>
     </div>
   </div>
   <div class="pp-cols">
