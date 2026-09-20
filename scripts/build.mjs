@@ -2761,6 +2761,25 @@ fs.writeFileSync(path.join(ROOT, 'scripts', '.og-collections.json'),
     zmishuvachi: '2032',               // Hardware > Plumbing > Plumbing Fixtures > Faucets
     dozatory: '4971'                   // Home & Garden > Bathroom Accessories > Soap & Lotion Dispensers
   };
+  /* Nova Poshta charges by size, and the shop's own figures run from 150–250 UAH
+     for a tap to 1 500 for a fridge — one flat rate would either understate the
+     big items (which Google treats as a violation) or frighten off buyers of the
+     small ones. Each item carries the group it belongs to, and Merchant Center
+     prices the groups separately. Stations are split by their own weight: a
+     4.8 kg Pecron and a 42 kg Aferiy are not the same parcel. */
+  const SHIP_TIER = {
+    zmishuvachi: 'small', dozatory: 'small', myyky: 'small', 'mikrohvylovi-pechi': 'small',
+    'varylni-poverhni': 'small', vytyazhky: 'small',
+    boylery: 'medium', 'duhovi-shafy': 'medium', 'posudomyyni-mashyny': 'medium', kondicioneri: 'medium',
+    holodylnyky: 'large', 'pralni-mashyny': 'large', komplekty: 'large'
+  };
+  const shipTier = p => {
+    if (p.category === 'zaryadni-stantsii') {
+      const w = parseFloat(String((p.specs || {}).weight || '').replace(',', '.'));
+      return w >= 20 ? 'medium' : 'small';
+    }
+    return SHIP_TIER[p.category] || 'medium';
+  };
   const xe = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]));
   /* One feed per language. Merchant Center fixes a data source's language when
      it is created and will not let it be changed afterwards, so a Ukrainian
@@ -2794,6 +2813,7 @@ ${p.photos.slice(1, 11).map(ph => `    <g:additional_image_link>${xe(abs(ph))}</
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>${GCAT[p.category] || ''}</g:google_product_category>
     <g:product_type>${xe(lf(cat, 'name'))}</g:product_type>
+    <g:shipping_label>${shipTier(p)}</g:shipping_label>
     <g:shipping><g:country>UA</g:country><g:service>${xe(t('trust_delivery_svc'))}</g:service><g:price>400 UAH</g:price></g:shipping>
   </item>`;
     }).join('\n');
