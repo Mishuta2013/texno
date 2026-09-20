@@ -2739,12 +2739,27 @@ fs.writeFileSync(path.join(ROOT, 'scripts', '.og-collections.json'),
 // Upload/point Merchant Center at https://<site>/feed.xml to list products in
 // the Shopping tab. Ukrainian copy, UAH prices, one <item> per product.
 {
-  const GCAT = {                       // Google product taxonomy ids
-    kondicioneri: '605',               // Home & Garden > Household Appliances > Climate Control > Air Conditioners
-    'pralni-mashyny': '2706',          // ... > Laundry Appliances > Washing Machines
-    holodylnyky: '689',                // ... > Kitchen Appliances > Refrigerators
-    'zaryadni-stantsii': '5710',       // Electronics > Electronics Accessories > Power > Portable Power
-    boylery: '621'                     // Home & Garden > Household Appliances > Water Heaters
+  /* Ids from Google's own taxonomy (taxonomy-with-ids.en-US.txt, 2021-09-21),
+     looked up rather than remembered: three of the five that were here pointed
+     somewhere else entirely — refrigerators were filed under "Lawn & Garden"
+     and power stations under "Hobbies & Creative Arts" — and the nine kitchen
+     categories added since had no id at all, so half the feed went out
+     uncategorised. */
+  const GCAT = {
+    kondicioneri: '605',               // Household Appliances > Climate Control Appliances > Air Conditioners
+    'pralni-mashyny': '2549',          // Household Appliances > Laundry Appliances > Washing Machines
+    holodylnyky: '686',                // Kitchen & Dining > Kitchen Appliances > Refrigerators
+    boylery: '621',                    // Household Appliances > Water Heaters
+    'zaryadni-stantsii': '1218',       // Hardware > Power & Electrical Supplies > Generators
+    komplekty: '5142',                 // Hardware > Power & Electrical Supplies > Power Inverters
+    'duhovi-shafy': '683',             // Kitchen & Dining > Kitchen Appliances > Ovens
+    'varylni-poverhni': '679',         // Kitchen & Dining > Kitchen Appliances > Cooktops
+    vytyazhky: '684',                  // Kitchen & Dining > Kitchen Appliances > Range Hoods
+    'posudomyyni-mashyny': '680',      // Kitchen & Dining > Kitchen Appliances > Dishwashers
+    'mikrohvylovi-pechi': '753',       // Kitchen & Dining > Kitchen Appliances > Microwave Ovens
+    myyky: '2757',                     // Hardware > Plumbing > Plumbing Fixtures > Sinks > Kitchen & Utility Sinks
+    zmishuvachi: '2032',               // Hardware > Plumbing > Plumbing Fixtures > Faucets
+    dozatory: '4971'                   // Home & Garden > Bathroom Accessories > Soap & Lotion Dispensers
   };
   const xe = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]));
   L = 'uk';
@@ -2767,7 +2782,8 @@ ${p.photos.slice(1, 11).map(ph => `    <g:additional_image_link>${xe(abs(ph))}</
     <g:condition>new</g:condition>
     <g:price>${p.price} UAH</g:price>
     <g:brand>${xe(p.brand)}</g:brand>
-    <g:mpn>${xe(p.series || p.slug)}</g:mpn>
+    <!-- identifier_exists=no and an mpn in the same item contradict each other,
+         and the mpn was the series name ("ISR Rotary"), not a part number. -->
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>${GCAT[p.category] || ''}</g:google_product_category>
     <g:product_type>${xe(cat.name)}</g:product_type>
