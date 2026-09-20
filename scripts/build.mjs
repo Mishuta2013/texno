@@ -2789,11 +2789,11 @@ fs.writeFileSync(path.join(ROOT, 'scripts', '.og-collections.json'),
      a Russian-speaking shopper lands on the page in their language. */
   for (const lang of ['uk', 'ru']) {
     L = lang;
-    /* g:shipping is what it costs to DELIVER, and Google prints it beside the
-       shop as "Доставка: N грн". Air conditioners used to declare the 6 000 UAH
-       installation price in this field, so the search result told every shopper
-       that delivery cost six thousand. Installation is a service, not carriage —
-       it belongs on the page, not here. */
+    /* No g:shipping here on purpose. A price in the feed overrides the account's
+       own rules, and one number cannot be right for both a 250 UAH tap and a
+       1 500 UAH fridge. Merchant Center prices the three shipping_label groups
+       separately instead. (Before that it was worse still: air conditioners
+       declared the 6 000 UAH installation price as delivery.) */
     const items = products.map(p => {
       const cat = catOf(p);
       const desc = (pdesc(p) || '').replace(/\s+/g, ' ').trim();
@@ -2814,7 +2814,6 @@ ${p.photos.slice(1, 11).map(ph => `    <g:additional_image_link>${xe(abs(ph))}</
     <g:google_product_category>${GCAT[p.category] || ''}</g:google_product_category>
     <g:product_type>${xe(lf(cat, 'name'))}</g:product_type>
     <g:shipping_label>${shipTier(p)}</g:shipping_label>
-    <g:shipping><g:country>UA</g:country><g:service>${xe(t('trust_delivery_svc'))}</g:service><g:price>400 UAH</g:price></g:shipping>
   </item>`;
     }).join('\n');
     const feed = `<?xml version="1.0" encoding="UTF-8"?>
