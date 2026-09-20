@@ -2762,20 +2762,27 @@ fs.writeFileSync(path.join(ROOT, 'scripts', '.og-collections.json'),
     dozatory: '4971'                   // Home & Garden > Bathroom Accessories > Soap & Lotion Dispensers
   };
   const xe = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]));
-  L = 'uk';
-  /* g:shipping is what it costs to DELIVER, and Google prints it beside the shop
-     as "Доставка: N грн". Air conditioners used to declare the 6 000 UAH
-     installation price in this field, so the search result told every shopper
-     that delivery cost six thousand. Installation is a service, not carriage —
-     it belongs on the page, not here. */
-  const items = products.map(p => {
-    const cat = catOf(p);
-    const desc = (p.desc_uk || '').replace(/\s+/g, ' ').trim();
-    return `  <item>
+  /* One feed per language. Merchant Center fixes a data source's language when
+     it is created and will not let it be changed afterwards, so a Ukrainian
+     file sitting in a source declared Russian stays wrong forever: the shop's
+     own feed was in exactly that state. The Russian feed carries the Russian
+     titles and descriptions the site already has, and links to /ru/ pages, so
+     a Russian-speaking shopper lands on the page in their language. */
+  for (const lang of ['uk', 'ru']) {
+    L = lang;
+    /* g:shipping is what it costs to DELIVER, and Google prints it beside the
+       shop as "Доставка: N грн". Air conditioners used to declare the 6 000 UAH
+       installation price in this field, so the search result told every shopper
+       that delivery cost six thousand. Installation is a service, not carriage —
+       it belongs on the page, not here. */
+    const items = products.map(p => {
+      const cat = catOf(p);
+      const desc = (pdesc(p) || '').replace(/\s+/g, ' ').trim();
+      return `  <item>
     <g:id>${xe(p.slug)}</g:id>
-    <g:title>${xe(p.name)}</g:title>
+    <g:title>${xe(pname(p))}</g:title>
     <g:description>${xe(desc)}</g:description>
-    <g:link>${xe(abs(`${cat.urlPrefix}/${p.slug}/`))}</g:link>
+    <g:link>${xe(abs(purl(p)))}</g:link>
     <g:image_link>${xe(abs(p.photos[0]))}</g:image_link>
 ${p.photos.slice(1, 11).map(ph => `    <g:additional_image_link>${xe(abs(ph))}</g:additional_image_link>`).join('\n')}
     <g:availability>in_stock</g:availability>
@@ -2786,22 +2793,25 @@ ${p.photos.slice(1, 11).map(ph => `    <g:additional_image_link>${xe(abs(ph))}</
          and the mpn was the series name ("ISR Rotary"), not a part number. -->
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>${GCAT[p.category] || ''}</g:google_product_category>
-    <g:product_type>${xe(cat.name)}</g:product_type>
+    <g:product_type>${xe(lf(cat, 'name'))}</g:product_type>
     <g:shipping><g:country>UA</g:country><g:service>${xe(t('trust_delivery_svc'))}</g:service><g:price>400 UAH</g:price></g:shipping>
   </item>`;
-  }).join('\n');
-  const feed = `<?xml version="1.0" encoding="UTF-8"?>
+    }).join('\n');
+    const feed = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
 <channel>
   <title>${xe(site.name)}</title>
-  <link>${xe(BASE)}</link>
-  <description>${xe('Техніка для дому у Сумах: кондиціонери, пральні машини, холодильники, зарядні станції')}</description>
+  <link>${xe(abs(pfx() + '/'))}</link>
+  <description>${xe(t('seo_home_d'))}</description>
 ${items}
 </channel>
 </rss>
 `;
-  fs.writeFileSync(path.join(DIST, 'feed.xml'), feed, 'utf8');
-  console.log(`feed.xml → ${products.length} products`);
+    const file = lang === 'uk' ? 'feed.xml' : `feed-${lang}.xml`;
+    fs.writeFileSync(path.join(DIST, file), feed, 'utf8');
+    console.log(`${file} → ${products.length} products (${lang})`);
+  }
+  L = 'uk';
 }
 
 // ---- sitemap + robots ----
