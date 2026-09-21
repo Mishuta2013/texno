@@ -2686,6 +2686,29 @@ ${injectData()}
   fs.mkdirSync(path.join(DIST, 'povernennya-tovaru'), { recursive: true });
   writePage(path.join(DIST, 'povernennya-tovaru'), returnsHtml);
   SITEMAP.push('/povernennya-tovaru/');
+
+  /* Most sales are taken by phone or in Viber, never pass through the site's
+     order form, and so never met the Google Customer Reviews opt-in. The
+     manager sends this link to every such buyer after the sale — every one,
+     not only the happy ones: choosing who gets asked is what gets a merchant
+     thrown out of the programme. Kept out of the index and the sitemap: it is
+     a step in an order, not a page anyone should land on from search. */
+  const confirmBody = fs.readFileSync(path.join(ROOT, 'templates/confirm.html'), 'utf8')
+    .replaceAll('{{PHONE_DISPLAY}}', esc(site.phoneDisplay))
+    .replaceAll('{{PHONE}}', esc(site.phone))
+    .replaceAll('{{HOURS}}', esc(site.hours));
+  const confirmHtml = `<!doctype html><html lang="uk"><head>
+${head({ title: 'Підтвердження замовлення | TexnoPlaza', desc: 'Дякуємо за покупку в TexnoPlaza. Оцініть покупку в Google — це допоможе іншим покупцям.', canonical: abs('/pidtverdzhennya/') })
+  .replace('<meta name="robots" content="max-image-preview:large">', '<meta name="robots" content="noindex, nofollow">')}
+</head><body>${GTM_NS}
+${HEADER}
+${confirmBody}
+${FOOTER}
+${injectData()}
+<script src="${av('/assets/js/main.js')}" defer></script>
+</body></html>`;
+  fs.mkdirSync(path.join(DIST, 'pidtverdzhennya'), { recursive: true });
+  writePage(path.join(DIST, 'pidtverdzhennya'), confirmHtml);
 }
 }   // ← end of buildLanguage()
 

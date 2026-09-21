@@ -948,7 +948,7 @@ function makeOrderId(){
   return `TP-${stamp}-${Math.random().toString(36).slice(2,6).toUpperCase()}`;
 }
 let gcrDone=false;
-function gcrOptIn(orderId,email){
+function gcrOptIn(orderId,email,days){
   if(gcrDone||!SITE.gcrOptIn||!SITE.gcrMerchantId||!email||!orderId)return;
   gcrDone=true;                                   // one module per page, per Google
   window.renderOptIn=function(){
@@ -958,7 +958,7 @@ function gcrOptIn(orderId,email){
         order_id:orderId,
         email:email,
         delivery_country:SITE.gcrCountry||'UA',
-        estimated_delivery_date:gcrDate(Number(SITE.gcrDeliveryDays)||5)
+        estimated_delivery_date:gcrDate(days!=null?days:(Number(SITE.gcrDeliveryDays)||5))
       });
     });
   };
@@ -979,6 +979,25 @@ function gcrOffer(orderId){
   gcrPending=orderId;
   const f=$('cb-gcr-email');if(f){f.value='';fieldError(f,'');}
   box.style.display='block';
+}
+/* /pidtverdzhennya/ — the link the manager sends after a sale made by phone or
+   in Viber. ?n= carries the manager's own order number when there is one, so
+   a survey Google later mentions can be matched to a sale; ?d= the days until
+   the buyer has the goods. Without them: a fresh number, and one day, because
+   the link normally goes out once the buyer already has the goods. */
+function gcrPageSubmit(){
+  const f=$('gcr-email');if(!f)return;
+  const em=f.value.trim();
+  const bad=em?emailProblem(em):t('err_email');
+  if(bad){fieldError(f,bad);return;}
+  fieldError(f,'');
+  const q=new URLSearchParams(location.search);
+  const n=(q.get('n')||'').trim();
+  const orderId=/^[A-Za-z0-9-]{1,40}$/.test(n)?n:makeOrderId();
+  const d=parseInt(q.get('d'),10);
+  gcrOptIn(orderId,em,d>=0&&d<=30?d:1);
+  $('gcr-form').style.display='none';$('gcr-done').style.display='block';
+  track('gcr_optin',{method:'confirm_page'});
 }
 function gcrAsk(){
   const f=$('cb-gcr-email');if(!f||!gcrPending)return;
