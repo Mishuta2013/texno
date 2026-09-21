@@ -1390,7 +1390,12 @@ fill('<!--FAQ_ITEMS-->', faqTopics() + faqItems());
 body = applyI18nStatic(body);   // bake the current language into static HTML (SEO)
 /* The logo linked to "/" on every page, so the one link everybody clicks took a
    reader of the English site to the Ukrainian home page. The map embed asked
-   Google for Ukrainian labels whatever the page was in. */
+   Google for Ukrainian labels whatever the page was in.
+   The embed in templates/body.html looks the shop up by name and address, not
+   by coordinates: a coordinate query draws a bare pin, while a place query
+   draws Google's own card — name, 5,0 ★ with the review count, and a
+   directions button. "ТехноПлаза, Харківська 2/1, Суми" still resolves if the
+   profile's long name is ever shortened. */
 body = body.replace('<a href="/" class="logo"', `<a href="${pfx()}/" class="logo"`)
   .replace('&hl=uk&', `&hl=${L}&`);
 body = subCounts(body);         // resolve {{TOTAL}}/{{AC}}/{{WM}}/{{PS}} tokens in raw markup

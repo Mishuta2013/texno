@@ -2,7 +2,7 @@
   "_readme": "Real reviews from the shop's Google Business profile, confirmed by the owner. Never write an entry here that nobody left: the section tells visitors these are real customers, and inventing one would make it a lie. Leave `items` empty rather than fill it with something plausible. `name` and `date` are optional — the card drops the author line when there is no name rather than showing a blank avatar. `rating`/`count` are the figures Google shows for the place; null skips the summary block.",
   "googleUrl": "https://www.google.com/maps/place/?q=place_id:ChIJL7q2Yr4BKUERH6aa01VlFQo",
   "rating": 5.0,
-  "count": 54,
+  "count": 58,
   "items": [
     {
       "rating": 5,
@@ -24,6 +24,6 @@
     }
   ],
   "reviewUrl": "https://g.page/r/CR-mmtNVZRUKEBM/review",
-  "_ratingSource": "Read from the place's own Google Maps page on 2026-09-06 (5,0 · 54). Re-check it now and then — the section prints it as fact.",
+  "_ratingSource": "Read from the place's own Google Maps page on 2026-09-21 (5,0 · 58). Re-check it now and then — the section prints it as fact.",
   "_urlNote": "Both links are place_id form. The long maps/place/<name>/data=… URLs Google's own share dialog produces stop resolving when the listing is renamed — the old one dropped visitors on an empty map. search.google.com/local/reviews?placeid= redirects to a search page full of ads, so it is not used either."
 }
