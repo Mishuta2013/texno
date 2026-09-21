@@ -674,6 +674,14 @@
       <div class="si"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
       <h2 class="ok-h" data-i18n="cb_ok_h">Дякуємо!</h2>
       <p data-i18n="cb_ok_p">Менеджер зателефонує вам найближчим часом.</p>
+      <!-- Shown only after an order placed without an e-mail: the second, and
+           last, chance to let Google survey this buyer. See gcrAsk(). -->
+      <div id="cb-gcr" class="cb-gcr" style="display:none">
+        <p class="cb-gcr-h" data-i18n="gcr_ask_h">Оцініть покупку в Google</p>
+        <p class="cb-gcr-p" data-i18n="gcr_ask_p">Залиште e-mail — після доставки Google надішле короткий лист із проханням оцінити замовлення. Ваша оцінка допоможе іншим покупцям.</p>
+        <div class="field"><input type="email" id="cb-gcr-email" inputmode="email" autocomplete="email" placeholder="Наприклад: name@gmail.com" data-i18n-ph="cb_email_ph" aria-label="E-mail"></div>
+        <button type="button" class="btn-submit" onclick="gcrAsk()" data-i18n="gcr_ask_btn">Погоджуюсь</button>
+      </div>
     </div>
   </div>
 </div>

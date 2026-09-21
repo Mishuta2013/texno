@@ -772,6 +772,7 @@ function openCb(kind,product,slug){
   if(w)w.style.display=product?'block':'none';
   const hp=$('cb-hp');if(hp)hp.value='';
   $('cb-form').style.display='block';$('cb-success').style.display='none';
+  const g=$('cb-gcr');if(g)g.style.display='none';
   $('cb-modal').classList.add('open');document.body.style.overflow='hidden';
   markFormStart();ensureTurnstile();
 }
@@ -966,6 +967,29 @@ function gcrOptIn(orderId,email){
   sc.async=true;sc.defer=true;
   document.body.appendChild(sc);
 }
+/* Twelve days after the survey went live Merchant Center had not received a
+   single opt-in: the e-mail field on the order form is optional, and almost
+   nobody fills it in while ordering. The thank-you screen asks once more, for
+   orders only, and only for the e-mail — the order has already been sent, so
+   leaving it blank costs nothing. Google's own dialog still asks for consent. */
+let gcrPending='';
+function gcrOffer(orderId){
+  const box=$('cb-gcr');
+  if(!box||gcrDone||!SITE.gcrOptIn||!SITE.gcrMerchantId||!orderId)return;
+  gcrPending=orderId;
+  const f=$('cb-gcr-email');if(f){f.value='';fieldError(f,'');}
+  box.style.display='block';
+}
+function gcrAsk(){
+  const f=$('cb-gcr-email');if(!f||!gcrPending)return;
+  const em=f.value.trim();
+  const bad=em?emailProblem(em):t('err_email');
+  if(bad){fieldError(f,bad);return;}
+  fieldError(f,'');
+  gcrOptIn(gcrPending,em);
+  gcrPending='';
+  $('cb-gcr').style.display='none';
+}
 
 /* Optional, so it is checked only when it holds something. A typo here must
    never cost the order — the phone is what the manager actually calls. */
@@ -998,7 +1022,8 @@ async function submitCb(){
     const pr=Number(String(window.__CB_PRICE__||'').replace(/\s/g,''));
     track('generate_lead',Object.assign({method:'callback',lead_type:window.__CB_TYPE__||'callback'},
       isOrder&&pr>0?{value:pr,currency:'UAH'}:{}));resetTurnstile();
-    if(isOrder&&em)gcrOptIn(orderId,em);}
+    if(isOrder&&em)gcrOptIn(orderId,em);
+    else if(isOrder)gcrOffer(orderId);}
   /* A browser dialog on a phone covers the form and says nothing useful. Put
      the reason under the field the visitor was last looking at. */
   else fieldError($('cb-phone'),t('err_send_retry'));

@@ -576,6 +576,10 @@ a.rev-name:hover{text-decoration:underline}
 .success .si svg{width:32px;height:32px;stroke:var(--green);fill:none;stroke-width:2.4}
 .success h4{font-size:21px;color:#fff;margin-bottom:8px}
 .success p{color:rgba(233,243,255,.7);font-size:14.5px}
+.cb-gcr{margin-top:22px;padding-top:18px;border-top:1px solid rgba(124,196,255,.18);text-align:left}
+.success .cb-gcr-h{font-family:var(--disp);font-weight:700;font-size:16px;color:#fff;margin-bottom:6px}
+.success .cb-gcr-p{font-size:13.5px;line-height:1.5;margin-bottom:12px}
+.cb-gcr .field{margin-bottom:10px}
 
 /* ============ FOOTER ============ */
 footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
