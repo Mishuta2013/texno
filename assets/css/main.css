@@ -2334,9 +2334,10 @@ body:has(.lbox.open) > div:has(iframe[src*="merchantverse"]){display:none!import
   .grid .card{contain-intrinsic-size:auto 360px}
   .card-price-row{flex-wrap:wrap;row-gap:3px;margin-bottom:9px}
   .card-price-row .cstock{font-size:10.5px}
-  .card-act{gap:6px}
+  /* two words side by side do not fit a 140px card: the buttons stack, so
+     "Написати" is always spelled out rather than left to an icon */
+  .card-act{flex-direction:column;gap:6px}
   .card-act .btn-buy{padding:9px 10px}
-  .card-act .btn-buy span{display:none}
 }
 
 /* -- search: the magnifier in the header and the field on top of the catalog panel -- */
