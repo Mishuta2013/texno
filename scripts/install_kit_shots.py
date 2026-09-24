@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 """Put generated bundle photographs into the catalogue.
 
-The shots arrive 2048x2048 with a transparent background already — the model
-cuts them out itself when the prompt asks for it — so there is nothing to
-remove, only to trim and centre. normalize() is the same one every other
+The shots arrive 2048x2048 and are meant to have a transparent background —
+but the first batch had the checkerboard painted into the pixels instead, so
+after installing, look at them on magenta and run scripts/strip_checker.py on
+any that are not really clear. normalize() is the same one every other
 product photo goes through, so a bundle sits in the grid at the same scale as
 a fridge.
 
