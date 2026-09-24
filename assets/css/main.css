@@ -2454,3 +2454,8 @@ body:has(.lbox.open) > div:has(iframe[src*="merchantverse"]){display:none!import
   .pp-thumbs::-webkit-scrollbar{display:none}
   .pp-thumb{flex:0 0 62px;height:62px;scroll-snap-align:start}
 }
+
+/* Between 561 and ~613px the auto-fill grid (270px minimum) fitted only one card
+   a row — a big phone, a phone asking for the desktop site, a narrow window —
+   and the list turned into a very long single file. Two a row up to 760px. */
+@media(min-width:561px) and (max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}}
