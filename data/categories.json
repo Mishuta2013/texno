@@ -652,7 +652,7 @@
     "install": false,
     "seoTitle": "Зарядні станції у Сумах — купити від {{PS_FROM}} грн",
     "seoDesc": "Зарядні станції у Сумах: {{PS_MODELS}} на {{PS_RANGE}} — {{PS_BRANDS}}. LiFePO₄, режим ДБЖ, заряджання від сонця.",
-    "intro": "Портативні джерела живлення від 288 до 3840 Вт·год — від компактної станції для роутера й ноутбука до домашньої електростанції, що тримає холодильник, котел і насос.",
+    "intro": "Портативні джерела живлення від 288 до 5120 Вт·год — від компактної станції для роутера й ноутбука до домашньої електростанції, що тримає холодильник, котел і насос.",
     "chips": [
       {
         "icon": "🔋",
@@ -853,8 +853,8 @@
     "seoTitle_en": "Power stations in Sumy from {{PS_FROM}} UAH",
     "seoDesc_ru": "Зарядные станции в Сумах: {{PS_MODELS}} на {{PS_RANGE}} — {{PS_BRANDS}}. LiFePO₄, режим ИБП, зарядка от солнца.",
     "seoDesc_en": "Power stations in Sumy: {{PS_MODELS}} from {{PS_RANGE}} — {{PS_BRANDS}}. LiFePO₄ cells, UPS mode, solar charging.",
-    "intro_ru": "Портативные источники питания от 288 до 3840 Вт·ч — от компактной станции для роутера и ноутбука до домашней электростанции, которая держит холодильник, котёл и насос.",
-    "intro_en": "Portable power from 288Wh to 3840Wh — from a compact unit for a router and laptop to a home power plant that carries a fridge, boiler and pump.",
+    "intro_ru": "Портативные источники питания от 288 до 5120 Вт·ч — от компактной станции для роутера и ноутбука до домашней электростанции, которая держит холодильник, котёл и насос.",
+    "intro_en": "Portable power from 288Wh to 5120Wh — from a compact unit for a router and laptop to a home power plant that carries a fridge, boiler and pump.",
     "productPrefix": {
       "uk": "Зарядна станція",
       "ru": "Зарядная станция",
@@ -4344,12 +4344,12 @@
     "seoTitle": "Інвертор з акумулятором у Сумах — від {{KT_FROM}} грн",
     "seoTitle_ru": "Инвертор с аккумулятором в Сумах — от {{KT_FROM}} грн",
     "seoTitle_en": "Inverter with battery in Sumy — kits from {{KT_FROM}} UAH",
-    "seoDesc": "Комплект інвертор + акумулятор для дому та квартири: {{KT_MODELS}} на 2,5–8 кВт·год, від {{KT_FROM}} грн. У ціні інвертор, акумулятор, дисплей і кабелі. Моделі добираємо після дзвінка. Доставка по Сумах, оплата після отримання.",
-    "seoDesc_ru": "Комплект инвертор + аккумулятор для дома и квартиры: {{KT_MODELS}} на 2,5–8 кВт·ч, от {{KT_FROM}} грн. В цене инвертор, аккумулятор, дисплей и кабели. Модели подбираем после звонка. Доставка по Сумам, оплата после получения.",
-    "seoDesc_en": "Inverter and battery as one kit for a house or a flat: {{KT_MODELS}} from 2.5 to 8 kWh, from {{KT_FROM}} UAH. Price covers inverter, battery, display and cables. Delivery in Sumy, payment on arrival.",
-    "intro": "Інвертор тримає світло в домі, акумулятор — запас, на якому воно тримається. Разом вони мають збігатися за напругою, струмом заряду й типом зв'язку: зібрані нарізно, вони або не бачать один одного, або працюють упівсили. Тут три конфігурації за потужністю та запасом енергії — від холодильника з роутером до котла з насосом. Конкретні моделі інвертора й акумулятора добираємо під ваш будинок і бюджет після дзвінка, з того, що є в наявності. У ціну входять інвертор, акумулятор, дисплей стану системи та кабелі від акумулятора до інвертора; монтаж і підключення обговорюємо окремо — залежить від будинку.",
-    "intro_ru": "Инвертор держит свет в доме, аккумулятор — запас, на котором он держится. Вместе они должны совпадать по напряжению, току заряда и типу связи: собранные порознь, они либо не видят друг друга, либо работают вполсилы. Здесь три конфигурации по мощности и запасу энергии — от холодильника с роутером до котла с насосом. Конкретные модели инвертора и аккумулятора подбираем под ваш дом и бюджет после звонка, из того, что есть в наличии. В цену входят инвертор, аккумулятор, дисплей состояния системы и кабели от аккумулятора до инвертора; монтаж и подключение обсуждаем отдельно — зависит от дома.",
-    "intro_en": "The inverter keeps the lights on; the battery is the reserve they run from. The two have to match in voltage, charge current and the way they talk to each other — bought separately they either ignore one another or work at half strength. Three configurations here, by power and by reserve. The exact models are chosen for your home after a call, from what is in stock. The price covers the inverter, the battery, the status display and the cables between them; fitting is discussed separately.",
+    "seoDesc": "Комплект інвертор + акумулятор для дому та квартири: {{KT_MODELS}} на 2,5–8 кВт·год, від {{KT_FROM}} грн — комплекти під замовлення й готова система Marstek Venus E. Доставка по Сумах, оплата після отримання.",
+    "seoDesc_ru": "Комплект инвертор + аккумулятор для дома и квартиры: {{KT_MODELS}} на 2,5–8 кВт·ч, от {{KT_FROM}} грн — комплекты под заказ и готовая система Marstek Venus E. Доставка по Сумам, оплата после получения.",
+    "seoDesc_en": "Inverter and battery for a house or a flat: {{KT_MODELS}} from 2.5 to 8 kWh, from {{KT_FROM}} UAH — built-to-order kits and the ready-made Marstek Venus E. Delivery in Sumy, payment on arrival.",
+    "intro": "Інвертор тримає світло в домі, акумулятор — запас, на якому воно тримається. Разом вони мають збігатися за напругою, струмом заряду й типом зв'язку: зібрані нарізно, вони або не бачать один одного, або працюють упівсили. Тут три комплекти під замовлення — від холодильника з роутером до котла з насосом: моделі інвертора й акумулятора для них добираємо під ваш будинок і бюджет після дзвінка, з того, що є в наявності, а в ціну входять інвертор, акумулятор, дисплей стану системи та кабелі між ними. І готова система Marstek Venus E, де інвертор і батарея вже зібрані в одному корпусі й вмикаються у звичайну розетку. Монтаж і підключення до щитка обговорюємо окремо — залежить від будинку.",
+    "intro_ru": "Инвертор держит свет в доме, аккумулятор — запас, на котором он держится. Вместе они должны совпадать по напряжению, току заряда и типу связи: собранные порознь, они либо не видят друг друга, либо работают вполсилы. Здесь три комплекта под заказ — от холодильника с роутером до котла с насосом: модели инвертора и аккумулятора для них подбираем под ваш дом и бюджет после звонка, из того, что есть в наличии, а в цену входят инвертор, аккумулятор, дисплей состояния системы и кабели между ними. И готовая система Marstek Venus E, где инвертор и батарея уже собраны в одном корпусе и включаются в обычную розетку. Монтаж и подключение к щитку обсуждаем отдельно — зависит от дома.",
+    "intro_en": "The inverter keeps the lights on; the battery is the reserve they run from. The two have to match in voltage, charge current and the way they talk to each other — bought separately they either ignore one another or work at half strength. Three kits here are built to order, by power and by reserve: the exact models are chosen for your home after a call, from what is in stock, and the price covers the inverter, the battery, the status display and the cables between them. The fourth, the Marstek Venus E, is a ready-made system with the inverter and battery in one enclosure that plugs into an ordinary socket. Fitting is discussed separately.",
     "chips": [
       {
         "icon": "⚡",
@@ -4403,6 +4403,60 @@
         "key": "fitting",
         "label_ru": "Монтаж",
         "label_en": "Fitting"
+      },
+      {
+        "label": "Резервна розетка",
+        "key": "backup_out",
+        "label_ru": "Резервная розетка",
+        "label_en": "Backup socket"
+      },
+      {
+        "label": "Ресурс батареї",
+        "key": "cycles",
+        "label_ru": "Ресурс батареи",
+        "label_en": "Battery life"
+      },
+      {
+        "label": "Корпус",
+        "key": "housing",
+        "label_ru": "Корпус",
+        "label_en": "Enclosure"
+      },
+      {
+        "label": "Робоча температура",
+        "key": "op_temp",
+        "label_ru": "Рабочая температура",
+        "label_en": "Operating temperature"
+      },
+      {
+        "label": "Зв’язок",
+        "key": "connectivity",
+        "label_ru": "Связь",
+        "label_en": "Connectivity"
+      },
+      {
+        "label": "Розширення",
+        "key": "expandable",
+        "label_ru": "Расширение",
+        "label_en": "Expansion"
+      },
+      {
+        "label": "Вага",
+        "key": "weight",
+        "label_ru": "Вес",
+        "label_en": "Weight"
+      },
+      {
+        "label": "Розміри (Д×Ш×В)",
+        "key": "dims",
+        "label_ru": "Размеры (Д×Ш×В)",
+        "label_en": "Dimensions (L×W×H)"
+      },
+      {
+        "label": "Гарантія",
+        "key": "warranty",
+        "label_ru": "Гарантия",
+        "label_en": "Warranty"
       }
     ],
     "cover": "/assets/img/covers/cat-komplekty.webp",
@@ -4415,7 +4469,7 @@
     "faq": [
       [
         "Скільки коштує комплект інвертор + акумулятор?",
-        "Від {{KT_FROM}} грн. Ціна тримається на двох цифрах: потужність інвертора вирішує, скільки техніки можна ввімкнути одночасно, а запас акумулятора — скільки вона протримається. У ціні інвертор, акумулятор, дисплей стану й кабелі між ними."
+        "Від {{KT_FROM}} грн. Ціна тримається на двох цифрах: потужність інвертора вирішує, скільки техніки можна ввімкнути одночасно, а запас акумулятора — скільки вона протримається. У комплектах під замовлення в ціні інвертор, акумулятор, дисплей стану й кабелі між ними; Marstek Venus E продається як готова система."
       ],
       [
         "Скільки техніки потягне інвертор на 4 кВт?",
@@ -4435,17 +4489,21 @@
       ],
       [
         "Що входить у ціну комплекту?",
-        "Інвертор, акумулятор, дисплей стану й кабелі між ними. Монтаж і підключення до щитка обговорюються окремо: обсяг робіт залежить від того, скільки ліній ви хочете завести на резерв."
+        "У комплектах під замовлення — інвертор, акумулятор, дисплей стану й кабелі між ними. У Marstek Venus E інвертор і батарея вже в одному корпусі, у коробці ще кабель живлення й кріплення. Монтаж і підключення до щитка обговорюються окремо: обсяг робіт залежить від того, скільки ліній ви хочете завести на резерв."
       ],
       [
-        "Чому не вказані конкретні моделі інвертора й акумулятора?",
+        "Чому в комплектах під замовлення не вказані конкретні моделі?",
         "Інвертор і акумулятор мають збігатися за напругою, струмом заряду й типом зв’язку: зібрані нарізно, вони або не бачать один одного, або працюють упівсили. Ми фіксуємо потужність, запас енергії та ціну, а моделі під ці цифри добираємо після дзвінка, коли зрозуміло, що саме треба тримати на резерві."
+      ],
+      [
+        "Чим Marstek Venus E відрізняється від комплекту під замовлення?",
+        "Venus E — готова система: інвертор на 2,5 кВт і батарея на 5,12 кВт·год уже в одному корпусі, їх не треба добирати й з’єднувати. Вона вмикається у звичайну розетку, а під час відключення живить техніку через окрему резервну розетку — до 2500 Вт. Комплект під замовлення збираємо під ваш будинок: інвертор на 4 або 6 кВт тягне більше техніки одночасно й підключається до щитка, тож на резерві лишаються самі лінії будинку."
       ]
     ],
     "faq_ru": [
       [
         "Сколько стоит комплект инвертор + аккумулятор?",
-        "От {{KT_FROM}} грн. Цена держится на двух цифрах: мощность инвертора решает, сколько техники можно включить одновременно, а запас аккумулятора — сколько она продержится. В цене инвертор, аккумулятор, дисплей состояния и кабели между ними."
+        "От {{KT_FROM}} грн. Цена держится на двух цифрах: мощность инвертора решает, сколько техники можно включить одновременно, а запас аккумулятора — сколько она продержится. В комплектах под заказ в цене инвертор, аккумулятор, дисплей состояния и кабели между ними; Marstek Venus E продаётся как готовая система."
       ],
       [
         "Сколько техники потянет инвертор на 4 кВт?",
@@ -4465,17 +4523,21 @@
       ],
       [
         "Что входит в цену комплекта?",
-        "Инвертор, аккумулятор, дисплей состояния и кабели между ними. Монтаж и подключение к щитку обсуждаются отдельно: объём работ зависит от того, сколько линий вы хотите завести на резерв."
+        "В комплектах под заказ — инвертор, аккумулятор, дисплей состояния и кабели между ними. В Marstek Venus E инвертор и батарея уже в одном корпусе, в коробке ещё кабель питания и крепления. Монтаж и подключение к щитку обсуждаются отдельно: объём работ зависит от того, сколько линий вы хотите завести на резерв."
       ],
       [
-        "Почему не указаны конкретные модели инвертора и аккумулятора?",
+        "Почему в комплектах под заказ не указаны конкретные модели?",
         "Инвертор и аккумулятор должны совпадать по напряжению, току заряда и типу связи: собранные порознь, они либо не видят друг друга, либо работают вполсилы. Мы фиксируем мощность, запас энергии и цену, а модели под эти цифры подбираем после звонка, когда понятно, что именно нужно держать на резерве."
+      ],
+      [
+        "Чем Marstek Venus E отличается от комплекта под заказ?",
+        "Venus E — готовая система: инвертор на 2,5 кВт и батарея на 5,12 кВт·ч уже в одном корпусе, их не нужно подбирать и соединять. Она включается в обычную розетку, а во время отключения питает технику через отдельную резервную розетку — до 2500 Вт. Комплект под заказ собираем под ваш дом: инвертор на 4 или 6 кВт тянет больше техники одновременно и подключается к щитку, поэтому на резерве остаются сами линии дома."
       ]
     ],
     "faq_en": [
       [
         "How much does an inverter and battery kit cost?",
-        "From {{KT_FROM}} UAH. Two numbers set the price: the inverter power decides how much can run at once, the battery reserve decides how long it runs. The price covers the inverter, the battery, the status display and the cables between them."
+        "From {{KT_FROM}} UAH. Two numbers set the price: the inverter power decides how much can run at once, the battery reserve decides how long it runs. For the built-to-order kits the price covers the inverter, the battery, the status display and the cables between them; the Marstek Venus E comes as a finished system."
       ],
       [
         "What will a 4 kW inverter run?",
@@ -4495,11 +4557,15 @@
       ],
       [
         "What does the price include?",
-        "The inverter, the battery, the status display and the cables between them. Fitting and wiring into the consumer unit are agreed separately: the work depends on how many circuits you want on backup."
+        "For the built-to-order kits: the inverter, the battery, the status display and the cables between them. The Marstek Venus E has the inverter and battery in one enclosure, with a power cable and fixings in the box. Fitting and wiring into the consumer unit are agreed separately: the work depends on how many circuits you want on backup."
       ],
       [
-        "Why are no specific inverter and battery models listed?",
+        "Why do the built-to-order kits name no specific models?",
         "An inverter and a battery have to agree on voltage, charge current and the way they talk to each other; picked apart from one another they either do not communicate or run at half strength. We fix the power, the reserve and the price, then choose models to match those figures after a call, once it is clear what needs to stay on."
+      ],
+      [
+        "How is the Marstek Venus E different from a built-to-order kit?",
+        "The Venus E is a finished system: a 2.5 kW inverter and a 5.12 kWh battery already share one enclosure, so there is nothing to match up or connect. It plugs into an ordinary socket and, during a power cut, runs appliances from its own backup socket — up to 2500 W. A built-to-order kit is put together for your home: a 4 or 6 kW inverter runs more at once and is wired into the consumer unit, so the house circuits themselves stay on backup."
       ]
     ],
     "group": "home"

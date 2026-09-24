@@ -171,5 +171,19 @@
     "en": "Bosch is a German name: Robert Bosch founded the company in Stuttgart in 1886, and its first household appliance, a refrigerator, came out in 1933. Bosch appliances are made by BSH Hausgeräte, Europe's leading home appliance manufacturer and wholly part of the Bosch Group since 2015. For buyers who value a long track record in home appliances; its washing machines run on the quiet EcoSilence Drive inverter motor.",
     "alias_uk": "Бош",
     "alias_ru": "Бош"
+  },
+  "Bluetti": {
+    "uk": "Bluetti — марка компанії PowerOak, одна з найвідоміших у зарядних станціях і домашніх системах резервного живлення. Станції на батареях LiFePO₄ з фірмовим режимом Power Lifting для нагрівальних приладів, швидким заряджанням від мережі й керуванням через застосунок. Гарантія виробника — 5 років.",
+    "ru": "Bluetti — марка компании PowerOak, одна из самых известных в зарядных станциях и домашних системах резервного питания. Станции на батареях LiFePO₄ с фирменным режимом Power Lifting для нагревательных приборов, быстрой зарядкой от сети и управлением через приложение. Гарантия производителя — 5 лет.",
+    "en": "Bluetti is PowerOak's brand and one of the best-known names in power stations and home backup systems. Its stations run on LiFePO₄ batteries, with a Power Lifting mode for heating appliances, fast mains charging and app control. The manufacturer's warranty is 5 years.",
+    "alias_uk": "Блюетті",
+    "alias_ru": "Блюэтти"
+  },
+  "Marstek": {
+    "uk": "Marstek — виробник домашніх систем зберігання енергії: батарей LiFePO₄ з вбудованим інвертором, що вмикаються у звичайну розетку й працюють разом із сонячною станцією. Корпуси із захистом IP65, керування через застосунок, гарантія на батарею — 10 років.",
+    "ru": "Marstek — производитель домашних систем хранения энергии: батарей LiFePO₄ со встроенным инвертором, которые включаются в обычную розетку и работают вместе с солнечной станцией. Корпуса с защитой IP65, управление через приложение, гарантия на батарею — 10 лет.",
+    "en": "Marstek makes home energy storage: LiFePO₄ batteries with a built-in inverter that plug into an ordinary socket and work alongside a solar system. IP65 enclosures, app control and a 10-year battery warranty.",
+    "alias_uk": "Марстек",
+    "alias_ru": "Марстек"
   }
 }

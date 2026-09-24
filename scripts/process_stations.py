@@ -24,6 +24,10 @@ from photolib import prepare, normalize, content_bbox            # noqa: E402
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = ("C:/Users/Dima/AppData/Local/Temp/claude/C--Claude-Code/"
        "f7237fd4-d55b-4f73-91cd-b76f1fcaa743/scratchpad/stations/станции")
+# The September 2026 additions came as D:\доп.товар.rar; their folders are
+# listed by absolute path below, which os.path.join lets win over SRC.
+SRC2 = ("C:/Users/Dima/AppData/Local/Temp/claude/C--Claude-Code/"
+        "ef835708-7464-4b7e-ad44-5c8c051f9262/scratchpad/dop/доп.товар")
 OUTDIR = os.path.join(ROOT, "assets", "img", "products")
 FULL = (900, 900)
 THUMB = (400, 400)
@@ -124,7 +128,63 @@ u"Зарядна станція Fossibot F2400 2400W 2048Wh": ("fossibot-f2400-2
     "651889948.webp",                 # carried by hand
     "651889950.webp",                 # solar charging
     "651889952.webp"]),               # camping
+
+# ---- September 2026 additions (D:\доп.товар.rar) ----
+SRC2 + "/Станції/Зарядна станція Bluetti AC180P  1800 Вт  1440 Вт⋅год  LiFePO4 (PB931255)": ("bluetti-ac180p-1800w-1440wh", [
+    "374537438.webp",            # 3/4, both Schuko sockets
+    "374537437.webp",            # straight front, port panel
+    "374537439.webp",            # 3/4 other side
+    "374537440.webp",            # from above, handles
+    "374537441.webp",            # rear, AC and solar inputs
+    "374537442.webp",            # top, wireless charging pad
+    "374537443.webp",            # outdoors, phone charging
+    "374537444.webp"]),          # camping by the car
+
+SRC2 + "/Станції/Зарядная станция универсальная Bluetti AC70P 864Wh 1000W": ("bluetti-ac70p-1000w-864wh", [
+    "442756211.webp",            # 3/4
+    "442756209.webp",            # straight front, port panel
+    "442756212.webp",            # 3/4 other side
+    "442756213.webp",            # from above
+    "442756215.webp",            # 3/4, side port
+    "442756216.webp"]),          # top, carry handle
+
+SRC2 + "/Станції/Зарядная станция Bluetti Premium 200 V2, 2700 Вт, 2073 Втч": ("bluetti-premium-200-v2-2700w-2073wh", [
+    "PR200V2_r414-a7.jpg",       # 3/4
+    "PR200V2-2_if09-mq.jpg",     # straight front: 2 USB-C 100 W, 2 USB-A, Schuko pair
+    "PR200V2-1_bnsv-3g.jpg",     # 3/4 other side
+    "PR200V2-4_6cqo-ks.jpg",     # 3/4 from above, side switch
+    "PR200V2-5_c4jb-oq.jpg",     # 3/4 from above, other side
+    "PR200V2-3_8xh2-uz.jpg"]),   # from above, handles
+
+SRC2 + "/Станції/Зарядна станція Oukitel P1500E Plus (P1500EPLUS)": ("oukitel-p1500e-plus-1800w-1536wh", [
+    "564592863.webp",            # 3/4
+    "564592859.webp",            # straight front, four sockets
+    "564592871.webp",            # 3/4, socket covers open
+    "565783001.webp"]),          # 3/4 rear, 1536Wh marking
+
+SRC2 + "/Станції/Зарядна станція Oukitel P5000E Plus  3600 Вт  5120 Вт⋅год  LiFePO4": ("oukitel-p5000e-plus-3600w-5120wh", [
+    "683732079.webp",            # 3/4, covers open: five Schuko sockets
+    "683732074.webp",            # straight front
+    "683732077.webp",            # 3/4 from above, 5120Wh marking
+    "683732076.webp",            # from above, display and handles
+    "683732075.webp",            # tilted on its wheels, handle out
+    "683732078.webp"]),          # rear, fans and input panel
+    # The archive's Oukitel P800 folder is the model already on the site
+    # (oukitel-p800-800w-512wh, same price); its photos stay as they are.
 }
+
+# The Marstek Venus E is a stationary all-in-one backup system and lives in the
+# kits category, but its photos go through the same rules.
+PLAN[SRC2 + "/Резеревне живлення/Система зберігання енергії MARSTEK VENUS-E (2500 Ват, 5120 Ватгод)"] = (
+    "marstek-venus-e-2500w-5120wh", [
+    "1.1_a3444687-64a0-4ed7-8ed9-9f9966428883.jpg",   # 3/4 front
+    "venus-e__2_1_.jpg",                               # front
+    "2_887f92e6-1230-4964-a8f3-27e9a238f4b2.jpg",      # rear, cooling fins
+    "3-1_96bb742d-184c-4a05-bb4b-e81cff882a8d.jpg",    # side panel: backup socket, inputs
+    "3_1e582f67-42be-4b5d-8470-e75056ac50d8.jpg",      # side panel, closer
+    "4_bfe1225d-e728-4a59-bb83-ad1df8236183.jpg",      # outdoors, plugged into a wall socket
+    "6_73306fd3-8851-4c2d-9c8d-12621eac005c.jpg",      # indoors, one cable
+    "5_61282f7a-005a-46d9-9870-9bab1ef13224.jpg"])     # app, electricity price chart
 
 
 def main(only=None):
@@ -133,7 +193,13 @@ def main(only=None):
         if only and slug not in only:
             continue
         d = os.path.join(SRC, folder)
-        avail = set(os.listdir(d)) if os.path.isdir(d) else set()
+        # The sources live in session scratchpads that do not outlast the
+        # session. Without this, a bare re-run emptied every product whose
+        # folder was gone before noticing there was nothing to rebuild it from.
+        if not os.path.isdir(d):
+            print("%-34s SKIPPED: source folder not found" % slug)
+            continue
+        avail = set(os.listdir(d))
         names = [f if isinstance(f, str) else f[0] for f in files]
         missing = [f for f in names if f not in avail]
         extra = sorted(avail - set(names))
