@@ -243,7 +243,9 @@ function getFiltered(){
   // exist — reading them blindly threw and left the catalogue unrendered
   const si=$('search-input');
   const q=si?si.value.toLowerCase().trim():'';
-  if(q) list=list.filter(p=>p.name.toLowerCase().includes(q)||p.brand.toLowerCase().includes(q)||p.series.toLowerCase().includes(q));
+  /* The same matcher as the search in the catalog panel, so "самсунг" or
+     "пральну машину" finds here what it finds there; hits come back best first. */
+  if(q) list=searchProducts(q,list)||list;
   if(activeBrand!=='all') list=list.filter(p=>p.brand===activeBrand);
   if(activeType==='inverter') list=list.filter(p=>p.inverter);
   if(activeType==='heatpump') list=list.filter(p=>p.heatpump);
@@ -275,7 +277,7 @@ function getFiltered(){
   if(sort==='price-asc')list.sort((a,b)=>a.price-b.price);
   else if(sort==='price-desc')list.sort((a,b)=>b.price-a.price);
   else if(sort==='area-asc')list.sort((a,b)=>(a.area||0)-(b.area||0));
-  else list=mixedOrder(list);            // default: pinned first, then categories interleaved
+  else if(!q) list=mixedOrder(list);     // default: pinned first, then categories interleaved; a search keeps its relevance order
   return list;
 }
 /* Every language lives in its own page tree, so a link built on /ru/ has to stay
@@ -298,13 +300,14 @@ function cardHTML(p){
   const favOn=FAV.includes(p.slug)?'on':'';
   const cmpOn=CMP.includes(p.slug)?'on':'';
   const sq=JSON.stringify(p.slug).replace(/"/g,'&quot;');
+  /* Mirrors card() in build.mjs: the name's link covers the whole card, both
+     ways to buy share one row, "в наявності" sits by the price. */
   return`<div class="card">
-    <a class="card-img" href="${url}">
+    <a class="card-img" href="${url}" tabindex="-1">
       ${badge}
-      <span class="cstock"><i></i>${t('c_instock')}</span>
       <button class="card-fav ${favOn}" onclick="event.preventDefault();event.stopPropagation();toggleFav(${sq})" aria-label="fav"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
       <button class="card-cmp ${cmpOn}" title="${t('cmp_add')}" aria-label="${t('cmp_add')}" onclick="event.preventDefault();event.stopPropagation();toggleCmp(${sq})"><svg viewBox="0 0 24 24"><path d="M3 6h7M14 6h7M6.5 6v12M17.5 6v12M3 12l3.5-6 3.5 6a3.5 3.5 0 0 1-7 0zM14 12l3.5-6 3.5 6a3.5 3.5 0 0 1-7 0z"/></svg><span class="cmp-lbl">${t('cmp_add')}</span></button>
-      <img src="${p.thumb}" alt="${pnameJS(p)}" loading="lazy" width="400" height="300">
+      <img src="${p.thumb}" alt="${pnameJS(p)}" loading="lazy" width="400" height="400">
     </a>
     <div class="card-body">
       <a class="card-brand" href="${langPfx()}${(catOf(p).urlPrefix||'')}/${brandSlugJS(p.brand)}/">${p.brand}</a>
@@ -312,18 +315,18 @@ function cardHTML(p){
       ${edge}
       <div class="card-specs">${catChipsJS(p)}</div>
       <div class="card-foot">
-        <div class="card-price">${fmt(p.price)} <small>${t('u_uah')}</small></div>
+        <div class="card-price-row"><div class="card-price">${fmt(p.price)} <small>${t('u_uah')}</small></div>
+          <span class="cstock"><i></i>${t('c_instock')}</span></div>
         <div class="card-act">
-          <div class="row2">
-            <button class="btn-order" onclick="openOrder(&quot;${p.slug}&quot;)">${t('c_order')}</button>
-            <a class="btn-det" href="${url}">${t('c_det')}</a>
-          </div>
-          <button class="btn-buy" onclick="openQbuy(event,&quot;${p.slug}&quot;)"><svg viewBox="0 0 24 24"><path d="M3 3h2l2 12h10l2-8H6"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg>${t('c_buy')}</button>
+          <button class="btn-order" type="button" onclick="openOrder(&quot;${p.slug}&quot;)">${t('c_order')}</button>
+          <button class="btn-buy" type="button" title="${gEsc(t('c_buy'))}" aria-label="${gEsc(t('c_buy'))}" onclick="openQbuy(event,&quot;${p.slug}&quot;)">${BUY_ICON}<span>${t('c_buy_s')}</span></button>
         </div>
       </div>
     </div>
   </div>`;
 }
+// the chat bubble on the "1 клік" button; build.mjs carries the same one
+const BUY_ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.6a8.4 8.4 0 0 1-12.3 7.4L3.5 20.5l1.6-4.5a8.4 8.4 0 1 1 15.4-4.4z"/><path d="M8.5 11.8h.01M12 11.8h.01M15.5 11.8h.01"/></svg>';
 /* The grid used to be written in one go. At 127 products that was already a
    lot of DOM; at 269 it is nine thousand nodes and a long layout on a phone
    before anything is on screen, and nobody scrolls past the fortieth card
@@ -398,13 +401,101 @@ function renderCatalog(){
   const rc=$('results-count'); if(rc) setResultCount(rc,list.length,base);
   const el=catalogSentinel(); if(el&&pageIO)pageIO.unobserve(el);
   pageList=list; pageShown=0; grid.innerHTML='';
+  renderFilterState(list.length);
   if(!list.length){
-    grid.innerHTML=`<div class="no-results"><p>${t('no_res_t')}</p><span>${t('no_res_s')}</span></div>`;
+    grid.innerHTML=`<div class="no-results"><p>${t('no_res_t')}</p><span>${t('no_res_s')}</span>`
+      +`<button type="button" class="btn-reset" onclick="resetFilters()">${t('reset')}</button></div>`;
     if(el){el.hidden=true;el.innerHTML='';}
     return;
   }
   appendPage();
 }
+/* What is switched on, said in one line above the grid: a chip per choice that
+   is not "all", each with a cross that undoes only that choice. Read straight
+   from the buttons rather than from the dozen active* variables, so a filter
+   added later shows up here without anyone remembering to wire it. The same
+   count goes on the phone's "Фільтри" button and on the sheet's "Показати". */
+function activeFilterButtons(){
+  const box=$('filters'); if(!box) return [];
+  const out=[];
+  box.querySelectorAll('.filter-group').forEach(g=>{
+    const row=g.closest('.frow');
+    if(row&&row.style.display==='none') return;
+    const b=g.querySelector('.fbtn.active'); if(!b||b.style.display==='none') return;
+    const fg=FILTER_GROUPS.find(([id])=>id===g.id);
+    const attr=fg?fg[1]:'gv';
+    const v=b.dataset[attr];
+    if(v===undefined||v==='all') return;
+    out.push({label:b.textContent.trim(),all:g.querySelector(`.fbtn[data-${attr}="all"]`)});
+  });
+  return out;
+}
+function renderFilterState(n){
+  const chips=$('fchips');
+  const on=activeFilterButtons();
+  const si=$('search-input'); const q=si?si.value.trim():'';
+  const count=on.length+(q?1:0);
+  if(chips){
+    const x='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg>';
+    chips.innerHTML=on.map((f,i)=>`<button type="button" class="fchip" data-fi="${i}">${gEsc(f.label)}${x}</button>`).join('')
+      +(q?`<button type="button" class="fchip" data-fq="1">«${gEsc(q)}»${x}</button>`:'')
+      +(count>1?`<button type="button" class="fchip fchip-all" data-fall="1">${gEsc(t('f_clear'))}</button>`:'');
+    chips.hidden=!count;
+    chips.onclick=e=>{
+      const c=e.target.closest('.fchip'); if(!c) return;
+      if(c.dataset.fall){resetFilters();return;}
+      if(c.dataset.fq){if(si)si.value='';renderCatalog();return;}
+      /* press the group's own "all" button, so its handler resets the state */
+      const f=on[+c.dataset.fi]; if(f&&f.all) f.all.click();
+    };
+  }
+  const badge=$('fopen-n'); if(badge){badge.textContent=count;badge.hidden=!count;}
+  /* "Показати 0" asked to be pressed for nothing; say so instead */
+  const go=$('fsheet-n'); if(go){
+    const btn=go.closest('.fsheet-go'), lbl=btn&&btn.querySelector('span');
+    if(lbl) lbl.textContent=n?t('f_show'):t('no_res_t');
+    go.textContent=n||'';
+    if(btn) btn.classList.toggle('is-empty',!n);
+  }
+}
+/* On a phone the filter panel is a sheet from the bottom, opened by the
+   "Фільтри" button in the bar above the grid. On a wide screen the panel is
+   always on the page, and the same button just brings it back into view. */
+function openFilters(){
+  const f=$('filters'); if(!f) return;
+  if(!matchMedia('(max-width:760px)').matches){
+    const y=f.getBoundingClientRect().top+scrollY-90;
+    scrollTo({top:Math.max(0,y),behavior:'instant'});
+    return;
+  }
+  f.classList.add('open'); document.documentElement.classList.add('fsheet-on');
+  const x=f.querySelector('.fsheet-x'); if(x) x.focus({preventScroll:true});
+}
+function closeFilters(){
+  const f=$('filters'); if(!f||!f.classList.contains('open')) return;
+  f.classList.remove('open'); document.documentElement.classList.remove('fsheet-on');
+  const r=$('results-bar');
+  /* back to the top of the grid, where the new result starts */
+  if(r){const y=r.getBoundingClientRect().top+scrollY-70; if(y<scrollY) scrollTo({top:Math.max(0,y),behavior:'instant'});}
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeFilters();});
+/* The pinned bar sits right under the sticky header, whose height changes with
+   the breakpoint and with the font once it loads. */
+(function headerHeightVar(){
+  const h=$('header'); if(!h) return;
+  const set=()=>document.documentElement.style.setProperty('--hdr-h',h.offsetHeight+'px');
+  set(); addEventListener('resize',set,{passive:true}); addEventListener('load',set);
+})();
+/* The pinned bar shows its "Фільтри" button on a wide screen only once the
+   panel it points back to has scrolled away. */
+(function watchFilterPanel(){
+  const f=$('filters'), r=$('results-bar');
+  if(!f||!r||!('IntersectionObserver' in window)) return;
+  new IntersectionObserver(es=>{
+    const e=es[0];
+    r.classList.toggle('rb-away',!e.isIntersecting&&e.boundingClientRect.top<0);
+  },{rootMargin:'-80px 0px 0px 0px'}).observe(f);
+})();
 /* The result count rewrote itself in place, so a filter that took the grid
    from 52 models to 9 looked like nothing had happened. Count to the new
    figure instead: long enough to notice, short enough that nobody waits to
@@ -478,7 +569,9 @@ function renderGenericFilters(cat){
     }
     if(opts.length<2) return;                       // one option filters nothing
     const cur=activeGen[f.key]||'all';
-    if(shown) html+='<div class="fdiv"></div>';
+    /* every group names itself — "Всі · No Frost · Інверторний" said nothing
+       about what it chose between */
+    if(shown) html+='<div class="fdiv"></div><span class="flabel fl-sub">'+gEsc(lfJS(f,'label'))+'</span>';
     else html+='<span class="flabel">'+gEsc(lfJS(f,'label'))+'</span>';
     shown++;
     html+='<div class="filter-group" data-gen="'+gEsc(f.key)+'" data-genidx="'+fi+'">'
@@ -497,8 +590,11 @@ function onGenericClick(e){
   activeGen[g.dataset.gen]=b.dataset.gv;
   renderCatalog();
 }
+/* Each hand-written chip row and the data-* attribute its buttons carry. The
+   generic rows (data-gv) are found by their own attribute. */
+const FILTER_GROUPS=[['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth'],['vol-filters','vol'],['height-filters','height'],['tech-filters','tech'],['cap-filters','cap'],['pw-filters','pw'],['bvol-filters','bvol'],['heat-filters','heat']];
 function setupFilters(){
-  [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth'],['vol-filters','vol'],['height-filters','height'],['tech-filters','tech'],['cap-filters','cap'],['pw-filters','pw'],['bvol-filters','bvol'],['heat-filters','heat']].forEach(([gid,attr])=>{
+  FILTER_GROUPS.forEach(([gid,attr])=>{
     const g=$(gid); if(!g) return;
     g.addEventListener('click',e=>{const b=e.target.closest('.fbtn');if(!b)return;const v=b.dataset[attr];if(v===undefined)return;
       g.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');
@@ -553,7 +649,7 @@ function renderPriceFilters(){
 }
 function setActive(gid,attr,val){$(gid).querySelectorAll('.fbtn').forEach(b=>b.classList.toggle('active',b.dataset[attr]===val));}
 function resetFilters(){activeBvol=activeHeat=activeCap=activePw=activeBrand=activeArea=activeType=activePrice=activeLoad=activeDepth=activeVol=activeHeight=activeTech='all';
-  [['brand-filters','brand'],['area-filters','area'],['type-filters','type'],['price-filters','price'],['load-filters','load'],['depth-filters','depth'],['vol-filters','vol'],['height-filters','height'],['tech-filters','tech'],['cap-filters','cap'],['pw-filters','pw'],['bvol-filters','bvol'],['heat-filters','heat']].forEach(([g,a])=>{if($(g))setActive(g,a,'all');});
+  FILTER_GROUPS.forEach(([g,a])=>{if($(g))setActive(g,a,'all');});
   const si2=$('search-input'),ss=$('sort-select');
   if(si2)si2.value='';if(ss)ss.value='default';activeGen={};
   renderBrandFilters();renderPriceFilters();renderGenericFilters(window.__CATALOG_CAT__);
@@ -562,6 +658,8 @@ function resetFilters(){activeBvol=activeHeat=activeCap=activePw=activeBrand=act
 function switchCat(cat){
   if(cat!=='all'&&!window.__CATS__[cat])return;
   window.__CATALOG_CAT__=cat;
+  // a grid of air conditioners keeps the wide photo frame (CSS keys on this)
+  const grd=$('catalog-grid'); if(grd) grd.dataset.cat=cat==='all'?'':cat;
   document.querySelectorAll('#cat-tabs .ctab').forEach(b=>b.classList.toggle('active',b.dataset.cat===cat));
   const ac=cat==='kondicioneri';
   ['frow-area'].forEach(id=>{const el=$(id);if(el)el.style.display=ac?'':'none';});
@@ -1137,7 +1235,11 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.class
     panel.classList.add('in');
     /* Focus goes into the panel only for a keyboard: after a mouse click it left
        a ring on the first shelf while the pointer was already showing another. */
-    if(keyboard){
+    /* The magnifier in the header opens this same panel to type into. */
+    if(t&&t.hasAttribute('data-cpsearch')){
+      const q=document.getElementById('cp-q');
+      if(q){q.focus({preventScroll:true});q.select();}
+    }else if(keyboard){
       const f=wide()?panel.querySelector('.cp-item.is-on'):panel.querySelector('.cp-close');
       if(f)f.focus({preventScroll:true});
     }
@@ -1174,6 +1276,108 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.class
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden)close(true);});
   addEventListener('scroll',()=>{if(!panel.hidden)place();},{passive:true});
   addEventListener('resize',()=>{if(!panel.hidden)place();});
+})();
+/* ============ SEARCH ============
+   One matcher for the catalog panel and for the box above the grid. Everything
+   is lowercased and cut to letters and digits, so "Gunter&Hauer", "GC-B509" and
+   "gc b509" all compare the same way; each word of the query has to be found
+   somewhere in the product's name, brand, Cyrillic brand spelling, series or its
+   category's name in any of the three languages. A word longer than four letters
+   loses its last two, so the Ukrainian and Russian endings stop mattering:
+   "пральну машину" finds "Пральна машина", "холодильники" finds "Холодильник". */
+const srNorm=s=>String(s==null?'':s).toLowerCase().replace(/ё/g,'е').replace(/[’'`ʼ]/g,'').replace(/[^\p{L}\p{N}]+/gu,' ').trim();
+/* brands that brands.json has no Cyrillic spelling for */
+const SR_ALIAS_EXTRA={LG:'лж элджи елджі',TCL:'тцл тісіел',ALLPOWERS:'олпауерс алпауерс',Aferiy:'аферій аферий',Ctolity:'ктоліті'};
+let SR_INDEX=null;
+function srIndex(){
+  if(SR_INDEX)return SR_INDEX;
+  const ba=window.__BALIAS__||{};
+  SR_INDEX=PRODUCTS.map((p,i)=>{
+    const c=CATS[p.category]||{}, pre=c.productPrefix||{};
+    const head=srNorm(pnameJS(p)+' '+p.brand);
+    const txt=srNorm([pnameJS(p),p.name,p.brand,ba[p.brand],SR_ALIAS_EXTRA[p.brand],p.series,c.name,c.name_ru,c.name_en,pre.uk,pre.ru,pre.en].filter(Boolean).join(' '));
+    return {p,i,head,txt,cmp:txt.replace(/ /g,'')};
+  });
+  return SR_INDEX;
+}
+const srTokens=q=>srNorm(q).split(' ').filter(Boolean)
+  .map(w=>/^\p{L}{5,}$/u.test(w)?w.slice(0,Math.max(4,w.length-2)):w);
+const srEsc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+function srScore(e,toks){
+  let s=0;
+  for(const tk of toks){
+    if(!e.txt.includes(tk)&&!e.cmp.includes(tk))return -1;
+    const start=new RegExp('(^| )'+srEsc(tk));
+    // the start of a word in the name or brand counts most, a category-name hit least
+    s+=start.test(e.head)?3:e.head.includes(tk)?2:start.test(e.txt)?1.5:1;
+  }
+  return s;
+}
+/* Products matching q, best first, limited to `pool` when given; null for an
+   empty query. A tie keeps catalogue order — by price it put the soap
+   dispensers first for "Gunter&Hauer", ahead of every oven and hob. */
+function searchProducts(q,pool){
+  const toks=srTokens(q); if(!toks.length)return null;
+  const only=pool?new Set(pool):null;
+  return srIndex().filter(e=>!only||only.has(e.p)).map(e=>[e,srScore(e,toks)]).filter(x=>x[1]>=0)
+    .sort((a,b)=>b[1]-a[1]||a[0].i-b[0].i).map(x=>x[0].p);
+}
+(function catalogSearch(){
+  const inp=$('cp-q'), box=$('cp-results');
+  if(!inp||!box)return;
+  const body=box.parentNode.querySelector('.cp-body');
+  const allUrl=q=>langPfx()+'/?q='+encodeURIComponent(q)+'#catalog';
+  let timer=0, last='';
+  function paint(){
+    const q=inp.value.trim();
+    if(q===last)return; last=q;
+    if(!q){box.hidden=true;box.innerHTML='';if(body)body.hidden=false;return;}
+    const hits=searchProducts(q)||[];
+    if(body)body.hidden=true; box.hidden=false;
+    if(!hits.length){box.innerHTML=`<p class="sr-none">${gEsc(t('sr_none'))}</p>`;return;}
+    /* the categories the hits fall into, in catalogue order — a way into the
+       whole shelf with the same words already applied */
+    const byCat={}; hits.forEach(p=>{byCat[p.category]=(byCat[p.category]||0)+1;});
+    const order=Object.keys(CATS);
+    const cats=Object.entries(byCat).sort((a,b)=>order.indexOf(a[0])-order.indexOf(b[0])).slice(0,4).map(([k,n])=>{
+      const c=CATS[k]||{};
+      return `<a class="sr-cat" href="${langPfx()}${c.urlPrefix}/?q=${encodeURIComponent(q)}">${gEsc(lfJS(c,'name'))} <em>${n}</em></a>`;
+    }).join('');
+    box.innerHTML=(cats?`<p class="cp-h">${gEsc(t('sr_cats'))}</p><div class="sr-cats">${cats}</div>`:'')
+      +`<p class="cp-h">${gEsc(t('sr_prods'))}</p><div class="sr-list">`
+      +hits.slice(0,8).map(p=>{const c=CATS[p.category]||{};
+        return `<a class="sr-item" href="${productUrl(p)}"><img src="${gEsc(p.thumb)}" alt="" width="56" height="56" loading="lazy" decoding="async">`
+          +`<span class="sr-txt"><span class="sr-name">${gEsc(pnameJS(p))}</span><span class="sr-meta">${gEsc(lfJS(c,'name'))}</span></span>`
+          +`<span class="sr-price">${fmt(p.price)} <small>${gEsc(t('u_uah'))}</small></span></a>`;}).join('')
+      +`</div><a class="sr-all" href="${allUrl(q)}">${gEsc(t('sr_all'))} <b>${hits.length}</b> <span aria-hidden="true">→</span></a>`;
+  }
+  inp.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(paint,90);});
+  /* Enter opens the only hit, or every hit on the catalogue page. */
+  inp.addEventListener('keydown',e=>{
+    if(e.key==='ArrowDown'){const a=box.querySelector('a');if(a){e.preventDefault();a.focus();}return;}
+    if(e.key!=='Enter')return;
+    const q=inp.value.trim(); if(!q)return;
+    e.preventDefault();
+    const hits=searchProducts(q)||[];
+    track('search',{search_term:q});
+    location.href=hits.length===1?productUrl(hits[0]):allUrl(q);
+  });
+  box.addEventListener('keydown',e=>{
+    if(e.key!=='ArrowDown'&&e.key!=='ArrowUp')return;
+    const links=[...box.querySelectorAll('a')], i=links.indexOf(document.activeElement);
+    if(i<0)return;
+    e.preventDefault();
+    if(e.key==='ArrowUp'&&i===0){inp.focus();return;}
+    const n=links[i+(e.key==='ArrowDown'?1:-1)]; if(n)n.focus();
+  });
+  box.addEventListener('click',e=>{if(e.target.closest('a'))track('search',{search_term:inp.value.trim()});});
+})();
+/* A search link — from the panel, or from Google — arrives as ?q= and fills the
+   box above the grid before the first render. */
+(function searchFromUrl(){
+  const si=$('search-input'); if(!si)return;
+  const q=new URLSearchParams(location.search).get('q');
+  if(q)si.value=q.trim().slice(0,80);
 })();
 /* Mark where the visitor already is: the menu lists every category from every
    page, and without this the current one looks like somewhere else to go. */
@@ -1596,6 +1800,22 @@ function startInlineQuiz(cat){
   host.style.display='';
   openQuiz(cat,'inline');
   return true;
+}
+/* The picker arrives folded to one line (quizInline in build.mjs) and already
+   on step one underneath, so opening it is instant and needs no second render. */
+function unfoldQuiz(){
+  const host=$('quiz-inline'); if(!host)return;
+  host.classList.remove('qi-folded');
+  document.querySelectorAll('.cat-quiz-btn').forEach(b=>b.setAttribute('aria-expanded','true'));
+  const nx=$('qi-next'); if(nx) nx.focus({preventScroll:true});
+  const top=host.getBoundingClientRect().top;
+  if(top<70||top>innerHeight*.5) scrollTo({top:Math.max(0,top+scrollY-84),behavior:'instant'});
+  track('quiz_open',{category:quizKind});
+}
+function foldQuiz(){
+  const host=$('quiz-inline'); if(!host)return;
+  host.classList.add('qi-folded');
+  document.querySelectorAll('.cat-quiz-btn').forEach(b=>b.setAttribute('aria-expanded','false'));
 }
 (function initInlineQuiz(){
   const host=$('quiz-inline'); if(!host)return;

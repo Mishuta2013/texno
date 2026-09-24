@@ -2255,3 +2255,201 @@ body:has(.lbox.open) > div:has(iframe[src*="merchantverse"]){display:none!import
    number where the callback button still does (up to 820px). */
 @media(max-width:820px){.header-in .h-phone{display:none}}
 @media(max-width:760px){.header .btn-cb{display:none}}
+
+/* ============ CATALOG UX PASS (2026-09) ============
+   Landing traffic arrives on the category pages and, in GA, left them after
+   1.3–1.5 views: on a laptop not one product was on the first screen, on a
+   phone the grid began two screens down, and once it did the filter panel
+   stayed pinned over a quarter of the screen. */
+
+/* -- the picker, folded to one line until asked for (quizInline, unfoldQuiz) -- */
+.quiz-inline.qi-folded{display:flex;align-items:center;justify-content:space-between;gap:22px;padding:22px 28px}
+.qi-folded .qi-head{margin:0;min-width:0}
+.qi-folded .qi-title{margin-bottom:6px}
+.qi-folded .quiz-prog,.qi-folded .quiz-body,.qi-folded .quiz-foot{display:none}
+.qi-pitch{display:none}
+.qi-folded .qi-pitch{display:block;margin:0;font-size:14.5px;line-height:1.45;color:rgba(233,243,255,.74);max-width:560px}
+.qi-open{display:none}
+.qi-folded .qi-open{display:inline-flex;align-items:center;gap:8px;flex:none;position:relative;padding:14px 22px;border-radius:12px;
+  background:var(--amber);color:var(--on-bright);font-family:var(--disp);font-weight:800;font-size:15px;white-space:nowrap;
+  box-shadow:0 10px 26px rgba(255,122,41,.32);transition:background .16s,transform .16s}
+.qi-folded .qi-open:hover{background:var(--amber-d)}
+.qi-folded .qi-open:active{transform:scale(.97)}
+/* "КРОК 1 З 4" in capitals read as "1 3 4" — the Cyrillic З is a 3 */
+.qi-step-no{text-transform:none;letter-spacing:.01em}
+@media(max-width:640px){
+  .quiz-inline.qi-folded{padding:16px 16px 16px 18px;gap:12px}
+  .qi-folded .qi-title{font-size:19px;margin-bottom:0}
+  .qi-folded .qi-pitch{display:none}
+  .qi-folded .qi-open{padding:11px 14px;font-size:14px}
+}
+
+/* -- the filter panel scrolls with the page; one slim bar is what stays -- */
+.filters{position:static}
+.results-bar{position:sticky;top:var(--hdr-h,70px);z-index:55;display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;
+  margin:0 -8px 18px;padding:9px 12px;border-radius:14px;background:var(--filter-bg,rgba(255,255,255,.9));
+  -webkit-backdrop-filter:saturate(160%) blur(14px);backdrop-filter:saturate(160%) blur(14px);
+  border:1px solid rgba(198,210,226,.7);box-shadow:0 6px 20px rgba(11,26,51,.06)}
+:root[data-theme="dark"] .results-bar{border-color:var(--g2)}
+.results-bar .results-count{margin:0;white-space:nowrap}
+.results-bar .ftools{margin-left:auto}
+.fchips{display:flex;flex-wrap:wrap;gap:6px;flex:1 1 auto;min-width:0}
+.fchips[hidden]{display:none}
+.fchip{display:inline-flex;align-items:center;gap:5px;padding:6px 8px 6px 12px;border-radius:var(--r-pill);background:var(--blue-a);
+  color:var(--blue-d);border:1px solid var(--chip-line);font-family:var(--body);font-weight:600;font-size:13px;line-height:1.1;white-space:nowrap;transition:border-color .15s}
+.fchip:hover{border-color:var(--blue-d)}
+.fchip svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}
+.fchip-all{background:none;border-color:transparent;color:var(--g5);padding:6px;text-decoration:underline;text-underline-offset:3px}
+.fchip-all:hover{border-color:transparent;color:var(--ink)}
+/* the way back to the panel: always on a phone, on a wide screen once it has scrolled away */
+.fopen{display:none;align-items:center;gap:8px;padding:9px 14px;border-radius:var(--r-pill);border:0;
+  background:linear-gradient(135deg,var(--navy-3),var(--navy));color:#fff;font-family:var(--disp);font-weight:700;font-size:14px;line-height:1;
+  box-shadow:0 6px 16px rgba(11,26,51,.22);transition:transform .15s}
+.fopen:active{transform:scale(.96)}
+.fopen svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.fopen-n{min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--amber);color:var(--on-bright);
+  font-family:var(--disp);font-weight:800;font-size:12px;line-height:20px;text-align:center}
+.fopen-n[hidden]{display:none}
+.results-bar.rb-away .fopen{display:inline-flex}
+.no-results .btn-reset{margin-top:14px}
+/* sheet parts, used below 760px only */
+.fsheet-h,.fsheet-f,.fsheet-bg{display:none}
+
+/* -- product card -- */
+.card-img{aspect-ratio:1/1}
+/* air conditioners are wide and their photos are 4:3 — a square frame only adds air */
+.grid[data-cat="kondicioneri"] .card-img{aspect-ratio:4/3}
+.grid .card{contain-intrinsic-size:auto 470px}
+/* the name's link covers the whole card; what does something else sits above it */
+.card-name::after{content:"";position:absolute;inset:0;z-index:1;border-radius:16px}
+.card-brand,.card-act{position:relative;z-index:3}
+.card-price-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:12px}
+.card-price-row .card-price{margin-bottom:0}
+.card-price-row .cstock{position:static;inset:auto;padding:0;background:none;font-size:12px;white-space:nowrap}
+.card-act{display:flex;gap:8px;flex-wrap:nowrap}
+.card-act .btn-order{flex:1;display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.card-act .btn-buy{flex:0 0 auto;gap:6px;padding:11px 14px;text-decoration:none}
+.card-act .btn-buy svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:560px){
+  .grid .card{contain-intrinsic-size:auto 360px}
+  .card-price-row{flex-wrap:wrap;row-gap:3px;margin-bottom:9px}
+  .card-price-row .cstock{font-size:10.5px}
+  .card-act{gap:6px}
+  .card-act .btn-buy{padding:9px 10px}
+  .card-act .btn-buy span{display:none}
+}
+
+/* -- search: the magnifier in the header and the field on top of the catalog panel -- */
+.cp-search{flex:1;min-width:0;display:flex;align-items:center;gap:10px;height:46px;padding:0 14px;border-radius:12px;
+  background:var(--paper);border:1.5px solid var(--g2);transition:border-color .15s,background .15s}
+.cp-search:focus-within{border-color:var(--blue);background:var(--white)}
+.cp-search svg{flex:none;width:18px;height:18px;fill:none;stroke:var(--g4);stroke-width:2;stroke-linecap:round}
+/* 16px: anything smaller and iOS zooms the page in when the field takes focus */
+.cp-search input{flex:1;min-width:0;height:100%;border:0;outline:0;background:none;font-family:var(--body);font-size:16px;color:var(--ink)}
+.cp-search input::-webkit-search-cancel-button{cursor:pointer}
+.cp-body[hidden],.cp-results[hidden]{display:none!important}
+.cp-results{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:4px 18px 18px}
+.sr-cats{display:flex;flex-wrap:wrap;gap:8px;margin:0 2px 4px}
+.sr-cat{display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border-radius:var(--r-pill);background:var(--blue-a);color:var(--blue-d);
+  font-family:var(--disp);font-weight:700;font-size:13.5px;text-decoration:none}
+.sr-cat em{font-style:normal;font-weight:600;opacity:.7}
+.sr-cat:hover{background:var(--ice);text-decoration:underline}
+.sr-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 18px}
+.sr-item{display:grid;grid-template-columns:56px minmax(0,1fr) auto;align-items:center;gap:12px;padding:8px;border-radius:12px;color:var(--ink);text-decoration:none}
+.sr-item:hover,.sr-item:focus{background:var(--paper);outline:none}
+.sr-item:focus-visible{box-shadow:0 0 0 2px var(--blue)}
+.sr-item img{width:56px;height:56px;object-fit:contain;border-radius:10px;padding:4px;
+  background:radial-gradient(125% 100% at 50% 14%,#FCFEFF 0%,#E8EFFA 55%,#D2DFF0 100%)}
+.sr-name{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-family:var(--disp);font-weight:600;font-size:14px;line-height:1.3}
+.sr-meta{display:block;margin-top:2px;font-size:12px;color:var(--g4)}
+.sr-price{font-family:var(--disp);font-weight:800;font-size:15px;white-space:nowrap}
+.sr-price small{font-size:11.5px;font-weight:600;color:var(--g4)}
+.sr-all{display:inline-flex;align-items:center;gap:6px;margin:14px 2px 4px;font-family:var(--disp);font-weight:700;font-size:14.5px;color:var(--blue-d);text-decoration:none}
+.sr-all:hover{text-decoration:underline}
+.sr-none{margin:0;padding:26px 6px;max-width:540px;font-size:15px;line-height:1.5;color:var(--g5)}
+/* desktop: the panel drops under the header, so its top row is just the field and a close */
+@media(min-width:1001px){
+  .cp-top{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line)}
+  .cp-top-t{display:none}
+  .cp-close{display:grid;place-items:center;flex:none;width:44px;height:44px;border:0;border-radius:12px;background:var(--g1);color:var(--ink);cursor:pointer}
+  .cp-close svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+}
+@media(max-width:760px){
+  /* no room left in a phone header: "Каталог" opens the same field */
+  .h-tools .hdr-search{display:none}
+  .sr-list{grid-template-columns:1fr}
+  .cp-results{padding:4px 12px 18px}
+}
+@media(max-width:560px){.cp-top-t{display:none}.cp-top{padding-left:12px}}
+
+/* -- phones: the filter panel becomes a sheet from the bottom -- */
+@media(max-width:760px){
+  .filters{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:330;margin:0;max-height:86vh;max-height:86dvh;overflow-y:auto;
+    overscroll-behavior:contain;border:0;border-radius:20px 20px 0 0;padding:0 16px;background:var(--white);
+    box-shadow:0 -12px 40px rgba(6,14,30,.3);transform:translateY(105%);visibility:hidden;
+    transition:transform .28s cubic-bezier(.2,.8,.2,1),visibility 0s linear .28s}
+  .filters.open{transform:none;visibility:visible;transition:transform .28s cubic-bezier(.2,.8,.2,1),visibility 0s}
+  .fsheet-h{display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:2;background:var(--white);
+    padding:14px 0 12px;margin-bottom:8px;border-bottom:1px solid var(--g1);font-family:var(--disp);font-size:18px;color:var(--ink)}
+  .fsheet-x{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--g1);color:var(--ink)}
+  .fsheet-x svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+  .fsheet-f{display:flex;gap:10px;position:sticky;bottom:0;z-index:2;background:var(--white);margin-top:16px;
+    padding:12px 0 calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--g1)}
+  .fsheet-reset{flex:none;padding:14px 16px;border-radius:12px;background:var(--g1);color:var(--g5);font-family:var(--disp);font-weight:700;font-size:14px}
+  .fsheet-go{flex:1;padding:14px 16px;border-radius:12px;background:var(--cta);color:#fff;font-family:var(--disp);font-weight:700;font-size:15px}
+  .fsheet-bg{display:block;position:fixed;inset:0;z-index:329;background:rgba(5,13,27,.5);opacity:0;pointer-events:none;transition:opacity .25s}
+  html.fsheet-on .fsheet-bg{opacity:1;pointer-events:auto}
+  html.fsheet-on{overflow:hidden}
+  /* the sheet has height to spare: chips wrap instead of scrolling sideways */
+  .filters .frow .filter-group{flex-wrap:wrap!important;overflow:visible}
+  /* the bar: "Фільтри" and the sort on one line, the count and what is on under it */
+  .results-bar{gap:8px;padding:8px 10px;margin:0 -6px 14px}
+  .fopen{display:inline-flex}
+  .results-bar .ftools{flex:1 1 50%;margin:0;width:auto}
+  .results-bar .sort-select{flex:1;min-width:0;width:100%;font-size:13.5px;padding:9px 10px}
+  .results-bar .search-input{display:none}
+  .results-bar .results-count{order:3;font-size:12.5px}
+  .fchips{order:4;flex:1 1 0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .fchips::-webkit-scrollbar{display:none}
+}
+
+/* -- category and brand pages: the folded picker is only the button in the heading -- */
+.cat-wrap .quiz-inline.qi-folded{display:none}
+.cat-wrap .quiz-inline{position:relative;margin:4px 0 22px}
+.qi-close{display:none}
+.quiz-inline:not(.qi-folded) .qi-close{display:grid;place-items:center;position:absolute;top:14px;right:14px;z-index:2;width:40px;height:40px;
+  border-radius:12px;background:rgba(255,255,255,.1);color:#fff;transition:background .15s}
+.quiz-inline:not(.qi-folded) .qi-close:hover{background:rgba(255,255,255,.18)}
+.qi-close svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+.cat-quiz-btn{display:inline-flex;align-items:center;gap:8px;margin:6px 0 0 8px;padding:9px 16px;vertical-align:middle;border-radius:var(--r-pill);
+  background:var(--amber);color:var(--on-bright);font-family:var(--disp);font-weight:800;font-size:14px;line-height:1.1;
+  box-shadow:0 8px 20px rgba(255,122,41,.28);transition:background .16s,transform .16s}
+.cat-quiz-btn:hover{background:var(--amber-d)}
+.cat-quiz-btn:active{transform:scale(.97)}
+.cat-quiz-btn svg{flex:none;width:17px;height:17px;fill:currentColor}
+.cat-wrap > .cat-quiz-btn{margin:0 0 18px}
+/* the catalog follows the heading closely; the 74px section gap was for the home page */
+.section.cat-catalog{padding-top:22px}
+/* a slimmer panel on a wide screen: same chips, less air between the rows */
+@media(min-width:761px){
+  .filters{padding:14px 18px}
+  .frow+.frow{margin-top:10px;padding-top:10px}
+  .fbtn{padding:6px 13px;font-size:13px}
+  .fdiv{height:22px}
+}
+.fsheet-go.is-empty{background:var(--g3);color:#fff}
+.results-bar{margin-left:0;margin-right:0}
+@media(max-width:560px){.cat-quiz-btn{display:flex;width:max-content;max-width:100%;margin:10px 0 0}}
+
+/* -- product page on a phone: the price and "Замовити" used to start 770px down,
+      under nineteen thumbnails in four rows -- */
+@media(max-width:760px){
+  /* a grid child defaults to min-width:auto — the strip would widen the whole column to its 19 thumbnails */
+  .pp-top>*{min-width:0}
+  .pp-main{aspect-ratio:1/1;padding:16px}
+  .pp-main[data-cat="kondicioneri"]{aspect-ratio:4/3}
+  .pp-thumbs{position:relative;display:flex;gap:8px;margin-top:10px;overflow-x:auto;scroll-snap-type:x proximity;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+  .pp-thumbs::-webkit-scrollbar{display:none}
+  .pp-thumb{flex:0 0 62px;height:62px;scroll-snap-align:start}
+}

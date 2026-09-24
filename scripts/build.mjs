@@ -599,19 +599,28 @@ function card(p) {
   const badge = p.heatpump ? `<span class="cbadge heat">${esc(t('sp_hp'))}</span>`
     : p.inverter ? `<span class="cbadge inv">${esc(t("c_inverter"))}</span>` : '';
   const edge = p.edge ? `<span class="cedge">${esc(t(p.edge))}</span>` : '';
+  /* Three buttons per card — Замовити, Деталі, Купити в 1 клік — and the card
+     itself, pointer cursor and all, did nothing when clicked. The name now
+     stretches its link over the whole card (CSS), so "Деталі" had nothing left
+     to do; the two ways to buy share one row, and "в наявності" moved off the
+     photo to sit by the price it qualifies. Without JS the buttons are links to
+     the product page, where the same two actions are. */
   return `<div class="card">
-    <a class="card-img" href="${url}">${badge}<span class="cstock"><i></i>${esc(t('c_instock'))}</span>
-      <img src="${esc(av(p.thumb || p.photos[0]))}" alt="${esc(pname(p))}" loading="lazy" width="400" height="300"></a>
+    <a class="card-img" href="${url}" tabindex="-1">${badge}
+      <img src="${esc(av(p.thumb || p.photos[0]))}" alt="${esc(pname(p))}" loading="lazy" width="400" height="400"></a>
     <div class="card-body"><a class="card-brand" href="${pfx()}${catOf(p).urlPrefix}/${brandSlug(p.brand)}/">${esc(p.brand)}</a>
-      <a class="card-name" href="${url}">${esc(pname(p))}</a>
-      <div class="card-specs">${catChips(p)}</div>${edge}
-      <div class="card-foot"><div class="card-price">${fmt(p.price)} <small>${esc(t("u_uah"))}</small></div>
-        <div class="card-act"><div class="row2">
+      <a class="card-name" href="${url}">${esc(pname(p))}</a>${edge}
+      <div class="card-specs">${catChips(p)}</div>
+      <div class="card-foot"><div class="card-price-row"><div class="card-price">${fmt(p.price)} <small>${esc(t("u_uah"))}</small></div>
+        <span class="cstock"><i></i>${esc(t('c_instock'))}</span></div>
+        <div class="card-act">
           <a class="btn-order" href="${url}">${esc(t('c_order'))}</a>
-          <a class="btn-det" href="${url}">${esc(t('c_det'))}</a>
-        </div></div>
+          <a class="btn-buy" href="${url}" title="${esc(t('c_buy'))}" aria-label="${esc(t('c_buy'))}">${BUY_ICON}<span>${esc(t('c_buy_s'))}</span></a>
+        </div>
       </div></div></div>`;
 }
+// the chat bubble on the "1 клік" button — the button opens WhatsApp / Viber / Telegram
+const BUY_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.6a8.4 8.4 0 0 1-12.3 7.4L3.5 20.5l1.6-4.5a8.4 8.4 0 1 1 15.4-4.4z"/><path d="M8.5 11.8h.01M12 11.8h.01M15.5 11.8h.01"/></svg>';
 
 /* The five «Хіт продажів» cards carried a photo, a name and three specs — and
    no price, which is the one number a visitor is actually deciding on. It sat
@@ -732,18 +741,35 @@ function applyI18nStatic(html) {
 function quizInline(hidden, cat) {
   const eyeKey = (cat && cat.quizEyeKey) || 'quiz_eye';
   const titleKey = (cat && cat.quizTitleKey) || 'quiz_h';
-  return `<section class="quiz-inline"${hidden ? ' id="quiz-inline" style="display:none"' : ' id="quiz-inline"'}>
+  /* Folded until asked for. Open, the picker stood 540px tall between the
+     category heading and the first product — on a laptop not one product was on
+     the first screen, on a phone the grid started two screens down, and these
+     pages are where the ads land. Folded it is one line with its own button;
+     unfoldQuiz() in main.js opens it in place, already on step one. */
+  return `<section class="quiz-inline qi-folded"${hidden ? ' id="quiz-inline" style="display:none"' : ' id="quiz-inline"'}>
     <div class="qi-head">
       <div class="quiz-eyebrow" id="qi-eyebrow">${esc(t(eyeKey))}</div>
       <h2 class="qi-title" id="qi-title">${esc(t(titleKey))}</h2>
+      <p class="qi-pitch">${esc(t('qi_pitch'))}</p>
       <div class="quiz-prog"><div class="quiz-prog-bar" id="qi-prog"></div></div>
     </div>
+    <button class="qi-open" type="button" onclick="unfoldQuiz()">${esc(t('qi_open'))} <span aria-hidden="true">→</span></button>
+    <button class="qi-close" type="button" onclick="foldQuiz()" aria-label="${esc(t('cp_close'))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     <div class="quiz-body" id="qi-body"></div>
     <div class="quiz-foot">
       <button class="quiz-back" id="qi-back" type="button" onclick="quizBack()">${esc(t('quiz_back'))}</button>
       <button class="quiz-next btn-primary" id="qi-next" type="button" onclick="quizNext()">${esc(t('quiz_next'))}</button>
     </div>
   </section>`;
+}
+/* On a category or brand page even the folded picker cost a 130px band between
+   the heading and the products, so there it folds all the way into this button
+   beside the model count, and opens in place when pressed. */
+function quizButton(cat) {
+  const cta = lf(cat, 'quizCta');
+  return cta ? `<button type="button" class="cat-quiz-btn" onclick="unfoldQuiz()"><svg viewBox="0 0 24 24" aria-hidden="true">` +
+    `<path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg>` +
+    `${esc(cta)} <span aria-hidden="true">→</span></button>` : '';
 }
 // tells Google the shop's sections, which is what it uses for the links under a result
 function navLd() {
@@ -962,7 +988,12 @@ const injectData = () => {
   const i18nSlim = L === 'uk' ? { uk: strip(i18n.uk) }
     : { uk: Object.fromEntries(Object.entries(strip(i18n.uk)).filter(([k]) => own[k] === undefined)), [L]: own };
   const specv = L === 'uk' ? {} : SPECV;
-  const js = `window.__I18N__=${JSON.stringify(i18nSlim)};window.__LANGS__=${JSON.stringify(LANGS)};window.__SITE__=${JSON.stringify(site)};window.__CATS__=${JSON.stringify(catsSlim)};window.__SPECV__=${JSON.stringify(specv)};window.__PRODUCTS__=${JSON.stringify(namesFor(L))};`;
+  /* How people type a brand in Cyrillic — «самсунг», «бош», «блюетті» — so the
+     search finds Samsung, Bosch and Bluetti. Lowercased, one string per brand. */
+  const balias = Object.fromEntries(Object.entries(BRANDS)
+    .map(([b, e]) => [b, [e.alias_uk, e.alias_ru].filter(Boolean).join(' ').toLowerCase()])
+    .filter(([, a]) => a));
+  const js = `window.__I18N__=${JSON.stringify(i18nSlim)};window.__LANGS__=${JSON.stringify(LANGS)};window.__SITE__=${JSON.stringify(site)};window.__CATS__=${JSON.stringify(catsSlim)};window.__SPECV__=${JSON.stringify(specv)};window.__BALIAS__=${JSON.stringify(balias)};window.__PRODUCTS__=${JSON.stringify(namesFor(L))};`;
   const url = `/assets/js/data-${L}.${crypto.createHash('md5').update(js).digest('hex').slice(0, 8)}.js`;
   DATA_FILES.set(url, js);
   const tag = `<script src="${url}" defer></script>`;
@@ -1230,7 +1261,13 @@ function catPanel() {
   };
   return `<div class="catpanel" id="catpanel" hidden data-nosnippet><nav class="cp-box" aria-label="${esc(t('cp_label'))}">` +
     `<div class="cp-top"><p class="cp-top-t">${esc(t('nav_catalog'))}</p>` +
+    /* The only search on the site used to be a box inside the filter panel,
+       limited to the category on screen — it was used three times in a month.
+       This one looks through every product; main.js fills #cp-results. */
+    `<label class="cp-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.8"/><path d="m20 20-3.9-3.9"/></svg>` +
+    `<input type="search" id="cp-q" placeholder="${esc(t('sr_ph'))}" aria-label="${esc(t('sr_btn'))}" autocomplete="off" enterkeyhint="search" aria-controls="cp-results"></label>` +
     `<button type="button" class="cp-close" aria-label="${esc(t('cp_close'))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>` +
+    `<div class="cp-results" id="cp-results" role="region" aria-live="polite" hidden></div>` +
     `<div class="cp-body"><div class="cp-rail">${rail}</div><div class="cp-stage">${ordered.map(pane).join('')}</div></div>` +
     `<div class="cp-foot"><span>${esc(t('cp_stock'))}</span><a class="cp-all" href="${pfx()}/#catalog">${esc(t('cp_all'))} <span aria-hidden="true">→</span></a></div>` +
     `</nav></div>`;
@@ -1673,7 +1710,7 @@ ${HEADER}
   <nav class="pp-bc"><a href="${pfx() || '/'}">${esc(t('pp_home'))}</a> › <a href="${curl(cat)}">${esc(lf(cat, 'name'))}</a> › <span>${esc(p.brand)}</span></nav>
   <div class="pp-top">
     <div class="pp-gallery">
-      <div class="pp-main" onclick="ppZoom()" title="${esc(t('pp_zoom'))}"><img id="pp-main-img" src="${esc(av(p.photos[0]))}" alt="${esc(NAME)}" width="680" height="510"><span class="pp-zoom-hint" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M11 8v6M8 11h6"/></svg></span></div>
+      <div class="pp-main" data-cat="${esc(p.category)}" onclick="ppZoom()" title="${esc(t('pp_zoom'))}"><img id="pp-main-img" src="${esc(av(p.photos[0]))}" alt="${esc(NAME)}" width="680" height="510"><span class="pp-zoom-hint" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M11 8v6M8 11h6"/></svg></span></div>
       <div class="pp-thumbs">${thumbs}</div>
     </div>
     <div class="pp-info">
@@ -1748,12 +1785,20 @@ ${injectData()}
 </div>
 <script>
 var PP_PHOTOS=${JSON.stringify(p.photos.map(av))},ppIdx=0;
-function ppShow(i){ppIdx=i;document.getElementById('pp-main-img').src=PP_PHOTOS[i];document.querySelectorAll('.pp-thumb').forEach((b,j)=>b.classList.toggle('active',j===i));}
+function ppShow(i){ppIdx=i;document.getElementById('pp-main-img').src=PP_PHOTOS[i];document.querySelectorAll('.pp-thumb').forEach((b,j)=>b.classList.toggle('active',j===i));
+  /* on a phone the thumbnails are one scrolling strip: keep the chosen one in view */
+  var th=document.querySelectorAll('.pp-thumb')[i],st=th&&th.parentNode;
+  if(st&&st.scrollWidth>st.clientWidth)st.scrollTo({left:th.offsetLeft-(st.clientWidth-th.offsetWidth)/2,behavior:'smooth'});}
 function ppZoom(){var b=document.getElementById('lbox');document.getElementById('lbox-img').src=PP_PHOTOS[ppIdx];document.getElementById('lbox-n').textContent=ppIdx+1;b.classList.add('open');document.body.style.overflow='hidden';}
 function ppClose(){document.getElementById('lbox').classList.remove('open');document.body.style.overflow='';}
 function ppStep(d){ppIdx=(ppIdx+d+PP_PHOTOS.length)%PP_PHOTOS.length;ppShow(ppIdx);document.getElementById('lbox-img').src=PP_PHOTOS[ppIdx];document.getElementById('lbox-n').textContent=ppIdx+1;}
 document.addEventListener('keydown',function(e){if(!document.getElementById('lbox').classList.contains('open'))return;
   if(e.key==='Escape')ppClose();if(e.key==='ArrowRight')ppStep(1);if(e.key==='ArrowLeft')ppStep(-1);});
+/* a swipe across the photo on the page turns it, as it does in the viewer; a tap still opens the viewer */
+(function(){var sx=0,sy=0,el=document.querySelector('.pp-main');if(!el)return;
+  el.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+  el.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.5)ppShow((ppIdx+(dx<0?1:-1)+PP_PHOTOS.length)%PP_PHOTOS.length);},{passive:true});})();
 (function(){var sx=0,el=document.getElementById('lbox');
   el.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
   el.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)ppStep(dx<0?1:-1);},{passive:true});})();
@@ -2133,7 +2178,7 @@ ${HEADER}
   </header>
   <div class="recent" id="recent" data-nosnippet hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
   <section class="section catalog cat-catalog" id="catalog">
-    <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
+    <div class="grid" id="catalog-grid" data-cat="${esc(cat.key)}">${list.map(card).join('')}</div>
   </section>
   ${shelfFacts(cat, list, NAME, brandsRow)}
   ${lf(tg, 'tips') ? `<section class="tag-tips"><h2>${esc(t('tips_h').replace('{name}', NAME.charAt(0).toLowerCase() + NAME.slice(1)))}</h2>` +
@@ -2236,10 +2281,10 @@ ${HEADER}
     <div class="cat-count">${list.length} ${esc(plural)} ${esc(t('cat_instock'))}</div>
   </header>
   ${about ? `<div class="brand-about"><p>${esc(about)}</p></div>` : ''}
-  ${lf(cat, 'quizCta') && list.length > 1 ? quizInline(false, cat) : ''}
+  ${lf(cat, 'quizCta') && list.length > 1 ? quizButton(cat) + quizInline(false, cat) : ''}
   <div class="recent" id="recent" data-nosnippet hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
   <section class="section catalog cat-catalog" id="catalog">
-    <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
+    <div class="grid" id="catalog-grid" data-cat="${esc(cat.key)}">${list.map(card).join('')}</div>
   </section>
   ${shelfFacts(cat, list, NAME, tagsRow)}
   ${siblings ? `<div class="brand-links"><h2>${esc(t('brand_other').replace('{cat}', (lf(cat, 'nameGen') || CAT).toLowerCase()))}</h2><div class="bl-row">${siblings}</div></div>` : ''}
@@ -2370,6 +2415,7 @@ ${HEADER}
       <h1 class="cat-h1">${esc(lf(cat, 'h1') || `${NAME} ${t('cat_in_sumy')}`)}</h1>
       <p class="cat-sub">${esc(lf(cat, 'intro') || '')}</p>
       <div class="cat-count">${list.length} ${esc(plural)} ${esc(t('cat_instock'))}</div>
+      ${quizButton(cat)}
     </header>
     ${cat.cover ? (() => {
       const w = n => esc(av(cat.cover.replace(/\.webp$/, `@${n}.webp`)));
@@ -2381,7 +2427,7 @@ ${HEADER}
   <div class="recent" id="recent" data-nosnippet hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
   <section class="section catalog cat-catalog" id="catalog">
     ${filtersFor(cat.key)}
-    <div class="grid" id="catalog-grid">${list.map(card).join('')}</div>
+    <div class="grid" id="catalog-grid" data-cat="${esc(cat.key)}">${list.map(card).join('')}</div>
   </section>
   ${catTags(cat.key).length ? `<div class="brand-links cat-tags"><h2>${esc(t('cat_tags_h'))}</h2>` +
     `<div class="bl-row">` + catTags(cat.key).map(tg =>

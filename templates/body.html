@@ -46,6 +46,12 @@
       </a>
       <button class="btn-cb" onclick="openCb()" data-i18n="cb_btn">Замовити дзвінок</button>
       <div class="h-tools">
+        <!-- opens the catalog panel with its search field focused; on a phone
+             the header has no room for it, and "Каталог" opens the same field -->
+        <button class="hdr-icon-btn hdr-search" type="button" data-catpanel data-cpsearch aria-controls="catpanel" aria-expanded="false"
+                title="Пошук" aria-label="Пошук" data-i18n-title="sr_btn" data-i18n-aria="sr_btn">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.8"/><path d="m20 20-3.9-3.9"/></svg>
+        </button>
         <button class="hdr-icon-btn theme-btn" onclick="toggleTheme()" title="Перемкнути тему" data-i18n-title="th_toggle"
                 aria-label="Перемкнути тему" data-i18n-aria="th_toggle">
           <svg class="th-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.6M12 19.4V22M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M2 12h2.6M19.4 12H22M4.9 19.1l1.9-1.9M17.2 6.8l1.9-1.9"/></svg>
@@ -191,6 +197,10 @@
     <!--QUIZ_INLINE-->
 
     <div class="filters" id="filters">
+      <!-- on a phone the panel is a bottom sheet: this head and the foot below
+           only show there -->
+      <div class="fsheet-h"><b data-i18n="f_open">Фільтри</b>
+        <button type="button" class="fsheet-x" onclick="closeFilters()" aria-label="Закрити" data-i18n-aria="cp_close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
       <div class="frow" id="frow-brand">
         <span class="flabel" data-i18n="f_brand">Бренд</span>
         <!-- buttons are rendered by main.js from the products of the active category -->
@@ -213,6 +223,7 @@
           <button class="fbtn" data-vol="420-9999" data-i18n="f_v421">420+ л</button>
         </div>
         <div class="fdiv"></div>
+        <span class="flabel fl-sub" data-i18n="hc_height">Висота</span>
         <div class="filter-group" id="height-filters" style="display:flex;flex-wrap:wrap;gap:8px">
           <button class="fbtn active" data-height="all" data-i18n="f_anyheight">Будь-яка висота</button>
           <button class="fbtn" data-height="0-150" data-i18n="f_h150">до 150 см</button>
@@ -221,6 +232,7 @@
           <button class="fbtn" data-height="200-999" data-i18n="f_h201">200+ см</button>
         </div>
         <div class="fdiv"></div>
+        <span class="flabel fl-sub" data-i18n="f_tech">Технологія</span>
         <div class="filter-group" id="tech-filters" style="display:flex;flex-wrap:wrap;gap:8px">
           <button class="fbtn active" data-tech="all" data-i18n="f_alltech">Всі</button>
           <button class="fbtn" data-tech="nofrost" data-i18n="f_nofrost">No Frost</button>
@@ -237,6 +249,7 @@
           <button class="fbtn" data-cap="2500-99999" data-i18n="f_c2501">2500+ Вт·год</button>
         </div>
         <div class="fdiv"></div>
+        <span class="flabel fl-sub" data-i18n="hc_power">Потужність</span>
         <div class="filter-group" id="pw-filters" style="display:flex;flex-wrap:wrap;gap:8px">
           <button class="fbtn active" data-pw="all" data-i18n="f_anypw">Будь-яка потужність</button>
           <button class="fbtn" data-pw="0-1000" data-i18n="f_p1000">до 1000 Вт</button>
@@ -254,6 +267,7 @@
           <button class="fbtn" data-bvol="80-999" data-i18n="f_bv100">100 л</button>
         </div>
         <div class="fdiv"></div>
+        <span class="flabel fl-sub" data-i18n="f_type">Тип</span>
         <div class="filter-group" id="heat-filters" style="display:flex;flex-wrap:wrap;gap:8px">
           <button class="fbtn active" data-heat="all" data-i18n="f_alltech">Всі</button>
           <button class="fbtn" data-heat="dry" data-i18n="f_dryheat">Сухий ТЕН</button>
@@ -270,6 +284,7 @@
           <button class="fbtn" data-load="7" data-i18n="f_l7">7 кг</button>
         </div>
         <div class="fdiv"></div>
+        <span class="flabel fl-sub" data-i18n="f_depth">Глибина</span>
         <div class="filter-group" id="depth-filters" style="display:flex;flex-wrap:wrap;gap:8px">
           <button class="fbtn active" data-depth="all" data-i18n="f_anydepth">Будь-яка</button>
           <button class="fbtn" data-depth="narrow" data-i18n="f_narrow">Вузькі (до 45 см)</button>
@@ -286,6 +301,7 @@
           <button class="fbtn" data-area="70" data-i18n="f_a70">50+ м²</button>
         </div>
         <div class="fdiv"></div>
+        <span class="flabel fl-sub" data-i18n="f_type">Тип</span>
         <div class="filter-group" id="type-filters" style="display:flex;flex-wrap:wrap;gap:8px">
           <button class="fbtn active" data-type="all" data-i18n="f_alltypes">Всі типи</button>
           <button class="fbtn" data-type="inverter" data-i18n="f_inv">Інверторні</button>
@@ -302,21 +318,32 @@
           <button class="fbtn" data-price="25000-40000" data-i18n="f_p40">25–40 тис.</button>
           <button class="fbtn" data-price="40000-999999999" data-i18n="f_p99">40+ тис.</button>
         </div>
-        <div class="ftools">
-          <select class="sort-select" id="sort-select" aria-label="Сортування" data-i18n-aria="sort_label" onchange="renderCatalog()">
-            <option value="default" data-i18n="sort_pop">Спочатку популярні</option>
-            <option value="price-asc" data-i18n="sort_cheap">Спочатку дешеві</option>
-            <option value="price-desc" data-i18n="sort_exp">Спочатку дорогі</option>
-            <option value="area-asc" data-i18n="sort_area">За площею ↑</option>
-          </select>
-          <input type="search" class="search-input" id="search-input" placeholder="Пошук моделі..." data-i18n-ph="search_ph" aria-label="Пошук моделі" data-i18n-aria="search_ph" oninput="renderCatalog()">
-        </div>
+      </div>
+      <div class="fsheet-f">
+        <button type="button" class="fsheet-reset" onclick="resetFilters()" data-i18n="f_clear">Скинути все</button>
+        <button type="button" class="fsheet-go" onclick="closeFilters()"><span data-i18n="f_show">Показати</span> <b id="fsheet-n"></b></button>
       </div>
     </div>
+    <div class="fsheet-bg" onclick="closeFilters()" aria-hidden="true"></div>
 
-    <div class="results-bar">
+    <!-- The filter panel used to stay pinned while the grid scrolled — a
+         quarter of a laptop screen of chips over the photos. What stays pinned
+         now is this one line: the count, what is switched on, and the sort. -->
+    <div class="results-bar" id="results-bar">
+      <button type="button" class="fopen" onclick="openFilters()" aria-controls="filters">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+        <span data-i18n="f_open">Фільтри</span><b class="fopen-n" id="fopen-n" hidden></b></button>
       <p class="results-count" id="results-count"></p>
-      <button class="btn-reset" onclick="resetFilters()" data-i18n="reset">Скинути фільтри</button>
+      <div class="fchips" id="fchips"></div>
+      <div class="ftools">
+        <select class="sort-select" id="sort-select" aria-label="Сортування" data-i18n-aria="sort_label" onchange="renderCatalog()">
+          <option value="default" data-i18n="sort_pop">Спочатку популярні</option>
+          <option value="price-asc" data-i18n="sort_cheap">Спочатку дешеві</option>
+          <option value="price-desc" data-i18n="sort_exp">Спочатку дорогі</option>
+          <option value="area-asc" data-i18n="sort_area">За площею ↑</option>
+        </select>
+        <input type="search" class="search-input" id="search-input" placeholder="Пошук моделі..." data-i18n-ph="search_ph" aria-label="Пошук моделі" data-i18n-aria="search_ph" oninput="renderCatalog()">
+      </div>
     </div>
     <div class="grid" id="catalog-grid"></div>
   </div>
