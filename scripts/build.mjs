@@ -2840,7 +2840,8 @@ fs.writeFileSync(path.join(ROOT, 'scripts', '.og-collections.json'),
      big items (which Google treats as a violation) or frighten off buyers of the
      small ones. Each item carries the group it belongs to, and Merchant Center
      prices the groups separately. Stations are split by their own weight: a
-     4.8 kg Pecron and a 42 kg Aferiy are not the same parcel. */
+     4.8 kg Pecron and a 42 kg Aferiy are not the same parcel, and from 50 kg
+     (the 52.5 kg Oukitel P5000E) a station ships like a fridge — the owner's call. */
   const SHIP_TIER = {
     zmishuvachi: 'small', dozatory: 'small', myyky: 'small', 'mikrohvylovi-pechi': 'small',
     'varylni-poverhni': 'small', vytyazhky: 'small',
@@ -2850,7 +2851,7 @@ fs.writeFileSync(path.join(ROOT, 'scripts', '.og-collections.json'),
   const shipTier = p => {
     if (p.category === 'zaryadni-stantsii') {
       const w = parseFloat(String((p.specs || {}).weight || '').replace(',', '.'));
-      return w >= 20 ? 'medium' : 'small';
+      return w >= 50 ? 'large' : w >= 20 ? 'medium' : 'small';
     }
     return SHIP_TIER[p.category] || 'medium';
   };
