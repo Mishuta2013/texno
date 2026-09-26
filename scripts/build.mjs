@@ -15,6 +15,7 @@ const blogUrl = a => `${pfx()}/blog/${a.slug}/`;
 const BLOG_LANGS = ['uk', 'ru'];   // languages the articles are actually written in
 const INSTALL_LANGS = ['uk', 'ru'];   // the installation page, same two languages
 const INSTALL_PATH = '/montazh-kondicionera/';
+const HOOKUP_PATH = '/pidklyuchennya-tekhniky/';   // appliance hookup page, same languages as INSTALL_LANGS
 const bt = a => lf(a, 'title');
 const bd = a => lf(a, 'desc');
 const bg = a => lf(a, 'tag');
@@ -1337,7 +1338,8 @@ function navCats() {
     `<div class="cats-grid${withCover.length ? ' has-covers' : ''}${rest.length ? ' cats-main' : ''}">\n      ${cards}${allTile ? '\n      ' + allTile : ''}\n    </div>`);
 }
 fill('<!--INSTALL_MORE-->', INSTALL_LANGS.includes(L)
-  ? `<a class="pc-more" href="${pfx()}${INSTALL_PATH}">${esc(t('inst_more'))} →</a>` : '');
+  ? `<a class="pc-more" href="${pfx()}${HOOKUP_PATH}">${esc(t('hk_more'))} →</a>` +
+    `<a class="pc-more" href="${pfx()}${INSTALL_PATH}">${esc(t('inst_more'))} →</a>` : '');
 /* The catalogue tab strip was thirteen — well, six — hand-written buttons in
    the template, each with its own emoji and i18n key, and the eight new
    categories were simply missing from it. Same source as the grid and the menu
@@ -1452,8 +1454,11 @@ const toHome = h => h.replace(/href="#(?!")/g, `href="${pfx()}/#`);
 /* Header and footer now say "Підключення" and lead to the home page's
    installation section, which covers every kind of appliance. The air
    conditioner page stays reachable from that section's own link. */
-HEADER = toHome(body.slice(0, _heroAt));
-FOOTER = toHome(body.slice(_footAt));
+const toHookup = h => INSTALL_LANGS.includes(L)
+  ? h.split(`href="${pfx()}/#installation"`).join(`href="${pfx()}${HOOKUP_PATH}"`)
+  : h;
+HEADER = toHookup(toHome(body.slice(0, _heroAt)));
+FOOTER = toHookup(toHome(body.slice(_footAt)));
 
 const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: ((i18n[L].faq) || i18n.uk.faq || []).map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
 const indexHtml = `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
@@ -2580,7 +2585,7 @@ if (BLOG_LANGS.includes(L)) {
    price, who turns up. Ukrainian and Russian only, the two languages Sumy
    searches in. */
 function installPage() {
-  const inc = ['inst_i1','inst_i2','inst_i3','inst_i4','inst_i5','inst_i6','inst_i7','inst_i8','inst_i9'].map(k => t(k));
+  const inc = [1,2,3,4,5,6,7,8,9].map(n => t(`mp_i${n}`));
   const extras = ['inst_e1','inst_e2','inst_e3','inst_e4'].map(k => t(k));
   const steps = [1,2,3,4].map(n => [t(`mp_s${n}t`), t(`mp_s${n}p`)]);
   const faqs = [1,2,3,4].map(n => [t(`mp_q${n}`), t(`mp_a${n}`)]);
@@ -2650,7 +2655,7 @@ ${HEADER}
 
   <div class="bl-cta mp-cta">
     <div><b>${esc(t('mp_cta_h'))}</b><p>${esc(t('mp_cta_p'))}</p></div>
-    <a class="btn-primary" href="#" onclick="openCb();return false">${esc(t('inst_btn'))}</a>
+    <a class="btn-primary" href="#" onclick="openCb();return false">${esc(t('mp_btn'))}</a>
     <a class="btn-ghost2" href="${pfx()}/kondicioner/">${esc(lf(CATS['kondicioneri'], 'name'))}</a>
   </div>
 </div>
@@ -2663,6 +2668,85 @@ if (INSTALL_LANGS.includes(L)) {
   const dir = outPath('montazh-kondicionera');
   writePage(path.join(dir), installPage());
   SITEMAP.push(pfx() + INSTALL_PATH);
+}
+
+/* ---- appliance hookup page ----
+   The shop connects everything it sells, not only air conditioners, and the
+   owner asked for the site to say so without leaning on the air conditioner
+   offer. There is no price list: the seller agrees the price for each job
+   before the technician goes out, so the page says exactly that and publishes
+   no figures. Same languages as the air conditioner page. */
+function hookupPage() {
+  const types = [1,2,3,4,5,6,7,8,9,10].map(n => [t(`hk_t${n}`), t(`hk_p${n}`)]);
+  const steps = [1,2,3,4].map(n => [t(`hk_s${n}t`), t(`hk_s${n}p`)]);
+  const faqs = [1,2,3,4].map(n => [t(`hk_q${n}`), t(`hk_a${n}`)]);
+  const url = pfx() + HOOKUP_PATH;
+  const jsonld = {
+    '@context': 'https://schema.org', '@type': 'Service',
+    name: t('hk_h1'), serviceType: t('hk_h1'), url: abs(url),
+    description: t('hk_lead'),
+    provider: { '@type': 'LocalBusiness', name: site.name, telephone: site.phone,
+      address: { '@type': 'PostalAddress', streetAddress: site.address, addressLocality: 'Суми', addressCountry: 'UA' } },
+    areaServed: { '@type': 'City', name: 'Суми' }
+  };
+  const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a } })) };
+  const crumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t('pp_home'), item: abs(pfx() + '/') },
+    { '@type': 'ListItem', position: 2, name: t('hk_h1'), item: abs(url) } ] };
+  const typeItem = ([h, p], i) => i === types.length - 1
+    ? `<li><b><a href="${pfx()}${INSTALL_PATH}">${esc(h)} →</a></b><p>${esc(p)}</p></li>`
+    : `<li><b>${esc(h)}</b><p>${esc(p)}</p></li>`;
+  return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
+${head({ title: t('hk_title'), desc: t('hk_desc'), canonical: abs(url),
+  ogImage: absImg('/assets/img/site/shop-16x9.jpg'), altPath: HOOKUP_PATH, altLangs: INSTALL_LANGS, jsonld })}
+<script type="application/ld+json">${JSON.stringify(faqLd)}</script>
+<script type="application/ld+json">${JSON.stringify(crumbs)}</script>
+</head><body>${GTM_NS}
+${HEADER}
+<div class="cat-wrap mp hk">
+  <nav class="pp-bc"><a href="${pfx() || '/'}">${esc(t('pp_home'))}</a> › <span>${esc(t('hk_h1'))}</span></nav>
+  <div class="cat-top">
+    <header class="cat-head">
+      <h1 class="cat-h1">${esc(t('hk_h1'))}</h1>
+      <p class="cat-sub">${esc(t('hk_lead'))}</p>
+      <div class="mp-price"><span class="mp-price-l">${esc(t('inst_cost'))}</span>
+        <b>${esc(t('inst_val'))}</b>
+        <span class="mp-price-n">${esc(t('hk_price_n'))}</span></div>
+    </header>
+    <img class="cat-hero" src="${esc(av('/assets/img/site/shop-4x3.jpg'))}" alt="${esc(t('hero_photo_alt'))}" width="1280" height="960" fetchpriority="high" decoding="async">
+  </div>
+
+  <section class="mp-sec">
+    <h2>${esc(t('hk_types_h'))}</h2>
+    <ul class="hk-types">${types.map(typeItem).join('')}</ul>
+  </section>
+
+  <section class="mp-sec">
+    <h2>${esc(t('hk_how_h'))}</h2>
+    <ol class="mp-steps">${steps.map(([h, p], i) => `<li><span class="mp-n">${i + 1}</span><div><b>${esc(h)}</b><p>${esc(p)}</p></div></li>`).join('')}</ol>
+  </section>
+
+  <section class="mp-sec">
+    <h2>${esc(t('faq_h'))}</h2>
+    <div class="mp-faq">${faqs.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div>
+  </section>
+
+  <div class="bl-cta mp-cta">
+    <div><b>${esc(t('hk_cta_h'))}</b><p>${esc(t('hk_cta_p'))}</p></div>
+    <a class="btn-primary" href="#" onclick="openCb();return false">${esc(t('inst_btn'))}</a>
+    <a class="btn-ghost2" href="${pfx()}/#catalog">${esc(t('nav_catalog'))}</a>
+  </div>
+</div>
+${FOOTER}
+${injectData()}
+<script src="${av('/assets/js/main.js')}" defer></script>
+</body></html>`;
+}
+if (INSTALL_LANGS.includes(L)) {
+  writePage(outPath('pidklyuchennya-tekhniky'), hookupPage());
+  SITEMAP.push(pfx() + HOOKUP_PATH);
 }
 
 /* ---- 404 ----
@@ -2723,7 +2807,7 @@ ${injectData()}
     .replaceAll('{{PHONE}}', esc(site.phone))
     .replaceAll('{{HOURS}}', esc(site.hours));
   const returnsHtml = `<!doctype html><html lang="uk"><head>
-${head({ title: 'Повернення товару — 14 днів | TexnoPlaza', desc: 'Повернення техніки в TexnoPlaza (Суми) протягом 14 днів: у магазині безкоштовно, гроші одразу й повною сумою; поштою — пересилку оплачує покупець.', canonical: abs('/povernennya-tovaru/') })}
+${head({ title: 'Повернення товару — 14 днів | TexnoPlaza', desc: 'Повернення техніки в TexnoPlaza протягом 14 днів: для покупців із Сум безкоштовно, гроші одразу й повною сумою; з інших міст — пересилку оплачує покупець.', canonical: abs('/povernennya-tovaru/') })}
 </head><body>${GTM_NS}
 ${HEADER}
 ${returnsBody}
