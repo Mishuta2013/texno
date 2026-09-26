@@ -2721,7 +2721,7 @@ ${injectData()}
     .replaceAll('{{PHONE}}', esc(site.phone))
     .replaceAll('{{HOURS}}', esc(site.hours));
   const returnsHtml = `<!doctype html><html lang="uk"><head>
-${head({ title: 'Безкоштовне повернення товару — 14 днів | TexnoPlaza', desc: 'Повернення товару в TexnoPlaza (Суми): будь-яку техніку можна повернути безкоштовно протягом 14 днів. Гроші — одразу в магазині, повну суму без утримань.', canonical: abs('/povernennya-tovaru/') })}
+${head({ title: 'Повернення товару — 14 днів | TexnoPlaza', desc: 'Повернення товару в TexnoPlaza (Суми): будь-яку техніку можна повернути протягом 14 днів. У магазині — безкоштовно, гроші одразу й повною сумою; поштою — пересилку оплачує покупець.', canonical: abs('/povernennya-tovaru/') })}
 </head><body>${GTM_NS}
 ${HEADER}
 ${returnsBody}

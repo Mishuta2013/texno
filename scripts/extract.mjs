@@ -59,7 +59,7 @@ const site = {
   baseUrl: 'https://REPLACE_WITH_DOMAIN',   // owner will provide final domain
   phone: '+380956082228',
   phoneDisplay: '+380 (95) 608 22 28',
-  email: 'dimagala48@gmail.com',
+  email: 'tehnoplazasumy@gmail.com',
   address: 'м. Суми, вул. Харківська 2/1',
   city: 'Суми',
   hours: 'Пн–Пт 10:00–18:00 · Сб 10:00–17:00',
