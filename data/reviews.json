@@ -2,7 +2,7 @@
   "_readme": "Real reviews from the shop's Google Business profile, confirmed by the owner. Never write an entry here that nobody left: the section tells visitors these are real customers, and inventing one would make it a lie. Leave `items` empty rather than fill it with something plausible. `name` and `date` are optional — the card drops the author line when there is no name rather than showing a blank avatar. `rating`/`count` are the figures Google shows for the place; null skips the summary block.",
   "googleUrl": "https://www.google.com/maps/place/?q=place_id:ChIJL7q2Yr4BKUERH6aa01VlFQo",
   "rating": 5.0,
-  "count": 58,
+  "count": 71,
   "items": [
     {
       "rating": 5,
