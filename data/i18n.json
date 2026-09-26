@@ -9,7 +9,7 @@
     "top_addr": "Суми, вул. Харківська 2/1",
     "top_hours": "Пн–Пт 10:00–18:00 · Сб 10:00–17:00 · Нд 10:00–14:00",
     "cb_btn": "Замовити дзвінок",
-    "hero_badge": "Доставка по Сумах · монтаж і підключення · оплата після",
+    "hero_badge": "Доставка по Сумах · підключення техніки · оплата після",
     "tb_contact": "Зв'язок",
     "ct_h": "Зв'язатися з нами",
     "nav_blog": "Блог",
@@ -40,7 +40,7 @@
     "quiz_send": "Відправити заявку",
     "quiz_done_h": "Дякуємо!",
     "quiz_done_p": "Менеджер передзвонить протягом 15 хвилин і допоможе з вибором.",
-    "hero_h1a": "Техніка для дому та",
+    "hero_h1a": "Побутова техніка для дому та",
     "hero_h1b": "енергонезалежність у Сумах",
     "hero_sub": "Техніка для дому й кухні: холодильники, пральні машини, кондиціонери, бойлери, зарядні станції, а також мийки, змішувачі, витяжки, варильні поверхні, духові шафи та посудомийні машини. Доставка по Сумах, підключення будь-якої техніки, оплата після встановлення.",
     "hero_cta1": "Перейти до каталогу",
@@ -195,7 +195,7 @@
     "faq": [
       [
         "Це той самий магазин ТехноПлаза (TexnoPlaza) у Сумах?",
-        "Так. ТехноПлаза, TexnoPlaza, «Техно Плаза» — це одна й та сама компанія, офіційний сайт texnoplaza.sumy.ua. Ми у Сумах, вул. Харківська 2/1: продаємо кондиціонери, пральні машини, холодильники, бойлери та зарядні станції з доставкою, підключенням і монтажем під ключ.",
+        "Так. ТехноПлаза, TexnoPlaza, «Техно Плаза» — це одна й та сама компанія, офіційний сайт texnoplaza.sumy.ua. Ми у Сумах, вул. Харківська 2/1: продаємо техніку для дому й кухні — холодильники, пральні машини, бойлери, вбудовану кухонну техніку, кондиціонери та зарядні станції — з доставкою й підключенням.",
         "general"
       ],
       [
@@ -205,12 +205,12 @@
       ],
       [
         "Чи потрібно платити щось до встановлення?",
-        "Ні. Оплата кондиціонера та монтажу — лише після прийняття в робочий стан. Виняток — якщо температура на вулиці нижче −10°C, тоді перевірку переносимо на наступний теплий день.",
+        "Ні. За техніку та підключення платите лише після того, як переконаєтесь, що все працює. Виняток — відправлення Новою поштою: для них передоплата на картку.",
         "general"
       ],
       [
         "Чи можна повернути техніку, якщо передумали?",
-        "Так. Будь-яку техніку можна повернути протягом 14 днів з дня отримання — безкоштовно, без комісій. Товар має бути без слідів використання, в оригінальному пакуванні й повній комплектації, з чеком. Привезіть його в магазин на вул. Харківській 2/1 — гроші повертаємо одразу, повну суму. Якщо отримували замовлення Новою поштою — так само відправте його назад, пересилку оплачує покупець. Усі умови — на сторінці «Повернення товару».",
+        "Так. Будь-яку техніку можна повернути протягом 14 днів з дня отримання. Товар має бути без слідів використання, в оригінальному пакуванні й повній комплектації, з чеком. У магазині на вул. Харківській 2/1 повернення безкоштовне — гроші повертаємо одразу, повну суму. Якщо отримували замовлення Новою поштою — так само відправте його назад, пересилку оплачує покупець. Усі умови — на сторінці «Повернення товару».",
         "general"
       ],
       [
@@ -245,7 +245,7 @@
       ],
       [
         "Ви підключаєте пральну машину?",
-        "Так. Доставка по Сумах — 400 грн, підключення — 500 грн. Майстер привезе машину, зніме транспортувальні болти, підключить до води й каналізації, вирівняє по рівню та запустить тестовий цикл.",
+        "Так. Доставка по Сумах — 400 грн, вартість підключення узгоджується з продавцем до виїзду майстра. Майстер привезе машину, зніме транспортувальні болти, підключить до води й каналізації, вирівняє по рівню та запустить тестовий цикл.",
         "wm"
       ],
       [
@@ -551,10 +551,10 @@
     "hc_load": "Завантаження",
     "hc_spin": "Віджим",
     "hc_class": "Клас",
-    "seo_home_t": "TexnoPlaza — магазин побутової та кухонної техніки у Сумах",
-    "seo_home_d": "Магазин техніки у Сумах: {{ITEMS}} у наявності — холодильники, пральні машини, кондиціонери, мийки, духові шафи. Оплата після отримання. {{RATING}} ★ Google ({{REVIEWS}}).",
+    "seo_home_t": "Побутова техніка у Сумах — магазин з доставкою",
+    "seo_home_d": "Магазин побутової техніки у Сумах: {{ITEMS}} у наявності — холодильники, пральні машини, бойлери, кухонна техніка. Доставка й підключення. {{RATING}} ★ Google ({{REVIEWS}}).",
     "seo_blog_t": "Блог — поради щодо техніки для дому | TexnoPlaza",
-    "seo_blog_d": "Корисні статті про вибір та обслуговування техніки для дому у Сумах: кондиціонери, холодильники, пральні машини, зарядні станції.",
+    "seo_blog_d": "Корисні статті про вибір техніки для дому у Сумах: холодильники, пральні машини, бойлери, кухонна техніка, зарядні станції та кондиціонери.",
     "seo_cat_t": "{name} у Сумах — купити з доставкою | TexnoPlaza",
     "pp_buy_t": "{name} — купити в Сумах",
     "pp_buy_price": "{name} — {price} грн, Суми",
@@ -954,7 +954,7 @@
     "top_addr": "Сумы, ул. Харьковская 2/1",
     "top_hours": "Пн–Пт 10:00–18:00 · Сб 10:00–17:00 · Вс 10:00–14:00",
     "cb_btn": "Заказать звонок",
-    "hero_badge": "Доставка по Сумам · монтаж и подключение · оплата после",
+    "hero_badge": "Доставка по Сумам · подключение техники · оплата после",
     "tb_contact": "Связь",
     "ct_h": "Связаться с нами",
     "nav_blog": "Блог",
@@ -985,7 +985,7 @@
     "quiz_send": "Отправить заявку",
     "quiz_done_h": "Спасибо!",
     "quiz_done_p": "Менеджер перезвонит в течение 15 минут и поможет с выбором.",
-    "hero_h1a": "Техника для дома и",
+    "hero_h1a": "Бытовая техника для дома и",
     "hero_h1b": "энергонезависимость в Сумах",
     "hero_sub": "Техника для дома и кухни: холодильники, стиральные машины, кондиционеры, бойлеры, зарядные станции, а также мойки, смесители, вытяжки, варочные поверхности, духовые шкафы и посудомоечные машины. Доставка по Сумам, подключение любой техники, оплата после установки.",
     "hero_cta1": "Перейти в каталог",
@@ -1140,7 +1140,7 @@
     "faq": [
       [
         "Это тот самый магазин ТехноПлаза (TexnoPlaza) в Сумах?",
-        "Да. ТехноПлаза, TexnoPlaza, «Техно Плаза» — это одна и та же компания, официальный сайт texnoplaza.sumy.ua. Мы в Сумах, ул. Харьковская 2/1: продаём кондиционеры, стиральные машины, холодильники, бойлеры и зарядные станции с доставкой, подключением и монтажом под ключ.",
+        "Да. ТехноПлаза, TexnoPlaza, «Техно Плаза» — это одна и та же компания, официальный сайт texnoplaza.sumy.ua. Мы в Сумах, ул. Харьковская 2/1: продаём технику для дома и кухни — холодильники, стиральные машины, бойлеры, встраиваемую кухонную технику, кондиционеры и зарядные станции — с доставкой и подключением.",
         "general"
       ],
       [
@@ -1150,12 +1150,12 @@
       ],
       [
         "Нужно ли платить что-то до установки?",
-        "Нет. Оплата кондиционера и монтажа — только после приёмки в рабочем состоянии. Исключение — если температура на улице ниже −10 °C, тогда проверку переносим на следующий тёплый день.",
+        "Нет. За технику и подключение платите только после того, как убедитесь, что всё работает. Исключение — отправки Новой почтой: для них предоплата на карту.",
         "general"
       ],
       [
         "Можно ли вернуть технику, если передумали?",
-        "Да. Любую технику можно вернуть в течение 14 дней со дня получения — бесплатно, без комиссий. Товар должен быть без следов использования, в оригинальной упаковке и полной комплектации, с чеком. Привезите его в магазин на ул. Харьковской 2/1 — деньги возвращаем сразу, полную сумму. Если получали заказ Новой почтой — так же отправьте его обратно, пересылку оплачивает покупатель. Все условия — на странице «Возврат товара».",
+        "Да. Любую технику можно вернуть в течение 14 дней со дня получения. Товар должен быть без следов использования, в оригинальной упаковке и полной комплектации, с чеком. В магазине на ул. Харьковской 2/1 возврат бесплатный — деньги возвращаем сразу, полную сумму. Если получали заказ Новой почтой — так же отправьте его обратно, пересылку оплачивает покупатель. Все условия — на странице «Возврат товара».",
         "general"
       ],
       [
@@ -1190,7 +1190,7 @@
       ],
       [
         "Вы подключаете стиральную машину?",
-        "Да. Доставка по Сумам — 400 грн, подключение — 500 грн. Мастер привезёт машину, снимет транспортировочные болты, подключит к воде и канализации, выровняет по уровню и запустит тестовый цикл.",
+        "Да. Доставка по Сумам — 400 грн, стоимость подключения согласовывается с продавцом до выезда мастера. Мастер привезёт машину, снимет транспортировочные болты, подключит к воде и канализации, выровняет по уровню и запустит тестовый цикл.",
         "wm"
       ],
       [
@@ -1496,10 +1496,10 @@
     "hc_load": "Загрузка",
     "hc_spin": "Отжим",
     "hc_class": "Класс",
-    "seo_home_t": "TexnoPlaza — магазин бытовой и кухонной техники в Сумах",
-    "seo_home_d": "Магазин техники в Сумах: {{ITEMS}} в наличии — холодильники, стиральные, кондиционеры, мойки, вытяжки, духовые шкафы. Оплата после получения. {{RATING}} ★ Google ({{REVIEWS}}).",
+    "seo_home_t": "Бытовая техника в Сумах — магазин с доставкой",
+    "seo_home_d": "Магазин бытовой техники в Сумах: {{ITEMS}} в наличии — холодильники, стиральные машины, бойлеры, кухонная техника. Доставка и подключение. {{RATING}} ★ Google ({{REVIEWS}}).",
     "seo_blog_t": "Блог — советы по технике для дома | TexnoPlaza",
-    "seo_blog_d": "Полезные статьи о выборе и обслуживании техники для дома в Сумах: кондиционеры, холодильники, стиральные машины, зарядные станции.",
+    "seo_blog_d": "Полезные статьи о выборе техники для дома в Сумах: холодильники, стиральные машины, бойлеры, кухонная техника, зарядные станции и кондиционеры.",
     "seo_cat_t": "{name} в Сумах — купить с доставкой | TexnoPlaza",
     "pp_buy_t": "{name} — купить в Сумах",
     "pp_buy_price": "{name} — {price} грн, Сумы",
@@ -1899,7 +1899,7 @@
     "top_addr": "Sumy, Kharkivska St. 2/1",
     "top_hours": "Mon–Fri 10:00–18:00 · Sat 10:00–17:00 · Sun 10:00–14:00",
     "cb_btn": "Request a call",
-    "hero_badge": "Delivery in Sumy · installation & hookup · pay afterwards",
+    "hero_badge": "Delivery in Sumy · appliance hookup · pay afterwards",
     "tb_contact": "Contact",
     "ct_h": "Get in touch",
     "nav_blog": "Blog",
@@ -2085,7 +2085,7 @@
     "faq": [
       [
         "Is this the TexnoPlaza (ТехноПлаза) store in Sumy?",
-        "Yes. TexnoPlaza, ТехноПлаза and “Texno Plaza” are the same company, official site texnoplaza.sumy.ua. We are in Sumy at 2/1 Kharkivska St and sell air conditioners, washing machines, refrigerators, water heaters and power stations with delivery, hook-up and turnkey installation.",
+        "Yes. TexnoPlaza, ТехноПлаза and “Texno Plaza” are the same company, official site texnoplaza.sumy.ua. We are in Sumy at 2/1 Kharkivska St and sell home and kitchen appliances — refrigerators, washing machines, water heaters, built-in kitchen appliances, air conditioners and power stations — delivered and connected.",
         "general"
       ],
       [
@@ -2095,12 +2095,12 @@
       ],
       [
         "Do I have to pay anything before installation?",
-        "No. You pay for the unit and the installation only after accepting the finished job. The exception is when the outdoor temperature is below −10 °C — then we postpone the test run to the next warm day.",
+        "No. You pay for the appliance and the hookup only after you have seen that everything works. The exception is a Nova Poshta shipment, which is prepaid by card.",
         "general"
       ],
       [
         "Can I return an appliance if I change my mind?",
-        "Yes. Any appliance can be returned within 14 days of receiving it, free of charge and with no fees. It must be unused, in its original packaging and complete, with the receipt. Bring it to the shop at 2/1 Kharkivska St. and we refund the full amount on the spot. If the order came by Nova Poshta, send it back the same way; the return postage is paid by the buyer. The full terms are on the Returns page.",
+        "Yes. Any appliance can be returned within 14 days of receiving it. It must be unused, in its original packaging and complete, with the receipt. Returns at the shop, 2/1 Kharkivska St., are free and we refund the full amount on the spot. If the order came by Nova Poshta, send it back the same way; the return postage is paid by the buyer. The full terms are on the Returns page.",
         "general"
       ],
       [
@@ -2135,7 +2135,7 @@
       ],
       [
         "Do you connect the washing machine?",
-        "Yes. Delivery in Sumy costs 400 UAH and hookup 500 UAH. The technician brings the machine, removes the transit bolts, connects it to the water supply and drain, levels it and runs a test cycle.",
+        "Yes. Delivery in Sumy costs 400 UAH; the hookup price is agreed with the seller before the technician comes. The technician brings the machine, removes the transit bolts, connects it to the water supply and drain, levels it and runs a test cycle.",
         "wm"
       ],
       [
@@ -2441,8 +2441,8 @@
     "hc_load": "Load",
     "hc_spin": "Spin",
     "hc_class": "Class",
-    "seo_home_t": "TexnoPlaza — home and kitchen appliance shop in Sumy",
-    "seo_home_d": "Appliance shop in Sumy: {{ITEMS}} in stock — refrigerators, washing machines, air conditioners, sinks, hoods and ovens. Pay after delivery. {{RATING}} ★ Google ({{REVIEWS}}).",
+    "seo_home_t": "Home appliances in Sumy — shop with delivery",
+    "seo_home_d": "Home appliance shop in Sumy: {{ITEMS}} in stock — refrigerators, washing machines, water heaters, kitchen appliances. Delivery and hookup. {{RATING}} ★ Google ({{REVIEWS}}).",
     "seo_blog_t": "Blog — home appliance advice | TexnoPlaza",
     "seo_blog_d": "Useful articles on choosing and maintaining home appliances in Sumy: air conditioners, installation, washing machines, power stations.",
     "seo_cat_t": "{name} in Sumy — buy with delivery | TexnoPlaza",

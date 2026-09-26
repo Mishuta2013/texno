@@ -350,7 +350,7 @@
       "Офіційна гарантія"
     ],
     "seoTitle": "Купити пральну машину в Сумах — від {{WM_FROM}} грн",
-    "seoDesc": "Пральні машини у Сумах: {{WM_MODELS}} — {{WM_BRANDS}}. Завантаження {{WM_RANGE}}, вузькі від 40 см. Доставка 400 грн, підключення 500 грн.",
+    "seoDesc": "Пральні машини у Сумах: {{WM_MODELS}} — {{WM_BRANDS}}. Завантаження {{WM_RANGE}}, вузькі від 40 см. Доставка по Сумах 400 грн, підключення — за погодженням.",
     "intro": "Вузькі та стандартні моделі з інверторними моторами — від бюджетних Edler і Grifon до LG та Samsung. Привеземо й підключимо.",
     "chips": [
       {
@@ -496,7 +496,7 @@
     "cardSub_en": "With delivery & installation",
     "seoTitle_ru": "Купить стиральную машину в Сумах — от {{WM_FROM}} грн",
     "seoTitle_en": "Washing machines in Sumy from {{WM_FROM}} UAH",
-    "seoDesc_ru": "Стиральные машины в Сумах: {{WM_MODELS}} — {{WM_BRANDS}}. Загрузка {{WM_RANGE}}, узкие от 40 см. Доставка 400 грн, подключение 500 грн.",
+    "seoDesc_ru": "Стиральные машины в Сумах: {{WM_MODELS}} — {{WM_BRANDS}}. Загрузка {{WM_RANGE}}, узкие от 40 см. Доставка по Сумам 400 грн, подключение — по согласованию.",
     "seoDesc_en": "Washing machines in Sumy: {{WM_MODELS}} — {{WM_BRANDS}}. Load {{WM_RANGE}}, slim from 40 cm. Delivery 400 UAH, hook-up 500 UAH.",
     "intro_ru": "Узкие и стандартные модели с инверторными моторами — от бюджетных Edler и Grifon до LG и Samsung. Привезём и подключим.",
     "intro_en": "Slim and standard models with inverter motors — from budget Edler and Grifon to LG and Samsung. We deliver and connect them.",
@@ -590,7 +590,7 @@
     "faq": [
       [
         "Скільки коштує пральна машина з доставкою в Сумах?",
-        "Пральні машини — від {{WM_FROM}} грн. Доставка по Сумах — 400 грн, підключення — 500 грн. Оплата після отримання."
+        "Пральні машини — від {{WM_FROM}} грн. Доставка по Сумах — 400 грн, вартість підключення узгоджується з продавцем. Оплата після отримання."
       ],
       [
         "Яка найвужча пральна машина є в наявності?",
@@ -608,7 +608,7 @@
     "faq_ru": [
       [
         "Сколько стоит стиральная машина с доставкой в Сумах?",
-        "Стиральные машины — от {{WM_FROM}} грн. Доставка по Сумам — 400 грн, подключение — 500 грн. Оплата после получения."
+        "Стиральные машины — от {{WM_FROM}} грн. Доставка по Сумам — 400 грн, стоимость подключения согласовывается с продавцом. Оплата после получения."
       ],
       [
         "Какая самая узкая стиральная машина в наличии?",
@@ -626,7 +626,7 @@
     "faq_en": [
       [
         "How much is a washing machine with delivery in Sumy?",
-        "Washing machines start at {{WM_FROM}} UAH. Delivery in Sumy is 400 UAH, connection 500 UAH. You pay on receipt."
+        "Washing machines start at {{WM_FROM}} UAH. Delivery in Sumy is 400 UAH; the hookup price is agreed with the seller. You pay on receipt."
       ],
       [
         "What is the slimmest washing machine in stock?",

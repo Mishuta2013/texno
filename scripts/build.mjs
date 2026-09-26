@@ -513,8 +513,9 @@ const GTM_NS = `<!-- Google Tag Manager (noscript) --><noscript><iframe src="htt
    name above every result on its own, so a title that opened with it spent 13
    of the ~60 visible characters saying twice who the seller is, and pushed the
    product and the price — what earns the click — towards the cut. The home
-   page is the one exception: people who type "техноплаза" are looking for the
-   shop itself, so there the name stays in front. Applied here rather than at
+   page follows the same rule since September 2026: it now leads with
+   "Побутова техніка у Сумах", the shop's most-searched generic query, and the
+   brand query still finds it through the name at the end and the domain. Applied here rather than at
    the call sites, so a new kind of page cannot be added without it; a
    "| TexnoPlaza" already on the end is not printed twice. */
 /* What Google needs to show "Безкоштовне повернення · 14 днів" and a delivery
@@ -2722,7 +2723,7 @@ ${injectData()}
     .replaceAll('{{PHONE}}', esc(site.phone))
     .replaceAll('{{HOURS}}', esc(site.hours));
   const returnsHtml = `<!doctype html><html lang="uk"><head>
-${head({ title: 'Повернення товару — 14 днів | TexnoPlaza', desc: 'Повернення товару в TexnoPlaza (Суми): будь-яку техніку можна повернути протягом 14 днів. У магазині — безкоштовно, гроші одразу й повною сумою; поштою — пересилку оплачує покупець.', canonical: abs('/povernennya-tovaru/') })}
+${head({ title: 'Повернення товару — 14 днів | TexnoPlaza', desc: 'Повернення техніки в TexnoPlaza (Суми) протягом 14 днів: у магазині безкоштовно, гроші одразу й повною сумою; поштою — пересилку оплачує покупець.', canonical: abs('/povernennya-tovaru/') })}
 </head><body>${GTM_NS}
 ${HEADER}
 ${returnsBody}
@@ -2745,7 +2746,7 @@ ${injectData()}
     .replaceAll('{{EMAIL}}', esc(site.email))
     .replaceAll('{{HOURS}}', esc(site.hours));
   const termsHtml = `<!doctype html><html lang="uk"><head>
-${head({ title: 'Умови продажу: оплата, доставка, гарантія | TexnoPlaza', desc: 'Умови продажу TexnoPlaza (Суми): продавець ФОП Гала О. В., оплата готівкою, карткою, частинами або за рахунком, доставка по Сумах 400 грн і Новою поштою по Україні, повернення 14 днів, гарантія виробника.', canonical: abs('/umovy-prodazhu/') })}
+${head({ title: 'Умови продажу: оплата, доставка, гарантія | TexnoPlaza', desc: 'Умови продажу TexnoPlaza у Сумах: продавець ФОП Гала О. В., оплата, доставка по Сумах і Новою поштою, підключення, повернення 14 днів, гарантія.', canonical: abs('/umovy-prodazhu/') })}
 </head><body>${GTM_NS}
 ${HEADER}
 ${termsBody}
