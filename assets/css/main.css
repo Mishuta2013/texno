@@ -429,6 +429,7 @@ input[type=range]{height:26px;padding:10px 0;background-clip:content-box}
 .price-card .pc-old{font-family:var(--disp);font-size:18px;color:rgba(233,243,255,.45);text-decoration:line-through}
 .price-card .pc-val{font-family:var(--disp);font-size:40px;font-weight:800;color:#fff;line-height:1.05;margin:2px 0 4px}
 .price-card .pc-val span{font-size:18px;color:var(--frost)}
+.price-card .pc-val-txt{font-size:30px}
 .price-card .pc-note{font-size:13px;color:var(--frost);margin-bottom:20px}
 .price-card .btn-primary{width:100%;justify-content:center}
 .extra{margin-top:18px;background:rgba(11,26,51,.4);border:1px solid rgba(124,196,255,.14);border-radius:14px;padding:16px 18px}

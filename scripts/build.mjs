@@ -1448,14 +1448,11 @@ const _footAt = body.indexOf('</main>');
    language's own home page: a Russian visitor clicking "Монтаж" was being sent
    to the Ukrainian one. */
 const toHome = h => h.replace(/href="#(?!")/g, `href="${pfx()}/#`);
-/* Installation now has a page of its own, so the header and footer links point
-   there rather than scrolling the home page. It is the service people search
-   for by name, and a link from every page is what makes it findable. */
-const toInstall = h => INSTALL_LANGS.includes(L)
-  ? h.split(`href="${pfx()}/#installation"`).join(`href="${pfx()}${INSTALL_PATH}"`)
-  : h;
-HEADER = toInstall(toHome(body.slice(0, _heroAt)));
-FOOTER = toInstall(toHome(body.slice(_footAt)));
+/* Header and footer now say "Підключення" and lead to the home page's
+   installation section, which covers every kind of appliance. The air
+   conditioner page stays reachable from that section's own link. */
+HEADER = toHome(body.slice(0, _heroAt));
+FOOTER = toHome(body.slice(_footAt));
 
 const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: ((i18n[L].faq) || i18n.uk.faq || []).map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
 const indexHtml = `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
