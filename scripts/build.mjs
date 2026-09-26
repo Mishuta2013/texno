@@ -1474,7 +1474,11 @@ ${head({
             absImg('/assets/img/site/shop-1x1.jpg')],
     logo: absImg('/assets/img/logo.png'),
     telephone: site.phone, email: site.email,
-    address: { '@type': 'PostalAddress', streetAddress: 'вул. Харківська 2/1', addressLocality: site.city, addressCountry: 'UA' },
+    /* The registered seller behind the shop name: Merchant Center checks that a
+       buyer can tell who they are buying from. */
+    legalName: 'ФОП Гала Олексій Валерійович', taxID: '3017000673',
+    address: { '@type': 'PostalAddress', streetAddress: 'вул. Харківська 2/1', addressLocality: site.city,
+               addressRegion: 'Сумська область', postalCode: '40035', addressCountry: 'UA' },
     url: BASE, priceRange: '₴₴', areaServed: 'Суми',
     /* Ties the site to the Business Profile: the same coordinates and the same
        place the address links open, so Google is not left matching them by the
@@ -2732,6 +2736,29 @@ ${injectData()}
   fs.mkdirSync(path.join(DIST, 'povernennya-tovaru'), { recursive: true });
   writePage(path.join(DIST, 'povernennya-tovaru'), returnsHtml);
   SITEMAP.push('/povernennya-tovaru/');
+
+  /* Who sells and on what terms, on one page: seller (FOP and tax id), prices,
+     ordering, payment, delivery with the Nova Poshta estimates Merchant Center
+     is given as shipping_label rates, returns and warranty. Merchant Center
+     suspends a shop for misrepresentation when a buyer cannot find these, so
+     the page is linked from every footer. */
+  const termsBody = fs.readFileSync(path.join(ROOT, 'templates/terms.html'), 'utf8')
+    .replaceAll('{{PHONE_DISPLAY}}', esc(site.phoneDisplay))
+    .replaceAll('{{PHONE}}', esc(site.phone))
+    .replaceAll('{{EMAIL}}', esc(site.email))
+    .replaceAll('{{HOURS}}', esc(site.hours));
+  const termsHtml = `<!doctype html><html lang="uk"><head>
+${head({ title: 'Умови продажу: оплата, доставка, гарантія | TexnoPlaza', desc: 'Умови продажу TexnoPlaza (Суми): продавець ФОП Гала О. В., оплата готівкою, карткою, частинами або за рахунком, доставка по Сумах 400 грн і Новою поштою по Україні, повернення 14 днів, гарантія виробника.', canonical: abs('/umovy-prodazhu/') })}
+</head><body>${GTM_NS}
+${HEADER}
+${termsBody}
+${FOOTER}
+${injectData()}
+<script src="${av('/assets/js/main.js')}" defer></script>
+</body></html>`;
+  fs.mkdirSync(path.join(DIST, 'umovy-prodazhu'), { recursive: true });
+  writePage(path.join(DIST, 'umovy-prodazhu'), termsHtml);
+  SITEMAP.push('/umovy-prodazhu/');
 
   /* Most sales are taken by phone or in Viber, never pass through the site's
      order form, and so never met the Google Customer Reviews opt-in. The
