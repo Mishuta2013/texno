@@ -1291,8 +1291,9 @@ function navCats() {
    A category without a cover renders exactly as it did before — an emoji tile
    beside the name — so the section is never half-dressed while artwork is made. */
 {
-  /* Five categories carry the shop — air conditioners, washing machines,
-     fridges, power stations, water heaters — and the section showed all
+  /* Five categories carry the shop — fridges, washing machines, power stations,
+     water heaters and ovens (air conditioners left the five in September 2026:
+     the owner wants no emphasis on them) — and the section showed all
      fourteen, 1631px of cards on a phone. The featured five stay; the rest are
      one card that opens the catalog panel, with a few of their thumbnails so it
      reads as "and more" rather than as a sixth category. */
@@ -1338,8 +1339,7 @@ function navCats() {
     `<div class="cats-grid${withCover.length ? ' has-covers' : ''}${rest.length ? ' cats-main' : ''}">\n      ${cards}${allTile ? '\n      ' + allTile : ''}\n    </div>`);
 }
 fill('<!--INSTALL_MORE-->', INSTALL_LANGS.includes(L)
-  ? `<a class="pc-more" href="${pfx()}${HOOKUP_PATH}">${esc(t('hk_more'))} →</a>` +
-    `<a class="pc-more" href="${pfx()}${INSTALL_PATH}">${esc(t('inst_more'))} →</a>` : '');
+  ? `<a class="pc-more" href="${pfx()}${HOOKUP_PATH}">${esc(t('hk_more'))} →</a>` : '');
 /* The catalogue tab strip was thirteen — well, six — hand-written buttons in
    the template, each with its own emoji and i18n key, and the eight new
    categories were simply missing from it. Same source as the grid and the menu
@@ -2695,8 +2695,10 @@ function hookupPage() {
   const crumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
     { '@type': 'ListItem', position: 1, name: t('pp_home'), item: abs(pfx() + '/') },
     { '@type': 'ListItem', position: 2, name: t('hk_h1'), item: abs(url) } ] };
+  /* Air conditioners are one line among the rest — the owner wants no emphasis
+     on them — with a plain link to their own page in the text. */
   const typeItem = ([h, p], i) => i === types.length - 1
-    ? `<li><b><a href="${pfx()}${INSTALL_PATH}">${esc(h)} →</a></b><p>${esc(p)}</p></li>`
+    ? `<li><b>${esc(h)}</b><p>${esc(p)} <a href="${pfx()}${INSTALL_PATH}">${esc(t('hk_ac'))}</a></p></li>`
     : `<li><b>${esc(h)}</b><p>${esc(p)}</p></li>`;
   return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
 ${head({ title: t('hk_title'), desc: t('hk_desc'), canonical: abs(url),
