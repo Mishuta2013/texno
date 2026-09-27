@@ -2679,7 +2679,7 @@ if (INSTALL_LANGS.includes(L)) {
 function hookupPage() {
   const types = [1,2,3,4,5,6,7,8,9,10].map(n => [t(`hk_t${n}`), t(`hk_p${n}`)]);
   const steps = [1,2,3,4].map(n => [t(`hk_s${n}t`), t(`hk_s${n}p`)]);
-  const faqs = [1,2,3,4].map(n => [t(`hk_q${n}`), t(`hk_a${n}`)]);
+  const faqs = [1,2,3,4,5].map(n => [t(`hk_q${n}`), t(`hk_a${n}`)]);
   const url = pfx() + HOOKUP_PATH;
   const jsonld = {
     '@context': 'https://schema.org', '@type': 'Service',
