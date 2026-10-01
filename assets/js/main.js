@@ -1831,6 +1831,7 @@ document.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return
   else if(/wa\.me|api\.whatsapp|whatsapp\.com/.test(h))track('click_whatsapp');
   else if(/^viber:/i.test(h))track('click_viber');
   else if(/t\.me\//.test(h))track('click_telegram');
+  else if(/google\.[a-z.]+\/maps\/dir\//.test(h))track('click_directions');
 },{passive:true});
 
 /* setupFilters only wires listeners; applyI18n ends with renderCatalog(), so
@@ -1902,6 +1903,43 @@ function renderShopState(){
   el.title=t('top_hours');
 }
 if($('hp-state')){renderShopState();setInterval(renderShopState,60000);}
+
+/* ============ POWER STATION CALCULATOR ============ */
+/* /kalkulyator-zaryadnoyi-stantsiyi/. The ticked appliances give the load, the
+   hours give the capacity — with the 15 % inverter loss the product page's
+   runtime box and the picker use — and the answer is every station in stock
+   that carries that load for that long, cheapest first. The page arrives with
+   the default answer already drawn; this redraws it on every change. */
+function pscRt(hours){
+  let h=Math.floor(hours),m=Math.round((hours-h)*60);
+  if(m===60){h++;m=0;}
+  return((h?h+' '+t('rt_hr')+' ':'')+(m?m+' '+t('rt_min'):(h?'':'0 '+t('rt_min')))).trim();
+}
+function pscCalc(){
+  const box=$('psc');if(!box)return;
+  let w=0;const names=[];
+  box.querySelectorAll('.rt-item input:checked').forEach(c=>{w+=+c.dataset.w;names.push(t(c.dataset.k));});
+  const h=+$('psc-h').value||1, need=Math.round(w*h/0.85);
+  $('psc-hv').textContent=h+' '+t('rt_hr');
+  $('psc-w').textContent=w?w+' '+t('u_w'):'—';
+  $('psc-wh').textContent=w?fmt(need)+' '+t('u_wh'):'—';
+  window.__PSC__={names,w,h,need};
+  const res=$('psc-res'),none=$('psc-none');
+  if(!w){res.innerHTML='';none.textContent=t('rt_pick');none.hidden=false;return;}
+  const fit=PRODUCTS.filter(p=>p.category==='zaryadni-stantsii').filter(p=>{
+    const s=p.specs||{};return num(s.output_w)>=w&&num(s.capacity_wh)>=need;}).sort((a,b)=>a.price-b.price);
+  none.textContent=t('psc_none');none.hidden=fit.length>0;
+  res.innerHTML=fit.map(p=>cardHTML(p).replace('<div class="card-specs">',
+    '<div class="card-specs"><span class="stag">⏱ '+pscRt(num(p.specs.capacity_wh)*0.85/w)+'</span>')).join('');
+}
+/* The calculation goes to the manager the way a product would: in the callback
+   form's product line, so it lands in Telegram as the 📦 row. */
+function pscSend(){
+  const s=window.__PSC__||{};
+  const line=s.w?`${t('psc_calc_lbl')}: ${s.names.join(', ')} — ${s.w} ${t('u_w')}, ${s.h} ${t('rt_hr')} → ${fmt(s.need)} ${t('u_wh')}`:t('psc_calc_lbl');
+  openCb(null,line,'');
+}
+if($('psc'))pscCalc();
 
 if($('cmp-bar')) renderCmpBar();
 if($('fav-count')) updateFavCount();

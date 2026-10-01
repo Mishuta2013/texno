@@ -1488,6 +1488,32 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 .rt-main b{color:#fff}
 .pp-runtime.over .rt-main{background:linear-gradient(140deg,#7a1d1d,#a52a2a)}
 .rt-note{font-size:13px;color:var(--g4);line-height:1.55}
+.rt-more,.cat-calc-link{display:inline-block;margin-top:12px;font-size:14.5px;font-weight:700;color:var(--blue-d);text-decoration:underline;text-decoration-color:var(--g3);text-underline-offset:3px}
+.rt-more:hover,.cat-calc-link:hover{text-decoration-color:currentColor}
+/* power station calculator page: the product page's runtime box plus hours and an answer */
+.psc-box h2{font-size:18px;margin:0 0 12px}
+.psc-hours{display:flex;align-items:center;gap:14px;margin:0 0 20px}
+.psc-hours input{flex:1;max-width:420px;accent-color:var(--blue);cursor:pointer}
+.psc-hours b{min-width:64px;font-family:var(--disp);font-size:20px;font-weight:800;color:var(--ink)}
+.psc-res{margin-top:28px}
+.psc-res h2{margin-bottom:14px}
+.psc-none{padding:14px 16px;border-radius:12px;background:var(--paper);border:1px solid var(--g2);color:var(--g5);font-size:14.5px;line-height:1.55;margin-bottom:14px}
+/* product page: "in the shop — come and see it", the hours and the way there */
+.pp-store{display:flex;align-items:center;gap:12px;margin:0 0 18px;padding:14px 16px;border:1px solid var(--g2);border-radius:14px;background:var(--paper)}
+.pp-store-ic{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:var(--ice);display:inline-flex;align-items:center;justify-content:center}
+.pp-store-ic svg{width:19px;height:19px;fill:none;stroke:var(--blue-d);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pp-store-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;font-size:13.5px;color:var(--g5);line-height:1.45}
+.pp-store-tx>b{font-size:14.5px;color:var(--ink)}
+.pp-store .hp-state{color:var(--g5);font-size:13.5px}
+.pp-store .hp-state b{color:var(--ink)}
+.pp-store .hp-state .hp-dot{background:var(--g3)}
+.pp-store .hp-state.is-open b{color:#15803D}
+.pp-store .hp-state.is-soon b{color:#B45309}
+:root[data-theme="dark"] .pp-store .hp-state.is-open b{color:#7DEAA5}
+:root[data-theme="dark"] .pp-store .hp-state.is-soon b{color:#FCD34D}
+.pp-store-go{flex:0 0 auto;padding:9px 18px;border-radius:999px;border:1.5px solid var(--blue);color:var(--blue-d);font-weight:700;font-size:14px;text-decoration:none;transition:background .2s,color .2s}
+.pp-store-go:hover{background:var(--blue);color:#fff}
+@media(max-width:560px){.pp-store{flex-wrap:wrap}.pp-store-go{width:100%;text-align:center}}
 
 /* ---- sticky buy bar (phones only) ---- */
 .pp-sticky{display:none}

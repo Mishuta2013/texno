@@ -16,6 +16,7 @@ const BLOG_LANGS = ['uk', 'ru'];   // languages the articles are actually writte
 const INSTALL_LANGS = ['uk', 'ru'];   // the installation page, same two languages
 const INSTALL_PATH = '/montazh-kondicionera/';
 const HOOKUP_PATH = '/pidklyuchennya-tekhniky/';   // appliance hookup page, same languages as INSTALL_LANGS
+const CALC_PATH = '/kalkulyator-zaryadnoyi-stantsiyi/';   // power station calculator, every language
 const bt = a => lf(a, 'title');
 const bd = a => lf(a, 'desc');
 const bg = a => lf(a, 'tag');
@@ -1590,8 +1591,16 @@ function runtimeCalc(p) {
       <div class="rt-cell rt-main"><span class="rt-lbl">${esc(t('rt_time'))}</span><b id="rt-time">—</b></div>
     </div>
     <p class="rt-note" id="rt-note">${esc(t('rt_note'))}</p>
+    <a class="rt-more" href="${pfx()}${CALC_PATH}">${esc(t('psc_link'))} →</a>
   </div>`;
 }
+/* Everything on the site stands in the shop, and many buyers would rather see a
+   fridge than read about it, so the product page says so under its buttons,
+   with the hours and a way there. Its #hp-state is the hero's open/closed line:
+   main.js fills it on any page that has one. The place id is what pins the
+   shop on the map; the text is only the label Maps shows while it resolves. */
+const DIRECTIONS_URL = 'https://www.google.com/maps/dir/?api=1&destination='
+  + encodeURIComponent('ТехноПлаза, Харківська 2/1, Суми') + '&destination_place_id=' + site.placeId;
 
 function productPage(p) {
   const s = p.specs || {};
@@ -1762,6 +1771,12 @@ ${HEADER}
         <button class="pp-act pp-act-price" onclick="ppCheaper()">
           <svg viewBox="0 0 24 24"><path d="M12 2v20M17 6.5A4 4 0 0 0 13 4h-2a3.5 3.5 0 0 0 0 7h2a3.5 3.5 0 0 1 0 7h-2a4 4 0 0 1-4-2.5"/></svg>
           <span>${esc(t('pp_cheaper'))}</span></button>
+      </div>
+      <div class="pp-store">
+        <span class="pp-store-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+        <div class="pp-store-tx"><b>${esc(t('pp_store_h'))}</b>
+          <span>${esc(t('top_addr'))}</span><span class="hp-state" id="hp-state">${esc(t('top_hours'))}</span></div>
+        <a class="pp-store-go" href="${esc(DIRECTIONS_URL)}" target="_blank" rel="noopener">${esc(t('pp_store_route'))}</a>
       </div>
       <div class="pp-trust">${trustLines.map(x => `<span>${esc(x)}</span>`).join('')}<span>${esc(t('trust_np'))}</span><span><a href="/povernennya-tovaru/">${esc(t('trust_return'))}</a></span></div>
     </div>
@@ -2430,6 +2445,7 @@ ${HEADER}
       <p class="cat-sub">${esc(lf(cat, 'intro') || '')}</p>
       <div class="cat-count">${list.length} ${esc(plural)} ${esc(t('cat_instock'))}</div>
       ${quizButton(cat)}
+      ${cat.key === 'zaryadni-stantsii' ? `<a class="cat-calc-link" href="${pfx()}${CALC_PATH}">${esc(t('psc_link'))} →</a>` : ''}
     </header>
     ${cat.cover ? (() => {
       const w = n => esc(av(cat.cover.replace(/\.webp$/, `@${n}.webp`)));
@@ -2757,6 +2773,88 @@ if (INSTALL_LANGS.includes(L)) {
   writePage(outPath('pidklyuchennya-tekhniky'), hookupPage());
   SITEMAP.push(pfx() + HOOKUP_PATH);
 }
+
+/* ---- power station calculator ----
+   The product page answers "how long will this station run my fridge"; the
+   question before that is "which station do I need at all". Same appliance list
+   and the same 15 % inverter loss as the product page and the picker, so the
+   three never disagree. The answer is every station in stock that carries the
+   load for that long, cheapest first — rendered here for the default ticks so
+   the page has its list without script, then redrawn by pscCalc in main.js. */
+function stationCalcPage() {
+  const cat = catList.find(c => c.key === 'zaryadni-stantsii');
+  const url = pfx() + CALC_PATH;
+  const HOURS = 8;
+  const items = RUNTIME_LOADS.map(l =>
+    `<label class="rt-item"><input type="checkbox" data-w="${l.w}" data-k="${l.key}"${l.on ? ' checked' : ''} onchange="pscCalc()">
+      <span class="rt-name">${esc(t(l.key))}</span><span class="rt-w">${l.w} ${esc(t('u_w'))}</span></label>`).join('');
+  const w = RUNTIME_LOADS.filter(l => l.on).reduce((s, l) => s + l.w, 0);
+  const need = Math.round(w * HOURS / 0.85);
+  const rt = hours => {
+    let h = Math.floor(hours), m = Math.round((hours - h) * 60);
+    if (m === 60) { h++; m = 0; }
+    return ((h ? `${h} ${t('rt_hr')} ` : '') + (m ? `${m} ${t('rt_min')}` : (h ? '' : `0 ${t('rt_min')}`))).trim();
+  };
+  const fit = catProducts('zaryadni-stantsii')
+    .filter(p => Number((p.specs || {}).output_w) >= w && Number((p.specs || {}).capacity_wh) >= need)
+    .sort((a, b) => a.price - b.price);
+  const cards = fit.map(p => card(p).replace('<div class="card-specs">',
+    `<div class="card-specs"><span class="stag">⏱ ${esc(rt(Number(p.specs.capacity_wh) * 0.85 / w))}</span>`)).join('');
+  const faqs = [1, 2, 3].map(n => [t(`psc_q${n}`), t(`psc_a${n}`)]);
+  const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a } })) };
+  const crumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t('pp_home'), item: abs(pfx() + '/') },
+    { '@type': 'ListItem', position: 2, name: lf(cat, 'name'), item: abs(curl(cat)) },
+    { '@type': 'ListItem', position: 3, name: t('psc_h1'), item: abs(url) } ] };
+  return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
+${head({ title: t('psc_title'), desc: t('psc_desc'), canonical: abs(url), altPath: CALC_PATH,
+  ogImage: cat.cover ? absImg(`/assets/og/cat-${cat.key}.jpg`) : undefined,
+  jsonld: { '@context': 'https://schema.org', '@type': 'WebPage', name: t('psc_h1'), url: abs(url), description: t('psc_desc') } })}
+<script type="application/ld+json">${JSON.stringify(faqLd)}</script>
+<script type="application/ld+json">${JSON.stringify(crumbs)}</script>
+</head><body>${GTM_NS}
+${HEADER}
+<div class="cat-wrap mp psc">
+  <nav class="pp-bc"><a href="${pfx() || '/'}">${esc(t('pp_home'))}</a> › <a href="${curl(cat)}">${esc(lf(cat, 'name'))}</a> › <span>${esc(t('psc_h1'))}</span></nav>
+  <header class="cat-head">
+    <h1 class="cat-h1">${esc(t('psc_h1'))}</h1>
+    <p class="cat-sub">${esc(t('psc_lead'))}</p>
+  </header>
+  <div class="pp-runtime psc-box" id="psc">
+    <h2>${esc(t('psc_s1'))}</h2>
+    <div class="rt-grid">${items}</div>
+    <h2>${esc(t('psc_s2'))}</h2>
+    <div class="psc-hours"><input type="range" id="psc-h" min="1" max="24" step="1" value="${HOURS}" oninput="pscCalc()" aria-label="${esc(t('psc_s2'))}"><b id="psc-hv">${HOURS} ${esc(t('rt_hr'))}</b></div>
+    <div class="rt-out">
+      <div class="rt-cell"><span class="rt-lbl">${esc(t('rt_load'))}</span><b id="psc-w">${w} ${esc(t('u_w'))}</b></div>
+      <div class="rt-cell rt-main"><span class="rt-lbl">${esc(t('psc_need'))}</span><b id="psc-wh">${fmt(need)} ${esc(t('u_wh'))}</b></div>
+    </div>
+    <p class="rt-note">${esc(t('rt_note'))}</p>
+  </div>
+  <section class="psc-res">
+    <h2>${esc(t('psq_res_h'))}</h2>
+    <p class="psc-none" id="psc-none"${fit.length ? ' hidden' : ''}>${esc(t('psc_none'))}</p>
+    <div class="grid" id="psc-res">${cards}</div>
+  </section>
+  <div class="bl-cta mp-cta">
+    <div><b>${esc(t('psc_send_h'))}</b><p>${esc(t('psc_send_p'))}</p></div>
+    <a class="btn-primary" href="#" onclick="pscSend();return false">${esc(t('psc_send'))}</a>
+    <a class="btn-ghost2" href="${curl(cat)}">${esc(lf(cat, 'name'))}</a>
+  </div>
+  <section class="mp-sec">
+    <h2>${esc(t('faq_h'))}</h2>
+    <div class="mp-faq">${faqs.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div>
+  </section>
+</div>
+${FOOTER}
+${injectData()}
+<script src="${av('/assets/js/main.js')}" defer></script>
+</body></html>`;
+}
+writePage(outPath(CALC_PATH.replace(/\//g, '')), stationCalcPage());
+SITEMAP.push(pfx() + CALC_PATH);
 
 /* ---- 404 ----
    Vercel serves 404.html from the output root for a static site, and until now
