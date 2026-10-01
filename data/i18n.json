@@ -425,7 +425,7 @@
     "sp_opt": "Опція",
     "sp_hp": "Тепловий насос",
     "sp_more": "Детальні характеристики",
-    "buy_msg": "Доброго дня! Хочу замовити:",
+    "buy_msg": "Доброго дня! Пишу з сайту TexnoPlaza. Хочу замовити:",
     "quick_choose": "Замовити через месенджер:",
     "nav_cats": "Категорії",
     "cats_eyebrow": "Категорії",
@@ -1001,7 +1001,9 @@
     "hk_more": "Детальніше про підключення",
     "hk_ac": "Детальніше про монтаж",
     "hk_q5": "Обслуговуєте техніку після підключення?",
-    "hk_a5": "Так. Техніку, яку встановлювали й підключали ми, обслуговуємо й ремонтуємо — і кондиціонери, і іншу техніку."
+    "hk_a5": "Так. Техніку, яку встановлювали й підключали ми, обслуговуємо й ремонтуємо — і кондиціонери, і іншу техніку.",
+    "msg_hello": "Доброго дня! Пишу з сайту TexnoPlaza.",
+    "msg_about": "Цікавить:"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -1429,7 +1431,7 @@
     "sp_opt": "Опция",
     "sp_hp": "Тепловой насос",
     "sp_more": "Подробные характеристики",
-    "buy_msg": "Здравствуйте! Хочу заказать:",
+    "buy_msg": "Здравствуйте! Пишу с сайта TexnoPlaza. Хочу заказать:",
     "quick_choose": "Заказать через мессенджер:",
     "nav_cats": "Категории",
     "cats_eyebrow": "Категории",
@@ -2005,7 +2007,9 @@
     "hk_more": "Подробнее о подключении",
     "hk_ac": "Подробнее о монтаже",
     "hk_q5": "Обслуживаете технику после подключения?",
-    "hk_a5": "Да. Технику, которую устанавливали и подключали мы, обслуживаем и ремонтируем — и кондиционеры, и другую технику."
+    "hk_a5": "Да. Технику, которую устанавливали и подключали мы, обслуживаем и ремонтируем — и кондиционеры, и другую технику.",
+    "msg_hello": "Здравствуйте! Пишу с сайта TexnoPlaza.",
+    "msg_about": "Интересует:"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -2433,7 +2437,7 @@
     "sp_opt": "Option",
     "sp_hp": "Heat pump",
     "sp_more": "Detailed specifications",
-    "buy_msg": "Hello! I'd like to order:",
+    "buy_msg": "Hello! I'm writing from the TexnoPlaza website. I'd like to order:",
     "quick_choose": "Order via messenger:",
     "nav_cats": "Categories",
     "cats_eyebrow": "Categories",
@@ -2931,6 +2935,8 @@
     "mp_i9": "User walkthrough",
     "mp_btn": "Calculate installation",
     "hk_more": "More about appliance hookup",
-    "hk_ac": "Air conditioner installation"
+    "hk_ac": "Air conditioner installation",
+    "msg_hello": "Hello! I'm writing from the TexnoPlaza website.",
+    "msg_about": "I'm interested in:"
   }
 }

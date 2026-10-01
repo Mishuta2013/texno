@@ -1440,6 +1440,13 @@ body = body.replace('<a href="/" class="logo"', `<a href="${pfx()}/" class="logo
   .replace('&hl=uk&', `&hl=${L}&`);
 body = subCounts(body);         // resolve {{TOTAL}}/{{AC}}/{{WM}}/{{PS}} tokens in raw markup
 body = body.replace(/src="(\/assets\/img\/(?:site|logo)[^"]*)"/g, (m, u) => `src="${av(u)}"`);
+/* A WhatsApp chat opened from the site started empty, and the shop's number is
+   the same one that is on the sign, the receipts and the map — so a buyer who
+   found the shop here looked like any other. Every WhatsApp button now types
+   the first line for them, "Пишу з сайту TexnoPlaza", in the page's language.
+   Viber and Telegram links to a plain number take no text, so they stay as
+   they are. */
+body = body.split(`href="${site.whatsapp}"`).join(`href="${site.whatsapp}&amp;text=${encodeURIComponent(t('msg_hello'))}"`);
 
 // shared chrome (header before hero; footer+modals+floats from <footer> onward) for product pages
 const _heroAt = body.indexOf('<section class="hero"');
@@ -1728,7 +1735,7 @@ ${HEADER}
       <div class="pp-instal">${esc(t('pp_instal'))} <b>${fmt(Math.round(p.price / 24))} ${esc(t('pp_instal2'))}</b> ${esc(t('pp_instal3'))}</div>
       <div class="pp-cta">
         <button class="btn-primary" onclick="ppLead('${esc(NAME)}')">${esc(t('pp_order'))}</button>
-        <a class="btn-wa" href="${esc(site.whatsapp)}&text=${encodeURIComponent(NAME)}" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn-wa" href="${esc(site.whatsapp)}&amp;text=${encodeURIComponent(`${t('msg_hello')} ${t('msg_about')} ${NAME} (${fmt(p.price)} ${t('u_uah')})`)}" target="_blank" rel="noopener">WhatsApp</a>
         <a class="btn-ghost2" href="tel:${esc(site.phone)}">${esc(site.phoneDisplay)}</a>
       </div>
       <div class="pp-acts">
