@@ -3122,6 +3122,15 @@ ${items}
     console.log(`${file} → ${products.length} products (${lang})`);
   }
   L = 'uk';
+  /* Free local listings: Merchant Center fetches this once a day and shows the
+     products on Search and Maps as in stock at the shop in Sumy. Everything on
+     the site stands in the shop, so every product is in_stock; the store code
+     is the one set in the Business Profile's advanced settings, and the ids
+     are the same slugs the product feeds use. */
+  const inv = ['store_code\tid\tavailability',
+    ...products.map(p => `${site.storeCode}\t${p.slug}\tin_stock`)].join('\n') + '\n';
+  fs.writeFileSync(path.join(DIST, 'local-inventory.tsv'), inv, 'utf8');
+  console.log(`local-inventory.tsv → ${products.length} products (store ${site.storeCode})`);
 }
 
 // ---- sitemap + robots ----
