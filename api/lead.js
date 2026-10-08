@@ -104,6 +104,18 @@ function tooMany(ip) {
   return false;
 }
 
+/* Leads that arrive without a Turnstile answer are delivered, but at most this
+   many per instance in ten minutes — a real shop sees one or two a day. */
+const UNCHECKED_PER_INSTANCE = 10;
+let uncheckedHits = [];
+function tooManyUnchecked() {
+  const now = Date.now();
+  uncheckedHits = uncheckedHits.filter(t => now - t < WINDOW_MS);
+  if (uncheckedHits.length >= UNCHECKED_PER_INSTANCE) return true;
+  uncheckedHits.push(now);
+  return false;
+}
+
 /* The same phone asking about the same thing twice in ten minutes is one
    person pressing the button twice, not two leads. */
 function duplicate(key) {
@@ -146,35 +158,44 @@ export default async function handler(req, res) {
 
   /* Everything below that a bot trips answers 200 and sends nothing. A refusal
      that says "refused" teaches whoever is probing which field to fix; silence
-     teaches them nothing, and the visitor who is a person never sees it. */
-  const drop = () => res.status(200).json({ ok: true });
+     teaches them nothing, and the visitor who is a person never sees it. The
+     reason goes to the Vercel log — without it a lost lead leaves no trace. */
+  const drop = why => { console.log('lead dropped:', why); res.status(200).json({ ok: true }); };
 
-  if (b.company) return drop();                                  // honeypot
-  if (!fromSite(req)) return drop();
-  if (JSON.stringify(b).length > 4000) return drop();            // no essays
+  if (b.company) return drop('honeypot');
+  if (!fromSite(req)) return drop('origin');
+  if (JSON.stringify(b).length > 4000) return drop('size');      // no essays
 
   /* Time on the form. The page stamps it when the form opens; a script that
-     posts straight to the endpoint has nothing to stamp. Two hours is the
-     upper bound so a tab left open overnight is not punished. */
+     posts straight to the endpoint has nothing to stamp. There used to be an
+     upper bound of two hours as well. It stopped no bot — a script sends any
+     stamp it likes — and dropped the person who started typing, went to make
+     tea and came back. */
   const ts = Number(b.ts);
-  if (Number.isFinite(ts) && ts > 0) {
-    const spent = Date.now() - ts;
-    if (spent < 2500 || spent > 2 * 60 * 60 * 1000) return drop();
-  }
+  if (Number.isFinite(ts) && ts > 0 && Date.now() - ts < 2500) return drop('fast');
 
   const phone = normalPhone(b.phone);
   if (!phone) { res.status(400).json({ ok: false, error: 'phone' }); return; }
 
-  if (tooMany(ip)) return drop();
-  if (!(await turnstileOk(b.token, ip))) return drop();
-  if (duplicate(phone + '|' + String(b.product || ''))) return drop();
+  if (tooMany(ip)) return drop('rate');
+  /* A failed or missing Turnstile answer used to end here in silence. From
+     8 Sept until the fix, the quiz and the consultation form had no widget at
+     all, so every one of their leads died on this line while the visitor read
+     «Заявку прийнято». A slow phone or a challenge nobody noticed does the same
+     on the callback form. So it now goes through, marked, under a tight cap of
+     its own: a flood that passed everything above still cannot bury the chat. */
+  const checked = await turnstileOk(b.token, ip);
+  if (!checked && tooManyUnchecked()) return drop('turnstile+cap');
+  if (duplicate(phone + '|' + String(b.product || ''))) return drop('duplicate');
 
   const TOKEN = process.env.TELEGRAM_BOT_TOKEN, CHAT = process.env.TELEGRAM_CHAT_ID;
   if (!TOKEN || !CHAT) { res.status(500).json({ ok: false, error: 'not_configured' }); return; }
 
   const typeMap = { callback: '📞 Зворотний дзвінок', consultation: '💬 Консультація', quiz: '🧩 Підбір (квіз)', order: '🛒 Замовлення', question: '❓ Питання про товар', cheaper: '💰 Знайшли дешевше', '': '📩 Заявка' };
+  // the quiz sends 'quiz-<category>', which no key matched — it read «Заявка»
+  const kind = /^quiz-/.test(String(b.type)) ? 'quiz' : b.type;
   const lines = [
-    `<b>${Object.prototype.hasOwnProperty.call(typeMap, b.type) ? typeMap[b.type] : typeMap['']}</b> — TexnoPlaza`,
+    `<b>${Object.prototype.hasOwnProperty.call(typeMap, kind) ? typeMap[kind] : typeMap['']}</b> — TexnoPlaza`,
     b.name && `👤 ${esc(b.name)}`,
     `📱 <b>${esc(phone)}</b>`,
     /* Optional on the form, so usually absent. Shape-checked rather than
@@ -197,7 +218,8 @@ export default async function handler(req, res) {
        protection is off while looking on. Silence here would be the worst
        outcome, so it says so in the one place the owner definitely reads. */
     b.token && !turnstileSecret()
-      && '⚠️ Turnstile не перевіряється: у Vercel немає TURNSTILE_SECRET_KEY'
+      && '⚠️ Turnstile не перевіряється: у Vercel немає TURNSTILE_SECRET_KEY',
+    !checked && '⚠️ Без перевірки від ботів (повільний телефон або бот) — уважно з номером'
   ].filter(Boolean);
 
   /* More than one person takes the orders, so TELEGRAM_CHAT_ID may list several

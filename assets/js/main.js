@@ -899,6 +899,13 @@ async function sendLead(data){
      never runs this. */
   const spent=body.ts?Date.now()-body.ts:1e9;
   if(spent<2600)await new Promise(r=>setTimeout(r,2600-spent));
+  /* A widget needs a moment to answer, longer on a slow phone. Sent before
+     that, the lead still arrives, but marked as unchecked — so give it up to
+     four seconds first. */
+  if(!body.token&&(window.turnstile||tsLoading)){
+    for(let i=0;i<20&&!turnstileToken();i++)await new Promise(r=>setTimeout(r,200));
+    body.token=turnstileToken();
+  }
   /* Only a server that failed to receive the lead may hand it to the backup.
      A 4xx means it received it and said no — usually because the request did
      not come from this form at all — and passing that on would send every
@@ -1770,6 +1777,8 @@ function quizResult(){
       <div class="quiz-lead-row"><input name="name" autocomplete="name" placeholder="${t('form_name_ph')}" aria-label="${t('form_name')}" required><input name="phone" type="tel" autocomplete="tel" placeholder="${t('form_phone_ph')}" aria-label="${t('form_phone')}" required></div>
       <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit" class="btn-primary">${t('quiz_send')}</button></form></div>`;
+  // the widget starts answering while the visitor reads the picks
+  tsMount(qel('body').querySelector('.quiz-lead'));
 }
 /* This used to fire and print "готово" whatever was in the fields, so a typo
    in the number looked like a sent enquiry and vanished. */
@@ -2148,7 +2157,9 @@ function heroSearch(e){
    whole thing is inert and the site behaves exactly as before. */
 function markFormStart(){ if(!window.__FORM_TS__) window.__FORM_TS__=Date.now(); }
 document.addEventListener('focusin',e=>{
-  if(e.target.matches&&e.target.matches('input,textarea,select'))markFormStart();
+  if(!(e.target.matches&&e.target.matches('input,textarea,select')))return;
+  markFormStart();
+  tsMount(e.target.closest('#contact-form,.quiz-lead'));
 },true);
 
 let tsLoading=false;
@@ -2159,6 +2170,22 @@ function ensureTurnstile(){
   s.src='https://challenges.cloudflare.com/turnstile/v0/api.js';
   s.async=true;s.defer=true;
   document.head.appendChild(s);
+}
+/* Only the callback window had a widget. The consultation form and the quiz
+   sent an empty token, the server dropped it without a word, and the visitor
+   read «Заявку прийнято» over a lead that never reached Telegram — from 8 Sept,
+   when the check was switched on. Every lead form now gets its own widget the
+   first time someone starts filling it in. A widget added after the script
+   has loaded is rendered here; one added before is found by the script. */
+function tsMount(host){
+  if(!(SITE&&SITE.turnstileKey)||!host||host.querySelector('.cf-turnstile'))return;
+  const d=document.createElement('div');
+  d.className='cf-turnstile';
+  const btn=host.querySelector('button[type=submit],.btn-submit');
+  if(btn&&btn.parentNode===host)host.insertBefore(d,btn);else host.appendChild(d);
+  const opts={sitekey:SITE.turnstileKey,theme:'auto',size:'flexible',language:LANG};
+  if(window.turnstile&&window.turnstile.render){try{window.turnstile.render(d,opts);}catch(e){}}
+  else{Object.keys(opts).forEach(k=>{d.dataset[k]=opts[k];});ensureTurnstile();}
 }
 /* Whichever widget is on screen holds the answer. Turnstile writes it into a
    hidden input inside its own container, so there is nothing to keep in step. */

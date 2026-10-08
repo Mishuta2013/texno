@@ -1084,6 +1084,7 @@ a.gauge-card:hover{transform:translateY(-4px)}
 .quiz-lead input{flex:1;width:100%;background:var(--paper);border:1.5px solid var(--g2);border-radius:var(--r-sm);padding:12px 14px;font-size:14.5px;font-family:var(--body);color:var(--ink);outline:none}
 .quiz-lead input:focus{border-color:var(--blue)}
 .quiz-lead .btn-primary{width:100%;justify-content:center}
+.quiz-lead .cf-turnstile,#contact-form .cf-turnstile{margin-bottom:12px}
 /* spam honeypot — only ever the hidden form field, never a content class */
 input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0}
 .quiz-done{text-align:center;padding:30px 10px}
