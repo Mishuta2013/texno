@@ -86,7 +86,19 @@ const FORMSPREE="xaqgygqb";          // Formspree form ID (e.g. xyzabcd)
    Tag Manager merges every push into one data model, so the parameters of a
    quiz lead would still be sitting there when the next phone click arrives —
    each push resets the whole set first. */
-const TRACK_KEYS=['method','lead_type','category','value','currency','theme'];
+const TRACK_KEYS=['method','lead_type','category','value','currency','theme','user_data'];
+/* Enhanced conversions: Google ties a lead to the ad click by the phone (and
+   the e-mail, when given), which the Google tag hashes before it leaves the
+   browser. Only generate_lead carries it — track() clears it for every other
+   event, so nothing else in the dataLayer inherits a number. */
+function leadUser(phone,email){
+  const d=String(phone||'').replace(/\D/g,'');
+  const local=/^0\d{9}$/.test(d)?d:/^380\d{9}$/.test(d)?d.slice(2):/^80\d{9}$/.test(d)?d.slice(1):'';
+  const u={};
+  if(local)u.phone_number='+38'+local;
+  if(email)u.email=String(email).trim().toLowerCase();
+  return Object.keys(u).length?{user_data:u}:{};
+}
 function track(n,p){try{const o={event:n};TRACK_KEYS.forEach(k=>{o[k]=undefined;});Object.assign(o,p||{});
   (window.dataLayer=window.dataLayer||[]).push(o);}catch(e){}}
 
@@ -1145,7 +1157,7 @@ async function submitCb(){
   if(ok){$('cb-form').style.display='none';$('cb-success').style.display='block';
     const pr=Number(String(window.__CB_PRICE__||'').replace(/\s/g,''));
     track('generate_lead',Object.assign({method:'callback',lead_type:window.__CB_TYPE__||'callback'},
-      isOrder&&pr>0?{value:pr,currency:'UAH'}:{}));resetTurnstile();
+      isOrder&&pr>0?{value:pr,currency:'UAH'}:{},leadUser(ph,em)));resetTurnstile();
     if(isOrder&&em)gcrOptIn(orderId,em);
     else if(isOrder)gcrOffer(orderId);}
   /* A browser dialog on a phone covers the form and says nothing useful. Put
@@ -1159,7 +1171,7 @@ async function submitContact(){
   if(bad){fieldError($('cf-phone'),bad);return;}
   fieldError($('cf-phone'),'');
   const ok=await sendLead({type:'consultation',name:$('cf-name').value.trim(),phone:ph,interest:$('cf-interest').value,comment:$('cf-comment').value.trim(),lang:LANG});
-  if(ok){$('contact-form').style.display='none';$('contact-success').style.display='block';track('generate_lead',{method:'consultation',lead_type:'consultation'});}
+  if(ok){$('contact-form').style.display='none';$('contact-success').style.display='block';track('generate_lead',Object.assign({method:'consultation',lead_type:'consultation'},leadUser(ph)));}
   else fieldError($('cf-phone'),t('err_send_retry'));
 }
 
@@ -1798,7 +1810,7 @@ async function quizSubmit(e){
   const ok=await sendLead({type:'quiz-'+quizKind,name:name,phone:phone,note:quizSummary()});
   if(btn)btn.disabled=false;
   if(!ok){fieldError(f.phone,t('err_send_retry'));return false;}
-  track('generate_lead',{method:'quiz',lead_type:'quiz',category:quizKind});
+  track('generate_lead',Object.assign({method:'quiz',lead_type:'quiz',category:quizKind},leadUser(phone)));
   resetTurnstile();
   qel('body').innerHTML=`<div class="quiz-done"><div class="quiz-done-ic">✓</div><h3>${t('quiz_done_h')}</h3><p>${t('quiz_done_p')}</p></div>`;
   qel('back').style.visibility='hidden';
