@@ -1512,7 +1512,7 @@ ${head({
     openingHoursSpecification: openingHoursLd(),
     /* The Google Business Profile this site belongs to, stated rather than
        left for Google to infer from a matching address. */
-    sameAs: [site.googleReviewsUrl].filter(Boolean),
+    sameAs: [site.googleReviewsUrl, site.instagram, site.facebook].filter(Boolean),
     hasMerchantReturnPolicy: RETURN_POLICY()
   }
 })}

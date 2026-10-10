@@ -1866,6 +1866,8 @@ document.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return
   else if(/^viber:/i.test(h))track('click_viber');
   else if(/t\.me\//.test(h))track('click_telegram');
   else if(/google\.[a-z.]+\/maps\/dir\//.test(h))track('click_directions');
+  else if(/instagram\.com|ig\.me/.test(h))track('click_instagram');
+  else if(/facebook\.com|m\.me\//.test(h))track('click_facebook');
 },{passive:true});
 
 /* setupFilters only wires listeners; applyI18n ends with renderCatalog(), so

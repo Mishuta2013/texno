@@ -1024,7 +1024,10 @@
     "psc_q2": "Скільки протримає холодильник від станції на 1 кВт·год?",
     "psc_a2": "Холодильник з урахуванням циклів компресора споживає в середньому близько 120 Вт, тож станції на 1024 Вт·год вистачить приблизно на 7 годин. Разом із роутером і LED-освітленням — близько 5 годин.",
     "psc_q3": "Чи можна живити насос газового котла?",
-    "psc_a3": "Так: насос споживає близько 120 Вт, тож станції на 1 кВт·год вистачить приблизно на 7 годин. Котлу потрібна чиста синусоїда на виході — менеджер підкаже сумісну модель."
+    "psc_a3": "Так: насос споживає близько 120 Вт, тож станції на 1 кВт·год вистачить приблизно на 7 годин. Котлу потрібна чиста синусоїда на виході — менеджер підкаже сумісну модель.",
+    "con_social": "Ми в соцмережах",
+    "ct_ig_v": "Написати в Direct",
+    "ct_fb_v": "Сторінка TexnoPlaza"
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -2051,7 +2054,10 @@
     "psc_q2": "Сколько продержится холодильник от станции на 1 кВт·ч?",
     "psc_a2": "Холодильник с учётом циклов компрессора потребляет в среднем около 120 Вт, поэтому станции на 1024 Вт·ч хватит примерно на 7 часов. Вместе с роутером и LED-освещением — около 5 часов.",
     "psc_q3": "Можно ли питать насос газового котла?",
-    "psc_a3": "Да: насос потребляет около 120 Вт, поэтому станции на 1 кВт·ч хватит примерно на 7 часов. Котлу нужна чистая синусоида на выходе — менеджер подскажет совместимую модель."
+    "psc_a3": "Да: насос потребляет около 120 Вт, поэтому станции на 1 кВт·ч хватит примерно на 7 часов. Котлу нужна чистая синусоида на выходе — менеджер подскажет совместимую модель.",
+    "con_social": "Мы в соцсетях",
+    "ct_ig_v": "Написать в Direct",
+    "ct_fb_v": "Страница TexnoPlaza"
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -3000,6 +3006,9 @@
     "psc_q2": "How long will a fridge run on a 1 kWh station?",
     "psc_a2": "Averaged over its compressor cycle a fridge draws about 120 W, so a 1024 Wh station runs it for roughly 7 hours. Together with a router and LED lighting — about 5 hours.",
     "psc_q3": "Can it power a gas boiler pump?",
-    "psc_a3": "Yes: the pump draws about 120 W, so a 1 kWh station lasts roughly 7 hours. A boiler needs a pure sine wave output — our manager will point you to a compatible model."
+    "psc_a3": "Yes: the pump draws about 120 W, so a 1 kWh station lasts roughly 7 hours. A boiler needs a pure sine wave output — our manager will point you to a compatible model.",
+    "con_social": "Social media",
+    "ct_ig_v": "Message us in Direct",
+    "ct_fb_v": "TexnoPlaza page"
   }
 }
