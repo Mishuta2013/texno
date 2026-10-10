@@ -99,8 +99,21 @@ function leadUser(phone,email){
   if(email)u.email=String(email).trim().toLowerCase();
   return Object.keys(u).length?{user_data:u}:{};
 }
+/* The same events for the Meta Pixel (build.mjs loads it on the real domain
+   only, so window.fbq is missing everywhere else). Lead is what the Instagram /
+   Facebook campaigns optimise for; calls and messenger taps are Contact. The
+   phone number is not passed on — Meta's own automatic matching reads it from
+   the form. */
+const FB_EVENTS={generate_lead:'Lead',click_to_call:'Contact',click_whatsapp:'Contact',click_viber:'Contact',click_telegram:'Contact',click_directions:'FindLocation'};
+function fbTrack(n,p){try{const ev=FB_EVENTS[n];if(!ev||typeof window.fbq!=='function')return;
+  const q={};if(ev==='Lead'){q.content_category=(p&&(p.category||p.lead_type))||'lead';}else if(ev==='Contact'){q.content_category=n.replace('click_','');}
+  window.fbq('track',ev,q);}catch(e){}}
 function track(n,p){try{const o={event:n};TRACK_KEYS.forEach(k=>{o[k]=undefined;});Object.assign(o,p||{});
-  (window.dataLayer=window.dataLayer||[]).push(o);}catch(e){}}
+  (window.dataLayer=window.dataLayer||[]).push(o);}catch(e){}fbTrack(n,p);}
+/* Product pages: ViewContent with the model and price, so the ads can later
+   show people the station they looked at. */
+(function(){const pr=window.__PRODUCT__;if(!pr||typeof window.fbq!=='function')return;
+  try{window.fbq('track','ViewContent',{content_ids:[pr.id],content_type:'product',content_category:pr.category,value:pr.price,currency:'UAH'});}catch(e){}})();
 
 /* language comes from the URL: / = uk, /ru/… and /en/… are separate page trees */
 const LANG_FROM_PATH=(function(){var m=location.pathname.match(/^\/(ru|en)(?=\/|$)/);return m?m[1]:'uk';})();
