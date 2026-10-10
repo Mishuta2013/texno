@@ -916,8 +916,26 @@ function closeModalById(id){$(id).classList.remove('open');document.body.style.o
 function openContact(){$('contact-modal').classList.add('open');document.body.style.overflow='hidden';
   markFormStart();ensureTurnstile();}
 
+/* Where the visitor came from, so a lead in Telegram can say "Реклама
+   Instagram/Facebook — «00_Fossibot F1800»" instead of leaving the owner to
+   guess. Two records: the first visit that brought them (kept 90 days — people
+   see an ad, think it over and come back by typing the address) and the latest
+   visit that had a source of its own. A plain reload or an internal click never
+   overwrites either. Only the ad labels and the referring site are kept. */
+const SRC_KEYS=['utm_source','utm_medium','utm_campaign','utm_content','gclid','gbraid','wbraid','fbclid'];
+function srcRead(k){try{const v=JSON.parse(localStorage.getItem(k)||'null');return v&&Date.now()-v.t<7776e6?v:null;}catch(e){return null;}}
+(function srcCapture(){try{
+  const q=new URLSearchParams(location.search),o={};
+  SRC_KEYS.forEach(k=>{const v=q.get(k);if(v)o[k]=k.slice(-4)==='clid'||k.slice(-5)==='braid'?'1':v.slice(0,80);});
+  let ref='';try{const r=document.referrer&&new URL(document.referrer);if(r&&r.hostname!==location.hostname)ref=r.hostname;}catch(e){}
+  if(ref)o.ref=ref;
+  const has=Object.keys(o).length>0;
+  const rec={...o,p:location.pathname.slice(0,80),t:Date.now()};
+  if(!srcRead('tp_src_first'))localStorage.setItem('tp_src_first',JSON.stringify(has?rec:{direct:1,p:rec.p,t:rec.t}));
+  if(has)localStorage.setItem('tp_src_last',JSON.stringify(rec));
+}catch(e){}})();
 async function sendLead(data){
-  const body={...data,ts:window.__FORM_TS__||0,token:turnstileToken()};
+  const body={...data,ts:window.__FORM_TS__||0,token:turnstileToken(),src:{first:srcRead('tp_src_first'),last:srcRead('tp_src_last')}};
   /* The server drops anything filled in under two and a half seconds, which a
      phone offering to autofill the number can beat. Waiting out the remainder
      costs a real person a moment and costs a script nothing, because a script

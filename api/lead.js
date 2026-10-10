@@ -193,6 +193,31 @@ export default async function handler(req, res) {
 
   const typeMap = { callback: '📞 Зворотний дзвінок', consultation: '💬 Консультація', quiz: '🧩 Підбір (квіз)', order: '🛒 Замовлення', question: '❓ Питання про товар', cheaper: '💰 Знайшли дешевше', '': '📩 Заявка' };
   // the quiz sends 'quiz-<category>', which no key matched — it read «Заявка»
+  /* Where the visitor came from, in words the owner reads at a glance. The
+     page sends what it remembered (see srcCapture in main.js); none of it is
+     trusted beyond being turned into one of these labels. */
+  const srcLabel = r => {
+    if (!r || typeof r !== 'object') return '';
+    const v = k => String(r[k] || '').toLowerCase().slice(0, 80);
+    const s = v('utm_source'), m = v('utm_medium'), ref = v('ref');
+    const ad = String(r.utm_content || r.utm_campaign || '').slice(0, 60);
+    const paid = /cpc|ppc|paid|cpm/.test(m);
+    if (/facebook|instagram|^ig$|meta|fb/.test(s) && paid) return 'Реклама Instagram/Facebook' + (ad ? ` — «${ad}»` : '');
+    if (r.gclid || r.gbraid || r.wbraid || (s === 'google' && paid)) return 'Реклама Google' + (r.utm_campaign ? ` — «${String(r.utm_campaign).slice(0, 60)}»` : '');
+    if (/chatgpt|openai|perplexity|gemini|claude|copilot/.test(s + ' ' + ref)) return `ШІ-помічник (${ref || s})`;
+    if (s) return `Мітка: ${s}${m ? ' / ' + m : ''}${ad ? ` — «${ad}»` : ''}`;
+    if (/instagram\.com/.test(ref)) return 'Instagram (профіль або пост)';
+    if (r.fbclid || /facebook\.com|fb\.com/.test(ref)) return 'Facebook (сторінка або пост)';
+    if (/(^|\.)google\./.test(ref)) return 'Пошук Google';
+    if (/bing\.|ukr\.net|duckduckgo|yahoo|meta\.ua/.test(ref)) return `Пошук (${ref})`;
+    if (/t\.me|telegram|viber/.test(ref)) return `Месенджер (${ref})`;
+    if (ref) return `Сайт ${ref}`;
+    return 'Прямий захід (набрали адресу або закладка)';
+  };
+  const ago = t => { const d = Math.floor((Date.now() - Number(t)) / 864e5); return d >= 1 ? ` (${d} дн. тому)` : ''; };
+  const src = b.src && typeof b.src === 'object' ? b.src : {};
+  const srcNow = srcLabel(src.last) || srcLabel(src.first);
+  const srcFirst = srcLabel(src.first);
   const kind = /^quiz-/.test(String(b.type)) ? 'quiz' : b.type;
   const lines = [
     `<b>${Object.prototype.hasOwnProperty.call(typeMap, kind) ? typeMap[kind] : typeMap['']}</b> — TexnoPlaza`,
@@ -212,6 +237,8 @@ export default async function handler(req, res) {
     b.interest && `Цікавить: ${esc(b.interest)}`,
     b.comment && `📝 ${esc(b.comment)}`,
     b.note && `📝 ${esc(b.note)}`,
+    srcNow && `📣 Джерело: <b>${esc(srcNow)}</b>`,
+    srcFirst && srcFirst !== srcNow && `↩️ Вперше прийшов: ${esc(srcFirst)}${ago(src.first && src.first.t)}`,
     `🕒 ${new Date().toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv' })}`,
     /* The page sent a Turnstile answer, so the widget is live in front of
        visitors — but this side has no key to check it against, which means the
