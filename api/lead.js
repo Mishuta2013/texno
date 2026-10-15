@@ -191,7 +191,7 @@ export default async function handler(req, res) {
   const TOKEN = process.env.TELEGRAM_BOT_TOKEN, CHAT = process.env.TELEGRAM_CHAT_ID;
   if (!TOKEN || !CHAT) { res.status(500).json({ ok: false, error: 'not_configured' }); return; }
 
-  const typeMap = { callback: '📞 Зворотний дзвінок', consultation: '💬 Консультація', quiz: '🧩 Підбір (квіз)', order: '🛒 Замовлення', question: '❓ Питання про товар', cheaper: '💰 Знайшли дешевше', '': '📩 Заявка' };
+  const typeMap = { callback: '📞 Зворотний дзвінок', consultation: '💬 Консультація', quiz: '🧩 Підбір (квіз)', order: '🛒 Замовлення', question: '❓ Питання про товар', cheaper: '💰 Знайшли дешевше', delivery: '🚚 Ціна з доставкою', nudge: '💬 Питання по моделі (підказка на сторінці)', '': '📩 Заявка' };
   // the quiz sends 'quiz-<category>', which no key matched — it read «Заявка»
   /* Where the visitor came from, in words the owner reads at a glance. The
      page sends what it remembered (see srcCapture in main.js); none of it is

@@ -2,28 +2,63 @@
   "_readme": "Real reviews from the shop's Google Business profile, confirmed by the owner. Never write an entry here that nobody left: the section tells visitors these are real customers, and inventing one would make it a lie. Leave `items` empty rather than fill it with something plausible. `name` and `date` are optional — the card drops the author line when there is no name rather than showing a blank avatar. `rating`/`count` are the figures Google shows for the place; null skips the summary block.",
   "googleUrl": "https://www.google.com/maps/place/?q=place_id:ChIJL7q2Yr4BKUERH6aa01VlFQo",
   "rating": 5.0,
-  "count": 115,
+  "count": 116,
   "items": [
     {
       "rating": 5,
-      "text": "Замовляли TCL на 9000 BTU у спальню. Привезли і встановили того ж дня, акуратно, прибрали за собою. Оплату взяли тільки після запуску. Дуже задоволені.",
-      "text_ru": "Заказывали TCL на 9000 BTU в спальню. Привезли и установили в тот же день, аккуратно, убрали за собой. Оплату взяли только после запуска. Очень довольны.",
-      "text_en": "We ordered a 9000 BTU TCL for the bedroom. Delivered and installed the same day, neatly, cleaned up after. They charged only after start-up. Very happy."
+      "cat": "zaryadni-stantsii",
+      "name": "Анна Ю.",
+      "date": "10.2026",
+      "text": "Придбала зарядну станцію Fossibot F2400 і залишилася дуже задоволена магазином! Після оформлення замовлення одразу вийшли на зв’язок, а вже наступного дня станцію відправили. Приїхала зі 100% зарядом, що було надзвичайно доречно, адже забрала її саме тоді, коли вдома не було світла. Окремо хочу відзначити приємну комунікацію та турботу про клієнта: після підключення станції вдома мені надали всі необхідні рекомендації щодо користування. Дуже приємно мати справу з магазином, де цінують час клієнта, оперативно працюють і справді допомагають. Щиро рекомендую! Дякую за сервіс, швидкість і людяне ставлення!"
     },
     {
       "rating": 5,
-      "text": "Брали тепловий насос на велику кімнату. Менеджер чесно порадив модель під площу, не нав'язував дорожче. Взимку гріє відмінно. Рекомендую.",
-      "text_ru": "Брали тепловой насос на большую комнату. Менеджер честно посоветовал модель под площадь, не навязывал дороже. Зимой греет отлично. Рекомендую.",
-      "text_en": "We got a heat pump for a large room. The manager honestly recommended a model for the area, didn't push pricier options. Heats great in winter. Recommend."
+      "cat": "pralni-mashyny",
+      "name": "Юрий Ж.",
+      "date": "10.2026",
+      "text": "Приємний продавець, доступно зрозуміло надав інформацію про пральну машинку! Рекомендую"
     },
     {
       "rating": 5,
-      "text": "Ціну назвали одразу й зафіксували, ніяких прихованих доплат. Майстри з допуском, працювали на 7 поверсі. Усе чисто й швидко. Дякую за сервіс!",
-      "text_ru": "Цену назвали сразу и зафиксировали, никаких скрытых доплат. Мастера с допуском, работали на 7 этаже. Всё чисто и быстро. Спасибо за сервис!",
-      "text_en": "They quoted the price right away and fixed it, no hidden fees. Certified installers worked on the 7th floor. All clean and fast. Thanks for the service!"
+      "cat": "holodylnyky",
+      "name": "Дмитрий Б.",
+      "date": "10.2026",
+      "text": "Ціни чудові, брав холодильник собі. Задоволений"
+    },
+    {
+      "rating": 5,
+      "name": "Анастасія Т.",
+      "date": "10.2026",
+      "text": "Швидка доставка, приємні ціни, професійний підбір."
+    },
+    {
+      "rating": 5,
+      "name": "Артем О.",
+      "date": "10.2026",
+      "text": "Приємні ціни, кваліфікована консультація. Після придбання залишились приємні враження та бажання повернутись ще."
+    },
+    {
+      "rating": 5,
+      "name": "Світлана Т.",
+      "date": "10.2026",
+      "text": "Дуже гарний магазин, звертались не одноразово і завжди залишались задоволеними покупками. Обовʼязково прийдемо ще."
+    },
+    {
+      "rating": 5,
+      "cat": "zaryadni-stantsii",
+      "name": "Артем Н.",
+      "date": "10.2026",
+      "text": "Купували електростанцію. Все добре, все працює <3"
+    },
+    {
+      "rating": 5,
+      "name": "Ганна",
+      "date": "10.2026",
+      "text": "Зовнішнім виглядом і функціоналом задоволена. Повністю у роботі ще не випробували. Обслуговуванням, спілкуванням з продавцем, магазином теж задоволена."
     }
   ],
   "reviewUrl": "https://g.page/r/CR-mmtNVZRUKEBM/review",
-  "_ratingSource": "Read from the place's own Business Profile (reviews panel) on 2026-10-15 (5,0 · 115, figure given by the owner). Re-check it now and then — the section prints it as fact.",
-  "_urlNote": "Both links are place_id form. The long maps/place/<name>/data=… URLs Google's own share dialog produces stop resolving when the listing is renamed — the old one dropped visitors on an empty map. search.google.com/local/reviews?placeid= redirects to a search page full of ads, so it is not used either."
+  "_ratingSource": "Read from the place's Google Maps reviews panel on 2026-10-15 (5,0 · 116). Re-check it now and then — the section prints it as fact.",
+  "_urlNote": "Both links are place_id form. The long maps/place/<name>/data=… URLs Google's own share dialog produces stop resolving when the listing is renamed — the old one dropped visitors on an empty map. search.google.com/local/reviews?placeid= redirects to a search page full of ads, so it is not used either.",
+  "_itemsSource": "Items copied word for word from the shop's Google Maps reviews (sorted newest) on 2026-10-15, at the owner's request for real reviews higher on the page. Name shortened to first name + initial; `cat` ties a review to a category so product pages show the matching one first. Never edit the wording."
 }

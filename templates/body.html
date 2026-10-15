@@ -174,6 +174,18 @@
   </div>
 </section>
 
+<!-- REVIEWS -->
+<section class="section reviews">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow" data-i18n="rev_eye">Відгуки</div>
+      <h2 class="sec-title" data-i18n="rev_h">Що кажуть клієнти</h2>
+      <p class="sec-sub" data-i18n="rev_sub">Враження покупців нашого магазину в Сумах — з профілю TexnoPlaza у Google.</p>
+    </div>
+    <!--REVIEWS-->
+  </div>
+</section>
+
 <section class="recent-band">
   <div class="wrap">
     <div class="recent" id="recent" data-nosnippet hidden><h2 class="recent-h" data-i18n="recent_h">Ви нещодавно дивилися</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" data-i18n="recent_clear" onclick="clearRecent()">Очистити історію</button></div>
@@ -453,18 +465,6 @@
   </div>
 </section>
 
-<!-- REVIEWS -->
-<section class="section reviews">
-  <div class="wrap">
-    <div class="reveal">
-      <div class="eyebrow" data-i18n="rev_eye">Відгуки</div>
-      <h2 class="sec-title" data-i18n="rev_h">Що кажуть клієнти</h2>
-      <p class="sec-sub" data-i18n="rev_sub">Враження покупців нашого магазину в Сумах — з профілю TexnoPlaza у Google.</p>
-    </div>
-    <!--REVIEWS-->
-  </div>
-</section>
-
 <!-- FAQ -->
 <section class="section faq" id="faq">
   <div class="wrap">
@@ -533,8 +533,8 @@
         <p data-i18n="form_p">Менеджер передзвонить протягом 15 хвилин і допоможе з підбором.</p>
         <div id="contact-form">
           <div class="fgrid">
-            <div class="field"><label for="cf-name" data-i18n="form_name">Ваше ім'я</label><input type="text" id="cf-name" autocomplete="name" placeholder="Наприклад: Олександр" data-i18n-ph="form_name_ph"></div>
             <div class="field"><label for="cf-phone" data-i18n="form_phone">Телефон</label><input type="tel" id="cf-phone" autocomplete="tel" placeholder="+380 XX XXX XX XX" data-i18n-ph="form_phone_ph"></div>
+            <div class="field"><label for="cf-name" data-i18n="form_name">Ім'я (необов'язково)</label><input type="text" id="cf-name" autocomplete="name" placeholder="Наприклад: Олександр" data-i18n-ph="form_name_ph"></div>
           </div>
           <div class="field"><label for="cf-interest" data-i18n="form_int">Що вас цікавить?</label>
             <select id="cf-interest" aria-label="Що вас цікавить?" data-i18n-aria="form_int"><option data-i18n="form_i1">Підбір техніки</option><option data-i18n="form_i5">Зарядні станції</option><option data-i18n="form_i2">Вартість монтажу</option><option data-i18n="form_i3">Сервісне обслуговування</option><option data-i18n="form_i4">Інше питання</option></select>
@@ -643,8 +643,8 @@
     <h3 id="cb-title" data-i18n="cb_btn">Замовити дзвінок</h3>
     <p id="cb-sub" data-i18n="cb_p">Менеджер передзвонить вам протягом 15 хвилин.</p>
     <div id="cb-form">
-      <div class="field"><label for="cb-name" data-i18n="cb_name">Ваше ім'я</label><input type="text" id="cb-name" autocomplete="name" placeholder="Наприклад: Олександр" data-i18n-ph="cb_name_ph"></div>
       <div class="field"><label for="cb-phone" data-i18n="cb_phone">Телефон</label><input type="tel" id="cb-phone" autocomplete="tel" placeholder="+380 XX XXX XX XX" data-i18n-ph="form_phone_ph"></div>
+      <div class="field"><label for="cb-name" data-i18n="cb_name">Ім'я (необов'язково)</label><input type="text" id="cb-name" autocomplete="name" placeholder="Наприклад: Олександр" data-i18n-ph="cb_name_ph"></div>
       <div class="field" id="cb-product-wrap" style="display:none"><label for="cb-product" data-i18n="cb_product">Товар</label><input type="text" id="cb-product" readonly></div>
       <!-- Optional on purpose. Google Customer Reviews needs an address to send
            its survey to, and that survey is the only route to the seller rating

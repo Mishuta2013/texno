@@ -1404,6 +1404,45 @@ function heroRating() {
     : `<span class="hero-rate" title="${esc(label)}">${inner}</span>`;
 }
 
+/* No author line when we have no name: a blank avatar over an empty name reads
+   as a broken card, and inventing one would misattribute a real review. */
+function reviewCard(r) {
+  return `<figure class="rev-card">
+      ${starRow(r.rating || 5)}
+      <blockquote class="rev-text">${esc(lf(r, 'text'))}</blockquote>
+      ${r.name ? `<figcaption class="rev-who">
+        <span class="rev-av" aria-hidden="true">${esc(r.name.trim().charAt(0))}</span>
+        <span><span class="rev-name">${esc(r.name)}</span>${r.date ? `<span class="rev-date">${esc(r.date)}</span>` : ''}</span>
+      </figcaption>` : ''}</figure>`;
+}
+/* The product page had no reviews at all — the real ones lived five screens
+   down the home page. A buyer deciding on a 30 000 грн fridge sees them right
+   under the buy box: the score, the link to check it on Google, and three
+   cards, a review about this very category first when there is one. */
+/* "Ціна з доставкою і підключенням" — a reason to leave a number that does not
+   commit anyone to buying. Hookup only where the shop actually connects the
+   thing; air conditioners already show their fixed installation price. */
+const DELIV_HOOK = new Set(['holodylnyky', 'pralni-mashyny', 'boylery', 'duhovi-shafy', 'varylni-poverhni',
+  'vytyazhky', 'posudomyyni-mashyny', 'mikrohvylovi-pechi', 'komplekty']);
+const DELIV_ONLY = new Set(['zaryadni-stantsii', 'myyky', 'zmishuvachi', 'dozatory']);
+function ppRateLine() {
+  const R = REVIEWS || {};
+  if (!R.rating || !R.count) return '';
+  const score = Number(R.rating).toFixed(1).replace('.', L === 'en' ? '.' : ',');
+  return `<a class="pp-rate" href="#pp-reviews">${starRow(Math.round(R.rating))}<b>${score}</b><span>· ${R.count} ${esc(t('rev_on_google'))}</span></a>`;
+}
+function ppReviews(p) {
+  const R = REVIEWS || {};
+  const items = Array.isArray(R.items) ? R.items : [];
+  if (!items.length) return '';
+  const pick = [...items.filter(r => r.cat === p.category), ...items.filter(r => !r.cat), ...items.filter(r => r.cat && r.cat !== p.category)].slice(0, 3);
+  const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg>';
+  const score = R.rating && R.count ? `<span class="pp-rev-score">${starRow(Math.round(R.rating))}<b>${Number(R.rating).toFixed(1).replace('.', L === 'en' ? '.' : ',')}</b> · ${R.count} ${esc(t('rev_on_google'))}</span>` : '';
+  return `<section class="pp-reviews" id="pp-reviews">
+    <div class="pp-rev-head"><h2>${esc(t('pp_rev_h'))}</h2>${score}${R.googleUrl ? `<a class="rev-link" href="${esc(R.googleUrl)}" target="_blank" rel="noopener nofollow">${esc(t('rev_all_google'))}${arrow}</a>` : ''}</div>
+    <div class="rev-grid">${pick.map(reviewCard).join('')}</div>
+  </section>`;
+}
 function reviewsSection() {
   const R = REVIEWS || {};
   const items = Array.isArray(R.items) ? R.items : [];
@@ -1416,13 +1455,7 @@ function reviewsSection() {
        </div>` : '';
   /* No author line when we have no name: a blank avatar over an empty name reads
      as a broken card, and inventing one would misattribute a real review. */
-  const cards = items.map(r => `<figure class="rev-card">
-      ${starRow(r.rating || 5)}
-      <blockquote class="rev-text">${esc(lf(r, 'text'))}</blockquote>
-      ${r.name ? `<figcaption class="rev-who">
-        <span class="rev-av" aria-hidden="true">${esc(r.name.trim().charAt(0))}</span>
-        <span><span class="rev-name">${esc(r.name)}</span>${r.date ? `<span class="rev-date">${esc(r.date)}</span>` : ''}</span>
-      </figcaption>` : ''}</figure>`).join('');
+  const cards = items.map(reviewCard).join('');
   const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg>';
   const links = (url ? `<a class="rev-link" href="${esc(url)}" target="_blank" rel="noopener nofollow">${esc(t('rev_all_google'))}${arrow}</a>` : '')
     + (R.reviewUrl ? `<a class="rev-link rev-link-2" href="${esc(R.reviewUrl)}" target="_blank" rel="noopener nofollow">${esc(t('rev_leave'))}${arrow}</a>` : '');
@@ -1758,6 +1791,9 @@ ${HEADER}
         <a class="btn-wa" href="${esc(site.whatsapp)}&amp;text=${encodeURIComponent(`${t('msg_hello')} ${t('msg_about')} ${NAME} (${fmt(p.price)} ${t('u_uah')})`)}" target="_blank" rel="noopener">WhatsApp</a>
         <a class="btn-ghost2" href="tel:${esc(site.phone)}">${esc(site.phoneDisplay)}</a>
       </div>
+      ${(() => { const h = DELIV_HOOK.has(p.category), o = DELIV_ONLY.has(p.category);
+        return h || o ? `<button class="pp-deliv" onclick="ppDeliv(${h ? 1 : 0})"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>${esc(t(h ? 'pp_deliv_btn' : 'pp_deliv_btn_s'))}</button>` : ''; })()}
+      ${ppRateLine()}
       <div class="pp-acts">
         <button class="pp-act" id="pp-cmp-btn" onclick="ppToggleCmp()">
           <svg viewBox="0 0 24 24"><path d="M3 6h7M14 6h7M6.5 6v12M17.5 6v12M3 12l3.5-6 3.5 6a3.5 3.5 0 0 1-7 0zM14 12l3.5-6 3.5 6a3.5 3.5 0 0 1-7 0z"/></svg>
@@ -1792,6 +1828,7 @@ ${HEADER}
       <div class="pp-trust">${trustLines.map(x => `<span>${esc(x)}</span>`).join('')}<span>${esc(t('trust_np'))}</span><span><a href="/povernennya-tovaru/">${esc(t('trust_return'))}</a></span></div>
     </div>
   </div>
+  ${ppReviews(p)}
   <div class="pp-cols">
     <div class="pp-specs"><h2>${esc(t('pp_specs'))}</h2>
       <div class="pp-table-wrap" id="pp-table-wrap"><table class="pp-table">${specTable(p)}</table></div>
@@ -1884,6 +1921,7 @@ function ppCopyLink(){
 }
 function ppCheaper(){ if(window.openCb)window.openCb('cheaper',PP_NAME,PP_SLUG); }
 function ppAsk(){ if(window.openCb)window.openCb('question',PP_NAME,PP_SLUG); }
+function ppDeliv(h){ if(window.openCb)window.openCb(h?'delivery':'delivery_s',PP_NAME,PP_SLUG); }
 
 /* ---- long spec tables collapse on phones ---- */
 function ppSpecsToggle(){

@@ -86,7 +86,7 @@ const FORMSPREE="xaqgygqb";          // Formspree form ID (e.g. xyzabcd)
    Tag Manager merges every push into one data model, so the parameters of a
    quiz lead would still be sitting there when the next phone click arrives —
    each push resets the whole set first. */
-const TRACK_KEYS=['method','lead_type','category','value','currency','theme','user_data'];
+const TRACK_KEYS=['method','lead_type','category','value','currency','theme','user_data','trigger'];
 /* Enhanced conversions: Google ties a lead to the ad click by the phone (and
    the e-mail, when given), which the Google tag hashes before it leaves the
    browser. Only generate_lead carries it — track() clears it for every other
@@ -872,7 +872,9 @@ function openKit(btn){
 }
 /* kind 'question' comes from the product page's "Задати питання" — same form,
    but the heading and the Telegram label say it is a question, not a callback. */
-const CB_KINDS={question:['question','pp_ask_sub','cb_p'],cheaper:['cheaper','pp_cheaper_h','pp_cheaper_p']};
+const CB_KINDS={question:['question','pp_ask_sub','cb_p'],cheaper:['cheaper','pp_cheaper_h','pp_cheaper_p'],
+  delivery:['delivery','pp_deliv_h','pp_deliv_p'],delivery_s:['delivery','pp_deliv_h_s','pp_deliv_p_s'],
+  nudge:['nudge','nudge_h','nudge_p']};
 /* The product line is owned here, not by the callers: the modal is shared, so a
    name left over from a product button used to ride along on the next plain
    callback opened from the header. */
@@ -1817,7 +1819,7 @@ function quizResult(){
     +relaxNote+(warnKey?`<div class="quiz-note">${t(warnKey)}</div>`:'');
   qel('body').innerHTML=`<div class="quiz-res"><div class="quiz-q">${t(d.resKey)}</div>${note}<div class="quiz-cards">${cards}</div>
     <form class="quiz-lead" onsubmit="return quizSubmit(event)"><div class="quiz-q2">${t('quiz_lead_h')}</div>
-      <div class="quiz-lead-row"><input name="name" autocomplete="name" placeholder="${t('form_name_ph')}" aria-label="${t('form_name')}" required><input name="phone" type="tel" autocomplete="tel" placeholder="${t('form_phone_ph')}" aria-label="${t('form_phone')}" required></div>
+      <div class="quiz-lead-row"><input name="phone" type="tel" autocomplete="tel" placeholder="${t('form_phone_ph')}" aria-label="${t('form_phone')}" required><input name="name" autocomplete="name" placeholder="${t('form_name')}" aria-label="${t('form_name')}"></div>
       <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit" class="btn-primary">${t('quiz_send')}</button></form></div>`;
   // the widget starts answering while the visitor reads the picks
@@ -1831,8 +1833,7 @@ async function quizSubmit(e){
   if(f.company.value)return false;
   const name=f.name.value.trim(),phone=f.phone.value.trim();
   watchPhone(f.phone);
-  if(!name){fieldError(f.name,t('err_name'));return false;}
-  fieldError(f.name,'');
+  /* the name is optional everywhere: a missing name never costs a lead */
   const bad=phoneProblem(phone);
   if(bad){fieldError(f.phone,bad);return false;}
   fieldError(f.phone,'');
@@ -2319,4 +2320,42 @@ function resetTurnstile(){
       .catch(()=>{});
   },{rootMargin:'600px 0px'});
   io.observe(sec);
+})();
+
+/* ============ PRODUCT PAGE NUDGE ============
+   Someone who has spent a while on one model, or is heading for the tab bar,
+   usually has a question they did not want to phone about. A small card offers
+   to call them back — no discount, nothing invented, one tap to close. Shown at
+   most once a day, never over an open form, and not to someone who has already
+   called, written or sent a form in this visit. */
+(function(){
+  const pr=window.__PRODUCT__;if(!pr||!document.body)return;
+  const KEY='tp_nudge';
+  try{const last=+localStorage.getItem(KEY)||0;if(Date.now()-last<864e5)return;}catch(e){}
+  let done=false;
+  const busy=()=>!!document.querySelector('.overlay.open,#quiz-modal.open,#cb-modal.open');
+  document.addEventListener('click',e=>{if(e.target.closest('a[href^="tel:"],a[href*="whatsapp"],a[href^="viber:"],a[href*="t.me/"],.btn-primary,.pp-deliv,.pp-act'))done=true;},true);
+  function show(why){
+    if(done||busy())return;done=true;
+    try{localStorage.setItem(KEY,String(Date.now()));}catch(e){}
+    const box=document.createElement('div');box.className='nudge';box.setAttribute('role','dialog');box.setAttribute('aria-label',t('nudge_h'));
+    box.innerHTML='<button class="nudge-x" type="button" aria-label="'+t('nudge_close')+'">✕</button><p class="nudge-t"></p><button class="nudge-b btn-primary" type="button"></button>';
+    box.querySelector('.nudge-t').textContent=t('nudge_txt');
+    box.querySelector('.nudge-b').textContent=t('nudge_btn');
+    const close=()=>{box.classList.remove('in');setTimeout(()=>box.remove(),300);};
+    box.querySelector('.nudge-x').onclick=()=>{close();track('nudge_close',{trigger:why});};
+    box.querySelector('.nudge-b').onclick=()=>{
+      close();track('nudge_click',{trigger:why});
+      const name=(document.querySelector('.pp-title')||{}).textContent||'';
+      openCb('nudge',name.trim(),pr.id);
+      const st=typeof shopState==='function'?shopState():null;
+      if(st&&!st.open){const sub=$('cb-sub');if(sub)sub.textContent=t('nudge_p_closed').replace('{when}',st.note);}
+    };
+    document.body.appendChild(box);requestAnimationFrame(()=>box.classList.add('in'));
+    track('nudge_show',{trigger:why});
+  }
+  setTimeout(()=>show('time'),40000);
+  /* exit intent only where there is a mouse: the pointer leaving through the top edge */
+  if(matchMedia('(hover:hover) and (pointer:fine)').matches)
+    document.addEventListener('mouseout',e=>{if(!e.relatedTarget&&e.clientY<=0&&performance.now()>12000)show('exit');});
 })();

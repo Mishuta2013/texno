@@ -2501,3 +2501,45 @@ body:has(.lbox.open) > div:has(iframe[src*="merchantverse"]){display:none!import
    a row — a big phone, a phone asking for the desktop site, a narrow window —
    and the list turned into a very long single file. Two a row up to 760px. */
 @media(min-width:561px) and (max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}}
+
+/* ---- product page: price with delivery, rating line, reviews ---- */
+.pp-deliv{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin:-8px 0 14px;padding:13px 18px;
+  border:1.5px dashed var(--blue);border-radius:12px;background:transparent;color:var(--blue-d);
+  font-family:var(--disp);font-weight:700;font-size:15px;cursor:pointer;transition:.18s}
+.pp-deliv:hover{background:rgba(31,111,235,.06)}
+.pp-deliv:active{transform:translateY(1px)}
+.pp-deliv svg{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.pp-rate{display:inline-flex;align-items:center;gap:7px;margin:0 0 18px;font-size:14px;color:var(--g5);text-decoration:none}
+.pp-rate .rev-stars{margin:0;gap:2px}
+.pp-rate .rev-stars svg{width:15px;height:15px}
+.pp-rate b{color:var(--ink);font-family:var(--disp)}
+.pp-rate:hover span{text-decoration:underline}
+.pp-reviews{margin:8px 0 34px}
+.pp-rev-head{display:flex;align-items:center;flex-wrap:wrap;gap:10px 18px}
+.pp-rev-head h2{font-size:21px;margin:0}
+.pp-rev-score{display:inline-flex;align-items:center;gap:7px;font-size:14px;color:var(--g5)}
+.pp-rev-score .rev-stars{margin:0;gap:2px}
+.pp-rev-score .rev-stars svg{width:15px;height:15px}
+.pp-rev-score b{color:var(--ink);font-family:var(--disp)}
+.pp-rev-head .rev-link{margin-left:auto}
+.pp-reviews .rev-grid{margin-top:18px}
+/* Reviews scroll sideways instead of stacking: eight real cards in one column
+   were a screen and a half of scrolling on a phone. */
+.rev-grid{display:grid;grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:minmax(270px,1fr);
+  overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+.rev-card{scroll-snap-align:start}
+.rev-card .rev-text{display:-webkit-box;-webkit-line-clamp:8;-webkit-box-orient:vertical;overflow:hidden}
+@media(max-width:1000px){.rev-grid{grid-template-columns:none;grid-auto-columns:minmax(260px,82%)}}
+@media(max-width:560px){.pp-rev-head .rev-link{margin-left:0}.pp-rev-head h2{font-size:19px;width:100%}}
+
+/* ---- product page nudge ---- */
+.nudge{position:fixed;right:20px;bottom:20px;z-index:140;max-width:330px;padding:18px 18px 16px;border-radius:16px;
+  background:var(--white);border:1px solid var(--g2);box-shadow:0 18px 40px rgba(10,30,60,.18);
+  opacity:0;transform:translateY(16px);transition:opacity .3s,transform .3s}
+.nudge.in{opacity:1;transform:none}
+.nudge-t{margin:0 26px 12px 0;font-size:15px;line-height:1.5;color:var(--ink)}
+.nudge-b{width:100%;justify-content:center}
+.nudge-x{position:absolute;top:8px;right:8px;width:30px;height:30px;border:0;border-radius:50%;background:transparent;color:var(--g4);font-size:15px;cursor:pointer}
+.nudge-x:hover{background:var(--g1)}
+@media(max-width:760px){.nudge{left:12px;right:12px;bottom:88px;max-width:none}}
+@media (prefers-reduced-motion:reduce){.nudge{transition:none}}
