@@ -185,5 +185,19 @@
     "en": "Marstek makes home energy storage: LiFePO₄ batteries with a built-in inverter that plug into an ordinary socket and work alongside a solar system. IP65 enclosures, app control and a 10-year battery warranty.",
     "alias_uk": "Марстек",
     "alias_ru": "Марстек"
+  },
+  "Candy": {
+    "uk": "Candy — італійська марка побутової техніки, з 2019 року входить до групи Haier. Пральні машини Candy — доступні моделі з повним набором програм і підтримкою застосунку hOn. Особливо популярні вертикальні машини: вузький корпус ставиться туди, де фронтальна не поміститься.",
+    "ru": "Candy — итальянская марка бытовой техники, с 2019 года входит в группу Haier. Стиральные машины Candy — доступные модели с полным набором программ и поддержкой приложения hOn. Особенно популярны вертикальные машины: узкий корпус ставится туда, где фронтальная не поместится.",
+    "en": "Candy is an Italian appliance brand, part of the Haier group since 2019. Its washing machines are affordable models with a full programme set and hOn app support; the top-loaders are especially popular because their narrow body fits where a front-loader will not.",
+    "alias_uk": "Канді",
+    "alias_ru": "Канди"
+  },
+  "OUPES": {
+    "uk": "OUPES — виробник портативних зарядних станцій на батареях LiFePO₄. Станції серії S024 мають 2232 Вт·год ємності й 2400 Вт потужності — цього вистачає на холодильник, котел і побутову техніку в будинку. Заряджаються від мережі, сонячних панелей і прикурювача авто.",
+    "ru": "OUPES — производитель портативных зарядных станций на батареях LiFePO₄. Станции серии S024 имеют 2232 Вт·ч ёмкости и 2400 Вт мощности — этого хватает на холодильник, котёл и бытовую технику в доме. Заряжаются от сети, солнечных панелей и прикуривателя авто.",
+    "en": "OUPES makes portable power stations built on LiFePO₄ batteries. The S024 series offers 2232 Wh and 2400 W — enough for a fridge, a boiler and household appliances — and charges from the mains, solar panels or a car socket.",
+    "alias_uk": "Оупс",
+    "alias_ru": "Оупс"
   }
 }

@@ -33,6 +33,20 @@ THUMB = (400, 400)
 
 # folder -> (slug, [source files in display order])
 PLAN = {
+# October 2026 addition (D: товара.rar), listed by absolute path.
+u"C:/Users/Dima/AppData/Local/Temp/claude/C--Claude-Code/ef835708-7464-4b7e-ad44-5c8c051f9262/scratchpad/oct15/candy": ("candy-tca273d3-s", [
+    "681690811.webp",      # three-quarter, lid closed
+    "681690806.webp",      # straight front
+    "681690808.webp",      # three-quarter left
+    "681690810.webp",      # three-quarter right
+    "681690812.webp",      # front, top and panel
+    "681690809.webp",      # lid open, drum
+    "681690813.webp",      # lid open, drum, angle
+    "681690807.webp",      # control panel
+    "681690818.webp",      # detergent drawer in use
+    "681690814.webp",      # bathroom scene
+    "681690815.webp"]),    # bathroom scene, lid open
+
 u"Пральна машина Bosch WAN28281UA": ("bosch-wan28281ua", [
     "wan28281ua.webp",               # straight front
     "wan28281ua_1_.webp",            # control panel

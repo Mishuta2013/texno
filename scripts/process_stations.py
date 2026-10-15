@@ -34,6 +34,23 @@ THUMB = (400, 400)
 KEEP = "keep"          # publish as-is: infographic, not a product shot
 
 PLAN = {
+# October 2026 addition (D: товара.rar), listed by absolute path.
+u"C:/Users/Dima/AppData/Local/Temp/claude/C--Claude-Code/ef835708-7464-4b7e-ad44-5c8c051f9262/scratchpad/oct15/oupes": ("oupes-s024-lite-2400w-2232wh", [
+    "687598491.webp",            # three-quarter, socket panel
+    "687598496.webp",            # straight front
+    "687598518.webp",            # three-quarter, other side
+    "687598502.webp",            # from above, top tray
+    ("685088564.webp", KEEP),    # four ways to charge
+    ("685088563.webp", KEEP),    # LiFePO4, 3500+ cycles
+    ("685088565.webp", KEEP),    # runtime per appliance
+    "687598508.webp",            # back
+    "687598512.webp",            # back, AC input
+    "687598515.webp",            # input panel close-up
+    "687598522.webp",            # side, handle
+    "687598526.webp",            # top
+    "687598529.webp",            # bottom
+    ("687598535.webp", KEEP)]),  # what is in the box
+
 u"Зарядна станція ALLPOWERS R1500 LITE": ("allpowers-r1500-lite-1600w-1056wh", [
     "Allpowers_R1500_LITE1.webp",        # straight front, socket panel
     "Allpowers_R1500_LITE2.webp",        # three-quarter
