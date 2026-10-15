@@ -2411,6 +2411,26 @@ function catFaqLd(cat) {
       acceptedAnswer: { '@type': 'Answer', text: subCounts(it[1]) } })),
   })}</script>`;
 }
+/* A category page was a grid, a row of chips and the FAQ: Google kept ranking
+   the home page for "купити холодильник суми" instead of the fridge aisle, which
+   had almost no words of its own. The same data-driven facts the tag and brand
+   pages carry (cheapest, dearest, ranges, every brand linked to its shelf) plus
+   one paragraph on buying here — all figures read from products.json. */
+function catShelf(cat, list, NAME, plural) {
+  const brands = catBrands(cat.key);
+  const brandsRow = brands.length > 1 ? `<li><b>${esc(t('f_brands'))}:</b> ` + brands.map(b => {
+    const label = `${esc(b)} (${list.filter(p => p.brand === b).length})`;
+    return brandIsShelf(cat.key, b) ? label : `<a href="${burl(cat, b)}">${label}</a>`;
+  }).join(', ') + '</li>' : '';
+  const prices = list.map(p => p.price), lo = Math.min(...prices), hi = Math.max(...prices);
+  const price = t(lo === hi ? 'brand_price_one' : 'brand_price_range').replace('{lo}', fmt(lo)).replace('{hi}', fmt(hi));
+  const para = t('cat_local_p').replace('{n}', list.length).replace('{models}', plural)
+    .replace('{gen}', lf(cat, 'nameGen') || NAME).replace('{price}', price)
+    // a sink or a tap is not "connected" by the shop — no hookup line there
+    .replace('{hook}', ['myyky', 'zmishuvachi', 'dozatory'].includes(cat.key) ? '' : t('cat_local_hook'));
+  return `${shelfFacts(cat, list, NAME, brandsRow)}
+  <section class="cat-local"><h2>${esc(t('cat_local_h').replace('{name}', NAME))}</h2><p>${esc(para)}</p></section>`;
+}
 function categoryPage(cat) {
   const list = catProducts(cat.key);
   const NAME = lf(cat, 'name');
@@ -2479,6 +2499,7 @@ ${HEADER}
     `${esc(av(cat.illustration.replace(/\.webp$/, '@1200.webp')))} 1200w" ` +
     `sizes="(max-width:1000px) 94vw, 960px" alt="${esc(lf(cat, 'illustrationAlt') || NAME)}" ` +
     `width="1200" height="675" loading="lazy" decoding="async"></figure>` : ''}
+  ${catShelf(cat, list, NAME, plural)}
   ${catFaqBlock(cat)}
   ${catArticles(cat.key)}
   <div class="pp-back"><a href="${pfx() || '/'}#catalog">← ${esc(t('pp_back_all'))}</a></div>
@@ -3089,6 +3110,86 @@ fs.writeFileSync(path.join(ROOT, 'scripts', '.og-collections.json'),
      own feed was in exactly that state. The Russian feed carries the Russian
      titles and descriptions the site already has, and links to /ru/ pages, so
      a Russian-speaking shopper lands on the page in their language. */
+  /* Google matches a shopping query against the title first, and "Холодильник
+     Samsung RB38C603EWW/UA" says nothing a buyer types — "холодильник 390 л no
+     frost". Merchant Center itself flagged 99 fridges as missing width, depth
+     and the like. The title keeps the product's own name and adds the two or
+     three figures the card already shows, read from the specs so they cannot
+     disagree with the page. A figure the name already carries is not repeated. */
+  const FEED_WORD = {
+    depth: { uk: 'глибина', ru: 'глубина' }, width: { uk: 'ширина', ru: 'ширина' }, height: { uk: 'висота', ru: 'высота' },
+    vertical: { uk: 'вертикальне завантаження', ru: 'вертикальная загрузка' }
+  };
+  const TITLE_ATTRS = {
+    kondicioneri: [{ key: 'area', fmt: 'area' }],
+    'pralni-mashyny': ['@vertical', { key: 'load_kg', fmt: 'kg' }, { key: 'rpm', fmt: 'rpm' }, '@depth'],
+    'zaryadni-stantsii': ['@lifepo', '@ups'],
+    holodylnyky: [{ key: 'volume_l', fmt: 'litres' }, { key: 'defrost' }, '@height'],
+    boylery: [{ key: 'volume_l', fmt: 'litres' }, '@mount'],
+    'duhovi-shafy': [{ key: 'volume_l', fmt: 'litres' }, 'functions', { key: 'width_cm', fmt: 'cm' }],
+    'varylni-poverhni': [{ key: 'hob_type', low: 1 }, 'burners', { key: 'width_cm', fmt: 'cm' }],
+    vytyazhky: [{ key: 'width_cm', fmt: 'cm' }, { key: 'airflow', fmt: 'm3h' }],
+    'posudomyyni-mashyny': ['sets', { key: 'width_cm', fmt: 'cm' }],
+    'mikrohvylovi-pechi': [{ key: 'volume_l', fmt: 'litres' }, { key: 'power_mw', fmt: 'watt' }],
+    myyky: [{ key: 'material', low: 1 }, { key: 'color', low: 1 }, { key: 'dims' }],
+    zmishuvachi: [{ key: 'tap_type', low: 1 }, { key: 'color', low: 1 }],
+    dozatory: [{ key: 'color', low: 1 }, { key: 'volume_ml', fmt: 'ml' }]
+  };
+  const titleAttr = (p, a) => {
+    const s = p.specs || {}, w = k => FEED_WORD[k][L] || FEED_WORD[k].uk;
+    if (a === '@vertical') return /вертикал/i.test(String(s.load_type || '')) ? w('vertical') : '';
+    /* a top-loader is chosen by how narrow it is, a front-loader by how deep */
+    if (a === '@depth' && /вертикал/i.test(String(s.load_type || ''))) {
+      const wd = String(s.dims || '').match(/^([\d.,]+)\s*×/); return wd ? `${w('width')} ${wd[1]} ${t('u_cm')}` : ''; }
+    if (a === '@depth') return s.depth ? `${w('depth')} ${s.depth} ${t('u_cm')}` : '';
+    if (a === '@height') return s.height_cm ? `${w('height')} ${s.height_cm} ${t('u_cm')}` : '';
+    if (a === '@lifepo') return /LiFePO/i.test(String(s.battery || '')) ? 'LiFePO₄' : '';
+    if (a === '@ups') return p.ups ? 'UPS' : '';
+    if (a === '@mount') { const m = String(specVal(s.mount || '')).split(',')[0].trim(); return m ? lowerTail(m) : ''; }
+    /* a chip already knows its noun ("8 функцій", "4 зони") — reuse it */
+    const f = typeof a === 'string' ? (catOf(p).chips || []).find(c => c.key === a) : a;
+    const v = f && fmtVal(p, f);
+    return v ? (f.low ? lowerTail(String(v)) : String(v)) : '';
+  };
+  const feedTitle = p => {
+    const name = pname(p), flat = x => x.toLowerCase().replace(/\s+/g, '');
+    let out = name;
+    for (const a of TITLE_ATTRS[p.category] || []) {
+      const v = titleAttr(p, a);
+      if (!v || flat(name).includes(flat(v))) continue;
+      const next = `${out}, ${v}`;
+      if (next.length > 150) break;
+      out = next;
+    }
+    return out;
+  };
+  /* The spec table, as Google's own fields: what lets a shopper filter by
+     width or capacity in Google Shopping instead of reading a paragraph. */
+  const productDetails = p => (catOf(p).specs || []).filter(f => f.key !== 'features').map(f => {
+    const v = fmtVal(p, f);
+    if (v === null || v === undefined || v === '') return '';
+    return `    <g:product_detail><g:section_name>Характеристики</g:section_name><g:attribute_name>${xe(String(lf(f, 'label')).slice(0, 140))}</g:attribute_name><g:attribute_value>${xe(String(v).slice(0, 1000))}</g:attribute_value></g:product_detail>`;
+  }).filter(Boolean).join('\n');
+  /* "Features" is a comma list on the page; Google shows it as bullet points
+     under the product, two to ten of them. */
+  const highlights = p => {
+    const raw = (p.specs || {}).features;
+    if (!raw) return '';
+    const list = (Array.isArray(raw) ? raw.map(specVal) : String(specVal(raw)).split(/,\s+(?![^()]*\))/))
+      .map(x => String(x).trim()).filter(x => x.length > 2)
+      .map(x => (x.charAt(0).toUpperCase() + x.slice(1)).slice(0, 150)).slice(0, 10);
+    return list.length >= 2 ? list.map(x => `    <g:product_highlight>${xe(x)}</g:product_highlight>`).join('\n') : '';
+  };
+  /* The model code is the manufacturer's part number in these aisles (Samsung
+     RB38C603EWW/UA, Gunter&Hauer EOK 4502, Fossibot F1800), so brand + mpn lets
+     Google tie the offer to its catalogue entry. Air conditioners keep the old
+     "no identifier" line: their series field is a family name, not a part
+     number; boilers, sinks and taps carry a marketing name there too. */
+  const MPN_CATS = new Set(['holodylnyky', 'pralni-mashyny', 'zaryadni-stantsii', 'duhovi-shafy',
+    'varylni-poverhni', 'vytyazhky', 'posudomyyni-mashyny', 'mikrohvylovi-pechi']);
+  const ids = p => MPN_CATS.has(p.category) && p.series
+    ? `    <g:mpn>${xe(p.series)}</g:mpn>`
+    : `    <g:identifier_exists>no</g:identifier_exists>`;
   for (const lang of ['uk', 'ru']) {
     L = lang;
     /* No g:shipping here on purpose. A price in the feed overrides the account's
@@ -3101,7 +3202,7 @@ fs.writeFileSync(path.join(ROOT, 'scripts', '.og-collections.json'),
       const desc = (pdesc(p) || '').replace(/\s+/g, ' ').trim();
       return `  <item>
     <g:id>${xe(p.slug)}</g:id>
-    <g:title>${xe(pname(p))}</g:title>
+    <g:title>${xe(feedTitle(p))}</g:title>
     <g:description>${xe(desc)}</g:description>
     <g:link>${xe(abs(purl(p)))}</g:link>
     <g:image_link>${xe(abs(p.photos[0]))}</g:image_link>
@@ -3110,12 +3211,11 @@ ${p.photos.slice(1, 11).map(ph => `    <g:additional_image_link>${xe(abs(ph))}</
     <g:condition>new</g:condition>
     <g:price>${p.price} UAH</g:price>
     <g:brand>${xe(p.brand)}</g:brand>
-    <!-- identifier_exists=no and an mpn in the same item contradict each other,
-         and the mpn was the series name ("ISR Rotary"), not a part number. -->
-    <g:identifier_exists>no</g:identifier_exists>
+${ids(p)}
     <g:google_product_category>${GCAT[p.category] || ''}</g:google_product_category>
     <g:product_type>${xe(lf(cat, 'name'))}</g:product_type>
     <g:shipping_label>${shipTier(p)}</g:shipping_label>
+${(p.specs || {}).color ? `    <g:color>${xe(String(specVal(p.specs.color)).slice(0, 100))}</g:color>\n` : ''}${[productDetails(p), highlights(p)].filter(Boolean).join('\n')}
   </item>`;
     }).join('\n');
     const feed = `<?xml version="1.0" encoding="UTF-8"?>

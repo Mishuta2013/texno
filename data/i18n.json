@@ -1027,7 +1027,10 @@
     "psc_a3": "Так: насос споживає близько 120 Вт, тож станції на 1 кВт·год вистачить приблизно на 7 годин. Котлу потрібна чиста синусоїда на виході — менеджер підкаже сумісну модель.",
     "con_social": "Ми в соцмережах",
     "ct_ig_v": "Написати в Direct",
-    "ct_fb_v": "Сторінка TexnoPlaza"
+    "ct_fb_v": "Сторінка TexnoPlaza",
+    "cat_local_h": "{name} у Сумах — купити в магазині TexnoPlaza",
+    "cat_local_p": "У магазині TexnoPlaza зараз {n} {models} {gen} — {price}. Усе можна подивитися наживо на вул. Харківській, 2/1 — підкажемо, що підійде саме вам. Доставляємо по Сумах і відправляємо Новою поштою.{hook} Оплата частинами або після отримання, повернення протягом 14 днів.",
+    "cat_local_hook": " Підключення — за погодженням."
   },
   "ru": {
     "nav_catalog": "Каталог",
@@ -2057,7 +2060,10 @@
     "psc_a3": "Да: насос потребляет около 120 Вт, поэтому станции на 1 кВт·ч хватит примерно на 7 часов. Котлу нужна чистая синусоида на выходе — менеджер подскажет совместимую модель.",
     "con_social": "Мы в соцсетях",
     "ct_ig_v": "Написать в Direct",
-    "ct_fb_v": "Страница TexnoPlaza"
+    "ct_fb_v": "Страница TexnoPlaza",
+    "cat_local_h": "{name} в Сумах — купить в магазине TexnoPlaza",
+    "cat_local_p": "В магазине TexnoPlaza сейчас {n} {models} {gen} — {price}. Всё можно посмотреть вживую на ул. Харьковской, 2/1 — подскажем, что подойдёт именно вам. Доставляем по Сумам и отправляем Новой почтой.{hook} Оплата частями или после получения, возврат в течение 14 дней.",
+    "cat_local_hook": " Подключение — по согласованию."
   },
   "en": {
     "nav_catalog": "Catalog",
@@ -3009,6 +3015,9 @@
     "psc_a3": "Yes: the pump draws about 120 W, so a 1 kWh station lasts roughly 7 hours. A boiler needs a pure sine wave output — our manager will point you to a compatible model.",
     "con_social": "Social media",
     "ct_ig_v": "Message us in Direct",
-    "ct_fb_v": "TexnoPlaza page"
+    "ct_fb_v": "TexnoPlaza page",
+    "cat_local_h": "{name} in Sumy — buy at TexnoPlaza",
+    "cat_local_p": "TexnoPlaza has {n} {models} of {gen} right now — {price}. Come and see them at 2/1 Kharkivska Street and we will help you pick. We deliver across Sumy and ship by Nova Poshta.{hook} Pay in instalments or on delivery, returns within 14 days.",
+    "cat_local_hook": " Hookup is agreed separately."
   }
 }
