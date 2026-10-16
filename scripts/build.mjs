@@ -377,18 +377,29 @@ function fmtVal(p, f) {
       : specVal((raw !== undefined && raw !== null && raw !== '') ? raw : null);
   }
 }
+/* Icons. The site used to draw them with emoji — 🧊 for fridges, 🧺 for a
+   washer's load, 🔥 for ovens — which every phone renders in its own style and
+   none of them matches the shop. They come from one sprite of Phosphor icons
+   now (assets/icons/ph.svg): d-* duotone for the category marks, r-* regular for
+   the small ones beside a spec. One cached file rather than paths inlined into
+   every page; main.js gets the same URL through window.__PH__. */
+const phUrl = () => av('/assets/icons/ph.svg');
+const ph = (id, cls = '') =>
+  `<svg class="ph${cls ? ' ' + cls : ''}" aria-hidden="true" focusable="false"><use href="${phUrl()}#${id}"/></svg>`;
+// a chip's icon is a Phosphor name in categories.json; anything else is printed as it is
+const chipIc = ic => !ic ? '' : /^[a-z][a-z0-9-]*$/.test(ic) ? ph('r-' + ic, 'chip-ic') : esc(ic);
 function catChips(p) {
   return (catOf(p).chips || []).map(c => {
-    if (c.flag) return p[c.flag] ? `<span class="stag">${c.icon} ${esc(lf(c,'label'))}</span>` : '';
+    if (c.flag) return p[c.flag] ? `<span class="stag">${chipIc(c.icon)} ${esc(lf(c,'label'))}</span>` : '';
     const v = fmtVal(p, c);
-    return v ? `<span class="stag">${c.icon} ${esc(v)}</span>` : '';
+    return v ? `<span class="stag">${chipIc(c.icon)} ${esc(v)}</span>` : '';
   }).join('');
 }
 function ppChips(p) {
   return (catOf(p).ppChips || catOf(p).chips || []).map(c => {
     if (c.flag) return p[c.flag] ? `<span class="pp-chip">${esc(lf(c,'label'))}</span>` : '';
     const v = fmtVal(p, c);
-    return v ? `<span class="pp-chip">${c.icon ? c.icon + ' ' : ''}${esc(v)}</span>` : '';
+    return v ? `<span class="pp-chip">${c.icon ? chipIc(c.icon) + ' ' : ''}${esc(v)}</span>` : '';
   }).join('');
 }
 /* How many cards a grid is worth rendering into the HTML.
@@ -635,84 +646,87 @@ function card(p) {
 // the chat bubble on the "1 клік" button — the button opens WhatsApp / Viber / Telegram
 const BUY_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.6a8.4 8.4 0 0 1-12.3 7.4L3.5 20.5l1.6-4.5a8.4 8.4 0 1 1 15.4-4.4z"/><path d="M8.5 11.8h.01M12 11.8h.01M15.5 11.8h.01"/></svg>';
 
-/* The five «Хіт продажів» cards carried a photo, a name and three specs — and
-   no price, which is the one number a visitor is actually deciding on. It sat
-   four screens down in the catalogue. Same markup as .card-price, so the two
-   read as the same thing in two places. */
-const gcPrice = p => `<div class="gc-price">${fmt(p.price)} <small>${esc(t('u_uah'))}</small></div>`;
-
-function heroCard(p) {
-  const s = p.specs || {};
-  return `<a class="gauge-card" href="${purl(p)}">
-    <div class="gc-tag">${esc(t('gc_stock'))}</div>
-    <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
-    <div class="gc-img"><img src="${esc(av(p.photos[0]))}" alt="${esc(pname(p))}" width="680" height="510" loading="lazy"><div class="gc-airflow" id="airflow"></div></div>
-    <div class="gc-name">${esc(pname(p))}</div>
-    ${gcPrice(p)}
-    <div class="gc-readout">
-      <div class="gc-r"><div class="v">${fmt(p.btu)}<small> BTU</small></div><div class="k">${esc(t('gc_power'))}</div></div>
-      <div class="gc-r"><div class="v">${esc(s.eclass || 'A++')}</div><div class="k">${esc(t('gc_class'))}</div></div>
-      <div class="gc-r"><div class="v">${esc(s.noise || 22)}<small> ${esc(t("u_db"))}</small></div><div class="k">${esc(t('gc_noise'))}</div></div>
-    </div></a>`;
+/* Product cut-outs cropped to the product (scripts/make_cutouts.py), for
+   anywhere products stand together: the shop window, the category tiles, the
+   catalogue panel. A product without one falls back to its square thumbnail. */
+const CUTS = (() => {
+  try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'data/cutouts.json'), 'utf8')); } catch { return {}; }
+})();
+function cutImg(p, cls = '', extra = ' loading="lazy"') {
+  const dir = String(p.thumb || p.photos[0] || '').replace(/\/[^/]*$/, '');
+  const size = CUTS[dir.split('/').pop()];
+  const src = size ? `${dir}/cut.webp` : (p.thumb || p.photos[0]);
+  const [w, h] = size || [400, 400];
+  return `<img${cls ? ` class="${cls}"` : ''} src="${esc(av(src))}" alt="" width="${w}" height="${h}" decoding="async"${extra}>`;
 }
-
-function heroStationCard(p) {
-  const s = p.specs || {};
-  return `<a class="gauge-card gc-station" href="${purl(p)}">
-    <div class="gc-tag gc-tag-new">${esc(t("badge_new"))}</div>
-    <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
-    <div class="gc-img"><img src="${esc(av(p.photos[0]))}" alt="${esc(pname(p))}" width="680" height="510" fetchpriority="high"><div class="gc-charge" id="charge"></div></div>
-    <div class="gc-name">${esc(pname(p))}</div>
-    ${gcPrice(p)}
-    <div class="gc-readout">
-      <div class="gc-r"><div class="v">${fmt(s.capacity_wh)}<small> ${esc(t("u_wh"))}</small></div><div class="k">${esc(t("hc_capacity"))}</div></div>
-      <div class="gc-r"><div class="v">${fmt(s.output_w)}<small> ${esc(t("u_w"))}</small></div><div class="k">${esc(t("hc_power"))}</div></div>
-      <div class="gc-r"><div class="v">10<small> ${esc(t("u_ms"))}</small></div><div class="k">UPS</div></div>
-    </div></a>`;
+/* Which models stand for a category: pinned first, then bestsellers, then
+   catalogue order — one per brand before any brand repeats, so a tile is not
+   three near-identical units. categories.json may name its own ("tilePicks"). */
+function catPicks(c, k) {
+  const ps = catProducts(c.key).filter(p => p.thumb);
+  if (Array.isArray(c.tilePicks)) {
+    const chosen = c.tilePicks.map(s => ps.find(p => p.slug === s)).filter(Boolean);
+    if (chosen.length) return chosen.slice(0, k);
+  }
+  const ranked = ps.map((p, i) => ({ p, i }))
+    .sort((a, b) => (a.p.pin || 99) - (b.p.pin || 99) || (b.p.bestseller ? 1 : 0) - (a.p.bestseller ? 1 : 0) || a.i - b.i)
+    .map(x => x.p);
+  const seen = new Set();
+  const out = ranked.filter(p => !seen.has(p.brand) && seen.add(p.brand)).slice(0, k);
+  for (const p of ranked) { if (out.length >= k) break; if (!out.includes(p)) out.push(p); }
+  return out;
 }
+const catFrom = c => Math.min(...catProducts(c.key).map(p => p.price));
+/* The price tag. Orange, punched, and on the home page hung on a thread — the
+   way a price is shown in a real shop window, and the one thing the owner
+   wanted kept from the design study. The same markup carries the hits, the
+   category tiles and the product page; catalogue cards style their own
+   .card-price to match in CSS, because main.js draws those too. */
+const ptag = (price, { lbl = '', from = false, cls = '' } = {}) =>
+  `<span class="ptag${cls ? ' ' + cls : ''}">${lbl ? `<span class="ptag-l">${esc(lbl)}</span>` : ''}` +
+  `<b>${from ? `<em>${esc(t('pt_from'))}</em> ` : ''}${fmt(price)}<small>${esc(t('u_uah'))}</small></b></span>`;
 
-function heroBoilerCard(p) {
-  const s = p.specs || {};
-  return `<a class="gauge-card gc-station" href="${purl(p)}">
-    <div class="gc-tag">${esc(t('gc_stock'))}</div>
-    <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
-    <div class="gc-img"><img src="${esc(av(p.photos[0]))}" alt="${esc(pname(p))}" width="680" height="510" loading="lazy"><div class="gc-warm"></div></div>
-    <div class="gc-name">${esc(pname(p))}</div>
-    ${gcPrice(p)}
-    <div class="gc-readout">
-      <div class="gc-r"><div class="v">${esc(s.volume_l)}<small> ${esc(t("u_l"))}</small></div><div class="k">${esc(t("hc_volume"))}</div></div>
-      <div class="gc-r"><div class="v">${esc(s.power_w)}<small> ${esc(t("u_w"))}</small></div><div class="k">${esc(t("hc_power"))}</div></div>
-      <div class="gc-r"><div class="v">${esc(String(s.warranty_tank || '').split(' ')[0] || '—')}<small> ${esc(t('hc_yr'))}</small></div><div class="k">${esc(t("hc_tank"))}</div></div>
-    </div></a>`;
-}
-function heroWasherCard(p) {
-  const s = p.specs || {};
-  return `<a class="gauge-card gc-station" href="${purl(p)}">
-    <div class="gc-tag">${esc(t('gc_stock'))}</div>
-    <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
-    <div class="gc-img"><img src="${esc(av(p.photos[0]))}" alt="${esc(pname(p))}" width="680" height="510" loading="lazy"><div class="gc-drum"></div></div>
-    <div class="gc-name">${esc(pname(p))}</div>
-    ${gcPrice(p)}
-    <div class="gc-readout">
-      <div class="gc-r"><div class="v">${esc(s.load_kg)}<small> ${esc(t("u_kg"))}</small></div><div class="k">${esc(t("hc_load"))}</div></div>
-      <div class="gc-r"><div class="v">${fmt(s.rpm)}<small> ${esc(t("u_rpm"))}</small></div><div class="k">${esc(t("hc_spin"))}</div></div>
-      <div class="gc-r"><div class="v">${esc(String(s.eclass || '').split(' ')[0])}</div><div class="k">${esc(t("hc_class"))}</div></div>
-    </div></a>`;
-}
-
-function heroFridgeCard(p) {
-  const s = p.specs || {};
-  return `<a class="gauge-card gc-station" href="${purl(p)}">
-    <div class="gc-tag">${esc(t('gc_stock'))}</div>
-    <div class="gc-head"><div class="gc-title">${esc(t('gc_hit'))}</div><div class="gc-live"><i></i> ONLINE</div></div>
-    <div class="gc-img"><img src="${esc(av(p.photos[0]))}" alt="${esc(pname(p))}" width="680" height="510" loading="lazy"><div class="gc-chill" id="chill"></div></div>
-    <div class="gc-name">${esc(pname(p))}</div>
-    ${gcPrice(p)}
-    <div class="gc-readout">
-      <div class="gc-r"><div class="v">${esc(s.volume_l)}<small> ${esc(t("u_l"))}</small></div><div class="k">${esc(t("hc_volume"))}</div></div>
-      <div class="gc-r"><div class="v">${esc(s.height_cm)}<small> ${esc(t("u_cm"))}</small></div><div class="k">${esc(t("hc_height"))}</div></div>
-      <div class="gc-r"><div class="v">${esc(String(s.eclass || '').split(' ')[0] || '—')}</div><div class="k">${esc(t("hc_class"))}</div></div>
-    </div></a>`;
+/* «Хіти продажів» as a shop window rather than three glass cards. The cards
+   each had a pulsing "● ONLINE" that meant nothing, three spec tiles that all
+   looked alike, and a photo at 118px. Now the three products stand side by
+   side under one light, their prices hang off a rail above them, and the one
+   status line says what is true of all three: in stock, delivered today. */
+const HIT_SPECS = {
+  'zaryadni-stantsii': s => [s.capacity_wh && `${fmt(s.capacity_wh)} ${t('u_wh')}`, s.output_w && `${fmt(s.output_w)} ${t('u_w')}`],
+  holodylnyky: s => [s.volume_l && `${s.volume_l} ${t('u_l')}`, s.height_cm && `${s.height_cm} ${t('u_cm')}`],
+  'pralni-mashyny': s => [s.load_kg && `${s.load_kg} ${t('u_kg')}`, s.rpm && `${fmt(s.rpm)} ${t('u_rpm')}`],
+  boylery: s => [s.volume_l && `${s.volume_l} ${t('u_l')}`, s.power_w && `${fmt(s.power_w)} ${t('u_w')}`]
+};
+const hitName = p => p.series ? `${p.brand} ${p.series}` : pname(p);
+/* Rough real-world scale between the shelves, so a 26cm power station does not
+   stand as tall as a fridge beside it. */
+const HIT_SCALE = { holodylnyky: 1, 'pralni-mashyny': .8, boylery: .74, 'zaryadni-stantsii': .62 };
+function vitrine(items) {
+  /* thread lengths differ a little so the tags do not hang in a ruled line */
+  const THREAD = [30, 36, 42];   // the middle tag carries a label line and needs the longer thread to clear the rail
+  /* A lit display case set into the dark hero: each product on its own round
+     podium under a beam of light, its price hanging from the rail above. The
+     first version was navy on navy and read as part of the background. The
+     flagship in the middle stands on the taller podium. */
+  const cells = items.map(({ p, lbl }, i) => {
+    const specs = (HIT_SPECS[p.category] || (() => []))(p.specs || {}).filter(Boolean);
+    const word = (catOf(p).productPrefix || {})[L] || lf(catOf(p), 'name');
+    return `<div class="vt-item${lbl ? ' vt-main' : ''}"><span class="vt-cone" aria-hidden="true"></span>` +
+      `<a class="vt-link" href="${purl(p)}" aria-label="${esc(`${pname(p)}, ${fmt(p.price)} ${t('u_uah')}`)}">` +
+      `<span class="vt-hang" style="--th:${THREAD[i % THREAD.length]}px"><i class="vt-str"></i>${ptag(p.price, { lbl, cls: 'ptag-hang' })}</span>` +
+      `<span class="vt-img" style="--s:${HIT_SCALE[p.category] || .8}">${cutImg(p, '', i === 1 ? ' fetchpriority="high"' : '')}</span>` +
+      `<span class="vt-pod" aria-hidden="true"></span>` +
+      `<span class="vt-cap"><span class="vt-cat">${esc(word)}</span><b>${esc(hitName(p))}</b>` +
+      `${specs.length ? `<span class="vt-spec">${esc(specs.join(' · '))}</span>` : ''}</span></a>` +
+      /* opens the order form with this product filled in; without JS it is
+         the product page, where the same button is */
+      `<a class="vt-buy" href="${purl(p)}" onclick="if(window.openOrder){openOrder('${esc(p.slug)}');return false}">${esc(t('c_order'))}</a></div>`;
+  }).join('');
+  return `<div class="hero-vis vitrine"><div class="vt-in">` +
+    `<div class="vt-head"><span class="vt-title">${esc(t('vt_title'))}</span>` +
+    `<span class="vt-stock">${ph('d-check-circle')}<span>${esc(t('vt_stock'))}</span></span></div>` +
+    `<div class="vt-stage"><span class="vt-rail" aria-hidden="true"></span>${cells}<span class="vt-floor" aria-hidden="true"></span></div>` +
+    `</div></div>`;
 }
 
 // render current uk i18n text into static HTML (matches runtime applyI18n → correct for SEO/no-JS)
@@ -844,7 +858,7 @@ function pickerSection() {
   const cards = open.map(c => {
     const n = catProducts(c.key).length;
     return `<button class="pick-card reveal" type="button" onclick="openQuiz('${esc(c.key)}')" aria-label="${esc(lf(c, 'quizCta'))}">
-        <span class="pick-ic" aria-hidden="true">${esc(c.emoji || '•')}</span>
+        <span class="pick-ic" aria-hidden="true">${ph('d-' + (c.ph || 'squares-four'))}</span>
         <span class="pick-tx"><span class="pick-t">${esc(lf(c, 'name'))}</span><span class="pick-s">${n} ${esc(modelsWord(n))}</span></span>
         <span class="pick-go" aria-hidden="true">&rarr;</span>
       </button>`;
@@ -1006,7 +1020,7 @@ const injectData = () => {
   const balias = Object.fromEntries(Object.entries(BRANDS)
     .map(([b, e]) => [b, [e.alias_uk, e.alias_ru].filter(Boolean).join(' ').toLowerCase()])
     .filter(([, a]) => a));
-  const js = `window.__I18N__=${JSON.stringify(i18nSlim)};window.__LANGS__=${JSON.stringify(LANGS)};window.__SITE__=${JSON.stringify(site)};window.__CATS__=${JSON.stringify(catsSlim)};window.__SPECV__=${JSON.stringify(specv)};window.__BALIAS__=${JSON.stringify(balias)};window.__PRODUCTS__=${JSON.stringify(namesFor(L))};`;
+  const js = `window.__I18N__=${JSON.stringify(i18nSlim)};window.__LANGS__=${JSON.stringify(LANGS)};window.__SITE__=${JSON.stringify(site)};window.__CATS__=${JSON.stringify(catsSlim)};window.__SPECV__=${JSON.stringify(specv)};window.__BALIAS__=${JSON.stringify(balias)};window.__PRODUCTS__=${JSON.stringify(namesFor(L))};window.__PH__=${JSON.stringify(phUrl())};`;
   const url = `/assets/js/data-${L}.${crypto.createHash('md5').update(js).digest('hex').slice(0, 8)}.js`;
   DATA_FILES.set(url, js);
   const tag = `<script src="${url}" defer></script>`;
@@ -1048,7 +1062,9 @@ const injectData = () => {
 fs.rmSync(DIST, { recursive: true, force: true });
 fs.mkdirSync(DIST, { recursive: true });
 
-const TEMPLATE = fs.readFileSync(path.join(ROOT, 'templates/body.html'), 'utf8');
+/* <!--ph:r-map-pin--> in the template is an icon from the sprite (see ph()). */
+const TEMPLATE = fs.readFileSync(path.join(ROOT, 'templates/body.html'), 'utf8')
+  .replace(/<!--ph:([a-z][a-z0-9-]*)-->/g, (m, id) => ph(id, 'ph-inl'));
 const SITEMAP = [];                 // {loc} collected across languages
 let body, HEADER, FOOTER, FILTERS_HTML, n = 0;
 
@@ -1080,23 +1096,23 @@ const SEASON = ['warm', 'cold', 'mild'].includes(process.env.TP_SEASON) ? proces
 //   TP_SEASON=cold node scripts/build.mjs   — to preview another season
 const bestBoiler = products.find(p => p.category === 'boylery');
 const bestWasher = products.find(p => p.slug === 'bosch-wan28281ua') || products.find(p => p.category === 'pralni-mashyny');
-/* The Fossibot carries the "Новинка" badge and always leads the hero. */
-const stationCard = bestStation ? heroStationCard(bestStation) : '';
-const seasonCards = {
-  warm: [bestWasher && heroWasherCard(bestWasher), bestFridge && heroFridgeCard(bestFridge)],
-  cold: [bestBoiler && heroBoilerCard(bestBoiler), bestWasher && heroWasherCard(bestWasher)],
-  mild: [bestFridge && heroFridgeCard(bestFridge), bestWasher && heroWasherCard(bestWasher)]
+/* The Fossibot is the flagship новинка and stands in the middle of the window
+   all year; the season picks the two beside it. */
+const seasonPicks = {
+  warm: [bestWasher, bestFridge],
+  cold: [bestBoiler, bestWasher],
+  mild: [bestFridge, bestWasher]
 }[SEASON].filter(Boolean);
-// The Fossibot leads in every season — it is the flagship новинка and the owner
-// wants it at the top of the hits all year. The season only picks the two
-// cards under it.
-const heroSlots = [stationCard, ...seasonCards].filter(Boolean);
-// never leave the hero short of a card if a category runs empty
-for (const spare of [stationCard, bestFridge && heroFridgeCard(bestFridge),
-                     bestWasher && heroWasherCard(bestWasher)]) {
-  if (heroSlots.length >= 3) break;
-  if (spare && !heroSlots.includes(spare)) heroSlots.push(spare);
+// never leave the window short of a product if a category runs empty
+for (const spare of [bestFridge, bestWasher, bestBoiler]) {
+  if (seasonPicks.length >= 2) break;
+  if (spare && !seasonPicks.includes(spare)) seasonPicks.push(spare);
 }
+const hitItems = [
+  seasonPicks[0] && { p: seasonPicks[0] },
+  bestStation && { p: bestStation, lbl: t('badge_new') },
+  seasonPicks[1] && { p: seasonPicks[1] }
+].filter(Boolean);
 /* String.replace on a marker that is not there returns the string unchanged
    and says nothing. That is how <!--QUIZ_INLINE--> disappeared: an edit to the
    tab strip above it ate the first five characters of the comment, so the whole
@@ -1106,10 +1122,7 @@ const fill = (marker, html) => {
   if (!body.includes(marker)) throw new Error(`templates/body.html has no ${marker}`);
   body = body.replace(marker, html);
 };
-fill('<!--HERO_CARD-->', heroSlots[0] || '');
-fill('<!--HERO_CARD2-->', heroSlots[1] || '');
-fill('<!--HERO_CARD3-->', heroSlots[2] || '');
-if (bestStation && bestWasher) body = body.replace('class="hero-vis two"', 'class="hero-vis two hv3"');
+fill('<!--HERO_VITRINE-->', hitItems.length ? vitrine(hitItems) : '');
 // pre-render catalog grid for SEO (client re-renders on filter) — default tab shows ALL products
 const homeCatalogCat = 'all';
 // pinned products lead the default "Всі товари" view (mirrors getFiltered in main.js)
@@ -1212,18 +1225,20 @@ fill('<!--QUIZ_INLINE-->', quizInline(true));
 
    Built here, in the page's language; every trigger stays a link to #catalog
    for anyone without JavaScript. */
-const GRID_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7.4" height="7.4" rx="1.6"/><rect x="13.6" y="3" width="7.4" height="7.4" rx="1.6"/><rect x="3" y="13.6" width="7.4" height="7.4" rx="1.6"/><rect x="13.6" y="13.6" width="7.4" height="7.4" rx="1.6"/></svg>';
-/* 320px squares for the tiles — see scripts/make_cat_thumbs.py */
-const catSquare = (c, size) => av(c.cover.replace(/\.webp$/, `@${size}.webp`));
 function catPanel() {
   const live = catLive();
   const ordered = ['home', 'kitchen'].flatMap(g => live.filter(c => (c.group || 'home') === g));
   const first = ordered[0] && ordered[0].key;
-  const icon = c => c.cover
-    ? `<img class="cp-ic" src="${esc(catSquare(c, 'tile'))}" alt="" width="320" height="320" loading="lazy" decoding="async">`
-    : `<span class="cp-ic cp-emoji" aria-hidden="true">${esc(c.emoji || '')}</span>`;
-  const item = c => `<a class="cp-item${c.key === first ? ' is-on' : ''}" href="${curl(c)}" data-cp="${esc(c.key)}">${icon(c)}` +
+  /* One link per shelf, drawn two ways by CSS. On a desktop it is a line of the
+     list — icon, name, count. On a phone and a tablet it is a light tile: two
+     of the shelf's own models, the count, and the lowest price on the orange
+     tag. The tiles used to be generated pictures of appliances glowing blue on
+     navy, the same for every shop and nothing like the stock. */
+  const item = c => `<a class="cp-item${c.key === first ? ' is-on' : ''}" href="${curl(c)}" data-cp="${esc(c.key)}">` +
+    `<span class="cp-ic" aria-hidden="true">${ph('d-' + (c.ph || 'squares-four'))}</span>` +
     `<span class="cp-name">${esc(lf(c, 'name'))}</span><em class="cp-n">${catProducts(c.key).length}</em>` +
+    ptag(catFrom(c), { from: true, cls: 'cp-tag' }) +
+    `<span class="cp-art" aria-hidden="true">${catPicks(c, 2).map((p, i) => cutImg(p, `cp-p cp-p${i + 1}`)).join('')}</span>` +
     `<svg class="cp-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>`;
   const rail = [['home', 'cp_home'], ['kitchen', 'cp_kitchen']].map(([g, key]) => {
     const cs = ordered.filter(c => (c.group || 'home') === g);
@@ -1259,13 +1274,11 @@ function catPanel() {
     const brands = catBrands(c.key).filter(b => !brandIsShelf(c.key, b))
       .map(b => `<a class="cp-chip" href="${burl(c, b)}">${esc(b)}</a>`).join('');
     const col = (label, chips) => chips ? `<div class="cp-col"><p class="cp-h">${esc(t(label))}</p><div class="cp-chips">${chips}</div></div>` : '';
-    const cover = c.cover ? (() => {
-      const w = n => esc(av(c.cover.replace(/\.webp$/, `@${n}.webp`)));
-      return `<img src="${esc(av(c.cover))}" srcset="${w(400)} 400w, ${esc(av(c.cover))} 800w, ${w(1200)} 1200w"` +
-        ` sizes="(min-width:1001px) 480px, 1px" alt="${esc(lf(c, 'coverAlt') || lf(c, 'name'))}" width="800" height="340" loading="lazy" decoding="async">`;
-    })() : '';
+    /* the shelf's models standing on a light floor, the lowest price hanging on the tag */
+    const show = `<span class="cp-show-art">${catPicks(c, 3).map((p, i) => cutImg(p, `cp-sp cp-sp${i + 1}`)).join('')}</span>` +
+      ptag(catFrom(c), { from: true, cls: 'cp-show-tag' });
     return `<section class="cp-pane${c.key === first ? ' is-on' : ''}" data-cp="${esc(c.key)}"${c.key === first ? '' : ' hidden'}>` +
-      `<div class="cp-lead"><a class="cp-cover" href="${curl(c)}" tabindex="-1" aria-hidden="true">${cover}</a>` +
+      `<div class="cp-lead"><a class="cp-show" href="${curl(c)}" tabindex="-1" aria-hidden="true">${show}</a>` +
       `<div class="cp-info"><p class="cp-title">${esc(lf(c, 'name'))}</p><p class="cp-meta">${esc(meta)}</p>` +
       `<p class="cp-desc">${esc(lf(c, 'cardSub') || '')}</p>` +
       `<a class="cp-go" href="${curl(c)}">${esc(t('cp_go'))} <span aria-hidden="true">→</span></a></div></div>` +
@@ -1290,64 +1303,47 @@ function navCats() {
     `<a class="nav-cat" href="${curl(c)}"><span>${esc(lf(c, 'name'))}</span><em>${catProducts(c.key).length}</em></a>`
   ).join('') + '</div>';
 }
-/* Category cards carry an optional cover. Without one they render exactly as
-   before — an emoji tile beside the name — so the section is never half-dressed
-   while the pictures are still being made. */
-/* The category grid used to be thirteen — well, five — hand-written cards in the
-   template, each with its own emoji and its own i18n keys for the label. Adding a
-   category meant editing markup in three places. It is generated from
-   categories.json now: order, emoji, name, subtitle and cover all come from the
-   data, so a new category is a data change and nothing else.
-
-   A category without a cover renders exactly as it did before — an emoji tile
-   beside the name — so the section is never half-dressed while artwork is made. */
+/* The category section as a bento of real products. The first version was
+   five equal cards, each a generated picture of one appliance glowing blue over
+   an emoji — they all looked alike and none of them looked like the shop. Each
+   tile now stands two or three of the category's own models on its floor, says
+   how many there are, and hangs the lowest price on the shop's orange tag.
+   Fridges get a tall tile and power stations a wide one: the two shelves the
+   shop sells most from. The rest of the fourteen fold into one navy tile that
+   opens the catalogue panel. Pictures are the product thumbnails — cut-outs on
+   transparency — so a new model can appear here without anyone drawing art. */
 {
-  /* Five categories carry the shop — fridges, washing machines, power stations,
-     water heaters and ovens (air conditioners left the five in September 2026:
-     the owner wants no emphasis on them) — and the section showed all
-     fourteen, 1631px of cards on a phone. The featured five stay; the rest are
-     one card that opens the catalog panel, with a few of their thumbnails so it
-     reads as "and more" rather than as a sixth category. */
   const every = catLive();
-  const live = every.some(c => c.featured) ? every.filter(c => c.featured) : every;
+  const BENTO_ORDER = ['holodylnyky', 'zaryadni-stantsii', 'duhovi-shafy', 'pralni-mashyny', 'boylery'];
+  const TILE_SIZE = { holodylnyky: 'tall', 'zaryadni-stantsii': 'wide' };
+  const featured = every.some(c => c.featured) ? every.filter(c => c.featured) : every.slice(0, 5);
+  const live = [...featured].sort((x, y) => {
+    const i = k => (BENTO_ORDER.indexOf(k) + 1) || 99;
+    return i(x.key) - i(y.key);
+  });
   const rest = every.filter(c => !live.includes(c));
-  const withCover = live.filter(c => c.cover);
-  const cards = live.map(c => {
-    const cover = c.cover ? (() => {
-      const w = n => esc(av(c.cover.replace(/\.webp$/, `@${n}.webp`)));
-      /* Two widths. On a phone the grid is 2-up, so a card is about 46vw — a 400px
-         file covers that at 2x, and the odd last card, which spans the row, gets a
-         sizes of its own rather than a soft picture. */
-      const last = !rest.length && withCover.length % 2 === 1 && c === withCover[withCover.length - 1];
-      const sizes = last ? '(max-width:640px) 92vw, (max-width:1000px) 46vw, 380px'
-                         : '(max-width:1000px) 46vw, 380px';
-      return `<img class="cat-cover" src="${esc(av(c.cover))}" srcset="${w(400)} 400w, ${esc(av(c.cover))} 800w"` +
-        ` sizes="${sizes}" alt="" width="800" height="340" loading="lazy" decoding="async">`;
-    })() : '';
-    return `<a class="cat-card${c.cover ? ' cat-card-cover' : ''} reveal" href="${curl(c)}">${cover}` +
-      `<span class="cat-ic" aria-hidden="true">${esc(c.emoji || '')}</span>` +
-      `<span class="cat-tx"><span class="cat-t">${esc(lf(c, 'name'))}</span>` +
-      `<span class="cat-s">${esc(lf(c, 'cardSub') || '')}</span></span>` +
-      `<span class="cat-go">${esc(t('cats_more'))}</span></a>`;
-  }).join('\n      ');
-  /* The 2-up phone layout used to be selected with :has(). A browser without it
-     silently fell back to one tall card per row — which is exactly the endless
-     scrolling this was meant to fix — so the grid is told here instead. */
+  const tile = c => {
+    const ps = catProducts(c.key);
+    const size = TILE_SIZE[c.key] || '';
+    const art = catPicks(c, size ? 3 : 2).map((p, i) => cutImg(p, `cb-p cb-p${i + 1}`)).join('');
+    return `<a class="cb-tile${size ? ' cb-' + size : ''} reveal" href="${curl(c)}">` +
+      `<span class="cb-head"><span class="cb-ic" aria-hidden="true">${ph('d-' + (c.ph || 'squares-four'))}</span>` +
+      `<span class="cb-tx"><span class="cb-t">${esc(lf(c, 'name'))}</span><span class="cb-n">${ps.length} ${esc(modelsWord(ps.length))}</span></span></span>` +
+      ptag(catFrom(c), { from: true, cls: 'cb-tag' }) +
+      `<span class="cb-art" aria-hidden="true">${art}</span>` +
+      `<span class="cb-go" aria-hidden="true">${ph('r-arrow-up-right')}</span></a>`;
+  };
   const allTile = rest.length ? (() => {
     const names = rest.map((c, i) => (i ? lf(c, 'name').toLowerCase() : lf(c, 'name')));
     const sub = names.length > 3
       ? `${names.slice(0, 3).join(', ')} ${t('cats_all_more').replace('{n}', names.length - 3)}` : names.join(', ');
-    const shown = rest.filter(c => c.cover).slice(0, 4);
-    const more = rest.length - shown.length;
-    return `<a class="cat-card cat-card-cover cat-card-all reveal" href="#catalog" data-catpanel aria-controls="catpanel" aria-expanded="false">` +
-      `<span class="cat-all-art" aria-hidden="true">${shown.map(c => `<img src="${esc(catSquare(c, 'tile'))}" alt="" width="320" height="320" loading="lazy" decoding="async">`).join('')}` +
-      `${more > 0 ? `<b>+${more}</b>` : ''}</span>` +
-      `<span class="cat-ic" aria-hidden="true">${GRID_SVG}</span>` +
-      `<span class="cat-tx"><span class="cat-t">${esc(t('cats_all_t'))}</span><span class="cat-s">${esc(sub)}</span></span>` +
-      `<span class="cat-go">${esc(t('cats_all_go'))}</span></a>`;
+    const title = t('cb_more').replace('{n}', `${rest.length} ${plural(rest.length, t('cb_word').split('|'))}`);
+    return `<a class="cb-tile cb-all reveal" href="#catalog" data-catpanel aria-controls="catpanel" aria-expanded="false">` +
+      `<span class="cb-icons" aria-hidden="true">${rest.map(c => `<span>${ph('d-' + (c.ph || 'squares-four'))}</span>`).join('')}</span>` +
+      `<span class="cb-tx"><span class="cb-t">${esc(title)}</span><span class="cb-s">${esc(sub)}</span></span>` +
+      `<span class="cb-all-go">${esc(t('cats_all_go'))}</span></a>`;
   })() : '';
-  fill('<!--CAT_CARDS-->',
-    `<div class="cats-grid${withCover.length ? ' has-covers' : ''}${rest.length ? ' cats-main' : ''}">\n      ${cards}${allTile ? '\n      ' + allTile : ''}\n    </div>`);
+  fill('<!--CAT_CARDS-->', `<div class="cats-bento">${live.map(tile).join('')}${allTile}</div>`);
 }
 fill('<!--INSTALL_MORE-->', INSTALL_LANGS.includes(L)
   ? `<a class="pc-more" href="${pfx()}${HOOKUP_PATH}">${esc(t('hk_more'))} →</a>` : '');
@@ -1357,12 +1353,12 @@ fill('<!--INSTALL_MORE-->', INSTALL_LANGS.includes(L)
    now: a category that has products gets a tab. */
 fill('<!--CAT_TABS-->',
   `<button class="ctab active" data-cat="all" onclick="switchCat('all')" type="button">`
-  + `<span class="ctab-ic">☰</span><span data-i18n="ctab_all">${esc(t('ctab_all'))}</span>`
+  + `<span class="ctab-ic">${ph('d-squares-four')}</span><span data-i18n="ctab_all">${esc(t('ctab_all'))}</span>`
   + `<b class="ctab-n"></b></button>
       `
   + catLive().map(c =>
     `<button class="ctab" data-cat="${esc(c.key)}" onclick="switchCat('${esc(c.key)}')" type="button">`
-    + `<span class="ctab-ic">${esc(c.emoji || '')}</span><span>${esc(lf(c, 'name'))}</span>`
+    + `<span class="ctab-ic">${ph('d-' + (c.ph || 'squares-four'))}</span><span>${esc(lf(c, 'name'))}</span>`
     + `<b class="ctab-n"></b></button>`).join('\n      '));
 /* Cloudflare Turnstile. Without a site key in site.json the slot is empty and
    nothing about the form changes — the site keeps working while the owner
@@ -1784,7 +1780,7 @@ ${HEADER}
       <a class="pp-brand" href="${pfx()}${cat.urlPrefix}/${brandSlug(p.brand)}/">${esc(p.brand)}</a>
       <h1 class="pp-title">${esc(NAME)}</h1>
       <div class="pp-chips">${chips}</div>
-      <div class="pp-price">${fmt(p.price)} <span>${esc(t('u_uah'))}</span></div>
+      <div class="pp-price">${ptag(p.price, { cls: 'ptag-xl' })}</div>
       <div class="pp-instal">${esc(t('pp_instal'))} <b>${fmt(Math.round(p.price / 24))} ${esc(t('pp_instal2'))}</b> ${esc(t('pp_instal3'))}</div>
       <div class="pp-cta">
         <button class="btn-primary" onclick="ppLead('${esc(NAME)}')">${esc(t('pp_order'))}</button>

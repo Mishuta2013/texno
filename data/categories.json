@@ -12,17 +12,17 @@
     "intro": "Інверторні та звичайні спліт-системи у наявності. Привеземо, встановимо та запустимо за 1 день — оплата після монтажу.",
     "chips": [
       {
-        "icon": "❄",
+        "icon": "snowflake",
         "key": "btu",
         "fmt": "kbtu"
       },
       {
-        "icon": "⌖",
+        "icon": "corners-out",
         "key": "area",
         "fmt": "area"
       },
       {
-        "icon": "⌁",
+        "icon": "wifi-high",
         "flag": "wifi",
         "label": "Wi-Fi",
         "label_ru": "Wi-Fi",
@@ -95,21 +95,21 @@
     ],
     "ppChips": [
       {
-        "icon": "❄",
+        "icon": "snowflake",
         "key": "btu",
         "fmt": "kbtu"
       },
       {
-        "icon": "⌖",
+        "icon": "corners-out",
         "key": "area",
         "fmt": "area"
       },
       {
-        "icon": "⚡",
+        "icon": "lightning",
         "key": "eclass"
       },
       {
-        "icon": "🔊",
+        "icon": "speaker-high",
         "key": "noise",
         "fmt": "noise"
       },
@@ -158,6 +158,7 @@
     },
     "quiz": true,
     "emoji": "❄",
+    "ph": "wind",
     "cover": "/assets/img/covers/cat-kondicioneri.webp",
     "tags": [
       {
@@ -354,17 +355,17 @@
     "intro": "Вузькі та стандартні моделі з інверторними моторами — від бюджетних Edler і Grifon до LG та Samsung. Привеземо й підключимо.",
     "chips": [
       {
-        "icon": "🧺",
+        "icon": "t-shirt",
         "key": "load_kg",
         "fmt": "kg"
       },
       {
-        "icon": "↻",
+        "icon": "arrows-clockwise",
         "key": "rpm",
         "fmt": "rpm"
       },
       {
-        "icon": "⚡",
+        "icon": "lightning",
         "key": "eclass",
         "fmt": "first"
       }
@@ -460,22 +461,22 @@
     ],
     "ppChips": [
       {
-        "icon": "🧺",
+        "icon": "t-shirt",
         "key": "load_kg",
         "fmt": "kg"
       },
       {
-        "icon": "↻",
+        "icon": "arrows-clockwise",
         "key": "rpm",
         "fmt": "rpm"
       },
       {
-        "icon": "⚡",
+        "icon": "lightning",
         "key": "eclass",
         "fmt": "first"
       },
       {
-        "icon": "↔",
+        "icon": "arrows-horizontal",
         "key": "depth",
         "fmt": "cm"
       },
@@ -522,6 +523,7 @@
     ],
     "quiz": true,
     "emoji": "🧺",
+    "ph": "washing-machine",
     "cover": "/assets/img/covers/cat-pralni-mashyny.webp",
     "tags": [
       {
@@ -655,17 +657,17 @@
     "intro": "Портативні джерела живлення від 288 до 5120 Вт·год — від компактної станції для роутера й ноутбука до домашньої електростанції, що тримає холодильник, котел і насос.",
     "chips": [
       {
-        "icon": "🔋",
+        "icon": "battery-high",
         "key": "capacity_wh",
         "fmt": "wh"
       },
       {
-        "icon": "⚡",
+        "icon": "lightning",
         "key": "output_w",
         "fmt": "watt"
       },
       {
-        "icon": "🔌",
+        "icon": "plug",
         "key": "ac_sockets",
         "fmt": "sockets"
       }
@@ -823,17 +825,17 @@
     ],
     "ppChips": [
       {
-        "icon": "🔋",
+        "icon": "battery-high",
         "key": "capacity_wh",
         "fmt": "wh"
       },
       {
-        "icon": "⚡",
+        "icon": "lightning",
         "key": "output_w",
         "fmt": "watt"
       },
       {
-        "icon": "🔌",
+        "icon": "plug",
         "key": "ac_sockets",
         "fmt": "sockets"
       },
@@ -868,6 +870,7 @@
     "coverAlt_en": "Portable power station for the home",
     "quiz": true,
     "emoji": "🔋",
+    "ph": "battery-charging",
     "trust": [
       "Доставка по Сумах — 400 грн",
       "Оплата після отримання",
@@ -1042,17 +1045,17 @@
     },
     "chips": [
       {
-        "icon": "🧊",
+        "icon": "cube",
         "key": "volume_l",
         "fmt": "litres"
       },
       {
-        "icon": "↕",
+        "icon": "arrows-vertical",
         "key": "height_cm",
         "fmt": "cm"
       },
       {
-        "icon": "❄",
+        "icon": "snowflake",
         "flag": "nofrost",
         "label": "No Frost",
         "label_ru": "No Frost",
@@ -1197,21 +1200,21 @@
     ],
     "ppChips": [
       {
-        "icon": "🧊",
+        "icon": "cube",
         "key": "volume_l",
         "fmt": "litres"
       },
       {
-        "icon": "↕",
+        "icon": "arrows-vertical",
         "key": "height_cm",
         "fmt": "cm"
       },
       {
-        "icon": "⚡",
+        "icon": "lightning",
         "key": "eclass"
       },
       {
-        "icon": "🔊",
+        "icon": "speaker-high",
         "key": "noise_db",
         "fmt": "db"
       },
@@ -1235,6 +1238,7 @@
     "coverAlt_en": "Two-door fridge with a bottom freezer",
     "quiz": true,
     "emoji": "🧊",
+    "ph": "snowflake",
     "cover": "/assets/img/covers/cat-holodylnyky.webp",
     "tags": [
       {
@@ -1405,17 +1409,17 @@
     "intro": "Накопичувальні водонагрівачі Atlantic на 30–100 літрів. Економні серії з мідним ТЕНом і моделі зі стеатитовим «сухим» ТЕНом, який не торкається води — і тому не заростає накипом. Є вузькі версії Ø380 мм для тісної ніші.",
     "chips": [
       {
-        "icon": "💧",
+        "icon": "drop",
         "key": "volume_l",
         "fmt": "litres"
       },
       {
-        "icon": "⚡",
+        "icon": "lightning",
         "key": "power_w",
         "fmt": "watt"
       },
       {
-        "icon": "🛡",
+        "icon": "shield-check",
         "flag": "dryheat",
         "label": "Сухий ТЕН",
         "label_ru": "Сухой ТЭН",
@@ -1538,17 +1542,17 @@
     ],
     "ppChips": [
       {
-        "icon": "💧",
+        "icon": "drop",
         "key": "volume_l",
         "fmt": "litres"
       },
       {
-        "icon": "⚡",
+        "icon": "lightning",
         "key": "power_w",
         "fmt": "watt"
       },
       {
-        "icon": "⏱",
+        "icon": "timer",
         "key": "heat_time",
         "fmt": "mins"
       },
@@ -1603,6 +1607,7 @@
     ],
     "quiz": true,
     "emoji": "💧",
+    "ph": "thermometer-hot",
     "cover": "/assets/img/covers/cat-boylery.webp",
     "tags": [
       {
@@ -1759,6 +1764,7 @@
     "order": 5,
     "install": false,
     "emoji": "🔥",
+    "ph": "oven",
     "cover": "/assets/img/covers/cat-duhovi-shafy.webp",
     "productPrefix": {
       "uk": "Духова шафа",
@@ -1794,18 +1800,18 @@
     "coverAlt_en": "Built-in electric oven",
     "chips": [
       {
-        "icon": "📐",
+        "icon": "cube",
         "key": "volume_l",
         "fmt": "litres"
       },
       {
-        "icon": "⚙",
+        "icon": "gear-six",
         "key": "functions",
         "fmt": "plural",
         "word": "u_functions"
       },
       {
-        "icon": "🎛",
+        "icon": "sliders-horizontal",
         "key": "control"
       }
     ],
@@ -1866,18 +1872,18 @@
     ],
     "ppChips": [
       {
-        "icon": "📐",
+        "icon": "cube",
         "key": "volume_l",
         "fmt": "litres"
       },
       {
-        "icon": "⚙",
+        "icon": "gear-six",
         "key": "functions",
         "fmt": "plural",
         "word": "u_functions"
       },
       {
-        "icon": "🎛",
+        "icon": "sliders-horizontal",
         "key": "control"
       }
     ],
@@ -2084,6 +2090,7 @@
     "order": 7,
     "install": false,
     "emoji": "🍳",
+    "ph": "cooking-pot",
     "cover": "/assets/img/covers/cat-varylni-poverhni.webp",
     "productPrefix": {
       "uk": "Варильна поверхня",
@@ -2119,18 +2126,18 @@
     "coverAlt_en": "Built-in hob",
     "chips": [
       {
-        "icon": "🍳",
+        "icon": "flame",
         "key": "burners",
         "fmt": "plural",
         "word": "u_zones"
       },
       {
-        "icon": "📏",
+        "icon": "ruler",
         "key": "width_cm",
         "fmt": "cm"
       },
       {
-        "icon": "🎛",
+        "icon": "sliders-horizontal",
         "key": "control"
       }
     ],
@@ -2224,18 +2231,18 @@
     ],
     "ppChips": [
       {
-        "icon": "🍳",
+        "icon": "flame",
         "key": "burners",
         "fmt": "plural",
         "word": "u_zones"
       },
       {
-        "icon": "📏",
+        "icon": "ruler",
         "key": "width_cm",
         "fmt": "cm"
       },
       {
-        "icon": "🎛",
+        "icon": "sliders-horizontal",
         "key": "control"
       }
     ],
@@ -2464,6 +2471,7 @@
     "order": 8,
     "install": false,
     "emoji": "🌀",
+    "ph": "fan",
     "cover": "/assets/img/covers/cat-vytyazhky.webp",
     "productPrefix": {
       "uk": "Витяжка",
@@ -2499,17 +2507,17 @@
     "coverAlt_en": "Kitchen cooker hood",
     "chips": [
       {
-        "icon": "🌀",
+        "icon": "wind",
         "key": "airflow",
         "fmt": "m3h"
       },
       {
-        "icon": "🔊",
+        "icon": "speaker-high",
         "key": "noise_db",
         "fmt": "db"
       },
       {
-        "icon": "📏",
+        "icon": "ruler",
         "key": "width_cm",
         "fmt": "cm"
       }
@@ -2605,17 +2613,17 @@
     ],
     "ppChips": [
       {
-        "icon": "🌀",
+        "icon": "wind",
         "key": "airflow",
         "fmt": "m3h"
       },
       {
-        "icon": "🔊",
+        "icon": "speaker-high",
         "key": "noise_db",
         "fmt": "db"
       },
       {
-        "icon": "📏",
+        "icon": "ruler",
         "key": "width_cm",
         "fmt": "cm"
       }
@@ -2875,6 +2883,7 @@
     "order": 12,
     "install": false,
     "emoji": "🚰",
+    "ph": "drop",
     "cover": "/assets/img/covers/cat-myyky.webp",
     "productPrefix": {
       "uk": "Мийка",
@@ -2910,13 +2919,13 @@
     "coverAlt_en": "Stainless steel kitchen sink",
     "chips": [
       {
-        "icon": "🚰",
+        "icon": "drop",
         "key": "bowls",
         "fmt": "plural",
         "word": "u_bowls"
       },
       {
-        "icon": "🧱",
+        "icon": "stack",
         "key": "material"
       }
     ],
@@ -3004,13 +3013,13 @@
     ],
     "ppChips": [
       {
-        "icon": "🚰",
+        "icon": "drop",
         "key": "bowls",
         "fmt": "plural",
         "word": "u_bowls"
       },
       {
-        "icon": "🧱",
+        "icon": "stack",
         "key": "material"
       }
     ],
@@ -3295,6 +3304,7 @@
     "order": 13,
     "install": false,
     "emoji": "🚿",
+    "ph": "shower",
     "cover": "/assets/img/covers/cat-zmishuvachi.webp",
     "productPrefix": {
       "uk": "Змішувач",
@@ -3330,11 +3340,11 @@
     "coverAlt_en": "Kitchen tap",
     "chips": [
       {
-        "icon": "🚿",
+        "icon": "shower",
         "key": "spout"
       },
       {
-        "icon": "🎨",
+        "icon": "palette",
         "key": "color"
       }
     ],
@@ -3384,11 +3394,11 @@
     ],
     "ppChips": [
       {
-        "icon": "🚿",
+        "icon": "shower",
         "key": "spout"
       },
       {
-        "icon": "🎨",
+        "icon": "palette",
         "key": "color"
       }
     ],
@@ -3678,6 +3688,7 @@
     "order": 14,
     "install": false,
     "emoji": "🧴",
+    "ph": "hand-soap",
     "cover": "/assets/img/covers/cat-dozatory.webp",
     "productPrefix": {
       "uk": "Дозатор",
@@ -3713,12 +3724,12 @@
     "coverAlt_en": "Built-in soap dispenser",
     "chips": [
       {
-        "icon": "🧴",
+        "icon": "hand-soap",
         "key": "volume_ml",
         "fmt": "ml"
       },
       {
-        "icon": "🎨",
+        "icon": "palette",
         "key": "color"
       }
     ],
@@ -3759,12 +3770,12 @@
     ],
     "ppChips": [
       {
-        "icon": "🧴",
+        "icon": "hand-soap",
         "key": "volume_ml",
         "fmt": "ml"
       },
       {
-        "icon": "🎨",
+        "icon": "palette",
         "key": "color"
       }
     ],
@@ -3874,6 +3885,7 @@
     "order": 11,
     "install": false,
     "emoji": "📻",
+    "ph": "bowl-steam",
     "cover": "/assets/img/covers/cat-mikrohvylovi-pechi.webp",
     "productPrefix": {
       "uk": "Мікрохвильова піч",
@@ -3909,24 +3921,24 @@
     "coverAlt_en": "Built-in microwave oven",
     "chips": [
       {
-        "icon": "📐",
+        "icon": "cube",
         "key": "volume_l",
         "fmt": "litres"
       },
       {
-        "icon": "⚡",
+        "icon": "lightning",
         "key": "power_mw",
         "fmt": "watt"
       }
     ],
     "ppChips": [
       {
-        "icon": "📐",
+        "icon": "cube",
         "key": "volume_l",
         "fmt": "litres"
       },
       {
-        "icon": "⚡",
+        "icon": "lightning",
         "key": "power_mw",
         "fmt": "watt"
       }
@@ -4076,6 +4088,7 @@
     "order": 10,
     "install": false,
     "emoji": "🍽",
+    "ph": "fork-knife",
     "cover": "/assets/img/covers/cat-posudomyyni-mashyny.webp",
     "productPrefix": {
       "uk": "Посудомийна машина",
@@ -4111,19 +4124,19 @@
     "coverAlt_en": "Built-in dishwasher",
     "chips": [
       {
-        "icon": "🍽",
+        "icon": "fork-knife",
         "key": "sets",
         "fmt": "plural",
         "word": "u_sets"
       },
       {
-        "icon": "⚙",
+        "icon": "gear-six",
         "key": "programs",
         "fmt": "plural",
         "word": "u_programs"
       },
       {
-        "icon": "🔊",
+        "icon": "speaker-high",
         "key": "noise_db",
         "fmt": "db"
       }
@@ -4155,19 +4168,19 @@
     ],
     "ppChips": [
       {
-        "icon": "🍽",
+        "icon": "fork-knife",
         "key": "sets",
         "fmt": "plural",
         "word": "u_sets"
       },
       {
-        "icon": "⚙",
+        "icon": "gear-six",
         "key": "programs",
         "fmt": "plural",
         "word": "u_programs"
       },
       {
-        "icon": "🔊",
+        "icon": "speaker-high",
         "key": "noise_db",
         "fmt": "db"
       }
@@ -4334,6 +4347,7 @@
     "icon": "battery",
     "order": 6,
     "emoji": "🔌",
+    "ph": "plug-charging",
     "productPrefix": {
       "uk": "Комплект",
       "ru": "Комплект",
@@ -4353,15 +4367,15 @@
     "intro_en": "The inverter keeps the lights on; the battery is the reserve they run from. The two have to match in voltage, charge current and the way they talk to each other — bought separately they either ignore one another or work at half strength. Three kits here are built to order, by power and by reserve: the exact models are chosen for your home after a call, from what is in stock, and the price covers the inverter, the battery, the status display and the cables between them. The fourth, the Marstek Venus E, is a ready-made system with the inverter and battery in one enclosure that plugs into an ordinary socket. Fitting is discussed separately.",
     "chips": [
       {
-        "icon": "⚡",
+        "icon": "lightning",
         "key": "inverter_kw"
       },
       {
-        "icon": "🔋",
+        "icon": "battery-high",
         "key": "battery_kwh"
       },
       {
-        "icon": "🖥",
+        "icon": "monitor",
         "flag": "display",
         "label": "Дисплей",
         "label_ru": "Дисплей",

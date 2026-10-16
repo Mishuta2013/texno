@@ -133,7 +133,6 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:800;line-height:1.12;letter-spac
 .hero{position:relative;background:radial-gradient(120% 130% at 80% 0%,#16315E 0%,#0B1A33 55%);color:#fff;overflow:hidden;padding:0 0 70px}
 .hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%;opacity:.95}
 .hero-photo-veil{position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,26,51,.97) 0%,rgba(11,26,51,.86) 40%,rgba(11,26,51,.34) 100%),linear-gradient(0deg,rgba(11,26,51,.92) 0%,rgba(11,26,51,0) 34%)}
-.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(124,196,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(124,196,255,.05) 1px,transparent 1px);background-size:54px 54px;mask-image:radial-gradient(120% 80% at 70% 10%,#000 30%,transparent 75%)}
 .hero-glow{position:absolute;width:680px;height:680px;right:-160px;top:-220px;background:radial-gradient(circle,rgba(46,139,255,.32) 0%,transparent 65%);pointer-events:none}
 .hero-in{position:relative;max-width:var(--max);margin:0 auto;padding:58px 22px 0;display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center}
 /* Address card above the badge. The hero is always dark — a photo under a veil
@@ -187,9 +186,6 @@ a.hero-rate:hover{background:rgba(255,180,0,.2);border-color:rgba(255,180,0,.62)
 .btn-ghost{background:rgba(255,255,255,.06);color:#fff;padding:15px 26px;border-radius:12px;font-size:16px;font-weight:600;font-family:var(--disp);border:1.5px solid rgba(124,196,255,.3);transition:.2s;display:inline-flex;align-items:center;gap:9px}
 .btn-ghost:hover{background:rgba(124,196,255,.14);border-color:rgba(124,196,255,.55)}
 /* ---- premium flourishes ---- */
-.hero-aurora{position:absolute;inset:0;pointer-events:none;z-index:0;background:radial-gradient(38% 48% at 16% 22%,rgba(46,139,255,.30),transparent 70%),radial-gradient(34% 42% at 86% 14%,rgba(124,196,255,.22),transparent 70%),radial-gradient(46% 52% at 72% 92%,rgba(46,139,255,.18),transparent 70%);filter:blur(6px);animation:auroraMove 18s ease-in-out infinite alternate}
-@keyframes auroraMove{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-3%,2%,0) scale(1.08)}100%{transform:translate3d(3%,-2%,0) scale(1.05)}}
-.hero-cursor{position:absolute;inset:0;pointer-events:none;z-index:0;background:radial-gradient(240px 240px at var(--mx,72%) var(--my,28%),rgba(124,196,255,.16),transparent 62%);transition:background .18s ease}
 .flake{position:absolute;top:-12px;color:rgba(180,219,255,.55);pointer-events:none;animation:flakeFall linear infinite;text-shadow:0 0 6px rgba(124,196,255,.5)}
 @keyframes flakeFall{0%{transform:translateY(-12px) rotate(0);opacity:0}12%{opacity:.8}100%{transform:translateY(112vh) rotate(360deg);opacity:0}}
 .scroll-prog{position:fixed;top:0;left:0;height:3px;width:0;z-index:300;background:linear-gradient(90deg,var(--frost),var(--blue));box-shadow:0 0 12px rgba(46,139,255,.55);transition:width .08s linear}
@@ -197,57 +193,6 @@ a.hero-rate:hover{background:rgba(255,180,0,.2);border-color:rgba(255,180,0,.62)
 .eyebrow::after{content:"";position:absolute;left:0;bottom:-7px;height:2px;width:0;background:linear-gradient(90deg,var(--blue),var(--frost));border-radius:2px;transition:width .7s cubic-bezier(.2,.7,.2,1) .15s}
 .reveal.in .eyebrow::after{width:44px}
 .btn-primary:active,.btn-cb:active,.btn-order:active,.btn-submit:active,.btn-qbuy:active{transform:translateY(0) scale(.97)}
-
-/* hero visual: climate gauge card */
-.hero-vis{position:relative}
-.gauge-card{background:linear-gradient(165deg,rgba(255,255,255,.09),rgba(255,255,255,.03));border:1px solid rgba(124,196,255,.22);border-radius:var(--r-lg);padding:24px;backdrop-filter:blur(10px);box-shadow:var(--sh-lg)}
-.gauge-card .gc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-.gc-head .gc-title{font-family:var(--disp);font-weight:700;font-size:15px;color:#fff}
-.gc-head .gc-live{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--frost);font-family:var(--mono)}
-.gc-head .gc-live i{width:8px;height:8px;border-radius:50%;background:var(--frost);animation:pulse2 1.6s infinite}
-@keyframes pulse2{50%{opacity:.35}}
-.gc-img{border-radius:14px;overflow:hidden;height:230px;background:#0B1A33;position:relative}
-.gc-img img{width:100%;height:100%;object-fit:cover}
-.gc-frost{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(11,26,51,.55));pointer-events:none}
-.gc-airflow{position:absolute;left:0;right:0;bottom:36px;height:60px;overflow:hidden;pointer-events:none}
-.gc-airflow span{position:absolute;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,rgba(124,196,255,.8),transparent);animation:flow 2.4s linear infinite}
-@keyframes flow{0%{transform:translateX(-60%) scaleX(.4);opacity:0}30%{opacity:1}100%{transform:translateX(120%) scaleX(1);opacity:0}}
-/* power station: energy pulses rising from the unit */
-.gc-charge{position:absolute;left:0;right:0;bottom:14px;height:74px;overflow:hidden;pointer-events:none}
-.gc-charge span{position:absolute;bottom:0;width:3px;height:3px;border-radius:50%;background:var(--frost,#7CC4FF);
-  box-shadow:0 0 8px rgba(124,196,255,.9);animation:spark 2.6s ease-in infinite}
-@keyframes spark{0%{transform:translateY(0) scale(.6);opacity:0}20%{opacity:1}100%{transform:translateY(-62px) scale(1.1);opacity:0}}
-/* washing machine: drum rotating behind the photo */
-.gc-drum{position:absolute;left:50%;top:50%;width:104px;height:104px;margin:-52px 0 0 -52px;border-radius:50%;
-  border:2px dashed rgba(124,196,255,.5);animation:spin 5.5s linear infinite;pointer-events:none}
-.gc-drum::after{content:'';position:absolute;inset:14px;border-radius:50%;border:2px dotted rgba(124,196,255,.28)}
-@keyframes spin{to{transform:rotate(360deg)}}
-@media(prefers-reduced-motion:reduce){.gc-airflow span,.gc-charge span,.gc-drum{animation:none}}
-/* Price on the hit card. Frost rather than white so it reads as the number
-   rather than competing with the model name directly above it. */
-.gc-price{font-family:var(--disp);font-weight:800;font-size:24px;color:var(--frost);margin-top:6px;line-height:1.15}
-.gc-price small{font-size:13px;font-weight:600;color:rgba(233,243,255,.62)}
-.gc-readout{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:18px}
-.gc-r{background:rgba(11,26,51,.4);border:1px solid rgba(124,196,255,.14);border-radius:12px;padding:12px 10px;text-align:center}
-.gc-r .v{font-family:var(--disp);font-weight:800;font-size:21px;color:#fff}
-.gc-r .v small{font-size:12px;color:var(--frost);font-weight:600}
-.gc-r .k{font-size:11px;color:rgba(233,243,255,.5);margin-top:3px}
-.gc-tag{position:absolute;top:-13px;right:22px;background:var(--cta);color:#fff;font-family:var(--disp);font-size:12px;font-weight:700;padding:6px 14px;border-radius:var(--r-pill);box-shadow:0 8px 20px rgba(46,139,255,.4)}
-/* three hero hits: slightly tighter than .two so the column stays reasonable */
-.hero-vis.two.hv3{gap:16px}
-.hero-vis.two.hv3 .gc-img{height:118px}
-.gc-tag-new{background:var(--amber);color:var(--on-bright);box-shadow:0 8px 20px rgba(255,122,41,.4)}
-/* two hit-cards in hero: compact stack */
-.hero-vis.two{display:flex;flex-direction:column;gap:22px}
-.hero-vis.two .gauge-card{position:relative;padding:18px}
-.hero-vis.two .gc-head{margin-bottom:12px}
-.hero-vis.two .gc-img{height:150px}
-.hero-vis.two .gc-readout{margin-top:12px;gap:8px}
-.hero-vis.two .gc-r{padding:10px 8px}
-.hero-vis.two .gc-r .v{font-size:18px}
-.hero-vis.two .gc-name{font-size:14px;margin:11px 0 0}
-.hero-vis.two .gc-price{font-size:19px;margin-top:4px}
-.hero-vis.two .gc-price small{font-size:11px}
 
 /* ============ BRAND STRIP ============ */
 .brandstrip{background:var(--white);border-bottom:1px solid var(--g2)}
@@ -274,16 +219,6 @@ a.hero-rate:hover{background:rgba(255,180,0,.2);border-color:rgba(255,180,0,.62)
 .cats{padding-top:64px}
 .cats-head{margin-bottom:26px}
 .cats-head h2{font-family:var(--disp);font-weight:800;font-size:clamp(24px,3.2vw,36px);letter-spacing:-.02em;color:var(--ink);line-height:1.1}
-.cats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-@media(max-width:1000px){.cats-grid{grid-template-columns:repeat(2,1fr)}}
-.cat-card{display:flex;align-items:center;gap:18px;padding:22px 24px;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 1px 2px rgba(16,24,40,.04);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
-.cat-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(16,24,40,.10);border-color:var(--blue)}
-.cat-ic{flex:0 0 auto;width:56px;height:56px;display:grid;place-items:center;font-size:28px;border-radius:14px;background:var(--blue-a)}
-.cat-tx{display:flex;flex-direction:column;gap:3px;flex:1 1 auto}
-.cat-t{font-family:var(--disp);font-weight:700;font-size:18px;color:var(--ink)}
-.cat-s{font-size:13.5px;color:var(--g5);line-height:1.35}
-.cat-go{flex:0 0 auto;font-family:var(--disp);font-weight:700;font-size:14px;color:var(--blue-d)}
-@media(max-width:640px){.cats-grid{grid-template-columns:1fr;gap:14px}.cat-card{padding:18px 18px;gap:14px}.cat-ic{width:48px;height:48px;font-size:24px}}
 .sec-title{font-size:clamp(27px,3.4vw,42px);color:var(--ink);margin-bottom:10px;letter-spacing:-.025em;line-height:1.08;text-wrap:balance}
 .sec-sub{font-size:16.5px;color:var(--g4);max-width:620px}
 
@@ -762,7 +697,6 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
 }
 @media(max-width:520px){
   .trust-in,.adv-grid,.rev-grid,.steps,.foot-in,.svc-grid,.pay-grid{grid-template-columns:1fr}
-  .gc-readout{grid-template-columns:1fr 1fr 1fr}
   .section{padding:54px 0}
 }
 @media(prefers-reduced-motion:reduce){
@@ -881,16 +815,6 @@ a.card-img{text-decoration:none}
 .card-name{display:block;color:var(--ink);text-decoration:none}
 .card-name:hover{color:var(--blue-d)}
 a.btn-det{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
-/* hero "Хіт продажів" card is now a link to the product page, light image stage */
-a.gauge-card{display:block;text-decoration:none;color:inherit;cursor:pointer;transition:transform .25s ease,box-shadow .25s ease}
-.hero-vis .gauge-card{transform-style:preserve-3d;will-change:transform;transition:transform .16s cubic-bezier(.2,.7,.2,1),box-shadow .25s ease}
-a.gauge-card:hover{transform:translateY(-4px)}
-/* real cut-out product photo stands on a soft studio cove; the gradient stays
-   underneath as the fallback if the image is still loading or blocked */
-.gc-img{background:url('/assets/img/site/stage.webp') center 58%/cover no-repeat,radial-gradient(125% 100% at 50% 12%,#FCFEFF 0%,#E8EFFA 55%,#D2DFF0 100%)}
-.gc-img img{object-fit:contain;padding:14px;filter:drop-shadow(0 12px 16px rgba(11,26,51,.22))}
-.gc-name{font-family:var(--disp);font-weight:700;font-size:15px;color:#fff;margin:13px 0 2px;line-height:1.3}
-.gc-sub{font-size:12.5px;color:rgba(233,243,255,.6);margin-bottom:2px}
 /* mobile: 2 products per row */
 @media(max-width:560px){
   .grid{grid-template-columns:repeat(2,1fr);gap:12px}
@@ -976,7 +900,6 @@ a.gauge-card:hover{transform:translateY(-4px)}
 .pp-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
 .pp-chip{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--g5);background:var(--g1);border:1px solid var(--g2);padding:6px 11px;border-radius:8px}
 .pp-price{font-family:var(--disp);font-size:42px;font-weight:800;color:var(--ink);line-height:1;letter-spacing:-.02em}
-.pp-price span{font-size:18px;color:var(--g4)}
 .pp-instal{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;color:var(--blue-d);background:var(--ice);border:1px solid var(--chip-line);border-radius:var(--r-pill);padding:7px 14px;margin:12px 0 22px}.pp-instal b{color:var(--ink)}
 .pp-cta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:22px}
 .btn-wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:var(--on-bright);padding:15px 24px;border-radius:12px;font-family:var(--disp);font-weight:700;font-size:16px;transition:.18s}
@@ -1240,13 +1163,6 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 /* the same picture opens the article it introduced in the list */
 .bl-art-cover{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;display:block;border-radius:16px;background:var(--g1);margin:6px 0 20px}
 @media(max-width:560px){.bl-art-cover{border-radius:12px;margin:4px 0 16px}}
-/* two classes on purpose: the ≤640px and ≤400px rules below set .cat-card{padding},
-   and a single-class rule here would lose to them on source order */
-.cat-card.cat-card-cover{flex-direction:column;align-items:stretch;gap:0;padding:0;overflow:hidden}
-/* 2.35:1, not 16:9: the cover is atmosphere above the label, and at 16:9 it ate
-   more than half the card. The placeholder is the artwork's own edge navy, so a
-   lazily loaded cover does not flash a pale box first. */
-.cat-cover{width:100%;height:auto;aspect-ratio:40/17;object-fit:cover;display:block;background:#08172D}
 /* The same picture opens the category it introduces on the home page. Full
    width it stood 500px tall and pushed the products off the first screen, so on
    a wide screen it sits beside the heading instead and only stacks on a phone. */
@@ -1259,34 +1175,6 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
   .cat-hero{margin:0}
 }
 @media(max-width:560px){.cat-hero{border-radius:12px;margin:2px 0 16px}}
-.cat-card-cover .cat-ic{margin:16px 0 0 20px}
-.cat-card-cover .cat-tx{padding:10px 20px 0}
-.cat-card-cover .cat-go{padding:8px 20px 18px}
-/* Fourteen categories three across ran to five rows and 2035px of scrolling on
-   a laptop, and the covers are what makes each card tall. The fix is a narrower
-   card, not a shorter crop: the artwork keeps the 40:17 it was composed at and
-   simply renders 119px tall instead of 160px, where cropping to 3:1 would have
-   shaved a fifth off the top and bottom of every photograph. Four across still
-   holds every uk/ru/en label on one line down to 1181px; below that three is
-   the widest that does. */
-@media(min-width:1181px){
-  .cats-grid.has-covers{grid-template-columns:repeat(4,1fr);gap:16px}
-}
-/* Covers make each category card ~270px taller. On a phone that turned a 570px
-   section into 1900px of scrolling, so once there are covers the cards go 2-up
-   and the photo takes over the job the emoji chip was doing. The odd last card
-   spans the row instead of sitting alone at half width. The build stamps
-   .has-covers on the grid: selecting this with :has() left every browser
-   without that selector on the tall one-per-row layout. */
-@media(max-width:640px){
-  .cats-grid.has-covers{grid-template-columns:repeat(2,1fr);gap:12px}
-  .cats-grid.has-covers .cat-card-cover:last-child:nth-child(odd){grid-column:1/-1}
-  .cat-card-cover .cat-ic{display:none}
-  .cat-card-cover .cat-tx{padding:10px 13px 0}
-  .cat-card-cover .cat-go{padding:7px 13px 13px}
-  .cat-card-cover .cat-t{font-size:15.5px}
-  .cat-card-cover .cat-s{font-size:12.5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-}
 /* The category FAQ reuses the accordion, but not the homepage section around
    it: there is no eyebrow and no centred sub-heading here, just the question
    list under the products it is about. */
@@ -1583,21 +1471,6 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 .bl-tbtn:hover{border-color:var(--blue);color:var(--blue-d)}
 .bl-tbtn.active{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 
-/* fridge hero card: cold air settling — the counterpart to the station's rising
-   sparks and the washer's turning drum */
-.gc-chill{position:absolute;left:0;right:0;top:0;height:100%;overflow:hidden;pointer-events:none}
-.gc-chill span{position:absolute;top:-8px;width:4px;height:4px;border-radius:50%;
-  background:rgba(200,232,255,.9);box-shadow:0 0 8px rgba(124,196,255,.8);
-  animation:chillFall 4.2s linear infinite;opacity:0}
-@keyframes chillFall{
-  0%{transform:translateY(0) scale(.6);opacity:0}
-  15%{opacity:.95}
-  80%{opacity:.5}
-  100%{transform:translateY(150px) scale(1);opacity:0}}
-.gc-chill::after{content:'';position:absolute;left:50%;top:50%;width:130px;height:130px;margin:-65px 0 0 -65px;
-  border-radius:26px;border:1.5px solid rgba(124,196,255,.28);animation:chillPulse 3.6s ease-in-out infinite}
-@keyframes chillPulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.7;transform:scale(1.07)}}
-@media(prefers-reduced-motion:reduce){.gc-chill span,.gc-chill::after{animation:none}}
 
 /* On a phone the brand link sat 3px above the product name and was 17px tall —
    a thumb aiming for the product would land on the brand page. Give it its own
@@ -1650,12 +1523,11 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
    to scroll sideways. Let the grid children shrink and wrap their labels. */
 .ctab{min-width:0}
 .ctab span,.ctab b{min-width:0;overflow:hidden;text-overflow:ellipsis}
-.cat-card,.cat-body,.cat-name{min-width:0}
+.cat-body,.cat-name{min-width:0}
 @media(max-width:400px){
   .cat-tabs{gap:6px}
   .ctab{padding:10px 6px;font-size:12px;gap:4px}
   .ctab-ic{display:none}
-  .cat-card{padding:16px 14px;gap:12px}
 }
 
 /* ---- recently viewed: a scrollable strip, hidden until there is history ---- */
@@ -1720,14 +1592,6 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 @media(max-width:1120px){.pick-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:640px){.pick-grid{grid-template-columns:repeat(2,1fr);gap:10px}.pick-card{padding:13px 12px;gap:10px;min-height:66px}.pick-ic{width:38px;height:38px;font-size:19px}.pick-t{font-size:14px}}
 @media(max-width:380px){.pick-grid{grid-template-columns:1fr}}
-
-/* boiler hero card: warmth rising off the tank — the counterpart to the
-   fridge's settling cold air and the station's rising charge */
-.gc-warm{position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 45% at 50% 88%,rgba(255,122,41,.20) 0%,transparent 70%);opacity:.85}
-@media(prefers-reduced-motion:no-preference){
-  .gc-warm{animation:warmpulse 5.5s ease-in-out infinite}
-  @keyframes warmpulse{0%,100%{opacity:.55}50%{opacity:.95}}
-}
 
 /* Delivery map. The outline is the real Sumy city boundary from OpenStreetMap,
    simplified to 142 points and baked in as a path — no tiles, no third-party
@@ -2044,7 +1908,6 @@ input.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px
 .footer :focus-visible,
 .form-card :focus-visible,
 .modal :focus-visible,
-.gauge-card:focus-visible,
 .hero-place :focus-visible{outline-color:var(--frost)}
 .field input:focus-visible,
 .field select:focus-visible,
@@ -2091,11 +1954,12 @@ body:has(.lbox.open) > div:has(iframe[src*="merchantverse"]){display:none!import
 .cp-list{display:flex;flex-direction:column;gap:2px}
 .cp-item{position:relative;display:flex;align-items:center;gap:11px;padding:8px 10px 8px 14px;border-radius:12px;color:var(--ink);
   text-decoration:none;transition:background .15s ease,box-shadow .15s ease,color .15s ease}
-/* On a desktop the list is text, like Comfy's: a 34px photograph could not be
-   read, and the preview beside it carries the pictures at a size that can. */
-.cp-rail .cp-ic{display:none}
-.cp-ic{flex:none;border-radius:9px;object-fit:cover;background:var(--navy);transition:transform .2s ease}
-.cp-emoji{place-items:center;font-size:18px;background:var(--blue-a)}
+/* On a desktop each shelf is a line: its icon, name and count. The tag and the
+   two models only show where the line becomes a tile (phone and tablet). */
+.cp-ic{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--blue-a);color:var(--blue-d);transition:transform .2s ease}
+.cp-ic .ph{width:19px;height:19px}
+.cp-item .cp-tag,.cp-item .cp-art{display:none}
+.cp-item.is-on .cp-ic{background:var(--blue);color:#fff}
 .cp-name{flex:1;min-width:0;font-family:var(--disp);font-weight:600;font-size:14.5px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cp-n{flex:none;font-style:normal;font-variant-numeric:tabular-nums;font-size:12px;font-weight:600;color:var(--g4)}
 .cp-chev{flex:none;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;
@@ -2111,9 +1975,20 @@ body:has(.lbox.open) > div:has(iframe[src*="merchantverse"]){display:none!import
 .cp-pane{animation:cpPane .24s cubic-bezier(.2,.8,.2,1) both}
 @keyframes cpPane{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .cp-lead{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:26px;align-items:center}
-.cp-cover{display:block;aspect-ratio:40/17;border-radius:18px;overflow:hidden;background:#0B1A33;box-shadow:0 16px 36px rgba(11,26,51,.24)}
-.cp-cover img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
-.cp-cover:hover img{transform:scale(1.04)}
+/* The shelf's own models on a light floor, the lowest price on the tag. This
+   was a generated picture on navy — one blue-lit appliance per shelf. */
+.cp-show{--pt-hole:var(--card);position:relative;isolation:isolate;display:block;aspect-ratio:40/19;border-radius:18px;overflow:hidden;
+  background:var(--card);border:1px solid var(--line)}
+.cp-show::before{content:"";position:absolute;z-index:0;right:4%;bottom:-38%;width:62%;aspect-ratio:1;border-radius:50%;background:var(--disc)}
+.cp-show-art{position:absolute;left:30%;right:5%;bottom:10%;height:74%;display:flex;align-items:flex-end;justify-content:center}
+.cp-show-art::after{content:"";position:absolute;z-index:0;left:4%;right:4%;bottom:-7px;height:16px;background:radial-gradient(closest-side,rgba(11,26,51,.22),transparent)}
+.cp-sp{position:relative;z-index:3;min-width:0;height:100%;width:auto;max-width:none;object-fit:contain;object-position:bottom;filter:drop-shadow(0 10px 10px rgba(11,26,51,.16));
+  transition:transform .7s cubic-bezier(.32,.72,0,1)}
+.cp-sp2{z-index:2;height:86%;margin-left:-10%}
+.cp-sp3{z-index:1;height:74%;margin-left:-10%}
+.cp-show:hover .cp-sp{transform:translateY(-5px)}
+.cp-show-tag{position:absolute;z-index:4;left:16px;top:16px;transform:rotate(-5deg);transform-origin:12px 50%;filter:drop-shadow(0 6px 8px rgba(11,26,51,.16))}
+.cp-show-tag b{font-size:18px}
 .cp-title{margin:0;font-family:var(--disp);font-weight:800;font-size:27px;line-height:1.1;letter-spacing:-.02em;color:var(--ink);text-wrap:balance}
 .cp-meta{margin:9px 0 0;font-size:13.5px;font-weight:700;color:var(--blue-d);font-variant-numeric:tabular-nums}
 .cp-desc{margin:8px 0 0;font-size:14px;line-height:1.5;color:var(--g5);text-wrap:pretty}
@@ -2200,23 +2075,35 @@ body:has(.lbox.open) > div:has(iframe[src*="merchantverse"]){display:none!import
   .cp-rail{background:none;border:0;padding:4px 16px 18px;overflow:visible}
   .cp-rail > .cp-h:first-child{margin-top:12px}
   .cp-h{margin:18px 2px 10px}
-  .cp-list{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px 12px}
-  .cp-item,.cp-item.is-on{flex-direction:column;align-items:stretch;gap:6px;padding:0;background:none;box-shadow:none;color:var(--ink);border-radius:14px}
-  .cp-item:hover{background:none}
+  /* Each shelf is a light tile: icon, name, count, the lowest price on the
+     orange tag, and two of its models standing in the corner. */
+  .cp-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+  .cp-item,.cp-item.is-on{--pt-hole:var(--card);position:relative;overflow:hidden;isolation:isolate;flex-direction:column;align-items:flex-start;gap:3px;
+    height:164px;padding:12px;border-radius:16px;box-shadow:none;color:var(--ink);background:var(--card);border:1px solid var(--line)}
+  .cp-item:hover{background:var(--card)}
+  .cp-item::after{content:"";position:absolute;z-index:0;right:-14%;bottom:-22%;width:78%;aspect-ratio:1;border-radius:50%;background:var(--disc)}
   .cp-item.is-on::before,.cp-chev{display:none}
-  .cp-rail .cp-ic{display:block;width:100%;height:auto;aspect-ratio:1;border-radius:14px;box-shadow:0 6px 16px rgba(11,26,51,.14)}
-  .cp-rail .cp-emoji{display:grid}
-  .cp-item:active .cp-ic{transform:scale(.96)}
-  .cp-name{white-space:normal;font-size:13px;line-height:1.25;padding:0 2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  .cp-n,.cp-item.is-on .cp-n{padding:0 2px;margin-top:-3px;font-size:11.5px;color:var(--g4)}
+  .cp-item:active{transform:scale(.98)}
+  .cp-ic,.cp-item.is-on .cp-ic{position:relative;z-index:3;width:32px;height:32px;background:var(--blue-a);color:var(--blue-d);box-shadow:none}
+  .cp-name{position:relative;z-index:3;flex:none;width:100%;margin-top:5px;white-space:normal;font-size:14px;font-weight:700;line-height:1.2;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .cp-n,.cp-item.is-on .cp-n{position:relative;z-index:3;font-size:12px;color:var(--g4)}
+  .cp-item .cp-tag{display:inline-flex;position:absolute;z-index:4;left:10px;bottom:12px;padding:5px 9px 6px 19px;
+    clip-path:polygon(11px 0,100% 0,100% 100%,11px 100%,0 50%);transform:rotate(-4deg);transform-origin:9px 50%;
+    filter:drop-shadow(0 4px 6px rgba(11,26,51,.16))}
+  .cp-item .cp-tag::before{left:6px;width:5px;height:5px;margin-top:-2.5px}
+  .cp-item .cp-tag b{font-size:13.5px}
+  .cp-item .cp-art{position:absolute;z-index:1;right:8px;bottom:8px;display:flex;align-items:flex-end;justify-content:flex-end;width:56%;height:52%}
+  .cp-p{min-width:0;height:100%;width:auto;max-width:none;object-fit:contain;object-position:bottom;filter:drop-shadow(0 8px 8px rgba(11,26,51,.16))}
+  .cp-p2{height:84%;margin-left:-18%;position:relative;z-index:-1}
   .cp-foot{padding:12px 18px calc(12px + env(safe-area-inset-bottom))}
   :root[data-theme="dark"] .cp-item.is-on,:root[data-theme="dark"] .cp-item.is-on .cp-n{color:inherit}
+  :root[data-theme="dark"] .cp-item.is-on .cp-n{color:var(--g4)}
 }
-@media(max-width:760px){.cp-list{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:760px){.cp-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:560px){
-  .cp-list{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 9px}
+  .cp-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .cp-rail{padding:2px 12px 14px}
-  .cp-name{font-size:12.5px}
 }
 @media(prefers-reduced-motion:reduce){.catpanel,.cp-box,.cp-pane,.cp-cover img,.cp-ic{transition:none;animation:none}}
 
@@ -2245,36 +2132,6 @@ body:has(.lbox.open) > div:has(iframe[src*="merchantverse"]){display:none!import
   .nav-theme:hover{background:rgba(124,196,255,.1);color:#fff}
 }
 @media(max-width:359px){.hdr-cat{padding:0 11px}.hdr-cat span{display:none}}
-
-/* ============ HOME: FIVE CATEGORIES + ALL ============ */
-@media(min-width:1001px){.cats-grid.cats-main{grid-template-columns:repeat(3,1fr)}}
-.cat-all-art{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;aspect-ratio:40/17;
-  background:radial-gradient(120% 140% at 80% 0%,#16315E 0%,#0B1A33 60%)}
-.cat-all-art img{width:21%;max-width:66px;height:auto;aspect-ratio:1;border-radius:12px;object-fit:cover;box-shadow:0 6px 16px rgba(0,0,0,.35)}
-.cat-all-art b{display:grid;place-items:center;width:21%;max-width:66px;aspect-ratio:1;border-radius:12px;background:rgba(124,196,255,.16);
-  border:1px solid rgba(124,196,255,.35);color:#fff;font-family:var(--disp);font-weight:800;font-size:15px}
-.cat-card-all .cat-ic svg{width:24px;height:24px;fill:var(--blue-d)}
-@media(max-width:640px){.cat-all-art{gap:5px}.cat-all-art img,.cat-all-art b{border-radius:8px}.cat-all-art b{font-size:12px}}
-
-/* ============ PHONE: HERO HITS AS ONE ROW ============
-   Three hit cards stacked came to about 1100px before the first scroll past the
-   hero. One swipeable row, the next card peeking in from the edge. */
-@media(max-width:640px){
-  .hero-vis{max-width:none}
-  .hero-vis.two{flex-direction:row;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;
-    margin:0 -22px;padding:16px 22px 6px;scroll-padding-inline:22px;scrollbar-width:none}
-  .hero-vis.two::-webkit-scrollbar{display:none}
-  .hero-vis.two .gauge-card{flex:0 0 80%;scroll-snap-align:start;padding:14px}
-  .hero-vis.two .gc-img,.hero-vis.two.hv3 .gc-img{height:118px}
-  .hero-vis.two .gc-head{margin-bottom:8px}
-  .hero-vis.two .gc-name{font-size:13.5px;margin-top:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  .hero-vis.two .gc-price{font-size:18px}
-  .hero-vis.two .gc-readout{gap:6px;margin-top:10px}
-  .hero-vis.two .gc-r{padding:7px 4px;border-radius:10px}
-  .hero-vis.two .gc-r .v{font-size:15px}
-  .hero-vis.two .gc-r .k{font-size:10px}
-  .hero-vis.two .gc-tag{top:-11px;right:14px;font-size:11px;padding:5px 11px}
-}
 
 /* ============ PHONE: BRAND STRIP AS ONE ROW ============
    Twenty-six brands wrapped to 513px. One row that scrolls, fading at whichever
@@ -2543,3 +2400,269 @@ body:has(.lbox.open) > div:has(iframe[src*="merchantverse"]){display:none!import
 .nudge-x:hover{background:var(--g1)}
 @media(max-width:760px){.nudge{left:12px;right:12px;bottom:88px;max-width:none}}
 @media (prefers-reduced-motion:reduce){.nudge{transition:none}}
+
+/* ======================================================================
+   2026-10 REDESIGN: icons, the price tag, the shop window, the category bento
+   ====================================================================== */
+
+/* ---- icons from the Phosphor sprite (see ph() in build.mjs) ---- */
+.ph{display:inline-block;width:1em;height:1em;flex:none;fill:currentColor;vertical-align:-.125em}
+.ph-inl{width:1.1em;height:1.1em;vertical-align:-.18em}
+.tb-addr .ph-inl,.tb-hours .ph-inl{color:var(--frost);margin-right:1px}
+.hero-badge .ph-inl{width:17px;height:17px;color:var(--frost)}
+.pc-promo .ph-inl{width:15px;height:15px}
+.chip-ic{width:13px;height:13px;opacity:.85}
+.pp-chip .chip-ic{width:15px;height:15px;margin-right:2px;vertical-align:-3px}
+.pick-ic{color:var(--blue-d)}
+.pick-ic .ph{width:26px;height:26px}
+.ctab-ic{display:inline-grid;place-items:center}
+.ctab-ic .ph{width:19px;height:19px}
+.ctab:not(.active) .ctab-ic{color:var(--blue-d)}
+.cp-emoji .ph{width:62%;height:62%;color:var(--blue-d)}
+@media(max-width:560px){.pick-ic .ph{width:22px;height:22px}}
+
+/* ---- the price tag ----
+   An orange card tag: pointed end, a punched hole, navy figures. --pt-hole is
+   whatever is behind the tag, so the hole reads as a hole in both themes.
+   clip-path cuts the point; border-radius still rounds the far corners,
+   because the clip polygon runs along the box edge there. */
+.ptag,.card-price,.rc-p,.cp-prod-price{
+  --pt-hole:var(--card);position:relative;display:inline-flex;background:var(--amber);color:var(--on-bright);
+  font-family:var(--disp);font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap;line-height:1;
+  border-radius:0 7px 7px 0;clip-path:polygon(14px 0,100% 0,100% 100%,14px 100%,0 50%)}
+.ptag::before,.card-price::before,.rc-p::before,.cp-prod-price::before{
+  content:"";position:absolute;left:8px;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;
+  background:var(--pt-hole);box-shadow:inset 0 1px 1.5px rgba(14,23,38,.35)}
+.ptag{flex-direction:column;align-items:flex-start;justify-content:center;gap:3px;padding:7px 14px 8px 26px}
+.ptag b{font-weight:800;font-size:19px;letter-spacing:-.02em}
+.ptag b small{font-size:.56em;font-weight:700;margin-left:3px;letter-spacing:0}
+.ptag b em{font-style:normal;font-size:.64em;font-weight:700;letter-spacing:0}
+.ptag-l{font-size:10.5px;font-weight:700;opacity:.78;letter-spacing:.01em}
+/* catalogue cards: the same tag drawn on the existing .card-price, so the cards
+   main.js renders get it too */
+.card-price{--pt-hole:var(--white);align-items:baseline;gap:3px;padding:6px 12px 7px 24px;font-size:20px;letter-spacing:-.02em;color:var(--on-bright)}
+.card-price small{font-size:12px;font-weight:700;color:inherit;opacity:.8;letter-spacing:0}
+.rc-p,.cp-prod-price{--pt-hole:var(--white);align-self:flex-start;align-items:baseline;padding:4px 9px 5px 19px;font-size:13.5px;color:var(--on-bright);
+  clip-path:polygon(10px 0,100% 0,100% 100%,10px 100%,0 50%);border-radius:0 5px 5px 0}
+.cp-prod-price{--pt-hole:var(--card)}
+.rc-p::before,.cp-prod-price::before{left:5.5px;width:5px;height:5px;margin-top:-2.5px}
+/* product page: the big one */
+.pp-price{display:block;margin:2px 0 12px;font-size:0;line-height:0}
+.ptag-xl{--pt-hole:var(--paper);padding:11px 22px 12px 40px;clip-path:polygon(22px 0,100% 0,100% 100%,22px 100%,0 50%);border-radius:0 10px 10px 0}
+.ptag-xl::before{left:12px;width:11px;height:11px;margin-top:-5.5px}
+.ptag-xl b{font-size:38px}
+@media(max-width:560px){
+  .card-price{font-size:15.5px;padding:5px 9px 5px 19px;clip-path:polygon(11px 0,100% 0,100% 100%,11px 100%,0 50%)}
+  .card-price::before{left:6px;width:5px;height:5px;margin-top:-2.5px}
+  .card-price small{font-size:10px}
+  .ptag-xl b{font-size:32px}
+}
+@media print{.ptag,.card-price{background:none;clip-path:none;padding-left:0}.ptag::before,.card-price::before{display:none}}
+
+/* ---- hero ----
+   The photo stays, under a heavier veil, so the shop window carries the right
+   half. The grid lines, the drifting aurora and the cursor glow are gone. */
+.hero-photo-veil{background:linear-gradient(90deg,rgba(11,26,51,.97) 0%,rgba(11,26,51,.9) 42%,rgba(11,26,51,.72) 100%),linear-gradient(0deg,rgba(11,26,51,.94) 0%,rgba(11,26,51,0) 38%)}
+.hero-badge{gap:8px}
+
+/* ---- hero: the shop window ----
+   A lit display case set into the dark hero: a pale studio wall, a floor, each
+   product on a round podium under its own beam, prices hanging off a chrome
+   rail. Light on dark so it stands out of the hero instead of melting into it.
+   The hero is dark in both themes, so these colours are literal. */
+.vitrine{--vt-floor:127px;position:relative;z-index:1;width:100%;padding:6px;border-radius:28px;
+  background:linear-gradient(160deg,rgba(124,196,255,.38),rgba(124,196,255,.08));box-shadow:0 40px 80px -30px rgba(0,0,0,.75)}
+.vt-in{position:relative;overflow:hidden;border-radius:22px;padding:16px 16px 16px;
+  background:radial-gradient(70% 50% at 50% 0%,#FFFFFF 0%,rgba(255,255,255,0) 70%),linear-gradient(180deg,#EFF5FC 0%,#DCE7F5 100%)}
+.vt-head{position:relative;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:6px 12px;flex-wrap:wrap}
+.vt-title{font-family:var(--disp);font-weight:800;font-size:15px;color:#0B1A33;letter-spacing:-.01em}
+.vt-stock{display:inline-flex;align-items:center;gap:6px;padding:4px 11px 4px 7px;border-radius:999px;background:#DDF6E6;color:#166534;font-size:12px;font-weight:700}
+.vt-stock .ph{width:17px;height:17px;color:#16A34A}
+.vt-stage{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding-top:34px;margin-top:6px}
+.vt-rail{position:absolute;z-index:3;left:-16px;right:-16px;top:8px;height:4px;border-radius:2px;
+  background:linear-gradient(180deg,#FFFFFF 0%,#9DADC4 60%,#6F809C 100%);box-shadow:0 3px 6px rgba(11,26,51,.22)}
+/* the floor: from the podiums' middle down, a shade darker, with a horizon line */
+.vt-floor{position:absolute;z-index:0;left:-16px;right:-16px;bottom:-16px;height:calc(var(--vt-floor) + 16px);
+  background:linear-gradient(180deg,#C8D6EA 0%,#D7E2F1 30%,#E3EBF6 100%);border-top:1px solid rgba(255,255,255,.9);
+  box-shadow:0 -1px 0 rgba(11,26,51,.08)}
+.vt-item{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;min-width:0}
+.vt-cone{position:absolute;z-index:0;top:-30px;left:50%;width:150%;height:260px;transform:translateX(-50%);pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,0));clip-path:polygon(43% 0,57% 0,100% 100%,0 100%);opacity:.6}
+/* The tag zone is reserved by padding and the tag itself is out of the flow,
+   so a longer thread swings the tag lower without pushing the product, the
+   caption and the button down with it — every row lines up across the three. */
+.vt-link{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;padding-top:26px;color:#0B1A33;text-decoration:none;border-radius:16px}
+.vt-link:focus-visible,.vt-buy:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+/* The thread hangs from the rail and ends in the tag's hole; the tag tilts on
+   that hole. It settles once on load and swings again under the pointer: the
+   transform origin is the top of the thread, on the rail. */
+.vt-hang{position:absolute;z-index:3;top:-24px;left:12%;display:flex;flex-direction:column;align-items:flex-start;
+  transform-origin:11.5px 0;animation:tagSettle 2.4s cubic-bezier(.32,.72,0,1) both}
+.vt-item:nth-of-type(2) .vt-hang{animation-delay:.18s}
+.vt-item:nth-of-type(3) .vt-hang{animation-delay:.34s}
+.vt-link:hover .vt-hang{animation:tagSwing 1.5s cubic-bezier(.32,.72,0,1)}
+.vt-str{display:block;width:1.5px;height:var(--th,28px);margin-left:11px;background:linear-gradient(180deg,#6F809C,#9DADC4)}
+.ptag-hang{--pt-hole:#E6EEF8;transform:translateY(-50%) rotate(7deg);transform-origin:11.5px 50%;filter:drop-shadow(0 8px 8px rgba(11,26,51,.25))}
+.ptag-hang b{font-size:20px}
+@keyframes tagSettle{0%{transform:rotate(9deg)}22%{transform:rotate(-6deg)}46%{transform:rotate(3.5deg)}70%{transform:rotate(-1.5deg)}100%{transform:rotate(0)}}
+@keyframes tagSwing{0%{transform:rotate(0)}18%{transform:rotate(-7deg)}42%{transform:rotate(4.5deg)}68%{transform:rotate(-2deg)}100%{transform:rotate(0)}}
+.vt-img{position:relative;z-index:2;display:flex;align-items:flex-end;justify-content:center;width:100%;height:172px}
+.vt-img img{max-width:90%;max-height:calc(100% * var(--s,1));width:auto;height:auto;object-fit:contain;
+  filter:drop-shadow(0 14px 12px rgba(11,26,51,.28));transition:transform .7s cubic-bezier(.32,.72,0,1)}
+.vt-link:hover .vt-img img{transform:translateY(-6px)}
+/* the podium: a lit top ellipse over a short cylinder, its shadow on the floor */
+.vt-pod{position:relative;z-index:1;width:84%;height:30px;margin-top:-9px}
+.vt-pod::before{content:"";position:absolute;z-index:2;left:0;right:0;top:0;height:18px;border-radius:50%;
+  background:radial-gradient(60% 70% at 50% 35%,#FFFFFF,#E6EDF6 70%,#CAD6E7);box-shadow:inset 0 -2px 0 rgba(11,26,51,.06)}
+.vt-pod::after{content:"";position:absolute;z-index:1;left:0;right:0;top:9px;bottom:0;border-radius:0 0 50% 50% / 0 0 60% 60%;
+  background:linear-gradient(90deg,#B4C3D9 0%,#EAF0F8 45%,#C0CDE0 100%);box-shadow:0 16px 16px -8px rgba(11,26,51,.35)}
+.vt-main .vt-cone{opacity:.95}
+.vt-cap{display:flex;flex-direction:column;align-items:center;gap:1px;width:100%;height:64px;padding-top:9px;text-align:center;overflow:hidden}
+.vt-cat{font-size:11.5px;color:#5F708A;line-height:1.25}
+.vt-cap b{font-family:var(--disp);font-weight:800;font-size:14px;line-height:1.2;color:#0B1A33;overflow-wrap:anywhere;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.vt-spec{font-size:12px;font-weight:600;color:#1560C4;font-variant-numeric:tabular-nums;line-height:1.3}
+.vt-buy{position:relative;z-index:2;display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 18px;margin-top:6px;border-radius:999px;
+  background:var(--cta);color:#fff;font-family:var(--disp);font-weight:700;font-size:13.5px;text-decoration:none;
+  box-shadow:0 8px 18px -8px rgba(22,104,214,.7);transition:background .2s ease,transform .2s cubic-bezier(.32,.72,0,1)}
+.vt-buy:hover{background:var(--blue-d)}
+.vt-buy:active{transform:scale(.97)}
+@media(max-width:980px){.hero-vis.vitrine{max-width:560px}}
+/* Landscape tablets and small laptops (981–1180px): the window shares the row
+   with the copy and gets about 300px, so it drops the spec line and draws its
+   tags smaller rather than let the last one hang off the edge. */
+@media(min-width:981px) and (max-width:1180px){
+  .vitrine{--vt-floor:115px}
+  .vt-in{padding:14px 12px}
+  .vt-stage{gap:4px}
+  .vt-rail,.vt-floor{left:-12px;right:-12px}
+  .vt-floor{bottom:-14px;height:calc(var(--vt-floor) + 14px)}
+  .vt-hang{left:4%}
+  .ptag-hang b{font-size:16px}
+  .ptag-hang{padding:6px 10px 7px 22px}
+  .vt-img{height:150px}
+  .vt-cap{height:56px}
+  .vt-cap b{font-size:13px}
+  .vt-spec{display:none}
+  .vt-buy{height:32px;padding:0 12px;font-size:12.5px}
+  .vt-head{flex-direction:column;align-items:flex-start;gap:4px}
+}
+@media(max-width:640px){
+  .hero-vis.vitrine{max-width:none}
+  .vitrine{--vt-floor:98px;padding:4px;border-radius:22px}
+  .vt-in{padding:12px 8px 12px;border-radius:18px}
+  .vt-title{font-size:14px}
+  .vt-stock{font-size:11px;padding:3px 9px 3px 6px}
+  .vt-stock .ph{width:15px;height:15px}
+  .vt-stage{gap:2px;padding-top:28px}
+  .vt-rail{left:-8px;right:-8px;top:8px;height:3px}
+  .vt-floor{left:-8px;right:-8px;bottom:-12px;height:calc(var(--vt-floor) + 12px)}
+  .vt-cone{height:190px}
+  .vt-hang{top:-19px;left:2%;transform-origin:8.5px 0}
+  .vt-link{padding-top:20px}
+  .vt-str{margin-left:8px}
+  .ptag-hang{padding:5px 8px 6px 18px;clip-path:polygon(11px 0,100% 0,100% 100%,11px 100%,0 50%);transform-origin:8.5px 50%}
+  .ptag-hang::before{left:6px;width:5px;height:5px;margin-top:-2.5px}
+  .ptag-hang b{font-size:14px}
+  .ptag-hang .ptag-l{font-size:9px}
+  .vt-img{height:108px}
+  .vt-pod{height:22px;margin-top:-7px}
+  .vt-pod::before{height:13px}
+  .vt-pod::after{top:6px}
+  .vt-cap{height:48px;padding-top:6px}
+  .vt-cat{font-size:10px}
+  .vt-cap b{font-size:12px}
+  .vt-spec{display:none}
+  .vt-buy{height:30px;padding:0 11px;margin-top:4px;font-size:12px}
+}
+@media(max-width:380px){.ptag-hang b small{display:none}}
+
+/* ---- home: the category bento ---- */
+:root{--cb-glow:rgba(46,139,255,.11);--disc:radial-gradient(circle at 36% 30%,#DDEAFC 0%,#C0D7F6 50%,#9FC0EE 100%)}
+:root[data-theme="dark"]{--cb-glow:rgba(46,139,255,.2);--disc:radial-gradient(circle at 36% 30%,#2E5793 0%,#1D3C6E 55%,#152D57 100%)}
+.cats-bento{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;grid-auto-rows:230px;grid-auto-flow:dense;gap:14px}
+.cb-tile{--pt-hole:var(--card);position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;padding:18px;border-radius:22px;
+  background:var(--card);border:1px solid var(--line);
+  color:var(--ink);text-decoration:none;
+  transition:transform .6s cubic-bezier(.32,.72,0,1),box-shadow .6s cubic-bezier(.32,.72,0,1),border-color .3s ease}
+.cb-tile:hover{transform:translateY(-4px);border-color:rgba(46,139,255,.45);box-shadow:0 24px 44px -26px rgba(11,26,51,.4)}
+.cb-tile:active{transform:translateY(-1px) scale(.99)}
+.cb-tile:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.cb-tall{grid-row:span 2}
+.cb-wide{grid-column:span 2}
+/* A blue disc stands behind the products. On a plain white tile the white
+   washers and boilers had no edge at all; against the disc they read at once. */
+.cb-tile:not(.cb-all)::before{content:"";position:absolute;z-index:0;right:-10%;bottom:-18%;width:80%;aspect-ratio:1;border-radius:50%;
+  background:var(--disc);transition:transform .8s cubic-bezier(.32,.72,0,1)}
+.cb-tall::before{width:122%;right:-34%;bottom:4%}
+.cb-wide::before{width:52%;right:0;bottom:-44%}
+.cb-tile:hover::before{transform:scale(1.04)}
+.cb-head{position:relative;z-index:3;display:flex;align-items:center;gap:12px}
+.cb-ic{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:13px;background:var(--blue-a);color:var(--blue-d)}
+.cb-ic .ph{width:26px;height:26px}
+.cb-tx{display:flex;flex-direction:column;gap:2px;min-width:0}
+.cb-t{font-family:var(--disp);font-weight:800;font-size:17px;line-height:1.2;letter-spacing:-.01em}
+.cb-n{font-size:13px;color:var(--g4)}
+.cb-tag{position:absolute;z-index:4;left:18px;top:80px;transform:rotate(-5deg);transform-origin:12px 50%;
+  filter:drop-shadow(0 6px 8px rgba(11,26,51,.16));transition:transform .6s cubic-bezier(.32,.72,0,1)}
+.cb-tile:hover .cb-tag{transform:rotate(1deg)}
+.cb-tag b{font-size:18px}
+.cb-art{position:absolute;z-index:1;right:14px;bottom:12px;display:flex;align-items:flex-end;justify-content:flex-end;width:60%;height:66%}
+.cb-art::after{content:"";position:absolute;z-index:-1;left:6%;right:2%;bottom:-6px;height:16px;background:radial-gradient(closest-side,rgba(11,26,51,.24),transparent)}
+.cb-p{position:relative;min-width:0;height:100%;width:auto;max-width:none;object-fit:contain;object-position:bottom;filter:drop-shadow(0 10px 10px rgba(11,26,51,.16));
+  transition:transform .7s cubic-bezier(.32,.72,0,1)}
+.cb-p1{z-index:3}
+.cb-p2{z-index:2;height:86%;margin-left:-16%}
+.cb-p3{z-index:1;height:74%;margin-left:-16%}
+.cb-tile:hover .cb-p1{transform:translateY(-6px)}
+.cb-tile:hover .cb-p2{transform:translateY(-4px)}
+.cb-tile:hover .cb-p3{transform:translateY(-2px)}
+.cb-tall .cb-art{width:78%;height:72%}
+.cb-tall .cb-tag{top:84px}
+.cb-wide .cb-art{width:64%;height:64%}
+.cb-go{position:absolute;z-index:3;left:18px;bottom:16px;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;
+  background:var(--g1);color:var(--ink);transition:transform .5s cubic-bezier(.32,.72,0,1),background .3s ease,color .3s ease}
+.cb-go .ph{width:18px;height:18px}
+.cb-tile:hover .cb-go{background:var(--blue);color:#fff;transform:translate(2px,-2px)}
+.cb-all{justify-content:space-between;background:linear-gradient(160deg,#16315E 0%,#0B1A33 100%);border-color:rgba(124,196,255,.22);color:#fff}
+.cb-all:hover{border-color:rgba(124,196,255,.55)}
+.cb-icons{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;max-width:230px}
+.cb-icons span{display:grid;place-items:center;aspect-ratio:1;border-radius:10px;background:rgba(124,196,255,.11);color:var(--frost)}
+.cb-icons .ph{width:58%;height:58%}
+.cb-all .cb-t{color:#fff}
+.cb-s{font-size:12.5px;line-height:1.35;color:rgba(233,243,255,.66)}
+.cb-all-go{font-family:var(--disp);font-weight:700;font-size:14px;color:var(--frost)}
+/* four across needs ~1180px: below that "Пральні машини" wraps under its tag */
+@media(max-width:1180px){
+  .cats-bento{grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:214px}
+  .cb-all{grid-column:span 2}
+}
+@media(max-width:640px){
+  .cats-bento{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:178px;gap:10px}
+  .cb-tile{padding:13px;border-radius:18px}
+  .cb-wide{grid-column:auto}
+  .cb-all{grid-column:1/-1;min-height:150px}
+  /* a tile is ~170px wide here: the icon would push "Зарядні станції" onto
+     two lines and the count under the tag, so the name has the row to itself */
+  .cb-ic{display:none}
+  .cb-t{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cb-n{font-size:12px}
+  .cb-tag{left:13px;top:58px;padding:5px 10px 6px 20px;clip-path:polygon(11px 0,100% 0,100% 100%,11px 100%,0 50%)}
+  .cb-tag::before{left:6px;width:5px;height:5px;margin-top:-2.5px}
+  .cb-tall .cb-tag{top:60px}
+  .cb-tag b{font-size:14px}
+  .cb-art{right:8px;bottom:8px;width:72%;height:52%}
+  .cb-tall .cb-art{width:92%;height:66%}
+  .cb-go{display:none}
+  .cb-icons{grid-template-columns:repeat(9,minmax(0,1fr));max-width:none;gap:5px}
+  .cb-icons span{border-radius:8px}
+}
+
+/* «Написати» beside the price tag. Two solid oranges side by side fought for
+   the eye, so the chat button steps back to an outline and the tag leads.
+   The text is a darker orange than the border: #E8631A on white is 3.4:1,
+   under what 13px text needs. */
+.card-act .btn-buy{background:var(--white);color:#B4460F;box-shadow:inset 0 0 0 1.5px var(--amber)}
+.card-act .btn-buy:hover{background:rgba(255,122,41,.09);color:#9A3B0B}
+:root[data-theme="dark"] .card-act .btn-buy{color:#FF9A5C}
+:root[data-theme="dark"] .card-act .btn-buy:hover{background:rgba(255,122,41,.14);color:#FFB485}

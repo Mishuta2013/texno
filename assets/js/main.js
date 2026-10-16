@@ -68,11 +68,17 @@ function pnameJS(p){
   if(!pref||LANG==='uk'||!pref[LANG]||!p.name.startsWith(pref.uk))return p.name;
   return pref[LANG]+p.name.slice(pref.uk.length);
 }
+/* Mirrors chipIc() in build.mjs: a chip's icon is a name in the Phosphor sprite
+   whose URL the build ships as window.__PH__. */
+function chipIcJS(ic){
+  if(!ic)return'';
+  return/^[a-z][a-z0-9-]*$/.test(ic)?'<svg class="ph chip-ic" aria-hidden="true" focusable="false"><use href="'+(window.__PH__||'/assets/icons/ph.svg')+'#r-'+ic+'"/></svg>':ic;
+}
 function catChipsJS(p){
   return(catOf(p).chips||[]).map(function(c){
-    if(c.flag)return p[c.flag]?'<span class="stag">'+c.icon+' '+lfJS(c,'label')+'</span>':'';
+    if(c.flag)return p[c.flag]?'<span class="stag">'+chipIcJS(c.icon)+' '+lfJS(c,'label')+'</span>':'';
     const v=jFmtVal(p,c);
-    return v?'<span class="stag">'+c.icon+' '+v+'</span>':'';
+    return v?'<span class="stag">'+chipIcJS(c.icon)+' '+v+'</span>':'';
   }).join('');
 }
 /* ============ CONFIG ============ */
@@ -215,15 +221,6 @@ function setLang(l){
 
 /* ============ THEME ============ */
 /* dark theme removed in redesign — single curated light theme */
-
-/* ============ HERO ============ */
-(function(){const af=$('airflow');if(!af)return;for(let i=0;i<5;i++){const s=document.createElement('span');s.style.top=(8+i*12)+'px';s.style.width=(50+Math.random()*40)+'%';s.style.left='0';s.style.animationDelay=(i*0.4)+'s';af.appendChild(s);}})();
-/* energy sparks on the power-station hero card */
-/* fridge hero card: drifting cold-air specks */
-(function(){const cl=$('chill');if(!cl)return;for(let i=0;i<9;i++){const s=document.createElement('span');
-  s.style.left=(6+i*10+Math.random()*7)+'%';s.style.animationDelay=(i*0.42+Math.random()*0.5)+'s';
-  s.style.animationDuration=(3.4+Math.random()*1.8)+'s';cl.appendChild(s);}})();
-(function(){const ch=$('charge');if(!ch)return;for(let i=0;i<7;i++){const s=document.createElement('span');s.style.left=(12+i*12+Math.random()*6)+'%';s.style.animationDelay=(i*0.34)+'s';s.style.animationDuration=(2.2+Math.random()*1.2)+'s';ch.appendChild(s);}})();
 
 /* ============ CATALOG ============ */
 /* Mirror of mixedOrder() in build.mjs — the pre-rendered grid and this
@@ -1515,7 +1512,7 @@ window.scanReveals=scanReveals;
 (function(){
   if(!matchMedia('(hover:hover) and (pointer:fine)').matches) return;
   if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-  const TILT=[['.card',4.5,5.5,6],['.hero-vis .gauge-card',3,3.6,4]];
+  const TILT=[['.card',4.5,5.5,6]];
   let cur=null;
   function reset(c){if(c)c.style.transform='';}
   function find(target){
@@ -1543,10 +1540,6 @@ window.scanReveals=scanReveals;
   const onScroll=()=>{const h=document.documentElement.scrollHeight-innerHeight;sp.style.width=(h>0?Math.min(100,scrollY/h*100):0)+'%';};
   addEventListener('scroll',onScroll,{passive:true});onScroll();
   const hero=document.querySelector('.hero');
-  /* cursor glow */
-  if(hero && matchMedia('(pointer:fine)').matches && !reduce){
-    hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect();hero.style.setProperty('--mx',((e.clientX-r.left)/r.width*100).toFixed(1)+'%');hero.style.setProperty('--my',((e.clientY-r.top)/r.height*100).toFixed(1)+'%');},{passive:true});
-  }
   /* The season is baked into <html data-season> at build time, which is right
      as long as the site is deployed now and then. Re-check it against today's
      date and correct the attribute: a stale deploy showing snow over the hero

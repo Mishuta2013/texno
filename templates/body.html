@@ -2,10 +2,10 @@
 <div class="topbar">
   <div class="topbar-in">
     <div class="tb-info"><div class="tb-track">
-      <a class="tb-addr" href="{{MAP_URL}}" target="_blank" rel="noopener">📍 <span id="top-addr" data-i18n="top_addr">Суми, вул. Харківська 2/1</span></a>
-      <span class="tb-hours">🕐 <span id="top-hours" data-i18n="top_hours">Пн–Пт 10:00–18:00 · Сб 10:00–17:00</span></span>
-      <a class="tb-addr tb-dup" aria-hidden="true" tabindex="-1" href="{{MAP_URL}}" target="_blank" rel="noopener">📍 <span data-i18n="top_addr">Суми, вул. Харківська 2/1</span></a>
-      <span class="tb-hours tb-dup" aria-hidden="true">🕐 <span data-i18n="top_hours">Пн–Пт 10:00–18:00 · Сб 10:00–17:00</span></span>
+      <a class="tb-addr" href="{{MAP_URL}}" target="_blank" rel="noopener"><!--ph:r-map-pin--><span id="top-addr" data-i18n="top_addr">Суми, вул. Харківська 2/1</span></a>
+      <span class="tb-hours"><!--ph:r-clock--><span id="top-hours" data-i18n="top_hours">Пн–Пт 10:00–18:00 · Сб 10:00–17:00</span></span>
+      <a class="tb-addr tb-dup" aria-hidden="true" tabindex="-1" href="{{MAP_URL}}" target="_blank" rel="noopener"><!--ph:r-map-pin--><span data-i18n="top_addr">Суми, вул. Харківська 2/1</span></a>
+      <span class="tb-hours tb-dup" aria-hidden="true"><!--ph:r-clock--><span data-i18n="top_hours">Пн–Пт 10:00–18:00 · Сб 10:00–17:00</span></span>
     </div></div>
     <div class="tb-right">
       <button class="tb-contact" onclick="openContact()" data-i18n="tb_contact">Зв'язок</button>
@@ -77,10 +77,7 @@
 <section class="hero">
   <img class="hero-photo" fetchpriority="high" src="/assets/img/site/hero.webp" data-i18n-alt="hero_photo_alt" alt="Холодильник, пральна машина, кондиціонер, бойлер і зарядна станція — техніка TexnoPlaza у Сумах" width="1600" height="1067">
   <div class="hero-photo-veil"></div>
-  <div class="hero-grid-bg"></div>
-  <div class="hero-aurora"></div>
   <div class="hero-glow"></div>
-  <div class="hero-cursor"></div>
   <div class="hero-in">
     <div class="hero-copy">
       <!-- Where the shop physically is. A visitor in Sumy who is deciding
@@ -105,7 +102,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
         </a>
       </div>
-      <div class="hero-badge"><span class="dot"></span> <span data-i18n="hero_badge">Акція: −50% на монтаж до кінця сезону</span></div>
+      <div class="hero-badge"><!--ph:r-truck--><span data-i18n="hero_badge">Акція: −50% на монтаж до кінця сезону</span></div>
       <h1><span data-i18n="hero_h1a">Техніка для дому та</span> <span class="grad" data-i18n="hero_h1b">енергонезалежність у Сумах</span></h1>
       <p class="hero-sub" data-i18n="hero_sub">Кондиціонери для комфорту та зарядні станції для енергонезалежності вашого дому. Доставка по Сумах, монтаж під ключ за 1 день, оплата після встановлення.</p>
       <form class="hero-search" id="hero-search" role="search" onsubmit="return heroSearch(event)">
@@ -122,11 +119,7 @@
         <a href="#cats" class="btn-ghost" data-i18n="hero_cta2">Обрати категорію</a>
       </div>
     </div>
-    <div class="hero-vis two">
-      <!--HERO_CARD-->
-      <!--HERO_CARD2-->
-      <!--HERO_CARD3-->
-    </div>
+    <!--HERO_VITRINE-->
   </div>
 </section>
 
@@ -167,7 +160,6 @@
 <section class="section cats" id="cats">
   <div class="wrap">
     <div class="reveal cats-head">
-      <div class="eyebrow" data-i18n="cats_eyebrow">Категорії</div>
       <h2 data-i18n="cats_h">Оберіть категорію техніки</h2>
     </div>
     <!--CAT_CARDS-->
@@ -417,7 +409,7 @@
       </ul>
     </div>
     <div class="price-card reveal">
-      <div class="pc-promo" data-i18n="inst_promo">🔥 Знижка 50% на монтаж</div>
+      <div class="pc-promo"><!--ph:r-check--><span data-i18n="inst_promo">Ціну погоджуємо заздалегідь</span></div>
       <div class="pc-label" data-i18n="inst_cost">Вартість стандартного монтажу</div>
       <div class="pc-val pc-val-txt" data-i18n="inst_val">за погодженням</div>
       <div class="pc-note" data-i18n="inst_note">Фіксована ціна — без прихованих доплат</div>
