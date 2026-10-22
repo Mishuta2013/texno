@@ -105,6 +105,9 @@ const catList = Object.entries(CATS).map(([key, c]) => ({ key, ...c })).sort((a,
    until the first product lands. */
 const catLive = () => catList.filter(c => catProducts(c.key).length);
 const catProducts = key => products.filter(p => p.category === key);
+/* products.json "stock": "out" — not in the shop right now. Everything else is
+   on the shop floor, which is what the site has always said. */
+const isOut = p => p.stock === 'out';
 /* Thresholds for query pages (see catTags). Up here rather than beside it: the
    catalog panel in the header lists each category's query pages, and the header
    is built long before the page loop gets that far. */
@@ -620,7 +623,8 @@ ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script
 // ---- card (mirrors assets/js/main.js cardHTML, uk static) ----
 function card(p) {
   const url = purl(p);
-  const badge = p.heatpump ? `<span class="cbadge heat">${esc(t('sp_hp'))}</span>`
+  const badge = p.isNew ? `<span class="cbadge new">${esc(t('badge_new'))}</span>`
+    : p.heatpump ? `<span class="cbadge heat">${esc(t('sp_hp'))}</span>`
     : p.inverter ? `<span class="cbadge inv">${esc(t("c_inverter"))}</span>` : '';
   const edge = p.edge ? `<span class="cedge">${esc(t(p.edge))}</span>` : '';
   /* Three buttons per card — Замовити, Деталі, Купити в 1 клік — and the card
@@ -629,17 +633,22 @@ function card(p) {
      to do; the two ways to buy share one row, and "в наявності" moved off the
      photo to sit by the price it qualifies. Without JS the buttons are links to
      the product page, where the same two actions are. */
-  return `<div class="card">
+  /* A model that is not in the shop keeps its page and its card — the page
+     ranks, and people still search for it — but says so where the stock line
+     is, and offers to call when it is back instead of taking an order. */
+  const out = isOut(p);
+  return `<div class="card${out ? ' is-out' : ''}">
     <a class="card-img" href="${url}" tabindex="-1">${badge}
       <img src="${esc(av(p.thumb || p.photos[0]))}" alt="${esc(pname(p))}" loading="lazy" width="400" height="400"></a>
     <div class="card-body"><a class="card-brand" href="${pfx()}${catOf(p).urlPrefix}/${brandSlug(p.brand)}/">${esc(p.brand)}</a>
       <a class="card-name" href="${url}">${esc(pname(p))}</a>${edge}
       <div class="card-specs">${catChips(p)}</div>
       <div class="card-foot"><div class="card-price-row"><div class="card-price">${fmt(p.price)} <small>${esc(t("u_uah"))}</small></div>
-        <span class="cstock"><i></i>${esc(t('c_instock'))}</span></div>
-        <div class="card-act">
-          <a class="btn-order" href="${url}">${esc(t('c_order'))}</a>
-          <a class="btn-buy" href="${url}" title="${esc(t('c_buy'))}" aria-label="${esc(t('c_buy'))}">${BUY_ICON}<span>${esc(t('c_buy_s'))}</span></a>
+        <span class="cstock${out ? ' out' : ''}"><i></i>${esc(t(out ? 'c_out' : 'c_instock'))}</span></div>
+        <div class="card-act">${out
+          ? `<a class="btn-order btn-notify" href="${url}">${esc(t('c_notify_s'))}</a>`
+          : `<a class="btn-order" href="${url}">${esc(t('c_order'))}</a>
+          <a class="btn-buy" href="${url}" title="${esc(t('c_buy'))}" aria-label="${esc(t('c_buy'))}">${BUY_ICON}<span>${esc(t('c_buy_s'))}</span></a>`}
         </div>
       </div></div></div>`;
 }
@@ -701,7 +710,7 @@ const hitName = p => p.series ? `${p.brand} ${p.series}` : pname(p);
 /* Rough real-world scale between the shelves, so a 26cm power station does not
    stand as tall as a fridge beside it. */
 const HIT_SCALE = { holodylnyky: 1, 'pralni-mashyny': .8, boylery: .74, 'zaryadni-stantsii': .62 };
-function vitrine(items) {
+function vitrine(items, title = 'vt_title') {
   /* thread lengths differ a little so the tags do not hang in a ruled line */
   const THREAD = [30, 36, 42];   // the middle tag carries a label line and needs the longer thread to clear the rail
   /* A lit display case set into the dark hero: each product on its own round
@@ -723,7 +732,7 @@ function vitrine(items) {
       `<a class="vt-buy" href="${purl(p)}" onclick="if(window.openOrder){openOrder('${esc(p.slug)}');return false}">${esc(t('c_order'))}</a></div>`;
   }).join('');
   return `<div class="hero-vis vitrine"><div class="vt-in">` +
-    `<div class="vt-head"><span class="vt-title">${esc(t('vt_title'))}</span>` +
+    `<div class="vt-head"><span class="vt-title">${esc(t(title))}</span>` +
     `<span class="vt-stock">${ph('d-check-circle')}<span>${esc(t('vt_stock'))}</span></span></div>` +
     `<div class="vt-stage"><span class="vt-rail" aria-hidden="true"></span>${cells}<span class="vt-floor" aria-hidden="true"></span></div>` +
     `</div></div>`;
@@ -1108,11 +1117,19 @@ for (const spare of [bestFridge, bestWasher, bestBoiler]) {
   if (seasonPicks.length >= 2) break;
   if (spare && !seasonPicks.includes(spare)) seasonPicks.push(spare);
 }
-const hitItems = [
-  seasonPicks[0] && { p: seasonPicks[0] },
-  bestStation && { p: bestStation, lbl: t('badge_new') },
-  seasonPicks[1] && { p: seasonPicks[1] }
-].filter(Boolean);
+/* A fresh delivery takes the whole window: while three or more products are
+   marked "isNew" in products.json they stand there instead, the first pinned
+   in the middle, each with its "Новинка" tag, under "Нове надходження".
+   Clearing the flags brings the seasonal window back. */
+const newArrivals = products.filter(p => p.isNew && !isOut(p))
+  .sort((a, b) => (a.pin || 99) - (b.pin || 99));
+const hitItems = newArrivals.length >= 3
+  ? [newArrivals[1], newArrivals[0], newArrivals[2]].map(p => ({ p, lbl: t('badge_new') }))
+  : [
+    seasonPicks[0] && { p: seasonPicks[0] },
+    bestStation && { p: bestStation, lbl: t('badge_new') },
+    seasonPicks[1] && { p: seasonPicks[1] }
+  ].filter(Boolean);
 /* String.replace on a marker that is not there returns the string unchanged
    and says nothing. That is how <!--QUIZ_INLINE--> disappeared: an edit to the
    tab strip above it ate the first five characters of the comment, so the whole
@@ -1122,7 +1139,7 @@ const fill = (marker, html) => {
   if (!body.includes(marker)) throw new Error(`templates/body.html has no ${marker}`);
   body = body.replace(marker, html);
 };
-fill('<!--HERO_VITRINE-->', hitItems.length ? vitrine(hitItems) : '');
+fill('<!--HERO_VITRINE-->', hitItems.length ? vitrine(hitItems, newArrivals.length >= 3 ? 'vt_title_new' : 'vt_title') : '');
 // pre-render catalog grid for SEO (client re-renders on filter) — default tab shows ALL products
 const homeCatalogCat = 'all';
 // pinned products lead the default "Всі товари" view (mirrors getFiltered in main.js)
@@ -1138,7 +1155,7 @@ function mixedOrder(list) {
   for (const p of list) size[p.category] = (size[p.category] || 0) + 1;
   return list.map((p, i) => {
     const n = (seen[p.category] = (seen[p.category] || 0) + 1) - 1;
-    return { p, i, pin: p.pin || 99, k: (n + 0.5) / size[p.category] };
+    return { p, i, pin: isOut(p) ? 1000 : p.pin || 99, k: (n + 0.5) / size[p.category] };
   }).sort((a, b) => a.pin - b.pin || a.k - b.k || a.i - b.i).map(x => x.p);
 }
 const defaultOrder = mixedOrder(products);
@@ -1658,7 +1675,7 @@ function productPage(p) {
   const jsonld = {
     '@context': 'https://schema.org', '@type': 'Product', name: NAME, sku: p.slug,
     image: p.photos.map(ph => abs(ph)), description: pdesc(p), brand: { '@type': 'Brand', name: p.brand },
-    offers: { '@type': 'Offer', price: p.price, priceCurrency: 'UAH', availability: 'https://schema.org/InStock', url: abs(purl(p)), itemCondition: 'https://schema.org/NewCondition',
+    offers: { '@type': 'Offer', price: p.price, priceCurrency: 'UAH', availability: `https://schema.org/${isOut(p) ? 'OutOfStock' : 'InStock'}`, url: abs(purl(p)), itemCondition: 'https://schema.org/NewCondition',
       seller: { '@type': 'Organization', '@id': BASE + '/#store', name: site.name },
       shippingDetails: SHIPPING(), hasMerchantReturnPolicy: RETURN_POLICY() }
   };
@@ -1780,10 +1797,12 @@ ${HEADER}
       <a class="pp-brand" href="${pfx()}${cat.urlPrefix}/${brandSlug(p.brand)}/">${esc(p.brand)}</a>
       <h1 class="pp-title">${esc(NAME)}</h1>
       <div class="pp-chips">${chips}</div>
-      <div class="pp-price">${ptag(p.price, { cls: 'ptag-xl' })}</div>
-      <div class="pp-instal">${esc(t('pp_instal'))} <b>${fmt(Math.round(p.price / 24))} ${esc(t('pp_instal2'))}</b> ${esc(t('pp_instal3'))}</div>
+      <div class="pp-price">${ptag(p.price, { cls: 'ptag-xl' + (isOut(p) ? ' ptag-out' : '') })}</div>
+      ${isOut(p) ? `<div class="pp-out"><span class="cstock out"><i></i>${esc(t('c_out'))}</span><p>${esc(t('pp_out_note'))}</p></div>`
+        : `<div class="pp-instal">${esc(t('pp_instal'))} <b>${fmt(Math.round(p.price / 24))} ${esc(t('pp_instal2'))}</b> ${esc(t('pp_instal3'))}</div>`}
       <div class="pp-cta">
-        <button class="btn-primary" onclick="ppLead('${esc(NAME)}')">${esc(t('pp_order'))}</button>
+        ${isOut(p) ? `<button class="btn-primary" onclick="ppNotify()">${esc(t('c_notify'))}</button>`
+          : `<button class="btn-primary" onclick="ppLead('${esc(NAME)}')">${esc(t('pp_order'))}</button>`}
         <a class="btn-wa" href="${esc(site.whatsapp)}&amp;text=${encodeURIComponent(`${t('msg_hello')} ${t('msg_about')} ${NAME} (${fmt(p.price)} ${t('u_uah')})`)}" target="_blank" rel="noopener">WhatsApp</a>
         <a class="btn-ghost2" href="tel:${esc(site.phone)}">${esc(site.phoneDisplay)}</a>
       </div>
@@ -1817,7 +1836,7 @@ ${HEADER}
       </div>
       <div class="pp-store">
         <span class="pp-store-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
-        <div class="pp-store-tx"><b>${esc(t('pp_store_h'))}</b>
+        <div class="pp-store-tx"><b>${esc(t(isOut(p) ? 'pp_store_h_out' : 'pp_store_h'))}</b>
           <span>${esc(t('top_addr'))}</span><span class="hp-state" id="hp-state">${esc(t('top_hours'))}</span></div>
         <a class="pp-store-go" href="${esc(DIRECTIONS_URL)}" target="_blank" rel="noopener">${esc(t('pp_store_route'))}</a>
       </div>
@@ -1841,7 +1860,8 @@ ${HEADER}
 <div class="pp-sticky" id="pp-sticky">
   <div class="pps-info"><div class="pps-price">${fmt(p.price)} <span>${esc(t('u_uah'))}</span></div>
     <div class="pps-name">${esc(NAME)}</div></div>
-  <button class="btn-primary pps-btn" onclick="ppLead('${esc(NAME)}')">${esc(t('pp_order'))}</button>
+  ${isOut(p) ? `<button class="btn-primary pps-btn" onclick="ppNotify()">${esc(t('c_notify_s'))}</button>`
+    : `<button class="btn-primary pps-btn" onclick="ppLead('${esc(NAME)}')">${esc(t('pp_order'))}</button>`}
 </div>
 ${FOOTER}
 ${injectData()}
@@ -1917,6 +1937,7 @@ function ppCopyLink(){
 }
 function ppCheaper(){ if(window.openCb)window.openCb('cheaper',PP_NAME,PP_SLUG); }
 function ppAsk(){ if(window.openCb)window.openCb('question',PP_NAME,PP_SLUG); }
+function ppNotify(){ if(window.openCb)window.openCb('notify',PP_NAME,PP_SLUG); else location.href='tel:${esc(site.phone)}'; }
 function ppDeliv(h){ if(window.openCb)window.openCb(h?'delivery':'delivery_s',PP_NAME,PP_SLUG); }
 
 /* ---- long spec tables collapse on phones ---- */
@@ -2466,7 +2487,7 @@ function catShelf(cat, list, NAME, plural) {
   <section class="cat-local"><h2>${esc(t('cat_local_h').replace('{name}', NAME))}</h2><p>${esc(para)}</p></section>`;
 }
 function categoryPage(cat) {
-  const list = catProducts(cat.key);
+  const list = mixedOrder(catProducts(cat.key));
   const NAME = lf(cat, 'name');
   const plural = modelsWord(list.length);
   const jsonld = {
@@ -3241,7 +3262,7 @@ fs.writeFileSync(path.join(ROOT, 'scripts', '.og-collections.json'),
     <g:link>${xe(abs(purl(p)))}</g:link>
     <g:image_link>${xe(abs(p.photos[0]))}</g:image_link>
 ${p.photos.slice(1, 11).map(ph => `    <g:additional_image_link>${xe(abs(ph))}</g:additional_image_link>`).join('\n')}
-    <g:availability>in_stock</g:availability>
+    <g:availability>${isOut(p) ? 'out_of_stock' : 'in_stock'}</g:availability>
     <g:condition>new</g:condition>
     <g:price>${p.price} UAH</g:price>
     <g:brand>${xe(p.brand)}</g:brand>
@@ -3273,7 +3294,7 @@ ${items}
      is the one set in the Business Profile's advanced settings, and the ids
      are the same slugs the product feeds use. */
   const inv = ['store_code\tid\tavailability',
-    ...products.map(p => `${site.storeCode}\t${p.slug}\tin_stock`)].join('\n') + '\n';
+    ...products.map(p => `${site.storeCode}\t${p.slug}\t${isOut(p) ? 'out_of_stock' : 'in_stock'}`)].join('\n') + '\n';
   fs.writeFileSync(path.join(DIST, 'local-inventory.tsv'), inv, 'utf8');
   console.log(`local-inventory.tsv → ${products.length} products (store ${site.storeCode})`);
 }

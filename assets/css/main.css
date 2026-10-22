@@ -2666,3 +2666,24 @@ body:has(.lbox.open) > div:has(iframe[src*="merchantverse"]){display:none!import
 .card-act .btn-buy:hover{background:rgba(255,122,41,.09);color:#9A3B0B}
 :root[data-theme="dark"] .card-act .btn-buy{color:#FF9A5C}
 :root[data-theme="dark"] .card-act .btn-buy:hover{background:rgba(255,122,41,.14);color:#FFB485}
+
+/* Stock. "stock": "out" in products.json: the card and the page stay, the
+   price greys out, and the one action left is to be told when it is back.
+   The new arrivals carry an amber "Новинка" — the price-tag colour, so it
+   reads as the shop's own label rather than a manufacturer's spec badge. */
+.cbadge.new{background:var(--amber);color:var(--on-bright)}
+.cstock.out{color:#B42318;background:#FEE4E2}
+.cstock.out i{background:#D92D20}
+.card-price-row .cstock.out{background:none}
+:root[data-theme="dark"] .cstock.out{color:#FDA29B;background:#3A1714}
+:root[data-theme="dark"] .cstock.out i{background:#F97066}
+:root[data-theme="dark"] .card-price-row .cstock.out{background:none}
+.card.is-out .card-img img{opacity:.55;filter:grayscale(.6)}
+.card.is-out .card-price{background:var(--g2);color:var(--g5)}
+.card-act .btn-notify{background:var(--ice);color:var(--blue-d);box-shadow:inset 0 0 0 1.5px var(--chip-line)}
+.card-act .btn-notify:hover{background:var(--blue-a);color:var(--blue-d)}
+.ptag.ptag-out{background:var(--g2);color:var(--g5)}
+:root[data-theme="dark"] .ptag.ptag-out{background:var(--g2);color:var(--g5)}
+.pp-out{margin:12px 0 22px}
+.pp-out .cstock{position:static;display:inline-flex;font-size:13px;padding:6px 12px}
+.pp-out p{margin:10px 0 0;font-size:14px;line-height:1.5;color:var(--g5);max-width:46ch}

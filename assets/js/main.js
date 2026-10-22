@@ -230,7 +230,7 @@ function mixedOrder(list){
   list.forEach(p=>{size[p.category]=(size[p.category]||0)+1;});
   return list.map((p,i)=>{
     const n=(seen[p.category]=(seen[p.category]||0)+1)-1;
-    return {p,i,pin:p.pin||99,k:(n+0.5)/size[p.category]};
+    return {p,i,pin:p.stock==='out'?1000:p.pin||99,k:(n+0.5)/size[p.category]};
   }).sort((a,b)=>a.pin-b.pin||a.k-b.k||a.i-b.i).map(x=>x.p);
 }
 /* mirrors tagMatch in build.mjs — a filter over one spec, declared in
@@ -310,7 +310,8 @@ function productUrl(p){return langPfx()+(catOf(p).urlPrefix||SITE.productUrlPref
 function cardHTML(p){
   const url=productUrl(p);
   let badge='';
-  if(p.heatpump)badge=`<span class="cbadge heat">${t('sp_hp')}</span>`;
+  if(p.isNew)badge=`<span class="cbadge new">${t('badge_new')}</span>`;
+  else if(p.heatpump)badge=`<span class="cbadge heat">${t('sp_hp')}</span>`;
   /* f_inv is the filter label, "Інверторні" — plural. Chopping the last letter
      to singularise it produced "Інверторн", which is not a word in any of the
      three languages. c_inverter is the badge's own string, and it is what the
@@ -324,7 +325,8 @@ function cardHTML(p){
   const sq=JSON.stringify(p.slug).replace(/"/g,'&quot;');
   /* Mirrors card() in build.mjs: the name's link covers the whole card, both
      ways to buy share one row, "в наявності" sits by the price. */
-  return`<div class="card">
+  const out=p.stock==='out';
+  return`<div class="card${out?' is-out':''}">
     <a class="card-img" href="${url}" tabindex="-1">
       ${badge}
       <button class="card-fav ${favOn}" onclick="event.preventDefault();event.stopPropagation();toggleFav(${sq})" aria-label="fav"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
@@ -338,10 +340,11 @@ function cardHTML(p){
       <div class="card-specs">${catChipsJS(p)}</div>
       <div class="card-foot">
         <div class="card-price-row"><div class="card-price">${fmt(p.price)} <small>${t('u_uah')}</small></div>
-          <span class="cstock"><i></i>${t('c_instock')}</span></div>
-        <div class="card-act">
-          <button class="btn-order" type="button" onclick="openOrder(&quot;${p.slug}&quot;)">${t('c_order')}</button>
-          <button class="btn-buy" type="button" title="${gEsc(t('c_buy'))}" aria-label="${gEsc(t('c_buy'))}" onclick="openQbuy(event,&quot;${p.slug}&quot;)">${BUY_ICON}<span>${t('c_buy_s')}</span></button>
+          <span class="cstock${out?' out':''}"><i></i>${t(out?'c_out':'c_instock')}</span></div>
+        <div class="card-act">${out
+          ?`<button class="btn-order btn-notify" type="button" onclick="notifyCard(&quot;${p.slug}&quot;)">${t('c_notify_s')}</button>`
+          :`<button class="btn-order" type="button" onclick="openOrder(&quot;${p.slug}&quot;)">${t('c_order')}</button>
+          <button class="btn-buy" type="button" title="${gEsc(t('c_buy'))}" aria-label="${gEsc(t('c_buy'))}" onclick="openQbuy(event,&quot;${p.slug}&quot;)">${BUY_ICON}<span>${t('c_buy_s')}</span></button>`}
         </div>
       </div>
     </div>
@@ -871,7 +874,9 @@ function openKit(btn){
    but the heading and the Telegram label say it is a question, not a callback. */
 const CB_KINDS={question:['question','pp_ask_sub','cb_p'],cheaper:['cheaper','pp_cheaper_h','pp_cheaper_p'],
   delivery:['delivery','pp_deliv_h','pp_deliv_p'],delivery_s:['delivery','pp_deliv_h_s','pp_deliv_p_s'],
-  nudge:['nudge','nudge_h','nudge_p']};
+  nudge:['nudge','nudge_h','nudge_p'],notify:['notify','notify_h','notify_p']};
+/* the "Повідомити" button on a card of a model that is out of stock */
+function notifyCard(slug){const p=PRODUCTS.find(x=>x.slug===slug);openCb('notify',p?pnameJS(p):'',slug);}
 /* The product line is owned here, not by the callers: the modal is shared, so a
    name left over from a product button used to ride along on the next plain
    callback opened from the header. */

@@ -1894,7 +1894,8 @@
       "/assets/img/products/fossibot-f1800-1800w-1024wh/5.webp",
       "/assets/img/products/fossibot-f1800-1800w-1024wh/6.webp"
     ],
-    "pin": 1
+    "pin": 1,
+    "isNew": true
   },
   {
     "brand": "Fossibot",
@@ -1940,7 +1941,9 @@
       "/assets/img/products/fossibot-f2400-2400w-2048wh/5.webp",
       "/assets/img/products/fossibot-f2400-2400w-2048wh/6.webp",
       "/assets/img/products/fossibot-f2400-2400w-2048wh/7.webp"
-    ]
+    ],
+    "pin": 2,
+    "isNew": true
   },
   {
     "brand": "Fossibot",
@@ -2915,7 +2918,8 @@
       "/assets/img/products/oukitel-p800-800w-512wh/2.webp",
       "/assets/img/products/oukitel-p800-800w-512wh/3.webp",
       "/assets/img/products/oukitel-p800-800w-512wh/4.webp"
-    ]
+    ],
+    "stock": "out"
   },
   {
     "brand": "Ctolity",
@@ -4093,7 +4097,9 @@
       "/assets/img/products/oupes-s024-lite-2400w-2232wh/12.webp",
       "/assets/img/products/oupes-s024-lite-2400w-2232wh/13.webp",
       "/assets/img/products/oupes-s024-lite-2400w-2232wh/14.webp"
-    ]
+    ],
+    "pin": 3,
+    "isNew": true
   },
   {
     "brand": "LG",
