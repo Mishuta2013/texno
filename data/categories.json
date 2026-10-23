@@ -416,6 +416,19 @@
         "label_en": "Steam treatment"
       },
       {
+        "label": "Технологія сушіння",
+        "key": "dry_tech",
+        "label_ru": "Технология сушки",
+        "label_en": "Drying technology"
+      },
+      {
+        "label": "Завантаження для сушіння",
+        "key": "dry_kg",
+        "fmt": "kg",
+        "label_ru": "Загрузка для сушки",
+        "label_en": "Drying load"
+      },
+      {
         "label": "Дисплей",
         "key": "display",
         "label_ru": "Дисплей",
@@ -1338,7 +1351,7 @@
       ],
       [
         "Скільки електроенергії споживає холодильник?",
-        "Моделі в наявності споживають приблизно 170–310 кВт·год на рік — точна цифра є в характеристиках кожного холодильника. Інверторний компресор тихіший і економніший за звичайний."
+        "Моделі в наявності споживають від менш ніж 100 кВт·год на рік (компактні) до близько 490 (найбільші Side-by-Side) — точна цифра є в характеристиках кожного холодильника. Інверторний компресор тихіший і економніший за звичайний."
       ],
       [
         "Чи можна повернути товар, якщо не підійде?",
@@ -1360,7 +1373,7 @@
       ],
       [
         "Сколько электроэнергии потребляет холодильник?",
-        "Модели в наличии потребляют примерно 170–310 кВт·ч в год — точная цифра есть в характеристиках каждого холодильника. Инверторный компрессор тише и экономнее обычного."
+        "Модели в наличии потребляют от менее 100 кВт·ч в год (компактные) до около 490 (самые большие Side-by-Side) — точная цифра есть в характеристиках каждого холодильника. Инверторный компрессор тише и экономнее обычного."
       ],
       [
         "Можно ли вернуть товар, если не подойдёт?",
@@ -1382,7 +1395,7 @@
       ],
       [
         "How much electricity does a refrigerator use?",
-        "The models in stock use roughly 170–310 kWh a year; the exact figure is in each fridge's specs. An inverter compressor is quieter and more economical than a regular one."
+        "The models in stock use from under 100 kWh a year (compact ones) to about 490 (the largest side-by-sides); the exact figure is in each fridge's specs. An inverter compressor is quieter and more economical than a regular one."
       ],
       [
         "Can I return an item if it does not suit me?",
@@ -1789,12 +1802,12 @@
     "seoTitle": "Духові шафи у Сумах — купити від {{OV_FROM}} грн",
     "seoTitle_ru": "Духовые шкафы в Сумах — купить от {{OV_FROM}} грн",
     "seoTitle_en": "Built-in ovens in Sumy from {{OV_FROM}} UAH",
-    "seoDesc": "Вбудовані духові шафи у Сумах: {{OV_MODELS}} Gunter&Hauer — електричні, з конвекцією, грилем і парою. Доставка й занесення, оплата після отримання.",
-    "seoDesc_ru": "Встраиваемые духовые шкафы в Сумах: {{OV_MODELS}} Gunter&Hauer — электрические, с конвекцией, грилем и паром. Доставка и занос, оплата после получения.",
-    "seoDesc_en": "Built-in ovens in Sumy: {{OV_MODELS}} by Gunter&Hauer — electric, with convection, grill and steam. Delivery, payment on receipt.",
-    "intro": "Вбудовані електричні духові шафи Gunter&Hauer: конвекція, гриль, очищення парою. Розміри ніші вказані в характеристиках кожної моделі.",
-    "intro_ru": "Встраиваемые электрические духовые шкафы Gunter&Hauer: конвекция, гриль, очистка паром. Размеры ниши указаны в характеристиках каждой модели.",
-    "intro_en": "Built-in electric ovens by Gunter&Hauer: convection, grill, steam cleaning. The cut-out size is listed for every model.",
+    "seoDesc": "Вбудовані духові шафи у Сумах: {{OV_MODELS}} — {{OV_BRANDS}}: електричні, з конвекцією, грилем і парою. Доставка й занесення, оплата після отримання.",
+    "seoDesc_ru": "Встраиваемые духовые шкафы в Сумах: {{OV_MODELS}} — {{OV_BRANDS}}: электрические, с конвекцией, грилем и паром. Доставка и занос, оплата после получения.",
+    "seoDesc_en": "Built-in ovens in Sumy: {{OV_MODELS}} by {{OV_BRANDS}} — electric, with convection, grill and steam. Delivery, payment on receipt.",
+    "intro": "Вбудовані електричні духові шафи {{OV_BRANDS}}: конвекція, гриль, очищення парою. Розміри ніші вказані в характеристиках кожної моделі.",
+    "intro_ru": "Встраиваемые электрические духовые шкафы {{OV_BRANDS}}: конвекция, гриль, очистка паром. Размеры ниши указаны в характеристиках каждой модели.",
+    "intro_en": "Built-in electric ovens by {{OV_BRANDS}}: convection, grill, steam cleaning. The cut-out size is listed for every model.",
     "coverAlt": "Вбудована електрична духова шафа",
     "coverAlt_ru": "Встраиваемый электрический духовой шкаф",
     "coverAlt_en": "Built-in electric oven",
@@ -2021,7 +2034,7 @@
     "faq": [
       [
         "Скільки коштує духова шафа в Сумах?",
-        "Вбудовані духові шафи Gunter&Hauer — від {{OV_FROM}} грн, у наявності {{OV_MODELS}}. Офіційна гарантія виробника — 2 роки."
+        "Вбудовані духові шафи — від {{OV_FROM}} грн, у наявності {{OV_MODELS}}: {{OV_BRANDS}}. На всі — офіційна гарантія виробника."
       ],
       [
         "Який розмір ніші потрібен для духової шафи?",
@@ -2029,7 +2042,7 @@
       ],
       [
         "Чи є духова шафа з мікрохвильовкою?",
-        "Так, компактні моделі Gunter&Hauer EOK на 44–50 л поєднують духову шафу й мікрохвильову піч: одна техніка в ніші 45 см замість двох."
+        "Так, компактні моделі на 44–50 л — Gunter&Hauer EOK і Samsung NQ5B4353FBK — поєднують духову шафу й мікрохвильову піч: одна техніка в ніші 45 см замість двох."
       ],
       [
         "Як підключається вбудована духова шафа?",
@@ -2039,7 +2052,7 @@
     "faq_ru": [
       [
         "Сколько стоит духовой шкаф в Сумах?",
-        "Встраиваемые духовые шкафы Gunter&Hauer — от {{OV_FROM}} грн, в наличии {{OV_MODELS}}. Официальная гарантия производителя — 2 года."
+        "Встраиваемые духовые шкафы — от {{OV_FROM}} грн, в наличии {{OV_MODELS}}: {{OV_BRANDS}}. На все — официальная гарантия производителя."
       ],
       [
         "Какой размер ниши нужен для духового шкафа?",
@@ -2047,7 +2060,7 @@
       ],
       [
         "Есть ли духовой шкаф с микроволновкой?",
-        "Да, компактные модели Gunter&Hauer EOK на 44–50 л совмещают духовой шкаф и микроволновую печь: одна техника в нише 45 см вместо двух."
+        "Да, компактные модели на 44–50 л — Gunter&Hauer EOK и Samsung NQ5B4353FBK — совмещают духовой шкаф и микроволновую печь: одна техника в нише 45 см вместо двух."
       ],
       [
         "Как подключается встраиваемый духовой шкаф?",
@@ -2057,7 +2070,7 @@
     "faq_en": [
       [
         "How much is a built-in oven in Sumy?",
-        "Gunter&Hauer built-in ovens start at {{OV_FROM}} UAH; {{OV_MODELS}} in stock. The manufacturer's warranty is 2 years."
+        "Built-in ovens start at {{OV_FROM}} UAH; {{OV_MODELS}} in stock from {{OV_BRANDS}}, all with the manufacturer's official warranty."
       ],
       [
         "What niche size does an oven need?",
@@ -2065,7 +2078,7 @@
       ],
       [
         "Is there an oven with a microwave?",
-        "Yes, the compact Gunter&Hauer EOK models (44–50 l) combine an oven and a microwave: one appliance in a 45 cm niche instead of two."
+        "Yes, the compact 44–50 l models — Gunter&Hauer EOK and Samsung NQ5B4353FBK — combine an oven and a microwave: one appliance in a 45 cm niche instead of two."
       ],
       [
         "How is a built-in oven connected?",
@@ -3910,12 +3923,12 @@
     "seoTitle": "Мікрохвильові печі у Сумах — купити від {{MW_FROM}} грн",
     "seoTitle_ru": "Микроволновые печи в Сумах — купить от {{MW_FROM}} грн",
     "seoTitle_en": "Microwaves in Sumy from {{MW_FROM}} UAH",
-    "seoDesc": "Вбудовані мікрохвильові печі у Сумах: {{MW_MODELS}} Gunter&Hauer — з грилем і конвекцією. Доставка по Сумах, оплата після отримання.",
-    "seoDesc_ru": "Встраиваемые микроволновые печи в Сумах: {{MW_MODELS}} Gunter&Hauer — с грилем и конвекцией. Доставка по Сумам, оплата после получения.",
-    "seoDesc_en": "Built-in microwaves in Sumy: {{MW_MODELS}} by Gunter&Hauer — with grill and convection. Delivery, payment on receipt.",
-    "intro": "Вбудовані мікрохвильові печі Gunter&Hauer: гриль, конвекція, автоменю. Розмір ніші вказано в характеристиках.",
-    "intro_ru": "Встраиваемые микроволновые печи Gunter&Hauer: гриль, конвекция, автоменю. Размер ниши указан в характеристиках.",
-    "intro_en": "Built-in Gunter&Hauer microwaves: grill, convection, auto menu. The cut-out size is in the specification.",
+    "seoDesc": "Вбудовані мікрохвильові печі у Сумах: {{MW_MODELS}} — {{MW_BRANDS}}: соло, з грилем і конвекцією. Доставка по Сумах, оплата після отримання.",
+    "seoDesc_ru": "Встраиваемые микроволновые печи в Сумах: {{MW_MODELS}} — {{MW_BRANDS}}: соло, с грилем и конвекцией. Доставка по Сумам, оплата после получения.",
+    "seoDesc_en": "Built-in microwaves in Sumy: {{MW_MODELS}} by {{MW_BRANDS}} — solo, with grill or convection. Delivery, payment on receipt.",
+    "intro": "Вбудовані мікрохвильові печі {{MW_BRANDS}}: соло, з грилем і конвекцією, з автоменю. Розмір ніші вказано в характеристиках.",
+    "intro_ru": "Встраиваемые микроволновые печи {{MW_BRANDS}}: соло, с грилем и конвекцией, с автоменю. Размер ниши указан в характеристиках.",
+    "intro_en": "Built-in microwaves by {{MW_BRANDS}}: solo, grill and convection models, with auto menus. The cut-out size is in the specification.",
     "coverAlt": "Вбудована мікрохвильова піч",
     "coverAlt_ru": "Встраиваемая микроволновая печь",
     "coverAlt_en": "Built-in microwave oven",
@@ -4032,7 +4045,7 @@
     "faq": [
       [
         "Скільки коштує вбудована мікрохвильова піч у Сумах?",
-        "Від {{MW_FROM}} грн. У наявності {{MW_MODELS}} Gunter&Hauer на 20–34 л з грилем, для вбудовування в кухонну шафу 60 см."
+        "Від {{MW_FROM}} грн. У наявності {{MW_MODELS}} {{MW_BRANDS}} на 20–40 л — соло й з грилем, для вбудовування в кухонну шафу."
       ],
       [
         "Який розмір ніші потрібен для мікрохвильовки?",
@@ -4046,7 +4059,7 @@
     "faq_ru": [
       [
         "Сколько стоит встраиваемая микроволновая печь в Сумах?",
-        "От {{MW_FROM}} грн. В наличии {{MW_MODELS}} Gunter&Hauer на 20–34 л с грилем, для встраивания в кухонный шкаф 60 см."
+        "От {{MW_FROM}} грн. В наличии {{MW_MODELS}} {{MW_BRANDS}} на 20–40 л — соло и с грилем, для встраивания в кухонный шкаф."
       ],
       [
         "Какой размер ниши нужен для микроволновки?",
@@ -4060,7 +4073,7 @@
     "faq_en": [
       [
         "How much is a built-in microwave in Sumy?",
-        "From {{MW_FROM}} UAH. {{MW_MODELS}} by Gunter&Hauer, 20–34 l with a grill, built into a 60 cm kitchen cabinet."
+        "From {{MW_FROM}} UAH. {{MW_MODELS}} by {{MW_BRANDS}}, 20–40 l, solo and with a grill, built into a kitchen cabinet."
       ],
       [
         "What niche does a microwave need?",
@@ -4113,12 +4126,12 @@
     "seoTitle": "Посудомийні машини у Сумах — купити від {{DW_FROM}} грн",
     "seoTitle_ru": "Посудомоечные машины в Сумах — купить от {{DW_FROM}} грн",
     "seoTitle_en": "Dishwashers in Sumy from {{DW_FROM}} UAH",
-    "seoDesc": "Вбудовані посудомийні машини у Сумах: {{DW_MODELS}} Gunter&Hauer. Кількість комплектів, програми й клас енергоспоживання — у характеристиках.",
-    "seoDesc_ru": "Встраиваемые посудомоечные машины в Сумах: {{DW_MODELS}} Gunter&Hauer. Количество комплектов, программы и класс энергопотребления — в характеристиках.",
-    "seoDesc_en": "Built-in dishwashers in Sumy: {{DW_MODELS}} by Gunter&Hauer. Place settings, programmes and energy class are listed.",
-    "intro": "Вбудовані посудомийні машини Gunter&Hauer на 45 і 60 см. Кількість комплектів підбирайте за розміром сімʼї: 9–10 вистачає на трьох.",
-    "intro_ru": "Встраиваемые посудомоечные машины Gunter&Hauer на 45 и 60 см. Количество комплектов подбирайте по размеру семьи: 9–10 хватает на троих.",
-    "intro_en": "Built-in Gunter&Hauer dishwashers, 45 and 60 cm. Pick place settings by household size: 9–10 suits three people.",
+    "seoDesc": "Вбудовані посудомийні машини у Сумах: {{DW_MODELS}} — {{DW_BRANDS}}. Кількість комплектів, програми й клас енергоспоживання — у характеристиках.",
+    "seoDesc_ru": "Встраиваемые посудомоечные машины в Сумах: {{DW_MODELS}} — {{DW_BRANDS}}. Количество комплектов, программы и класс энергопотребления — в характеристиках.",
+    "seoDesc_en": "Built-in dishwashers in Sumy: {{DW_MODELS}} by {{DW_BRANDS}}. Place settings, programmes and energy class are listed.",
+    "intro": "Вбудовані посудомийні машини {{DW_BRANDS}} на 45 і 60 см. Кількість комплектів підбирайте за розміром сімʼї: 9–10 вистачає на трьох.",
+    "intro_ru": "Встраиваемые посудомоечные машины {{DW_BRANDS}} на 45 и 60 см. Количество комплектов подбирайте по размеру семьи: 9–10 хватает на троих.",
+    "intro_en": "Built-in dishwashers by {{DW_BRANDS}}, 45 and 60 cm. Pick place settings by household size: 9–10 suits three people.",
     "coverAlt": "Вбудована посудомийна машина",
     "coverAlt_ru": "Встраиваемая посудомоечная машина",
     "coverAlt_en": "Built-in dishwasher",
@@ -4283,15 +4296,15 @@
     "faq": [
       [
         "Скільки коштує посудомийна машина в Сумах?",
-        "Від {{DW_FROM}} грн. У наявності {{DW_MODELS}} Gunter&Hauer для повного вбудовування: завширшки 45 і 60 см, на 9–14 комплектів посуду."
+        "Від {{DW_FROM}} грн. У наявності {{DW_MODELS}} {{DW_BRANDS}}: завширшки 45 і 60 см, на 9–15 комплектів посуду."
       ],
       [
         "Посудомийка 45 чи 60 см — що обрати?",
-        "Вузька на 45 см вміщує 9–10 комплектів — для однієї-двох людей. Повнорозмірна на 60 см бере 12–14 комплектів і великі тарілки — для сім’ї з трьох-чотирьох."
+        "Вузька на 45 см вміщує 9–10 комплектів — для однієї-двох людей. Повнорозмірна на 60 см бере 12–15 комплектів і великі тарілки — для сім’ї з трьох-чотирьох."
       ],
       [
         "Скільки води витрачає посудомийна машина?",
-        "9–11 літрів за цикл — помітно менше, ніж піде на той самий посуд під краном. Функція половинного завантаження економить ще більше, коли посуду мало."
+        "9–14 літрів за цикл — помітно менше, ніж піде на той самий посуд під краном. Функція половинного завантаження економить ще більше, коли посуду мало."
       ],
       [
         "Що потрібно для підключення посудомийки?",
@@ -4301,15 +4314,15 @@
     "faq_ru": [
       [
         "Сколько стоит посудомоечная машина в Сумах?",
-        "От {{DW_FROM}} грн. В наличии {{DW_MODELS}} Gunter&Hauer для полного встраивания: шириной 45 и 60 см, на 9–14 комплектов посуды."
+        "От {{DW_FROM}} грн. В наличии {{DW_MODELS}} {{DW_BRANDS}}: шириной 45 и 60 см, на 9–15 комплектов посуды."
       ],
       [
         "Посудомойка 45 или 60 см — что выбрать?",
-        "Узкая на 45 см вмещает 9–10 комплектов — для одного-двух человек. Полноразмерная на 60 см берёт 12–14 комплектов и большие тарелки — для семьи из трёх-четырёх."
+        "Узкая на 45 см вмещает 9–10 комплектов — для одного-двух человек. Полноразмерная на 60 см берёт 12–15 комплектов и большие тарелки — для семьи из трёх-четырёх."
       ],
       [
         "Сколько воды расходует посудомоечная машина?",
-        "9–11 литров за цикл — заметно меньше, чем уйдёт на ту же посуду под краном. Функция половинной загрузки экономит ещё больше, когда посуды мало."
+        "9–14 литров за цикл — заметно меньше, чем уйдёт на ту же посуду под краном. Функция половинной загрузки экономит ещё больше, когда посуды мало."
       ],
       [
         "Что нужно для подключения посудомойки?",
@@ -4319,15 +4332,15 @@
     "faq_en": [
       [
         "How much is a dishwasher in Sumy?",
-        "From {{DW_FROM}} UAH. {{DW_MODELS}} by Gunter&Hauer, fully integrated, 45 and 60 cm wide, for 9–14 place settings."
+        "From {{DW_FROM}} UAH. {{DW_MODELS}} by {{DW_BRANDS}}, 45 and 60 cm wide, for 9–15 place settings."
       ],
       [
         "45 or 60 cm — which dishwasher?",
-        "A 45 cm model holds 9–10 place settings, enough for one or two people. A 60 cm one takes 12–14 settings and large plates, for a family of three or four."
+        "A 45 cm model holds 9–10 place settings, enough for one or two people. A 60 cm one takes 12–15 settings and large plates, for a family of three or four."
       ],
       [
         "How much water does a dishwasher use?",
-        "9–11 litres a cycle, noticeably less than washing the same dishes under a running tap. Half-load saves more when there are few dishes."
+        "9–14 litres a cycle, noticeably less than washing the same dishes under a running tap. Half-load saves more when there are few dishes."
       ],
       [
         "What does a dishwasher need to be connected?",
@@ -4584,5 +4597,224 @@
       ]
     ],
     "group": "home"
+  },
+  "pylososy": {
+    "name": "Пилососи",
+    "name_ru": "Пылесосы",
+    "name_en": "Vacuum cleaners",
+    "code": "VC",
+    "nameGen": "пилососів",
+    "nameGen_ru": "пылесосов",
+    "nameGen_en": "vacuum cleaners",
+    "cardSub": "Бездротові, з вологим прибиранням",
+    "cardSub_ru": "Беспроводные, с влажной уборкой",
+    "cardSub_en": "Cordless, with mopping",
+    "urlPrefix": "/pylososy",
+    "icon": "pylososy",
+    "order": 15,
+    "install": false,
+    "emoji": "🧹",
+    "ph": "broom",
+    "cover": "/assets/img/covers/cat-pylososy.webp",
+    "productPrefix": {
+      "uk": "Пилосос",
+      "ru": "Пылесос",
+      "en": "Vacuum cleaner"
+    },
+    "trust": [
+      "Доставка по Сумах — 400 грн",
+      "Оплата після отримання",
+      "Офіційна гарантія"
+    ],
+    "trust_ru": [
+      "Доставка по Сумам — 400 грн",
+      "Оплата после получения",
+      "Официальная гарантия"
+    ],
+    "trust_en": [
+      "Delivery in Sumy — 400 UAH",
+      "Payment on receipt",
+      "Official warranty"
+    ],
+    "seoTitle": "Пилососи у Сумах — купити від {{VC_FROM}} грн",
+    "seoTitle_ru": "Пылесосы в Сумах — купить от {{VC_FROM}} грн",
+    "seoTitle_en": "Vacuum cleaners in Sumy from {{VC_FROM}} UAH",
+    "seoDesc": "Пилососи у Сумах: {{VC_MODELS}} {{VC_BRANDS}} — бездротові, з вологим прибиранням. Офіційна гарантія, доставка по Сумах, оплата після отримання.",
+    "seoDesc_ru": "Пылесосы в Сумах: {{VC_MODELS}} {{VC_BRANDS}} — беспроводные, с влажной уборкой. Официальная гарантия, доставка по Сумам, оплата после получения.",
+    "seoDesc_en": "Vacuum cleaners in Sumy: {{VC_MODELS}} by {{VC_BRANDS}} — cordless, with mopping. Official warranty, delivery in Sumy, payment on receipt.",
+    "intro": "Бездротові пилососи, які прибирають без шнура: зарядили — і пройшли всю квартиру. Час роботи від заряду й потужність всмоктування — у кожній картці.",
+    "intro_ru": "Беспроводные пылесосы, которые убирают без шнура: зарядили — и прошли всю квартиру. Время работы от заряда и мощность всасывания — в каждой карточке.",
+    "intro_en": "Cordless vacuums that clean without a cord: charge it and do the whole flat. Run time per charge and suction power are on every card.",
+    "coverAlt": "Бездротовий вертикальний пилосос",
+    "coverAlt_ru": "Беспроводной вертикальный пылесос",
+    "coverAlt_en": "Cordless stick vacuum cleaner",
+    "chips": [
+      {
+        "icon": "lightning",
+        "key": "suction_w",
+        "fmt": "watt"
+      },
+      {
+        "icon": "timer",
+        "key": "runtime",
+        "fmt": "mins"
+      }
+    ],
+    "ppChips": [
+      {
+        "icon": "lightning",
+        "key": "suction_w",
+        "fmt": "watt"
+      },
+      {
+        "icon": "timer",
+        "key": "runtime",
+        "fmt": "mins"
+      },
+      {
+        "icon": "drop",
+        "key": "clean_type"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Тип",
+        "label_ru": "Тип",
+        "label_en": "Type",
+        "key": "vac_type"
+      },
+      {
+        "label": "Потужність всмоктування",
+        "label_ru": "Мощность всасывания",
+        "label_en": "Suction power",
+        "key": "suction_w",
+        "fmt": "watt"
+      },
+      {
+        "label": "Час роботи від заряду",
+        "label_ru": "Время работы от заряда",
+        "label_en": "Run time per charge",
+        "key": "runtime",
+        "fmt": "mins"
+      },
+      {
+        "label": "Час заряджання",
+        "label_ru": "Время зарядки",
+        "label_en": "Charging time",
+        "key": "charge_h"
+      },
+      {
+        "label": "Тип прибирання",
+        "label_ru": "Тип уборки",
+        "label_en": "Cleaning",
+        "key": "clean_type"
+      },
+      {
+        "label": "Обʼєм контейнера для пилу",
+        "label_ru": "Объём контейнера для пыли",
+        "label_en": "Dust bin",
+        "key": "dust_l",
+        "fmt": "litres"
+      },
+      {
+        "label": "Пилозбірник",
+        "label_ru": "Пылесборник",
+        "label_en": "Dust collection",
+        "key": "dust_type"
+      },
+      {
+        "label": "Акумулятор",
+        "label_ru": "Аккумулятор",
+        "label_en": "Battery",
+        "key": "battery"
+      },
+      {
+        "label": "Насадки",
+        "label_ru": "Насадки",
+        "label_en": "Attachments",
+        "key": "nozzles"
+      },
+      {
+        "label": "Рівень шуму",
+        "label_ru": "Уровень шума",
+        "label_en": "Noise",
+        "key": "noise_db",
+        "fmt": "db"
+      },
+      {
+        "label": "Вага",
+        "label_ru": "Вес",
+        "label_en": "Weight",
+        "key": "weight_kg",
+        "fmt": "kg"
+      },
+      {
+        "label": "Габарити (В×Ш×Г)",
+        "label_ru": "Габариты (В×Ш×Г)",
+        "label_en": "Dimensions (H×W×D)",
+        "key": "dims"
+      },
+      {
+        "label": "Колір",
+        "label_ru": "Цвет",
+        "label_en": "Colour",
+        "key": "color"
+      },
+      {
+        "label": "Гарантія",
+        "label_ru": "Гарантия",
+        "label_en": "Warranty",
+        "key": "warranty"
+      },
+      {
+        "label": "Фірмові технології",
+        "label_ru": "Фирменные технологии",
+        "label_en": "Technologies",
+        "key": "features"
+      }
+    ],
+    "group": "home",
+    "faq": [
+      [
+        "Скільки коштує пилосос у Сумах?",
+        "Від {{VC_FROM}} грн. Зараз у наявності {{VC_MODELS}} {{VC_BRANDS}} з офіційною гарантією. Доставка по Сумах — 400 грн, оплата після отримання."
+      ],
+      [
+        "На скільки вистачає заряду бездротового пилососа?",
+        "Від 60 до 120 хвилин на мінімальній потужності — цього досить на квартиру. На максимальній потужності заряд витрачається швидше, тож її вмикають для килимів і складних місць."
+      ],
+      [
+        "Чи може бездротовий пилосос мити підлогу?",
+        "Так, моделі з насадкою для вологого прибирання за один прохід збирають пил і протирають підлогу. Тип прибирання вказаний у характеристиках кожної моделі."
+      ]
+    ],
+    "faq_ru": [
+      [
+        "Сколько стоит пылесос в Сумах?",
+        "От {{VC_FROM}} грн. Сейчас в наличии {{VC_MODELS}} {{VC_BRANDS}} с официальной гарантией. Доставка по Сумам — 400 грн, оплата после получения."
+      ],
+      [
+        "На сколько хватает заряда беспроводного пылесоса?",
+        "От 60 до 120 минут на минимальной мощности — этого достаточно на квартиру. На максимальной мощности заряд расходуется быстрее, поэтому её включают для ковров и сложных мест."
+      ],
+      [
+        "Может ли беспроводной пылесос мыть пол?",
+        "Да, модели с насадкой для влажной уборки за один проход собирают пыль и протирают пол. Тип уборки указан в характеристиках каждой модели."
+      ]
+    ],
+    "faq_en": [
+      [
+        "How much is a vacuum cleaner in Sumy?",
+        "From {{VC_FROM}} UAH. In stock: {{VC_MODELS}} by {{VC_BRANDS}} with official warranty. Delivery in Sumy is 400 UAH, payment on receipt."
+      ],
+      [
+        "How long does a cordless vacuum run on a charge?",
+        "60 to 120 minutes on the lowest power — enough for a flat. Maximum power drains it faster, so it is for carpets and tough spots."
+      ],
+      [
+        "Can a cordless vacuum mop the floor?",
+        "Yes, models with a wet-cleaning head pick up dust and wipe the floor in one pass. The cleaning type is listed for every model."
+      ]
+    ]
   }
 }

@@ -1443,7 +1443,7 @@ function reviewCard(r) {
    thing; air conditioners already show their fixed installation price. */
 const DELIV_HOOK = new Set(['holodylnyky', 'pralni-mashyny', 'boylery', 'duhovi-shafy', 'varylni-poverhni',
   'vytyazhky', 'posudomyyni-mashyny', 'mikrohvylovi-pechi', 'komplekty']);
-const DELIV_ONLY = new Set(['zaryadni-stantsii', 'myyky', 'zmishuvachi', 'dozatory']);
+const DELIV_ONLY = new Set(['zaryadni-stantsii', 'myyky', 'zmishuvachi', 'dozatory', 'pylososy']);
 function ppRateLine() {
   const R = REVIEWS || {};
   if (!R.rating || !R.count) return '';
@@ -2153,6 +2153,10 @@ const FACT_RANGES = {
   dozatory: [
     { key: 'volume_ml', label: 'Об’єм пляшки', label_ru: 'Объём бутылки', label_en: 'Bottle', unit: 'мл', unit_en: 'ml' },
   ],
+  pylososy: [
+    { key: 'runtime', label: 'Робота від заряду', label_ru: 'Работа от заряда', label_en: 'Run time', unit: 'хв', unit_ru: 'мин', unit_en: 'min' },
+    { key: 'suction_w', label: 'Потужність всмоктування', label_ru: 'Мощность всасывания', label_en: 'Suction', unit: 'Вт', unit_en: 'W' },
+  ],
 };
 /* Flags that sit on the product itself (see tagMatch): a count only means
    something against the total, so it is always written as "5 з 14". */
@@ -2489,7 +2493,7 @@ function catShelf(cat, list, NAME, plural) {
   const para = t('cat_local_p').replace('{n}', list.length).replace('{models}', plural)
     .replace('{gen}', lf(cat, 'nameGen') || NAME).replace('{price}', price)
     // a sink or a tap is not "connected" by the shop — no hookup line there
-    .replace('{hook}', ['myyky', 'zmishuvachi', 'dozatory'].includes(cat.key) ? '' : t('cat_local_hook'));
+    .replace('{hook}', ['myyky', 'zmishuvachi', 'dozatory', 'pylososy'].includes(cat.key) ? '' : t('cat_local_hook'));
   return `${shelfFacts(cat, list, NAME, brandsRow)}
   <section class="cat-local"><h2>${esc(t('cat_local_h').replace('{name}', NAME))}</h2><p>${esc(para)}</p></section>`;
 }
@@ -3143,7 +3147,8 @@ fs.writeFileSync(path.join(ROOT, 'scripts', '.og-collections.json'),
     'mikrohvylovi-pechi': '753',       // Kitchen & Dining > Kitchen Appliances > Microwave Ovens
     myyky: '2757',                     // Hardware > Plumbing > Plumbing Fixtures > Sinks > Kitchen & Utility Sinks
     zmishuvachi: '2032',               // Hardware > Plumbing > Plumbing Fixtures > Faucets
-    dozatory: '4971'                   // Home & Garden > Bathroom Accessories > Soap & Lotion Dispensers
+    dozatory: '4971',                  // Home & Garden > Bathroom Accessories > Soap & Lotion Dispensers
+    pylososy: '619'                    // Home & Garden > Household Appliances > Vacuums
   };
   /* Nova Poshta charges by size, and the shop's own figures run from 150–250 UAH
      for a tap to 1 500 for a fridge — one flat rate would either understate the
@@ -3153,7 +3158,7 @@ fs.writeFileSync(path.join(ROOT, 'scripts', '.og-collections.json'),
      4.8 kg Pecron and a 42 kg Aferiy are not the same parcel, and from 50 kg
      (the 52.5 kg Oukitel P5000E) a station ships like a fridge — the owner's call. */
   const SHIP_TIER = {
-    zmishuvachi: 'small', dozatory: 'small', myyky: 'small', 'mikrohvylovi-pechi': 'small',
+    zmishuvachi: 'small', dozatory: 'small', myyky: 'small', 'mikrohvylovi-pechi': 'small', pylososy: 'small',
     'varylni-poverhni': 'small', vytyazhky: 'small',
     boylery: 'medium', 'duhovi-shafy': 'medium', 'posudomyyni-mashyny': 'medium', kondicioneri: 'medium',
     holodylnyky: 'large', 'pralni-mashyny': 'large', komplekty: 'large'
@@ -3195,7 +3200,8 @@ fs.writeFileSync(path.join(ROOT, 'scripts', '.og-collections.json'),
     'mikrohvylovi-pechi': [{ key: 'volume_l', fmt: 'litres' }, { key: 'power_mw', fmt: 'watt' }],
     myyky: [{ key: 'material', low: 1 }, { key: 'color', low: 1 }, { key: 'dims' }],
     zmishuvachi: [{ key: 'tap_type', low: 1 }, { key: 'color', low: 1 }],
-    dozatory: [{ key: 'color', low: 1 }, { key: 'volume_ml', fmt: 'ml' }]
+    dozatory: [{ key: 'color', low: 1 }, { key: 'volume_ml', fmt: 'ml' }],
+    pylososy: [{ key: 'suction_w', fmt: 'watt' }, { key: 'runtime', fmt: 'mins' }]
   };
   const titleAttr = (p, a) => {
     const s = p.specs || {}, w = k => FEED_WORD[k][L] || FEED_WORD[k].uk;
@@ -3248,7 +3254,7 @@ fs.writeFileSync(path.join(ROOT, 'scripts', '.og-collections.json'),
      "no identifier" line: their series field is a family name, not a part
      number; boilers, sinks and taps carry a marketing name there too. */
   const MPN_CATS = new Set(['holodylnyky', 'pralni-mashyny', 'zaryadni-stantsii', 'duhovi-shafy',
-    'varylni-poverhni', 'vytyazhky', 'posudomyyni-mashyny', 'mikrohvylovi-pechi']);
+    'varylni-poverhni', 'vytyazhky', 'posudomyyni-mashyny', 'mikrohvylovi-pechi', 'pylososy']);
   const ids = p => MPN_CATS.has(p.category) && p.series
     ? `    <g:mpn>${xe(p.series)}</g:mpn>`
     : `    <g:identifier_exists>no</g:identifier_exists>`;
