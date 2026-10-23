@@ -2390,7 +2390,9 @@ body:has(.lbox.open) > div:has(iframe[src*="merchantverse"]){display:none!import
 @media(max-width:560px){.pp-rev-head .rev-link{margin-left:0}.pp-rev-head h2{font-size:19px;width:100%}}
 
 /* ---- product page nudge ---- */
-.nudge{position:fixed;right:20px;bottom:20px;z-index:140;max-width:330px;padding:18px 18px 16px;border-radius:16px;
+/* sits left of the Viber/WhatsApp buttons (.vb-float/.wa-float: right 22px, 58px wide),
+   bottom-aligned with WhatsApp — it used to share their corner and hide under them */
+.nudge{position:fixed;right:96px;bottom:22px;z-index:140;max-width:330px;padding:18px 18px 16px;border-radius:16px;
   background:var(--white);border:1px solid var(--g2);box-shadow:0 18px 40px rgba(10,30,60,.18);
   opacity:0;transform:translateY(16px);transition:opacity .3s,transform .3s}
 .nudge.in{opacity:1;transform:none}
