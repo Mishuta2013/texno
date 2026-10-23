@@ -310,6 +310,8 @@ function productUrl(p){return langPfx()+(catOf(p).urlPrefix||SITE.productUrlPref
 function cardHTML(p){
   const url=productUrl(p);
   let badge='';
+  const rrpOn=Number(p.rrp)>Number(p.price)&&p.stock!=='out';
+  const off=rrpOn?`<span class="cbadge sale">−${Math.round((p.rrp-p.price)/p.rrp*100)}%</span>`:'';
   if(p.isNew)badge=`<span class="cbadge new">${t('badge_new')}</span>`;
   else if(p.heatpump)badge=`<span class="cbadge heat">${t('sp_hp')}</span>`;
   /* f_inv is the filter label, "Інверторні" — plural. Chopping the last letter
@@ -328,7 +330,7 @@ function cardHTML(p){
   const out=p.stock==='out';
   return`<div class="card${out?' is-out':''}">
     <a class="card-img" href="${url}" tabindex="-1">
-      ${badge}
+      ${off}${badge}
       <button class="card-fav ${favOn}" onclick="event.preventDefault();event.stopPropagation();toggleFav(${sq})" aria-label="fav"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
       <button class="card-cmp ${cmpOn}" title="${t('cmp_add')}" aria-label="${t('cmp_add')}" onclick="event.preventDefault();event.stopPropagation();toggleCmp(${sq})"><svg viewBox="0 0 24 24"><path d="M3 6h7M14 6h7M6.5 6v12M17.5 6v12M3 12l3.5-6 3.5 6a3.5 3.5 0 0 1-7 0zM14 12l3.5-6 3.5 6a3.5 3.5 0 0 1-7 0z"/></svg><span class="cmp-lbl">${t('cmp_add')}</span></button>
       <img src="${p.thumb}" alt="${pnameJS(p)}" loading="lazy" width="400" height="400">
@@ -339,7 +341,7 @@ function cardHTML(p){
       ${edge}
       <div class="card-specs">${catChipsJS(p)}</div>
       <div class="card-foot">
-        <div class="card-price-row"><div class="card-price">${fmt(p.price)} <small>${t('u_uah')}</small></div>
+        <div class="card-price-row${rrpOn?' has-rrp':''}">${rrpOn?`<s class="crrp" title="${gEsc(t('rrp_title'))}">${fmt(p.rrp)} ${t('u_uah')}</s>`:''}<div class="card-price">${fmt(p.price)} <small>${t('u_uah')}</small></div>
           <span class="cstock${out?' out':''}"><i></i>${t(out?'c_out':'c_instock')}</span></div>
         <div class="card-act">${out
           ?`<button class="btn-order btn-notify" type="button" onclick="notifyCard(&quot;${p.slug}&quot;)">${t('c_notify_s')}</button>`

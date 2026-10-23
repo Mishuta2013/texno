@@ -108,6 +108,8 @@ const catProducts = key => products.filter(p => p.category === key);
 /* products.json "stock": "out" — not in the shop right now. Everything else is
    on the shop floor, which is what the site has always said. */
 const isOut = p => p.stock === 'out';
+const hasRrp = p => Number(p.rrp) > Number(p.price) && !isOut(p);
+const rrpPct = p => Math.round((p.rrp - p.price) / p.rrp * 100);
 /* Thresholds for query pages (see catTags). Up here rather than beside it: the
    catalog panel in the header lists each category's query pages, and the header
    is built long before the page loop gets that far. */
@@ -623,9 +625,13 @@ ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script
 // ---- card (mirrors assets/js/main.js cardHTML, uk static) ----
 function card(p) {
   const url = purl(p);
-  const badge = p.isNew ? `<span class="cbadge new">${esc(t('badge_new'))}</span>`
+  /* products.json "rrp": the manufacturer's recommended retail price, from the
+     supplier's list. Shown struck through only when it is above our price — a
+     reference the buyer can check, never a number made up to look like a sale. */
+  const off = hasRrp(p) ? `<span class="cbadge sale">−${rrpPct(p)}%</span>` : '';
+  const badge = off + (p.isNew ? `<span class="cbadge new">${esc(t('badge_new'))}</span>`
     : p.heatpump ? `<span class="cbadge heat">${esc(t('sp_hp'))}</span>`
-    : p.inverter ? `<span class="cbadge inv">${esc(t("c_inverter"))}</span>` : '';
+    : p.inverter ? `<span class="cbadge inv">${esc(t("c_inverter"))}</span>` : '');
   const edge = p.edge ? `<span class="cedge">${esc(t(p.edge))}</span>` : '';
   /* Three buttons per card — Замовити, Деталі, Купити в 1 клік — and the card
      itself, pointer cursor and all, did nothing when clicked. The name now
@@ -643,7 +649,7 @@ function card(p) {
     <div class="card-body"><a class="card-brand" href="${pfx()}${catOf(p).urlPrefix}/${brandSlug(p.brand)}/">${esc(p.brand)}</a>
       <a class="card-name" href="${url}">${esc(pname(p))}</a>${edge}
       <div class="card-specs">${catChips(p)}</div>
-      <div class="card-foot"><div class="card-price-row"><div class="card-price">${fmt(p.price)} <small>${esc(t("u_uah"))}</small></div>
+      <div class="card-foot"><div class="card-price-row${hasRrp(p) ? ' has-rrp' : ''}">${hasRrp(p) ? `<s class="crrp" title="${esc(t('rrp_title'))}">${fmt(p.rrp)} ${esc(t('u_uah'))}</s>` : ''}<div class="card-price">${fmt(p.price)} <small>${esc(t("u_uah"))}</small></div>
         <span class="cstock${out ? ' out' : ''}"><i></i>${esc(t(out ? 'c_out' : 'c_instock'))}</span></div>
         <div class="card-act">${out
           ? `<a class="btn-order btn-notify" href="${url}">${esc(t('c_notify_s'))}</a>`
@@ -1797,6 +1803,7 @@ ${HEADER}
       <a class="pp-brand" href="${pfx()}${cat.urlPrefix}/${brandSlug(p.brand)}/">${esc(p.brand)}</a>
       <h1 class="pp-title">${esc(NAME)}</h1>
       <div class="pp-chips">${chips}</div>
+      ${hasRrp(p) ? `<div class="pp-rrp"><s>${fmt(p.rrp)} ${esc(t('u_uah'))}</s><span class="pp-off">−${rrpPct(p)}%</span><small>${esc(t('rrp_title'))}</small></div>` : ''}
       <div class="pp-price">${ptag(p.price, { cls: 'ptag-xl' + (isOut(p) ? ' ptag-out' : '') })}</div>
       ${isOut(p) ? `<div class="pp-out"><span class="cstock out"><i></i>${esc(t('c_out'))}</span><p>${esc(t('pp_out_note'))}</p></div>`
         : `<div class="pp-instal">${esc(t('pp_instal'))} <b>${fmt(Math.round(p.price / 24))} ${esc(t('pp_instal2'))}</b> ${esc(t('pp_instal3'))}</div>`}

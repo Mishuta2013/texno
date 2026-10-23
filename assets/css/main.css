@@ -2687,3 +2687,16 @@ body:has(.lbox.open) > div:has(iframe[src*="merchantverse"]){display:none!import
 .pp-out{margin:12px 0 22px}
 .pp-out .cstock{position:static;display:inline-flex;font-size:13px;padding:6px 12px}
 .pp-out p{margin:10px 0 0;font-size:14px;line-height:1.5;color:var(--g5);max-width:46ch}
+
+/* Discount against the manufacturer's recommended price (products.json "rrp").
+   The orange tag stays the price; the struck RRP sits above it and a red
+   "−X%" marks the photo. Red is used for nothing else on the card. */
+.cbadge.sale{background:#E1251B;color:#fff}
+.cbadge.sale + .cbadge{top:44px}
+.card-price-row.has-rrp{flex-wrap:wrap;row-gap:5px}
+.card-price-row .crrp{width:100%;font:600 13.5px/1 var(--body);color:var(--g4);text-decoration:line-through;text-decoration-thickness:1.5px}
+.pp-rrp{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;margin:4px 0 8px}
+.pp-rrp s{font:600 17px/1 var(--body);color:var(--g4);text-decoration-thickness:1.5px}
+.pp-rrp .pp-off{font:800 13px/1 var(--disp);color:#fff;background:#E1251B;padding:5px 9px;border-radius:var(--r-pill)}
+.pp-rrp small{width:100%;font-size:12px;color:var(--g4)}
+@media(max-width:560px){.cbadge.sale + .cbadge{top:32px}.card-price-row .crrp{font-size:12px}}
