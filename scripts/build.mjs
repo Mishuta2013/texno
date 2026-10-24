@@ -1710,7 +1710,7 @@ function productPage(p) {
     const sm = src.replace(/\/([^/]+)$/, '/sm/$1');
     return fs.existsSync(path.join(ROOT, sm.replace(/^\//, ''))) ? sm : src;
   };
-  const thumbs = p.photos.map((src, i) => `<button class="pp-thumb${i === 0 ? ' active' : ''}" onclick="ppShow(${i})"><img src="${esc(av(smallOf(src)))}" alt="${esc(NAME)} ${i + 1}" loading="lazy" width="240" height="180"></button>`).join('');
+  const thumbs = p.photos.map((src, i) => `<button class="pp-thumb${i === 0 ? ' active' : ''}" onclick="ppShow(${i})"><img src="${esc(av(smallOf(src)))}" alt="${esc(NAME)} ${i + 1}" loading="lazy" fetchpriority="low" width="240" height="180"></button>`).join('');
   const cat = catOf(p);
   const chips = ppChips(p);
   const trustLines = catTrust(cat);
@@ -1832,7 +1832,7 @@ ${HEADER}
   <nav class="pp-bc"><a href="${pfx() || '/'}">${esc(t('pp_home'))}</a> › <a href="${curl(cat)}">${esc(lf(cat, 'name'))}</a> › <span>${esc(p.brand)}</span></nav>
   <div class="pp-top">
     <div class="pp-gallery">
-      <div class="pp-main" data-cat="${esc(p.category)}" onclick="ppZoom()" title="${esc(t('pp_zoom'))}"><img id="pp-main-img" src="${esc(av(p.photos[0]))}" alt="${esc(NAME)}" width="680" height="510"><span class="pp-zoom-hint" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M11 8v6M8 11h6"/></svg></span></div>
+      <div class="pp-main" data-cat="${esc(p.category)}" onclick="ppZoom()" title="${esc(t('pp_zoom'))}"><img id="pp-main-img" src="${esc(av(p.photos[0]))}" alt="${esc(NAME)}" width="680" height="510" fetchpriority="high"><span class="pp-zoom-hint" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M11 8v6M8 11h6"/></svg></span></div>
       <div class="pp-thumbs">${thumbs}</div>
     </div>
     <div class="pp-info">
