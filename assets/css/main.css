@@ -531,7 +531,7 @@ footer{background:var(--navy);color:rgba(233,243,255,.6);padding:54px 0 0}
 .foot-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
 .foot-col a{font-size:14px;color:rgba(233,243,255,.6);transition:.16s}
 .foot-col a:hover{color:var(--frost)}
-.foot-bottom{border-top:1px solid rgba(124,196,255,.12);margin-top:44px;padding:22px;text-align:center;font-size:13px;color:rgba(233,243,255,.45)}
+.foot-bottom{border-top:1px solid rgba(124,196,255,.12);margin-top:44px;padding:22px;text-align:center;font-size:13px;color:rgba(233,243,255,.62)}
 
 /* ============ FLOAT + MODALS ============ */
 .wa-float{position:fixed;right:22px;bottom:22px;width:58px;height:58px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(37,211,102,.5);z-index:150;transition:.2s}
@@ -858,7 +858,7 @@ a.btn-det{display:inline-flex;align-items:center;justify-content:center;text-dec
 .cat-sub{color:var(--g5);font-size:16px;max-width:640px;line-height:1.5;margin:0 0 12px}
 .cat-count{display:inline-block;font-family:var(--disp);font-weight:700;font-size:13px;color:var(--blue-d);background:var(--blue-a);border-radius:999px;padding:5px 12px}
 .pp-bc{font-size:13px;color:var(--g4);margin-bottom:20px;display:block}
-.pp-bc a{color:var(--g5);padding-block:5px}.pp-bc a:hover{color:var(--blue)}/* vertical padding on an inline link grows the tap target to 26px without
+.pp-bc a{color:var(--g5);padding-block:5px;text-decoration:underline;text-decoration-color:var(--g3);text-underline-offset:3px}.pp-bc a:hover{color:var(--blue)}/* vertical padding on an inline link grows the tap target to 26px without
    changing the line box, so the crumb line keeps its height */
 .pp-top{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
 .pp-main{background:radial-gradient(125% 100% at 50% 12%,#FCFEFF 0%,#E8EFFA 55%,#D2DFF0 100%);border:1px solid var(--g2);border-radius:var(--r-lg);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;padding:26px;overflow:hidden}

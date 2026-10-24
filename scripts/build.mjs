@@ -441,10 +441,19 @@ const firstPage = list => list.slice(0, PAGE_SIZE);
    Before roughly a hundred reviews Google shows the badge with "rating not
    available" rather than a score, which is the honest state of things and not
    a fault to fix. */
+/* Loaded once the visitor scrolls, taps or types, or after 6 seconds: the badge
+   pulls ~470KB (a shopping iframe and its own copy of Inter) and on a phone that
+   competed with the first screen for bandwidth and the main thread. Nobody reads
+   a corner badge in the first seconds. The iframe gets the title Google leaves
+   off, for screen readers. */
 const GCR_BADGE = (!site.gcrBadge || !site.gcrMerchantId) ? '' : `
-<script id="merchantWidgetScript" src="https://www.gstatic.com/shopping/merchant/merchantwidget.js" defer></script>
-<script>document.getElementById('merchantWidgetScript').addEventListener('load',function(){
-merchantwidget.start({merchant_id:${Number(site.gcrMerchantId)},position:'RIGHT_BOTTOM',region:'${site.gcrCountry || 'UA'}',mobileBottomMargin:86});});</script>`;
+<script>(function(){var done=0,ev=['scroll','pointerdown','keydown','touchstart'];function go(){if(done)return;done=1;
+ev.forEach(function(e){removeEventListener(e,go,{passive:true})});
+var s=document.createElement('script');s.id='merchantWidgetScript';s.async=true;s.src='https://www.gstatic.com/shopping/merchant/merchantwidget.js';
+s.onload=function(){merchantwidget.start({merchant_id:${Number(site.gcrMerchantId)},position:'RIGHT_BOTTOM',region:'${site.gcrCountry || 'UA'}',mobileBottomMargin:86});
+var n=0,t=setInterval(function(){var f=document.getElementById('merchantwidgetiframe');if(f){f.title='Google Customer Reviews';clearInterval(t)}else if(++n>40)clearInterval(t)},250)};
+document.body.appendChild(s)}
+ev.forEach(function(e){addEventListener(e,go,{passive:true,once:true})});setTimeout(go,6000)})();</script>`;
 
 /* Nine page builders wrote their own file. Anything belonging at the foot of
    every page — the badge today, whatever comes next — went into nine templates
@@ -510,7 +519,20 @@ const absImg = u => BASE + av(u);
    shop rather than describing the shelves; that is the owner's call to make.
    Same drawing the PWA icons use — see icon() in gen_images.py. */
 const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230B1A33'/%3E%3Cpath d='M22 40h56a6 6 0 0 1 6 6v6a6 6 0 0 1-6 6H22a6 6 0 0 1-6-6v-6a6 6 0 0 1 6-6z' fill='none' stroke='%232E8BFF' stroke-width='5'/%3E%3Cpath d='M30 64v6M50 64v8M70 64v6' stroke='%237CC4FF' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E";
-const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap"></noscript>`;
+/* The three families are served from the site itself (assets/fonts, cyrillic and
+   latin subsets of the Google Fonts files). Through fonts.googleapis.com the
+   stylesheet loaded late and non-blocking, the fonts arrived ~2.3s in on a phone
+   and every heading re-rendered — Lighthouse counted that swap as the LCP. Same
+   origin, no extra connection, and the two faces the first screen needs are
+   preloaded: Manrope for headings, Inter for text, both Cyrillic. */
+const FONTS = (() => {
+  const css = fs.readFileSync(path.join(ROOT, 'assets/fonts/fonts.css'), 'utf8')
+    .replace(/\/\*[^*]*\*\//g, '').replace(/url\((\/assets\/fonts\/[^)]+)\)/g, (m, u) => `url(${av(u)})`)
+    .replace(/\s*\n\s*/g, '').replace(/:\s+/g, ':');
+  const pre = ['manrope-cyrillic', 'inter-cyrillic'].map(f =>
+    `<link rel="preload" href="${av(`/assets/fonts/${f}.woff2`)}" as="font" type="font/woff2" crossorigin>`).join('');
+  return `${pre}<style>${css}</style>`;
+})();
 
 /* One container, GTM-KBTGSLKD, supplied by the shop's SEO specialist. GA4
    (G-HJC1PWRVE9) and Google Ads (AW-765371108) used to load here through their
@@ -727,7 +749,7 @@ function vitrine(items, title = 'vt_title') {
     const specs = (HIT_SPECS[p.category] || (() => []))(p.specs || {}).filter(Boolean);
     const word = (catOf(p).productPrefix || {})[L] || lf(catOf(p), 'name');
     return `<div class="vt-item${lbl ? ' vt-main' : ''}"><span class="vt-cone" aria-hidden="true"></span>` +
-      `<a class="vt-link" href="${purl(p)}" aria-label="${esc(`${pname(p)}, ${fmt(p.price)} ${t('u_uah')}`)}">` +
+      `<a class="vt-link" href="${purl(p)}">` +
       `<span class="vt-hang" style="--th:${THREAD[i % THREAD.length]}px"><i class="vt-str"></i>${ptag(p.price, { lbl, cls: 'ptag-hang' })}</span>` +
       `<span class="vt-img" style="--s:${HIT_SCALE[p.category] || .8}">${cutImg(p, '', i === 1 ? ' fetchpriority="high"' : '')}</span>` +
       `<span class="vt-pod" aria-hidden="true"></span>` +
@@ -1399,7 +1421,7 @@ fill('<!--CAT_PANEL-->', catPanel());
    Nothing here is written on the shop's behalf: an empty items list simply
    shows the rating and the link. */
 function starRow(n) {
-  return '<div class="rev-stars" aria-label="' + n + '/5">' + Array.from({ length: 5 }, (_, i) =>
+  return '<div class="rev-stars" role="img" aria-label="' + n + '/5">' + Array.from({ length: 5 }, (_, i) =>
     `<svg viewBox="0 0 24 24"${i < n ? '' : ' class="rev-star-off"'}><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>`
   ).join('') + '</div>';
 }
@@ -1415,7 +1437,8 @@ function heroRating() {
   /* One star, not five: the row shares a line with the opening hours, and five
      of them crowd it out on a phone. The full "N reviews on Google" is the
      accessible name and the tooltip, so nothing is hidden — only shortened. */
-  const label = `${score} · ${R.count} ${reviewsWord(R.count)}`;
+  // the accessible name starts with the visible "5,0 Google" (WCAG 2.5.3, label in name)
+  const label = `${score} Google · ${R.count} ${reviewsWord(R.count)}`;
   const star = '<svg class="hr-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>';
   const inner = `${star}<b>${score}</b><span>Google</span>`;
   return R.googleUrl
