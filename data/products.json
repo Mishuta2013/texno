@@ -1895,7 +1895,8 @@
       "/assets/img/products/fossibot-f1800-1800w-1024wh/6.webp"
     ],
     "pin": 1,
-    "isNew": true
+    "isNew": true,
+    "rrp": 32999
   },
   {
     "brand": "Fossibot",
@@ -1943,7 +1944,8 @@
       "/assets/img/products/fossibot-f2400-2400w-2048wh/7.webp"
     ],
     "pin": 2,
-    "isNew": true
+    "isNew": true,
+    "rrp": 51999
   },
   {
     "brand": "Fossibot",
@@ -1994,7 +1996,8 @@
       "/assets/img/products/fossibot-f1200-1200w-1024wh/11.webp",
       "/assets/img/products/fossibot-f1200-1200w-1024wh/12.webp",
       "/assets/img/products/fossibot-f1200-1200w-1024wh/13.webp"
-    ]
+    ],
+    "rrp": 29999
   },
   {
     "brand": "Haier",
@@ -2878,7 +2881,8 @@
       "/assets/img/products/pecron-e300lfp-600w-288wh/6.webp",
       "/assets/img/products/pecron-e300lfp-600w-288wh/7.webp",
       "/assets/img/products/pecron-e300lfp-600w-288wh/8.webp"
-    ]
+    ],
+    "rrp": 12999
   },
   {
     "brand": "Oukitel",
@@ -2920,7 +2924,8 @@
       "/assets/img/products/oukitel-p800-800w-512wh/3.webp",
       "/assets/img/products/oukitel-p800-800w-512wh/4.webp"
     ],
-    "stock": "out"
+    "stock": "out",
+    "rrp": 17999
   },
   {
     "brand": "Ctolity",
@@ -2960,7 +2965,8 @@
       "/assets/img/products/ctolity-ap1000-1800w-1024wh/1.webp",
       "/assets/img/products/ctolity-ap1000-1800w-1024wh/2.webp",
       "/assets/img/products/ctolity-ap1000-1800w-1024wh/3.webp"
-    ]
+    ],
+    "rrp": 31999
   },
   {
     "brand": "Pecron",
@@ -3010,7 +3016,8 @@
       "/assets/img/products/pecron-e1500lfp-2200w-1536wh/7.webp",
       "/assets/img/products/pecron-e1500lfp-2200w-1536wh/8.webp",
       "/assets/img/products/pecron-e1500lfp-2200w-1536wh/9.webp"
-    ]
+    ],
+    "rrp": 41999
   },
   {
     "brand": "ALLPOWERS",
@@ -3055,7 +3062,8 @@
       "/assets/img/products/allpowers-s2000-pro-2400w-1451wh/7.webp",
       "/assets/img/products/allpowers-s2000-pro-2400w-1451wh/8.webp",
       "/assets/img/products/allpowers-s2000-pro-2400w-1451wh/9.webp"
-    ]
+    ],
+    "rrp": 40999
   },
   {
     "brand": "Oukitel",
@@ -3099,7 +3107,8 @@
       "/assets/img/products/oukitel-p2001e-plus-2400w-2048wh/4.webp",
       "/assets/img/products/oukitel-p2001e-plus-2400w-2048wh/5.webp",
       "/assets/img/products/oukitel-p2001e-plus-2400w-2048wh/6.webp"
-    ]
+    ],
+    "rrp": 50999
   },
   {
     "brand": "Pecron",
@@ -3150,7 +3159,8 @@
       "/assets/img/products/pecron-e3600lfp-3600w-3072wh/8.webp",
       "/assets/img/products/pecron-e3600lfp-3600w-3072wh/9.webp",
       "/assets/img/products/pecron-e3600lfp-3600w-3072wh/10.webp"
-    ]
+    ],
+    "rrp": 77999
   },
   {
     "brand": "Aferiy",
@@ -3197,7 +3207,8 @@
       "/assets/img/products/aferiy-af-p310-3600w-3840wh/5.webp",
       "/assets/img/products/aferiy-af-p310-3600w-3840wh/6.webp",
       "/assets/img/products/aferiy-af-p310-3600w-3840wh/7.webp"
-    ]
+    ],
+    "rrp": 92999
   },
   {
     "brand": "Atlantic",
@@ -3826,7 +3837,8 @@
       "/assets/img/products/allpowers-r1500-lite-1600w-1056wh/7.webp",
       "/assets/img/products/allpowers-r1500-lite-1600w-1056wh/8.webp",
       "/assets/img/products/allpowers-r1500-lite-1600w-1056wh/9.webp"
-    ]
+    ],
+    "rrp": 32999
   },
   {
     "brand": "Bluetti",
@@ -3873,7 +3885,8 @@
       "/assets/img/products/bluetti-ac180p-1800w-1440wh/6.webp",
       "/assets/img/products/bluetti-ac180p-1800w-1440wh/7.webp",
       "/assets/img/products/bluetti-ac180p-1800w-1440wh/8.webp"
-    ]
+    ],
+    "rrp": 48999
   },
   {
     "brand": "Bluetti",
@@ -3918,7 +3931,8 @@
       "/assets/img/products/bluetti-ac70p-1000w-864wh/4.webp",
       "/assets/img/products/bluetti-ac70p-1000w-864wh/5.webp",
       "/assets/img/products/bluetti-ac70p-1000w-864wh/6.webp"
-    ]
+    ],
+    "rrp": 30999
   },
   {
     "brand": "Bluetti",
@@ -3960,7 +3974,8 @@
       "/assets/img/products/bluetti-premium-200-v2-2700w-2073wh/4.webp",
       "/assets/img/products/bluetti-premium-200-v2-2700w-2073wh/5.webp",
       "/assets/img/products/bluetti-premium-200-v2-2700w-2073wh/6.webp"
-    ]
+    ],
+    "rrp": 61999
   },
   {
     "brand": "Oukitel",
@@ -4003,7 +4018,8 @@
       "/assets/img/products/oukitel-p1500e-plus-1800w-1536wh/2.webp",
       "/assets/img/products/oukitel-p1500e-plus-1800w-1536wh/3.webp",
       "/assets/img/products/oukitel-p1500e-plus-1800w-1536wh/4.webp"
-    ]
+    ],
+    "rrp": 40999
   },
   {
     "brand": "Oukitel",
@@ -4048,7 +4064,8 @@
       "/assets/img/products/oukitel-p5000e-plus-3600w-5120wh/4.webp",
       "/assets/img/products/oukitel-p5000e-plus-3600w-5120wh/5.webp",
       "/assets/img/products/oukitel-p5000e-plus-3600w-5120wh/6.webp"
-    ]
+    ],
+    "rrp": 98999
   },
   {
     "brand": "OUPES",
@@ -4100,7 +4117,8 @@
       "/assets/img/products/oupes-s024-lite-2400w-2232wh/14.webp"
     ],
     "pin": 3,
-    "isNew": true
+    "isNew": true,
+    "rrp": 51999
   },
   {
     "brand": "LG",
