@@ -2000,7 +2000,7 @@
     "brand": "Haier",
     "series": "HW70-B14929-S",
     "name": "Пральна машина Haier HW70-B14929-S",
-    "price": 17499,
+    "price": 17999,
     "category": "pralni-mashyny",
     "inverter": true,
     "specs": {
@@ -13372,7 +13372,7 @@
     "name": "Холодильник Gorenje NRK620FAXL4",
     "name_ru": "Холодильник Gorenje NRK620FAXL4",
     "name_en": "Refrigerator Gorenje NRK620FAXL4",
-    "price": 22999,
+    "price": 21999,
     "category": "holodylnyky",
     "nofrost": true,
     "specs": {
@@ -13402,9 +13402,10 @@
     "thumb": "/assets/img/products/gorenje-nrk620faxl4/thumb.webp",
     "photos": [
       "/assets/img/products/gorenje-nrk620faxl4/1.webp",
-      "/assets/img/products/gorenje-nrk620faxl4/2.webp"
+      "/assets/img/products/gorenje-nrk620faxl4/2.webp",
+      "/assets/img/products/gorenje-nrk620faxl4/3.webp"
     ],
-    "rrp": 25999,
+    "rrp": 24199,
     "arrived": "2026-10-23"
   },
   {
@@ -15536,6 +15537,96 @@
     ],
     "rrp": 33999,
     "arrived": "2026-10-23"
+  },
+  {
+    "brand": "Samsung",
+    "series": "VCC45W0S3R/UK",
+    "name": "Пилосос без мішка Samsung VCC45W0S3R/UK",
+    "name_ru": "Пылесос без мешка Samsung VCC45W0S3R/UK",
+    "name_en": "Bagless vacuum cleaner Samsung VCC45W0S3R/UK",
+    "price": 3499,
+    "category": "pylososy",
+    "specs": {
+      "vac_type": "Звичайний, з контейнером",
+      "suction_w": 190,
+      "power_w": 700,
+      "clean_type": "Сухе",
+      "dust_l": 1.3,
+      "dust_type": "Циклонна система",
+      "filter": "Передмоторний + фільтр на виході",
+      "cord": "6 м, автозмотування",
+      "radius_m": "9,2 м",
+      "nozzles": "Щітка для підлоги й килимів, насадка 2-в-1",
+      "noise_db": 80,
+      "weight_kg": 4.3,
+      "dims": "23.8 × 28 × 39.5 см",
+      "color": "Червоний",
+      "warranty": "3 роки",
+      "features": "Twin Chamber, регулювання потужності на корпусі"
+    },
+    "desc_uk": "Samsung VCC45W0S3R/UK — звичайний пилосос без мішка з потужністю всмоктування 190 Вт. Пил збирається в прозорий контейнер на 1,3 л: система Twin Chamber розділяє його на дві камери, тому фільтр забивається повільніше, а контейнер витрушується одним рухом — мішки купувати не треба. Шнур 6 м змотується автоматично, радіус прибирання — 9,2 м, тож кімнату можна пройти без перемикання розетки. Сталева телескопічна труба, щітка для підлоги й килимів та насадка 2-в-1 у комплекті. Офіційна гарантія 3 роки.",
+    "desc_ru": "Samsung VCC45W0S3R/UK — обычный пылесос без мешка с мощностью всасывания 190 Вт. Пыль собирается в прозрачный контейнер на 1,3 л: система Twin Chamber разделяет её на две камеры, поэтому фильтр забивается медленнее, а контейнер вытряхивается одним движением — мешки покупать не нужно. Шнур 6 м сматывается автоматически, радиус уборки — 9,2 м, так что комнату можно пройти без переключения розетки. Стальная телескопическая труба, щётка для пола и ковров и насадка 2-в-1 в комплекте. Официальная гарантия 3 года.",
+    "desc_en": "The Samsung VCC45W0S3R/UK is a corded bagless vacuum with 190 W of suction. Dust goes into a clear 1.3 l bin: the Twin Chamber system splits it into two chambers, so the filter clogs more slowly, and the bin empties in one go — no bags to buy. The 6 m cord rewinds automatically and the cleaning radius is 9.2 m, so you can do a whole room from one socket. A steel telescopic tube, a floor-and-carpet brush and a 2-in-1 tool are included. Official 3-year warranty.",
+    "slug": "samsung-vcc45w0s3r-uk",
+    "thumb": "/assets/img/products/samsung-vcc45w0s3r-uk/thumb.webp",
+    "photos": [
+      "/assets/img/products/samsung-vcc45w0s3r-uk/1.webp",
+      "/assets/img/products/samsung-vcc45w0s3r-uk/2.webp",
+      "/assets/img/products/samsung-vcc45w0s3r-uk/3.webp",
+      "/assets/img/products/samsung-vcc45w0s3r-uk/4.webp",
+      "/assets/img/products/samsung-vcc45w0s3r-uk/5.webp",
+      "/assets/img/products/samsung-vcc45w0s3r-uk/6.webp"
+    ],
+    "rrp": 4049,
+    "arrived": "2026-10-24"
+  },
+  {
+    "brand": "Samsung",
+    "series": "VC07M2110SB/UK",
+    "name": "Пилосос без мішка Samsung VC07M2110SB/UK",
+    "name_ru": "Пылесос без мешка Samsung VC07M2110SB/UK",
+    "name_en": "Bagless vacuum cleaner Samsung VC07M2110SB/UK",
+    "price": 3899,
+    "category": "pylososy",
+    "specs": {
+      "vac_type": "Звичайний, з контейнером",
+      "suction_w": 180,
+      "power_w": 700,
+      "clean_type": "Сухе",
+      "dust_l": 1.5,
+      "dust_type": "Циклонна система",
+      "filter": "Передмоторний + фільтр на виході",
+      "cord": "6 м, автозмотування",
+      "radius_m": "10 м",
+      "nozzles": "Щітка для підлоги й килимів, насадка 2-в-1",
+      "noise_db": 80,
+      "weight_kg": 4.3,
+      "dims": "24.3 × 27.2 × 39.8 см",
+      "color": "Синій",
+      "warranty": "3 роки",
+      "features": "Турбіна Anti-Tangle, Cyclone Force"
+    },
+    "desc_uk": "Samsung VC07M2110SB/UK — компактний пилосос без мішка з потужністю всмоктування 180 Вт і контейнером на 1,5 л. Турбіна Anti-Tangle не дає волоссю й шерсті намотуватися всередині, тому сила всмоктування не падає — зручно, якщо вдома є тварини. Контейнер знімається одним натисканням і висипається, не торкаючись пилу руками. Шнур 6 м змотується автоматично. Сталева телескопічна труба, щітка для підлоги й килимів та насадка 2-в-1 у комплекті. Офіційна гарантія 3 роки.",
+    "desc_ru": "Samsung VC07M2110SB/UK — компактный пылесос без мешка с мощностью всасывания 180 Вт и контейнером на 1,5 л. Турбина Anti-Tangle не даёт волосам и шерсти наматываться внутри, поэтому сила всасывания не падает — удобно, если дома есть животные. Контейнер снимается одним нажатием и высыпается, не касаясь пыли руками. Шнур 6 м сматывается автоматически. Стальная телескопическая труба, щётка для пола и ковров и насадка 2-в-1 в комплекте. Официальная гарантия 3 года.",
+    "desc_en": "The Samsung VC07M2110SB/UK is a compact bagless vacuum with 180 W of suction and a 1.5 l bin. The Anti-Tangle turbine stops hair and pet fur from wrapping around inside, so suction does not drop — handy if you have pets. The bin comes off at the push of a button and empties without touching the dust. The 6 m cord rewinds automatically. A steel telescopic tube, a floor-and-carpet brush and a 2-in-1 tool are included. Official 3-year warranty.",
+    "slug": "samsung-vc07m2110sb-uk",
+    "thumb": "/assets/img/products/samsung-vc07m2110sb-uk/thumb.webp",
+    "photos": [
+      "/assets/img/products/samsung-vc07m2110sb-uk/1.webp",
+      "/assets/img/products/samsung-vc07m2110sb-uk/2.webp",
+      "/assets/img/products/samsung-vc07m2110sb-uk/3.webp",
+      "/assets/img/products/samsung-vc07m2110sb-uk/4.webp",
+      "/assets/img/products/samsung-vc07m2110sb-uk/5.webp",
+      "/assets/img/products/samsung-vc07m2110sb-uk/6.webp",
+      "/assets/img/products/samsung-vc07m2110sb-uk/7.webp",
+      "/assets/img/products/samsung-vc07m2110sb-uk/8.webp",
+      "/assets/img/products/samsung-vc07m2110sb-uk/9.webp",
+      "/assets/img/products/samsung-vc07m2110sb-uk/10.webp",
+      "/assets/img/products/samsung-vc07m2110sb-uk/11.webp",
+      "/assets/img/products/samsung-vc07m2110sb-uk/12.webp"
+    ],
+    "rrp": 4399,
+    "arrived": "2026-10-24"
   },
   {
     "brand": "Bosch",

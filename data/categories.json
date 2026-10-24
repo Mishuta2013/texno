@@ -4606,9 +4606,9 @@
     "nameGen": "пилососів",
     "nameGen_ru": "пылесосов",
     "nameGen_en": "vacuum cleaners",
-    "cardSub": "Бездротові, з вологим прибиранням",
-    "cardSub_ru": "Беспроводные, с влажной уборкой",
-    "cardSub_en": "Cordless, with mopping",
+    "cardSub": "Бездротові та звичайні без мішка",
+    "cardSub_ru": "Беспроводные и обычные без мешка",
+    "cardSub_en": "Cordless and bagless canister",
     "urlPrefix": "/pylososy",
     "icon": "pylososy",
     "order": 15,
@@ -4639,15 +4639,15 @@
     "seoTitle": "Пилососи у Сумах — купити від {{VC_FROM}} грн",
     "seoTitle_ru": "Пылесосы в Сумах — купить от {{VC_FROM}} грн",
     "seoTitle_en": "Vacuum cleaners in Sumy from {{VC_FROM}} UAH",
-    "seoDesc": "Пилососи у Сумах: {{VC_MODELS}} {{VC_BRANDS}} — бездротові, з вологим прибиранням. Офіційна гарантія, доставка по Сумах, оплата після отримання.",
-    "seoDesc_ru": "Пылесосы в Сумах: {{VC_MODELS}} {{VC_BRANDS}} — беспроводные, с влажной уборкой. Официальная гарантия, доставка по Сумам, оплата после получения.",
-    "seoDesc_en": "Vacuum cleaners in Sumy: {{VC_MODELS}} by {{VC_BRANDS}} — cordless, with mopping. Official warranty, delivery in Sumy, payment on receipt.",
-    "intro": "Бездротові пилососи, які прибирають без шнура: зарядили — і пройшли всю квартиру. Час роботи від заряду й потужність всмоктування — у кожній картці.",
-    "intro_ru": "Беспроводные пылесосы, которые убирают без шнура: зарядили — и прошли всю квартиру. Время работы от заряда и мощность всасывания — в каждой карточке.",
-    "intro_en": "Cordless vacuums that clean without a cord: charge it and do the whole flat. Run time per charge and suction power are on every card.",
-    "coverAlt": "Бездротовий вертикальний пилосос",
-    "coverAlt_ru": "Беспроводной вертикальный пылесос",
-    "coverAlt_en": "Cordless stick vacuum cleaner",
+    "seoDesc": "Пилососи у Сумах: {{VC_MODELS}} {{VC_BRANDS}} — бездротові з вологим прибиранням і звичайні без мішка. Офіційна гарантія, доставка по Сумах, оплата після отримання.",
+    "seoDesc_ru": "Пылесосы в Сумах: {{VC_MODELS}} {{VC_BRANDS}} — беспроводные с влажной уборкой и обычные без мешка. Официальная гарантия, доставка по Сумам, оплата после получения.",
+    "seoDesc_en": "Vacuum cleaners in Sumy: {{VC_MODELS}} by {{VC_BRANDS}} — cordless with mopping and bagless canister models. Official warranty, delivery in Sumy, payment on receipt.",
+    "intro": "Бездротові пилососи прибирають без шнура: зарядили — і пройшли всю квартиру. Звичайні пилососи без мішка працюють від розетки скільки завгодно, а пил збирають у контейнер, який просто витрусити. Потужність всмоктування, об’єм контейнера й час роботи — у кожній картці.",
+    "intro_ru": "Беспроводные пылесосы убирают без шнура: зарядили — и прошли всю квартиру. Обычные пылесосы без мешка работают от розетки сколько угодно, а пыль собирают в контейнер, который просто вытряхнуть. Мощность всасывания, объём контейнера и время работы — в каждой карточке.",
+    "intro_en": "Cordless vacuums clean without a cord: charge it and do the whole flat. Bagless canister vacuums run from the socket for as long as you need and collect dust in a bin you simply empty. Suction power, bin size and run time are on every card.",
+    "coverAlt": "Пилосос",
+    "coverAlt_ru": "Пылесос",
+    "coverAlt_en": "Vacuum cleaner",
     "chips": [
       {
         "icon": "lightning",
@@ -4672,6 +4672,11 @@
         "fmt": "mins"
       },
       {
+        "icon": "cube",
+        "key": "dust_l",
+        "fmt": "litres"
+      },
+      {
         "icon": "drop",
         "key": "clean_type"
       }
@@ -4688,6 +4693,13 @@
         "label_ru": "Мощность всасывания",
         "label_en": "Suction power",
         "key": "suction_w",
+        "fmt": "watt"
+      },
+      {
+        "label": "Споживана потужність",
+        "label_ru": "Потребляемая мощность",
+        "label_en": "Power input",
+        "key": "power_w",
         "fmt": "watt"
       },
       {
@@ -4723,10 +4735,28 @@
         "key": "dust_type"
       },
       {
+        "label": "Фільтр",
+        "label_ru": "Фильтр",
+        "label_en": "Filter",
+        "key": "filter"
+      },
+      {
         "label": "Акумулятор",
         "label_ru": "Аккумулятор",
         "label_en": "Battery",
         "key": "battery"
+      },
+      {
+        "label": "Шнур живлення",
+        "label_ru": "Шнур питания",
+        "label_en": "Power cord",
+        "key": "cord"
+      },
+      {
+        "label": "Радіус прибирання",
+        "label_ru": "Радиус уборки",
+        "label_en": "Cleaning radius",
+        "key": "radius_m"
       },
       {
         "label": "Насадки",
@@ -4780,6 +4810,10 @@
         "Від {{VC_FROM}} грн. Зараз у наявності {{VC_MODELS}} {{VC_BRANDS}} з офіційною гарантією. Доставка по Сумах — 400 грн, оплата після отримання."
       ],
       [
+        "Що обрати — бездротовий чи звичайний пилосос?",
+        "Бездротовий зручний для щоденного швидкого прибирання й не прив’язаний до розетки, але працює 60–120 хвилин від заряду. Звичайний пилосос без мішка дешевший, працює скільки потрібно й добре чистить килими — його обирають для генерального прибирання."
+      ],
+      [
         "На скільки вистачає заряду бездротового пилососа?",
         "Від 60 до 120 хвилин на мінімальній потужності — цього досить на квартиру. На максимальній потужності заряд витрачається швидше, тож її вмикають для килимів і складних місць."
       ],
@@ -4794,6 +4828,10 @@
         "От {{VC_FROM}} грн. Сейчас в наличии {{VC_MODELS}} {{VC_BRANDS}} с официальной гарантией. Доставка по Сумам — 400 грн, оплата после получения."
       ],
       [
+        "Что выбрать — беспроводной или обычный пылесос?",
+        "Беспроводной удобен для ежедневной быстрой уборки и не привязан к розетке, но работает 60–120 минут от заряда. Обычный пылесос без мешка дешевле, работает сколько нужно и хорошо чистит ковры — его выбирают для генеральной уборки."
+      ],
+      [
         "На сколько хватает заряда беспроводного пылесоса?",
         "От 60 до 120 минут на минимальной мощности — этого достаточно на квартиру. На максимальной мощности заряд расходуется быстрее, поэтому её включают для ковров и сложных мест."
       ],
@@ -4806,6 +4844,10 @@
       [
         "How much is a vacuum cleaner in Sumy?",
         "From {{VC_FROM}} UAH. In stock: {{VC_MODELS}} by {{VC_BRANDS}} with official warranty. Delivery in Sumy is 400 UAH, payment on receipt."
+      ],
+      [
+        "Cordless or corded — which vacuum should I choose?",
+        "A cordless vacuum suits quick daily cleaning and is not tied to a socket, but runs 60–120 minutes per charge. A bagless canister vacuum costs less, runs as long as you need and cleans carpets well — it is the choice for a thorough clean."
       ],
       [
         "How long does a cordless vacuum run on a charge?",
