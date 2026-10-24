@@ -3255,6 +3255,10 @@ fs.writeFileSync(path.join(ROOT, 'scripts', '.og-collections.json'),
      number; boilers, sinks and taps carry a marketing name there too. */
   const MPN_CATS = new Set(['holodylnyky', 'pralni-mashyny', 'zaryadni-stantsii', 'duhovi-shafy',
     'varylni-poverhni', 'vytyazhky', 'posudomyyni-mashyny', 'mikrohvylovi-pechi', 'pylososy']);
+  /* products.json "arrived": the day a model came in. For 60 days the feed tags it
+     custom_label_0 = nove-nadkhodzhennya, so a Merchant Center or Meta product set
+     can pick out the new arrivals without a list of ids; after that it drops off. */
+  const isFresh = p => p.arrived && !isOut(p) && (Date.now() - Date.parse(p.arrived)) < 60 * 864e5;
   const ids = p => MPN_CATS.has(p.category) && p.series
     ? `    <g:mpn>${xe(p.series)}</g:mpn>`
     : `    <g:identifier_exists>no</g:identifier_exists>`;
@@ -3283,7 +3287,8 @@ ${ids(p)}
     <g:google_product_category>${GCAT[p.category] || ''}</g:google_product_category>
     <g:product_type>${xe(lf(cat, 'name'))}</g:product_type>
     <g:shipping_label>${shipTier(p)}</g:shipping_label>
-${(p.specs || {}).color ? `    <g:color>${xe(String(specVal(p.specs.color)).slice(0, 100))}</g:color>\n` : ''}${[productDetails(p), highlights(p)].filter(Boolean).join('\n')}
+${isFresh(p) ? `    <g:custom_label_0>nove-nadkhodzhennya</g:custom_label_0>
+` : ''}${(p.specs || {}).color ? `    <g:color>${xe(String(specVal(p.specs.color)).slice(0, 100))}</g:color>\n` : ''}${[productDetails(p), highlights(p)].filter(Boolean).join('\n')}
   </item>`;
     }).join('\n');
     const feed = `<?xml version="1.0" encoding="UTF-8"?>
