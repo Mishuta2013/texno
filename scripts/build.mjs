@@ -1211,7 +1211,11 @@ body = body.replace('<div class="grid" id="catalog-grid"></div>',
   }
   const chips = Object.keys(counts)
     .sort((a, b) => counts[b] - counts[a] || a.localeCompare(b, 'uk'))
-    .map(b => `<span class="bs-chip" onclick="jumpBrand('${esc(b)}')">${esc(b)}</span>`).join('\n    ');
+    /* a brand with its own hub page is a link to it — a crawlable path from the
+       home page — the rest still filter the catalogue below */
+    .map(b => hubBrands().includes(b)
+      ? `<a class="bs-chip" href="${hurl(b)}">${esc(b)}</a>`
+      : `<span class="bs-chip" onclick="jumpBrand('${esc(b)}')">${esc(b)}</span>`).join('\n    ');
   fill('<!--BRAND_CHIPS-->', chips);
 }
 // footer catalog columns generated from the data, so new categories/brands never go stale
@@ -2641,6 +2645,92 @@ for (const cat of catList) {
     SITEMAP.push(turl(cat, tg));
     n++;
   }
+}
+
+/* ---- brand hubs: /brendy/<brand>/ ---------------------------------------
+   "магазин бош суми" had ~250 impressions in three months at position 22–26:
+   a brand was only ever a page inside one category, so nothing on the site
+   answered "everything Bosch you have". A brand stocked in two or more
+   categories, with five or more models, gets one page with all of it — the
+   grid, a link to each category shelf, and the brand's own copy. Smaller
+   brands keep their category pages; a hub of two products would be thin. */
+function hubBrands() {
+  const by = {};
+  for (const c of catList) for (const p of catProducts(c.key)) {
+    if (p.brand === site.name) continue;
+    (by[p.brand] = by[p.brand] || new Set()).add(c.key);
+  }
+  return Object.keys(by).filter(b => by[b].size >= 2 &&
+    catList.reduce((n, c) => n + catProducts(c.key).filter(p => p.brand === b).length, 0) >= 5)
+    .sort((a, b) => a.localeCompare(b, 'uk'));
+}
+function hurl(brand) { return `${pfx()}/brendy/${brandSlug(brand)}/`; }
+function hubPage(brand) {
+  const cats = catList.filter(c => catProducts(c.key).some(p => p.brand === brand));
+  const list = mixedOrder(cats.flatMap(c => catProducts(c.key).filter(p => p.brand === brand)));
+  const prices = list.map(p => p.price);
+  const lo = Math.min(...prices), hi = Math.max(...prices);
+  const plural = modelsWord(list.length);
+  const priceText = t(lo === hi ? 'brand_price_one' : 'brand_price_range').replace('{lo}', fmt(lo)).replace('{hi}', fmt(hi));
+  const count = c => catProducts(c.key).filter(p => p.brand === brand).length;
+  const catsText = cats.map(c => `${lf(c, 'name').toLowerCase()} (${count(c)})`).join(', ');
+  const alias = (BRANDS[brand] || {})['alias_' + L];
+  const fill = (str, b = brand) => str.replace('{brand}', b).replace('{n}', list.length).replace('{plural}', plural)
+    .replace('{cats}', catsText).replace('{price}', priceText).replace(/\{from\}/g, fmt(lo));
+  const NAME = fill(t('hub_h1'));
+  const about = (BRANDS[brand] || {})[L] || (BRANDS[brand] || {}).uk || '';
+  const jsonld = {
+    '@context': 'https://schema.org', '@type': 'CollectionPage', name: NAME, url: abs(hurl(brand)),
+    about: { '@type': 'Brand', name: brand },
+    mainEntity: {
+      '@type': 'ItemList', numberOfItems: list.length,
+      itemListElement: list.slice(0, 50).map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: abs(purl(p)), name: pname(p) }))
+    }
+  };
+  const crumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t('pp_home'), item: abs(pfx() + '/') },
+    { '@type': 'ListItem', position: 2, name: brand, item: abs(hurl(brand)) } ] };
+  // each category shelf of this brand; a brand that is the whole shelf links to the category itself
+  const catChips = cats.map(c => `<a class="bl-chip" href="${brandIsShelf(c.key, brand) ? curl(c) : burl(c, brand)}">${esc(lf(c, 'name'))} (${count(c)})</a>`).join('');
+  const others = hubBrands().filter(b => b !== brand).map(b => `<a class="bl-chip" href="${hurl(b)}">${esc(b)}</a>`).join('');
+  return `<!doctype html><html lang="${L}" data-season="${SEASON}"><head>
+${head({
+  title: (() => { const full = fill(t('hub_seo_t')); return full.length <= 65 - TITLE_SUFFIX.length ? full : NAME; })(),
+  desc: (() => {
+    const d = fill(t('hub_seo_d'), alias ? `${brand} (${alias})` : brand);
+    return d.length <= 165 ? d : fill(t('hub_seo_d').replace(' — {cats}', ''), alias ? `${brand} (${alias})` : brand);
+  })(),
+  canonical: abs(hurl(brand)), altPath: `/brendy/${brandSlug(brand)}/`, jsonld
+})}
+<script type="application/ld+json">${JSON.stringify(crumbs)}</script>
+</head><body>${GTM_NS}
+${HEADER}
+<div class="cat-wrap">
+  <nav class="pp-bc"><a href="${pfx() || '/'}">${esc(t('pp_home'))}</a> › <span>${esc(brand)}</span></nav>
+  <header class="cat-head">
+    <h1 class="cat-h1">${esc(NAME)}</h1>
+    <p class="cat-sub">${esc(fill(t('hub_intro'), alias ? `${brand} (${alias})` : brand))}</p>
+    <div class="cat-count">${list.length} ${esc(plural)} ${esc(t('cat_instock'))}</div>
+  </header>
+  <div class="brand-links"><h2>${esc(fill(t('hub_cats_h')))}</h2><div class="bl-row">${catChips}</div></div>
+  ${about ? `<div class="brand-about"><p>${esc(about)}</p></div>` : ''}
+  <div class="recent" id="recent" data-nosnippet hidden><h2 class="recent-h">${esc(t('recent_h'))}</h2><div class="recent-row" id="recent-row"></div><button class="recent-clear" id="recent-clear" onclick="clearRecent()">${esc(t('recent_clear'))}</button></div>
+  <section class="section catalog cat-catalog" id="catalog">
+    <div class="grid" id="catalog-grid" data-cat="all">${firstPage(list).map(card).join('')}</div>
+  </section>
+  ${others ? `<div class="brand-links"><h2>${esc(t('hub_other'))}</h2><div class="bl-row">${others}</div></div>` : ''}
+  <div class="pp-back"><a href="${pfx() || '/'}#catalog">← ${esc(t('pp_back_all'))}</a></div>
+</div>
+${FOOTER}
+${injectData()}
+<script>window.__CATALOG_CAT__='all';window.__BRAND__=${JSON.stringify(brand)};</script>
+<script src="${av('/assets/js/main.js')}" defer></script>
+</body></html>`;
+}
+for (const brand of hubBrands()) {
+  writePage(outPath('brendy', brandSlug(brand)), hubPage(brand));
+  SITEMAP.push(hurl(brand));
+  n++;
 }
 
 // ---- blog ----
